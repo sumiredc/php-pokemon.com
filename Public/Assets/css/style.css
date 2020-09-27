@@ -1,0 +1,36 @@
+section{
+    border-bottom: 1px solid #000;
+    margin-bottom: 24px;
+}
+pre{
+    white-space: pre-wrap;
+    background-color: black;
+    color: lime;
+    padding: 1rem;
+}
+.message-box{
+    position: relative;
+    height: 90px;
+    overflow-y: scroll;
+    cursor: pointer;
+}
+.result-message{
+    display: none;
+}
+.result-message.active{
+    display: block;
+}
+.message-scroll-icon{
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+}
+.move-table-row{
+    cursor: pointer;
+}
+.move-detail-content{
+    display: none;
+}
+.move-detail-content.active{
+    display: block;
+}
