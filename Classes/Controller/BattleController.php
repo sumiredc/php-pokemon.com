@@ -24,6 +24,15 @@ class BattleController extends Controller
     public $run = 0;
 
     /**
+    * ひんし状態の格納
+    * @var array
+    */
+    private $fainting = [
+        'friend' => false,
+        'enemy' => false,
+    ];
+
+    /**
     * @return void
     */
     public function __construct()
@@ -142,20 +151,29 @@ class BattleController extends Controller
             );
             // 行動順にforeachでattackメソッドを実行
             foreach($order_array as list($atk, $def, $move)){
-                if($this->attack($atk, $def, $move)){
-                    // 相手をひんし状態にした
-                    break;
+                $this->attack($atk, $def, $move);
+                // ひんしチェック
+                if($this->setToCheckFainting($def, $atk)){
+                    // ひんしポケモン有り
+                    break 2;
                 }
             }
             // 行動順にforeachでcheckAfterSaとcheckAfterScを実行
             foreach($order_array as list($atk, $def, $move)){
-                if(!$this->checkAfterSa($atk) || !$this->checkAfterSc($atk, $def)){
-                    // ひんし状態になった
-                    break;
+                $this->checkAfterSa($atk);
+                $this->checkAfterSc($atk, $def);
+                // ひんしチェック
+                if($this->setToCheckFainting($def, $atk)){
+                    // ひんしポケモン有り
+                    break 2;
                 }
             }
             $this->setMessage('行動を選択してください');
             break;
+        }
+        // ひんしポケモンがでた場合の処理
+        if($this->fainting['enemy'] || $this->fainting['friend']){
+            $this->doResult();
         }
     }
 
@@ -189,6 +207,48 @@ class BattleController extends Controller
         krsort($results);
         // [行動順判定用数値 => [ポケモン => 技],...] の多次元配列で返却
         return $results;
+    }
+
+    /**
+    * ひんし状態の格納
+    *
+    * @return boolean (true:ひんしポケモン有り, false:ひんしポケモン無し)
+    */
+    private function setToCheckFainting($def, $atk)
+    {
+        // 防御側のひんし状態を格納
+        $this->fainting[$def->getPosition()] = $this->checkFainting($def);
+        // 攻撃側のひんし状態を格納
+        $this->fainting[$atk->getPosition()] = $this->checkFainting($atk);
+        // 返り値判定
+        if($this->fainting['enemy'] || $this->fainting['friend']){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    * バトル結果
+    *
+    * @return void
+    */
+    private function doResult()
+    {
+        if($this->fainting['friend']){
+            // 味方がひんし状態になった
+            $this->setMessage('目の前が真っ暗になった');
+        }else{
+            // 相手がひんし状態になった（味方はひんし状態ではない）
+            // 経験値の計算
+            $exp = $this->calExp($this->pokemon, $this->enemy);
+            // 経験値をポケモンにセット(返り値をpokemonに格納)
+            $this->pokemon = $this->pokemon
+            ->setExp($exp);
+            // ポケモンに溜まったメッセージを取得
+            $this->setMessage($this->pokemon->getMessages());
+        }
+        // バトル終了判定用メッセージの格納
+        $this->setMessage(' ', 'battle-end');
     }
 
     /**
