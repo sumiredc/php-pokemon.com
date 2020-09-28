@@ -32,10 +32,10 @@ abstract class StateChange
     */
     public function getSickedMessage($pokemon, $param='Standard')
     {
-        if(is_array($this->recovery_msg)){
+        if(is_array($this->sicked_msg)){
             return str_replace('::pokemon', $pokemon, $this->sicked_msg[$param]);
         }else{
-            return str_replace('::pokemon', $pokemon, $this->sicked_msg[$param]);
+            return str_replace('::pokemon', $pokemon, $this->sicked_msg);
         }
 
     }
@@ -48,7 +48,7 @@ abstract class StateChange
     */
     public function getSickedAlreadyMessage($pokemon, $param='Standard')
     {
-        if(is_array($this->recovery_msg)){
+        if(is_array($this->sicked_already_msg)){
             return str_replace('::pokemon', $pokemon, $this->sicked_already_msg[$param]);
         }else{
             return str_replace('::pokemon', $pokemon, $this->sicked_already_msg);
@@ -64,7 +64,7 @@ abstract class StateChange
     */
     public function getTurnMessage($pokemon, $param='Standard')
     {
-        if(is_array($this->recovery_msg)){
+        if(is_array($this->turn_msg)){
             return str_replace('::pokemon', $pokemon, $this->turn_msg[$param]);
         }else{
             return str_replace('::pokemon', $pokemon, $this->turn_msg);
@@ -80,7 +80,7 @@ abstract class StateChange
     */
     public function getFalseMessage($pokemon, $param='Standard')
     {
-        if(is_array($this->recovery_msg)){
+        if(is_array($this->false_msg)){
             return str_replace('::pokemon', $pokemon, $this->false_msg[$param]);
         }else{
             return str_replace('::pokemon', $pokemon, $this->false_msg);

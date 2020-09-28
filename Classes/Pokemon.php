@@ -111,7 +111,7 @@ abstract class Pokemon
     * ScFlinch              ひるみ
     * ScLeechSeed           やどりぎのタネ
     * ScBind                バインド
-    * @var array [sc_class_name(string) => turn(integer)]
+    * @var array [sc_class_name(string) => ['turn' => turn(integer), 'param' => param(string)]]
     */
     protected $sc = [];
 
@@ -301,7 +301,7 @@ abstract class Pokemon
         $sc = $this->getSc();
         if(isset($sc[$class])){
             // 残ターン数を1マイナス
-            $this->sc[$class]--;
+            $this->sc[$class]['turn']--;
         }
     }
 

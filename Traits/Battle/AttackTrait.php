@@ -24,12 +24,12 @@ trait AttackTrait
     * @param object $atk_pokemon
     * @param object $def_pokemon
     * @param object $move
-    * @return boolean (true:相手を戦闘不能にした)
+    * @return void
     */
     protected function attack($atk_pokemon, $def_pokemon, $move)
     {
-        // 行動チェック(状態異常)
-        if(!$this->checkBeforeSa($atk_pokemon)){
+        // 行動チェック(状態異常・状態変化)
+        if(!$this->checkBeforeSa($atk_pokemon) || !$this->checkBeforeSc($atk_pokemon)){
             // 行動失敗
             return;
         }
@@ -91,17 +91,13 @@ trait AttackTrait
         }
         // ダメージ計算
         $def_pokemon->calRemainingHp('sub', $damage);
-        // ひんしチェック
-        if($this->checkFainting($def_pokemon)){
-            // 相手を「ひんし」状態にした
-            return true;
-        }else{
-            // 相手は「ひんし」状態ではない
+        // 追加効果(相手にHPが残っていれば)
+        if($def_pokemon->getRemainingHp()){
             // 追加効果
             $move->effects($atk_pokemon, $def_pokemon);
             // 追加効果のメッセージをセット
             $this->setMessage($move->getMessages());
-            return false;
+            return;
         }
     }
 

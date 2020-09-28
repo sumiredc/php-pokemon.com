@@ -15,7 +15,7 @@ class ScLeechSeed extends StateChange
     * 状態変化にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = '::pokemonは、混乱した';
+    protected $sicked_msg = '::pokemonは、やどりぎのタネを植え付けられた';
 
     /**
     * すでにこの状態変化にかかっている際のメッセージ
