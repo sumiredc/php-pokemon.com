@@ -47,7 +47,7 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
                 <div class="row mt-3 mb-5">
                     <?php # 敵ポケモン詳細 ?>
                     <div class="col-6">
-                        <p><?=$enemy->getName()?> Lv:<?=$enemy->getLevel()?> <?=$enemy->getSaName()?></p>
+                        <p><?=$enemy->getName()?> Lv:<?=$enemy->getLevel()?> <?=$enemy->getSaName(false)?></p>
                         <div class="form-group">
                             <div class="progress">
                                 <div class="progress-bar bg-success" role="progressbar" style="width:<?=$enemy->getRemainingHp('per')?>%;" aria-valuenow="<?=$enemy->getRemainingHp()?>" aria-valuemin="0" aria-valuemax="<?=$enemy->getStats('HP')?>"></div>
@@ -64,7 +64,7 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
                         <img src="/Assets/img/pokemon/dots/back/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>">
                     </div>
                     <div class="col-6">
-                        <p><?=$pokemon->getNickName()?> Lv:<?=$pokemon->getLevel()?> <?=$pokemon->getSaName()?></p>
+                        <p><?=$pokemon->getNickName()?> Lv:<?=$pokemon->getLevel()?> <?=$pokemon->getSaName(false)?></p>
                         <div class="form-group">
                             <div class="progress">
                                 <?php if($pokemon->getRemainingHp('per') <= 50) $hp_bar_class = 'bg-warning'; ?>
