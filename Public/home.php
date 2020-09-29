@@ -70,6 +70,14 @@ $_SESSION['pokemon'] = $pokemon->export(); # ポケモンの情報をセッシ�
                     </div>
                 </div>
             </section>
+            <section>
+                <div class="row">
+                    <div class="col-12">
+                        <?php $controller->setResponse(['努力値' => $pokemon->getEv()]); ?>
+                        <pre><?php var_export($controller->getResponses()); ?></pre>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
     <?php

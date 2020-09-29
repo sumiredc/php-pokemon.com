@@ -122,6 +122,33 @@ trait SetTrait
     }
 
     /**
+    * 努力値をセット（取得）する
+    * @param array $reward_ev
+    * @return void
+    */
+    public function setEv($reward_ev)
+    {
+        // 最大努力値合計は510
+        if(array_sum($this->ev) >= 510){
+            return;
+        }
+        // 努力値を加算
+        foreach($reward_ev as $key => $val){
+            $this->ev[$key] += $val;
+            // 各ステータスの最大は252
+            if($this->ev[$key] > 252){
+                $this->ev[$key] = 252;
+            }
+            // 最大努力値を超過させないための処理
+            if(array_sum($this->ev) > 510){
+                // 510超過分をセットした努力値から減算
+                $this->ev[$key] -= array_sum($this->ev) - 510;
+                break;
+            }
+        }
+    }
+
+    /**
     * 個体値をセットする
     * @return void
     */

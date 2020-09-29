@@ -111,6 +111,24 @@ trait GetTrait
     }
 
     /**
+    * 獲得努力値を取得する
+    * @return array
+    */
+    public function getEv()
+    {
+        return $this->ev;
+    }
+
+    /**
+    * 獲得努力値を取得する
+    * @return array
+    */
+    public function getRewardEv()
+    {
+        return $this->reward_ev;
+    }
+
+    /**
     * 次のレベルに必要な経験値
     * @return integer
     */
@@ -188,9 +206,13 @@ trait GetTrait
     * 現在の状態異常（Sa）の名称を取得する
     * @return string
     */
-    public function getSaName()
+    public function getSaName($fainting=true)
     {
         if(empty($this->sa)){
+            return '';
+        }
+        // ひんしの場合は不要（バトル画面など）
+        if(!$fainting && (array_key_first($this->sa) === 'SaFainting')){
             return '';
         }
         $sa = $this->getInstance(array_key_first($this->sa));

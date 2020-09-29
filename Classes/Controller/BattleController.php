@@ -173,7 +173,7 @@ class BattleController extends Controller
         }
         // ひんしポケモンがでた場合の処理
         if($this->fainting['enemy'] || $this->fainting['friend']){
-            $this->doResult();
+            $this->judgment();
         }
     }
 
@@ -228,11 +228,11 @@ class BattleController extends Controller
     }
 
     /**
-    * バトル結果
+    * バトル結果判定
     *
     * @return void
     */
-    private function doResult()
+    private function judgment()
     {
         if($this->fainting['friend']){
             // 味方がひんし状態になった
@@ -244,6 +244,9 @@ class BattleController extends Controller
             // 経験値をポケモンにセット(返り値をpokemonに格納)
             $this->pokemon = $this->pokemon
             ->setExp($exp);
+            // 努力値を獲得
+            $this->pokemon
+            ->setEv($this->enemy->getRewardEv());
             // ポケモンに溜まったメッセージを取得
             $this->setMessage($this->pokemon->getMessages());
         }
