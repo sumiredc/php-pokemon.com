@@ -78,4 +78,13 @@ class Kameil extends Pokemon
         'Speed' => 58,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'Defense' => 1,
+        'SpDef' => 1,
+    ];
+
 }

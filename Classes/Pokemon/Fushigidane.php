@@ -72,4 +72,12 @@ class Fushigidane extends Pokemon
         'Speed' => 45,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'SpAtk' => 1,
+    ];
+
 }

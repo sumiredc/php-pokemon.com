@@ -67,4 +67,12 @@ class Kamex extends Pokemon
         'Speed' => 78,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'SpDef' => 3,
+    ];
+
 }

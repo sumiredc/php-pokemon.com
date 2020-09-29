@@ -71,4 +71,12 @@ class Hitokage extends Pokemon
         'Speed' => 65,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'Speed' => 1,
+    ];
+
 }

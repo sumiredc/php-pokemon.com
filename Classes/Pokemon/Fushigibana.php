@@ -68,4 +68,13 @@ class Fushigibana extends Pokemon
         'Speed' => 80,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'SpAtk' => 2,
+        'SpDef' => 1,
+    ];
+
 }

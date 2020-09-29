@@ -71,4 +71,12 @@ class Zenigame extends Pokemon
         'Speed' => 43,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'Defense' => 1,
+    ];
+
 }

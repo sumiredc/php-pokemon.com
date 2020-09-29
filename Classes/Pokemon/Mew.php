@@ -55,4 +55,12 @@ class Mew extends Pokemon
         'Speed' => 100,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'HP' => 3,
+    ];
+
 }

@@ -60,4 +60,12 @@ class Raichu extends Pokemon
         'Speed' => 110,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'Speed' => 3,
+    ];
+
 }

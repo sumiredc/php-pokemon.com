@@ -79,4 +79,13 @@ class Fushigisou extends Pokemon
         'Speed' => 60,
     ];
 
+    /**
+    * 獲得努力値
+    * @var array
+    */
+    protected $reward_ev = [
+        'SpAtk' => 1,
+        'SpDef' => 1,
+    ];
+
 }
