@@ -302,6 +302,10 @@ trait CheckTrait
         if($pokemon->getSa() === 'SaFainting'){
             // ひんし状態
             $this->setMessage($pokemon->getMessages());
+            // ポケモン内のメッセージを削除
+            $pokemon->resetMessage();
+            // ひんしポケモンの状態変化を全解除
+            $pokemon->releaseSc();
             return true;
         }else{
             // ひんし状態ではない

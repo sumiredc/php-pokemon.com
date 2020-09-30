@@ -279,10 +279,24 @@ trait GetTrait
     */
     public function getRank($param=null)
     {
+        // ランクを変数に格納
+        $rank = $this->rank;
+        /**
+        * ロケットずつき待機中は防御＋1補正
+        *
+        * 1.チャージ状態
+        * 2.ロケットずつきのチャージ状態
+        * 3.ぼうぎょランクが+6以外
+        */
+        $sc = $this->getSc();
+        if(isset($sc['ScCharge']) && ($sc['ScCharge']['param'] === 'SkullBash') && ($rank['Defense'] !== 6)){
+            $rank['Defense']++;
+        }
+        // パラメーターに合わせた返り値の分岐
         if(is_null($param)){
-            return $this->rank;
+            return $rank;
         }else{
-            return $this->rank[$param];
+            return $rank[$param];
         }
     }
 
@@ -319,6 +333,16 @@ trait GetTrait
             break;
         }
         return $types;
+    }
+
+    /**
+    * チャージ技を取得
+    * @return string
+    */
+    public function getChargeMove()
+    {
+        $sc = $this->getSc();
+        return $sc['ScCharge']['param'] ?? '';
     }
 
 }

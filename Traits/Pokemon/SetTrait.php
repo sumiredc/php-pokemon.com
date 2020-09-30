@@ -245,7 +245,7 @@ trait SetTrait
         }
         // セットできる状態異常一覧
         $sc_list = [
-            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind',
+            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge',
         ];
         // クラスチェック
         if(!in_array($class, $sc_list, true) || !class_exists($class)){

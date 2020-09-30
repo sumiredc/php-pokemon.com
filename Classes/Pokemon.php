@@ -227,22 +227,33 @@ abstract class Pokemon
     /**
     * 現在インスタンスを出力(引き継ぎ用)
     *
+    * @param string
     * @return array
     */
-    public function export()
+    public function export($param=null)
     {
-        return [
-            'class_name' => get_class($this),       # クラス名
-            'nickname' => $this->nickname,          # ニックネーム
-            'level' => $this->level,                # レベル
-            'position' => $this->position,          # 立場
-            'ev' => $this->ev,                      # 努力値
-            'iv' => $this->iv,                      # 個体値
-            'exp' => $this->exp,                    # 経験値
-            'move' => $this->move,                  # 技
-            'sa' => $this->sa,                      # 状態異常
-            'remaining_hp' => $this->remaining_hp,  # 残りHP
-        ];
+        if(empty($param)){
+            return [
+                'class_name' => get_class($this),       # クラス名
+                'nickname' => $this->nickname,          # ニックネーム
+                'level' => $this->level,                # レベル
+                'position' => $this->position,          # 立場
+                'ev' => $this->ev,                      # 努力値
+                'iv' => $this->iv,                      # 個体値
+                'exp' => $this->exp,                    # 経験値
+                'move' => $this->move,                  # 技
+                'sa' => $this->sa,                      # 状態異常
+                'remaining_hp' => $this->remaining_hp,  # 残りHP
+            ];
+        }else{
+            // プロパティ指定
+            $property = [
+                'sc', 'rank'
+            ];
+            if(in_array($param, $property, true)){
+                return $this->$param;
+            }
+        }
     }
 
     /**
@@ -323,9 +334,15 @@ abstract class Pokemon
     * @param string $class
     * @return void
     */
-    public function releaseSc($class)
+    public function releaseSc($class='')
     {
-        unset($this->sc[$class]);
+        if(empty($class)){
+            // 全解除
+            $this->sc = [];
+        }else{
+            // 指定された状態変化の解除
+            unset($this->sc[$class]);
+        }
     }
 
 }

@@ -142,7 +142,7 @@ class BattleController extends Controller
             * たたかう
             */
             case 'fight':
-            // 自ポケモンの技をインスタンス化
+            // 自ポケモンの技をインスタンス化($param指定がなければチャージ技を取得)
             $p_move = $this->getInstance($param);
             // 行動順の判定
             $order_array = $this->orderMove(
@@ -168,12 +168,19 @@ class BattleController extends Controller
                     break 2;
                 }
             }
-            $this->setMessage('行動を選択してください');
             break;
-        }
+        } #endswitch
+
         // ひんしポケモンがでた場合の処理
         if($this->fainting['enemy'] || $this->fainting['friend']){
             $this->judgment();
+            return;
+        }
+        // チャージ中なら再度アクション実行
+        if($this->chargeNow()){
+            $this->action($action, $param);
+        }else{
+            $this->setMessage('行動を選択してください');
         }
     }
 
@@ -207,6 +214,24 @@ class BattleController extends Controller
         krsort($results);
         // [行動順判定用数値 => [ポケモン => 技],...] の多次元配列で返却
         return $results;
+    }
+
+
+    /**
+    * 行動不可（チャージ中）の判定
+    *
+    * @return boolean (true:行動不可, false:行動可)
+    */
+    private function chargeNow()
+    {
+        $sc = $this->pokemon
+        ->getSc();
+        // チャージ中なら行動選択不可
+        if(isset($sc['ScCharge'])){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

@@ -33,6 +33,13 @@ trait AttackTrait
             // 行動失敗
             return;
         }
+        // チャージチェック
+        if($move->charge($atk_pokemon)){
+            // チャージターンならメッセージを格納して行動終了
+            $this->setMessage($atk_pokemon->getMessages());
+            $atk_pokemon->resetMessage();
+            return;
+        }
         // 攻撃メッセージを格納
         $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！');
         // タイプ相性チェック
@@ -97,6 +104,7 @@ trait AttackTrait
             $move->effects($atk_pokemon, $def_pokemon);
             // 追加効果のメッセージをセット
             $this->setMessage($move->getMessages());
+            $move->resetMessage();
             return;
         }
     }

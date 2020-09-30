@@ -9,6 +9,12 @@ abstract class Move
     use ResponseTrait;
 
     /**
+    * チャージ技
+    * @var boolean
+    */
+    protected $charge = false;
+
+    /**
     * インスタンス作成時に実行される処理
     *
     * @return void
@@ -16,6 +22,17 @@ abstract class Move
     public function __construct()
     {
         //
+    }
+
+    /**
+    * チャージ効果
+    *
+    * @return void
+    */
+    public function charge($atk)
+    {
+        // チャージ不要
+        return false;
     }
 
     /**

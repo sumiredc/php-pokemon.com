@@ -4,6 +4,13 @@
 abstract class StatusAilment
 {
 
+    // プロパティの初期値
+    protected $sicked_msg = '';
+    protected $sicked_already_msg = '';
+    protected $turn_msg = '';
+    protected $false_msg = '';
+    protected $recovery_msg = '';
+
     /**
     * インスタンス作成時に実行される処理
     *

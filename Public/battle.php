@@ -10,12 +10,12 @@ $_SESSION['pokemon'] = $pokemon->export(); # 自ポケモンの情報をセッ�
 $_SESSION['enemy'] = $enemy->export(); # 敵ポケモンの情報をセッションに格納
 $_SESSION['run'] = $controller->run; # にげるの実行回数をセッションへ格納
 $_SESSION['rank'] = [ # ランクをセッションに格納
-    'pokemon' => $pokemon->getRank(),
-    'enemy' => $enemy->getRank(),
+'pokemon' => $pokemon->export('rank'),
+'enemy' => $enemy->export('rank'),
 ];
 $_SESSION['sc'] = [ # 状態変化をセッションに格納
-    'pokemon' => $pokemon->getSc(),
-    'enemy' => $enemy->getSc(),
+'pokemon' => $pokemon->export('sc'),
+'enemy' => $enemy->export('sc'),
 ];
 ?>
 
@@ -80,7 +80,7 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
                     </div>
                 </div>
             </section>
-            <section>
+            <section class="position-relative">
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <div class="message-box border p-3 mb-3">
@@ -118,6 +118,8 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
             <section>
                 <div class="row">
                     <div class="col-12">
+                        <?php $controller->setResponse($pokemon->getRank()); ?>
+                        <?php $controller->setResponse($pokemon->getSc()); ?>
                         <pre><?php var_export($controller->getResponses()); ?></pre>
                     </div>
                 </div>
@@ -129,14 +131,14 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
         <input type="hidden" name="action" id="remote-form-action">
     </form>
     <?php
+    # モーダルの読み込み
+    include(__DIR__.'/../Resources/Partials/Battle/Modals/move.php');
+    # footerの読み込み
+    include(__DIR__.'/../Resources/Partials/Layouts/Foot/footer.php');
     # JSの読み込み
     include(__DIR__.'/../Resources/Partials/Layouts/Foot/js.php');
     ?>
     <script src="/Assets/js/Battle/move.js" type="text/javascript"></script>
     <script src="/Assets/js/Battle/message.js" type="text/javascript"></script>
-    <?php
-    # モーダルの読み込み
-    include(__DIR__.'/../Resources/Partials/Battle/Modals/move.php');
-    ?>
 </body>
 </html>
