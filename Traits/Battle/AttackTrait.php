@@ -40,6 +40,10 @@ trait AttackTrait
             $atk_pokemon->resetMessage();
             return;
         }
+        // わるあがきの確認
+        if(get_class($move) === 'Struggle'){
+            $this->setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
+        }
         // 攻撃メッセージを格納
         $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！');
         // タイプ相性チェック
@@ -204,7 +208,7 @@ trait AttackTrait
         $m = 1;
         // 補正判定
         foreach($def_types as $def_type){
-            // 「こうかがない」かチェック
+            // 「こうかがない」かチェック(わるあがきは除く)
             if(in_array($def_type, $atk_type->getAtkDoesntAffectTypes(), true)){
                 // ダメージ無し
                 $m = 0;

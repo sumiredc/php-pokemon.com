@@ -142,7 +142,11 @@ class BattleController extends Controller
             * たたかう
             */
             case 'fight':
-            // 自ポケモンの技をインスタンス化($param指定がなければチャージ技を取得)
+            // 自ポケモンの技をインスタンス化
+            if(empty($param)){
+                // 技が未選択の場合は悪あがきをセット
+                $param = 'Struggle';
+            }
             $p_move = $this->getInstance($param);
             // 行動順の判定
             $order_array = $this->orderMove(
