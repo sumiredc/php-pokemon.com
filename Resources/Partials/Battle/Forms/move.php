@@ -11,11 +11,11 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($pokemon->getMove() as $move): ?>
-                    <tr class="move-table-row" data-move_class="<?=get_class($move)?>">
-                        <th scope="row" class="w-50"><?=$move->getName()?></th>
-                        <td><?=$move->getType()->getName()?></td>
-                        <td><?=$move->getPp()?>/<?=$move->getPp()?></td>
+                <?php foreach($pokemon->getMove() as $key => $move): ?>
+                    <tr class="move-table-row" data-key="<?=$key?>">
+                        <th scope="row" class="w-50"><?=$move['class']->getName()?></th>
+                        <td><?=$move['class']->getType()->getName()?></td>
+                        <td><?=$move['remaining']?>/<?=$move['class']->getPp($move['correction'])?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

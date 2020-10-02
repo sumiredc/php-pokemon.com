@@ -63,22 +63,38 @@ trait GetTrait
 
     /**
     * 覚えている技の一覧を取得する
-    * @param string (object|array)
+    * @param integer $num
+    * @param string
     * @return array
     */
-    public function getMove($param='object')
+    public function getMove($num=null, $param='')
     {
-        switch ($param) {
-            case 'object':
-            // オブジェクトで返却
-            // array_mapで配列内の技クラスをインスタンス化
-            return array_map([$this, 'getInstance'], $this->move);
-            case 'array':
-            // 配列で返却（そのまま）
-            return $this->move;
-            default:
-            // オブジェクト（デフォルト）
-            return array_map([$this, 'getInstance'], $this->move);
+        if(is_null($num)){
+            // 全返却
+            if($param === 'array'){
+                // 配列（加工不要）で返却
+                return $this->move;
+            }else{
+                // array_mapで配列内の技クラスをオブジェクト化して返却
+                return array_map(function($move){
+                    // 無名関数
+                    return [
+                        'class' => new $move['class'],
+                        'remaining' => $move['remaining'],
+                        'correction' => $move['correction'],
+                    ];
+                }, $this->move);
+            }
+        }else{
+            // 番号指定で返却
+            $move = $this->move[$num] ?? $this->move[0];
+            if($param === 'array'){
+                // 配列（加工不要）で返却
+                return $move;
+            }else{
+                // オブジェクトにして返却
+                return new $move['class'];
+            }
         }
 
     }

@@ -17,19 +17,19 @@ abstract class Pokemon
 
     /**
     * ニックネーム
-    * @var string(min:1 max:5)
+    * @var string (min:1 max:5)
     */
     protected $nickname;
 
     /**
     * 現在のレベル
-    * @var integer(min:2 max:100)
+    * @var integer (min:2 max:100)
     */
     protected $level;
 
     /**
-    * 覚えている技
-    * @var array(min:1 max:4)
+    * 覚えている技 (min:1 max:4)
+    * @var array [num => [class => (string), remaining => (int), correction => (int)]]
     */
     protected $move = [];
 
@@ -205,7 +205,7 @@ abstract class Pokemon
     /**
     * 現在のレベルで覚えられる技があるか確認する処理
     *
-    * @var integer
+    * @return integer
     */
     protected function checkMove()
     {

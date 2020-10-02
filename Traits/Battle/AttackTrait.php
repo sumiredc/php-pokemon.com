@@ -33,16 +33,18 @@ trait AttackTrait
             // 行動失敗
             return;
         }
+        // わざの使用可不可判定
+        if(!$this->checkEnabledMove($move, $atk_pokemon)){
+            $this->setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
+            // わるあがきをセット
+            $move = new Struggle;
+        }
         // チャージチェック
         if($move->charge($atk_pokemon)){
             // チャージターンならメッセージを格納して行動終了
             $this->setMessage($atk_pokemon->getMessages());
             $atk_pokemon->resetMessage();
             return;
-        }
-        // わるあがきの確認
-        if(get_class($move) === 'Struggle'){
-            $this->setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
         }
         // 攻撃メッセージを格納
         $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！');

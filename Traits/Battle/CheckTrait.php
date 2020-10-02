@@ -33,6 +33,70 @@ trait CheckTrait
     }
 
     /**
+    * 技の使用可不可判定
+    *
+    * @param object $move Move
+    * @param object $pokemon Pokemon
+    * @return boolean (true: 使用可, false:使用不可(わるあがき))
+    */
+    protected function checkEnabledMove(object $move, object $pokemon)
+    {
+        $move_class = get_class($move);
+        if($move_class === 'Struggle'){
+            // わるあがき
+            return false;
+        }
+        // ポケモンの技一覧
+        $move_list = $pokemon->getMove(null, 'array');
+        // 選択された技の添番を取得
+        $num = array_search(
+            $move_class,
+            array_column($move_list, 'class'),
+        );
+        // PP残数の確認
+        if($move_list[$num]['remaining'] > 0){
+            // チャージターンは残PPそのまま
+            if(!$this->checkChargeTurn($pokemon, $move)){
+                // 残PPをマイナス1
+                $pokemon->calRemainingPp('sub', 1, $num);
+            }
+            return true;
+        }else{
+            // 使用不可
+            return false;
+        }
+    }
+
+    /**
+    * チャージターンかどうかの確認
+    *
+    * @param object $pokemon
+    * @param object $move
+    * @return boolean
+    */
+    protected function checkChargeTurn($pokemon, $move)
+    {
+        // チャージ技ではない
+        if(!$move->getChargeFlg()){
+            return false;
+        }
+        // 状態変化を取得
+        $sc = $pokemon->getSc();
+        // 現在未チャージ状態
+        if(!isset($sc['ScCharge'])){
+            // チャージターン
+            return true;
+        }
+        // 残チャージターン数が1超過
+        if($sc['ScCharge']['turn'] > 1){
+            // チャージターン
+            return true;
+        }
+        // チャージターンではない
+        return false;
+    }
+
+    /**
     * アタック前の状態異常チェック
     *
     * @param object Pokemon

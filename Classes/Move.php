@@ -9,10 +9,10 @@ abstract class Move
     use ResponseTrait;
 
     /**
-    * チャージ技
+    * チャージ技確認用フラグ
     * @var boolean
     */
-    protected $charge = false;
+    protected $charge_flg = false;
 
     /**
     * インスタンス作成時に実行される処理
@@ -108,11 +108,12 @@ abstract class Move
     /**
     * 使用回数の取得
     *
+    * @param integer $correction 補正値
     * @return integer
     */
-    public function getPp()
+    public function getPp(int $correction=0)
     {
-        return $this->pp;
+        return $this->pp + (int)(floor($this->pp / 5) * $correction);
     }
 
     /**
@@ -133,6 +134,16 @@ abstract class Move
     public function getCritical()
     {
         return $this->critical ?? 0;
+    }
+
+    /**
+    * チャージフラグの取得
+    *
+    * @return boolean
+    */
+    public function getChargeFlg()
+    {
+        return $this->charge_flg;
     }
 
 }

@@ -105,4 +105,73 @@ trait CalculationTrait
         // 残りHPを返却
         return $this->remaining_hp;
     }
+
+    /**
+    * 残りPPの計算
+    *
+    * @param string $param
+    * @param integer $val (default:0)
+    * @param integer $num (default:null)
+    * @return integer
+    */
+    public function calRemainingPp(string $param, int $val=0, $num=null)
+    {
+        switch ($param) {
+            // リセット処理
+            case 'reset':
+            if(is_null($num)){
+                // すべてのPPを全回復
+                foreach($this->getMove() as $key => $move){
+                    $this->move[$key]['remaining'] = $move['class']->getPp($move['correction']);
+                }
+            }else{
+                // 指定された技PPを全回復
+                $this->move[$num]['remaining'] = $this->move[$num]
+                ->getPp($this->move[$num]['correction']);
+            }
+            break;
+            // 減算処理
+            case 'sub':
+            if(is_null($num)){
+                // すべてのPPに減算処理
+                foreach($this->move as $key => $move){
+                    $this->move[$key]['remaining'] -= $val;
+                    if($this->move[$key]['remaining'] < 0){
+                        // 最小値の処理
+                        $this->move[$key]['remaining'] = 0;
+                    }
+                }
+            }else{
+                // 指定された技PPに減算処理
+                $this->move[$num]['remaining'] -= $val;
+                if($this->move[$num]['remaining'] < 0){
+                    // 最小値の処理
+                    $this->move[$num]['remaining'] = 0;
+                }
+            }
+            break;
+            // 加算処理
+            case 'add':
+            if(is_null($num)){
+                // すべてのPPに加算処理
+                foreach($this->getMove() as $key => $move){
+                    $this->move[$key]['remaining'] += $val;
+                    if($this->move[$key]['remaining'] > $move['class']->getPp($move['correction'])){
+                        // 最大値の処理
+                        $this->move[$key]['remaining'] = $move['class']->getPp($move['correction']);
+                    }
+                }
+            }else{
+                // 技をインスタンス化
+                $move = new $this->move[$num];
+                $this->move[$num]['remaining'] += $val;
+                if($this->move[$num]['remaining'] > $move->getPp($this->move[$num]['correction'])){
+                    // 最大値の処理
+                    $this->move[$num]['remaining'] = $move->getPp($this->move[$num]['correction']);
+                }
+            }
+            break;
+        }
+    }
+
 }

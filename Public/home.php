@@ -65,15 +65,23 @@ $_SESSION['pokemon'] = $pokemon->export(); # ポケモンの情報をセッシ�
                     <div class="col-12 col-sm-6">
                         <?php include(__DIR__.'/../Resources/Partials/Home/Forms/change_nickname.php'); # ニックネームの変更?>
                         <?php include(__DIR__.'/../Resources/Partials/Home/Forms/add_exp.php'); # 経験値の取得 ?>
-                        <?php include(__DIR__.'/../Resources/Partials/Home/Forms/battle.php'); # バトル ?>
-                        <?php include(__DIR__.'/../Resources/Partials/Home/Forms/reset.php'); # リセット ?>
+                        <div class="d-flex">
+                            <div class="mr-1">
+                                <?php include(__DIR__.'/../Resources/Partials/Home/Forms/pokemon_center.php'); # ポケモンセンター ?>
+                            </div>
+                            <div class="mx-1">
+                                <?php include(__DIR__.'/../Resources/Partials/Home/Forms/battle.php'); # バトル ?>
+                            </div>
+                            <div class="ml-1">
+                                <?php include(__DIR__.'/../Resources/Partials/Home/Forms/reset.php'); # リセット ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
             <section>
                 <div class="row">
                     <div class="col-12">
-                        <?php $controller->setResponse(['努力値' => $pokemon->getEv()]); ?>
                         <pre><?php var_export($controller->getResponses()); ?></pre>
                     </div>
                 </div>
@@ -81,13 +89,13 @@ $_SESSION['pokemon'] = $pokemon->export(); # ポケモンの情報をセッシ�
         </div>
     </main>
     <?php
+    # モーダルの読み込み
+    include(__DIR__.'/../Resources/Partials/Home/Modals/details.php');
+    # footerの読み込み
+    include(__DIR__.'/../Resources/Partials/Layouts/Foot/footer.php');
     # JSの読み込み
     include(__DIR__.'/../Resources/Partials/Layouts/Foot/js.php');
     ?>
     <script src="/Assets/js/Home/details.js" type="text/javascript"></script>
-    <?php
-    # モーダルの読み込み
-    include(__DIR__.'/../Resources/Partials/Home/Modals/details.php');
-    ?>
 </body>
 </html>

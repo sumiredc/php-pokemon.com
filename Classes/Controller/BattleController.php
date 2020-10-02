@@ -123,8 +123,10 @@ class BattleController extends Controller
     */
     private function action($action, $param)
     {
-        // 敵ポケモンの技をインスタンス化
-        $e_move = $this->getInstance($this->aiSelectMove());
+        // AIで技選択
+        $ai = $this->aiSelectMove();
+        // 敵の技をインスタンス化
+        $e_move = new $ai['class']($ai['remaining'], $ai['correction']);
         switch ($action) {
             /**
             * にげる
@@ -143,11 +145,14 @@ class BattleController extends Controller
             */
             case 'fight':
             // 自ポケモンの技をインスタンス化
-            if(empty($param)){
-                // 技が未選択の場合は悪あがきをセット
-                $param = 'Struggle';
+            if($param === ''){
+                // 技が未選択の場合は「わるあがき」をセット
+                $p_move = new Struggle;
+            }else{
+                $p_move = $this->pokemon
+                ->getMove($param);
             }
-            $p_move = $this->getInstance($param);
+
             // 行動順の判定
             $order_array = $this->orderMove(
                 [$this->pokemon, $this->enemy, $p_move],

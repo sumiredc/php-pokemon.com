@@ -54,6 +54,12 @@ class SkullBash extends Move
     protected $priority = 0;
 
     /**
+    * チャージ技
+    * @var boolean
+    */
+    protected $charge_flg = true;
+
+    /**
     * チャージ
     *
     * @param object $atk

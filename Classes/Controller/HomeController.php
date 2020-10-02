@@ -76,12 +76,19 @@ class HomeController extends Controller
     */
     private function action($action, $param)
     {
-        // リセットの処理
+        // リセット
         if($action === 'reset' || is_null($this->pokemon)){
             header("Location: ./index.php", true, 307) ;
             exit;
         }
-        // にげるの処理
+        // ポケモンセンター
+        if($action === 'recovery'){
+            $this->recovery();
+            $this->setMessage('お預かりしたポケモンは、皆元気になりましたよ');
+            $this->setMessage('またのご利用お待ちしております');
+            return;
+        }
+        // にげる
         if($action === 'run'){
             $this->setMessage('上手く逃げ切れた', 'success');
             return;
@@ -89,9 +96,8 @@ class HomeController extends Controller
         // バトル終了
         if($action === 'end'){
             if($this->pokemon->getRemainingHp() <= 0){
-                // ひんし状態ならHPを全回復させる
-                $this->pokemon
-                ->calRemainingHp('reset');
+                // ひんし状態なら回復処理をする
+                $this->recovery();
             }
             return;
         }
@@ -111,6 +117,21 @@ class HomeController extends Controller
         }else{
             $this->setMessage('このアクションは使用できません', 'error');
         }
+    }
+
+    /**
+    * 全回復
+    *
+    * @return void
+    */
+    private function recovery()
+    {
+        // HP回復
+        $this->pokemon
+        ->calRemainingHp('reset');
+        // PP回復
+        $this->pokemon
+        ->calRemainingPp('reset');
     }
 
 }

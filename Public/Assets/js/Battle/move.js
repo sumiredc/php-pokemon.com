@@ -9,7 +9,7 @@
 var clickMoveInit = function(){
     $('.move-table-row').click(function(){
         // 技をフォームへセット
-        $('#fight-form-param').val($(this).data('move_class'));
+        $('#fight-form-param').val($(this).data('key'));
         // サブミット実行
         $('#fight-form').submit();
     });

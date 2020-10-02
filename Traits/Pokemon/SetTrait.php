@@ -50,7 +50,7 @@ trait SetTrait
         foreach($this->level_move as list($level, $move)){
             if($level <= $this->level){
                 // 現在レベル以下の技であれば習得
-                $this->setMove($move);
+                $this->setMove(new $move);
             }else{
                 // 現在レベルを超えていれば処理終了
                 break;
@@ -60,11 +60,15 @@ trait SetTrait
 
     /**
     * 技を覚える
-    * @return string
+    * @return object Move
     */
     protected function setMove($move)
     {
-        $this->move[] = $move;
+        $this->move[] = [
+            'class' => get_class($move),
+            'remaining' => $move->getPp(),
+            'correction' => 0,
+        ];
         if(count($this->move) > 4){
             // 技が4つを超過していれば、一番上を忘れさせる
             unset($this->move[0]);
