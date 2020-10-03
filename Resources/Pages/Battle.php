@@ -1,19 +1,19 @@
 <?php
-require_once(__DIR__.'/../Classes/Controller/BattleController.php');
-require_once(__DIR__.'/../Resources/Lang/Translation.php');
-session_start();
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/App/Controllers/Battle/BattleController.php');
+require_once($root_path.'/Resources/Lang/Translation.php');
 $controller = new BattleController();
 $pokemon = $controller->getPokemon();
 $enemy = $controller->getEnemy();
 // 引き継ぐデータをセッションへ格納
-$_SESSION['pokemon'] = $pokemon->export(); # 自ポケモンの情報をセッションに格納
-$_SESSION['enemy'] = $enemy->export(); # 敵ポケモンの情報をセッションに格納
-$_SESSION['run'] = $controller->run; # にげるの実行回数をセッションへ格納
-$_SESSION['rank'] = [ # ランクをセッションに格納
+$_SESSION['__data']['pokemon'] = $pokemon->export(); # 自ポケモンの情報をセッションに格納
+$_SESSION['__data']['enemy'] = $enemy->export(); # 敵ポケモンの情報をセッションに格納
+$_SESSION['__data']['run'] = $controller->run; # にげるの実行回数をセッションへ格納
+$_SESSION['__data']['rank'] = [ # ランクをセッションに格納
 'pokemon' => $pokemon->export('rank'),
 'enemy' => $enemy->export('rank'),
 ];
-$_SESSION['sc'] = [ # 状態変化をセッションに格納
+$_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
 'pokemon' => $pokemon->export('sc'),
 'enemy' => $enemy->export('sc'),
 ];
@@ -24,9 +24,9 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
 <head>
     <?php
     # metaの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Head/meta.php');
+    include($root_path.'/Resources/Partials/Layouts/Head/meta.php');
     # cssの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Head/css.php');
+    include($root_path.'/Resources/Partials/Layouts/Head/css.php');
     ?>
 </head>
 <body>
@@ -108,6 +108,7 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
                                     <div class="input-group mb-3">
                                         <input type="hidden" name="action" value="run">
                                         <input class="btn btn-outline-light btn-block action-btn" id="action-btn-run" type="submit" value="逃げる">
+                                        <?php input_token(); ?>
                                     </div>
                                 </form>
                             </div>
@@ -129,14 +130,15 @@ $_SESSION['sc'] = [ # 状態変化をセッションに格納
     <?php # 遠隔操作用隠しフォーム ?>
     <form action="" method="post" id="remote-form">
         <input type="hidden" name="action" id="remote-form-action">
+        <?php input_token(); ?>
     </form>
     <?php
     # モーダルの読み込み
-    include(__DIR__.'/../Resources/Partials/Battle/Modals/move.php');
+    include($root_path.'/Resources/Partials/Battle/Modals/move.php');
     # footerの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Foot/footer.php');
+    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # JSの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Foot/js.php');
+    include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
     <script src="/Assets/js/Battle/move.js" type="text/javascript"></script>
     <script src="/Assets/js/Battle/message.js" type="text/javascript"></script>

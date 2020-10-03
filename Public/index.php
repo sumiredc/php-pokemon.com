@@ -1,48 +1,35 @@
 <?php
-require_once(__DIR__.'/../Classes/Controller/IndexController.php');
+$root_path = __DIR__.'/..';
+/**
+* セッションスタート
+*/
+session_save_path($root_path.'/Storage/Sessions');
 session_start();
-$controller = new IndexController();
+/**
+* ルーティング
+*/
+require_once($root_path.'/Classes/Route.php');
+$route = new Route($_SESSION['__route'] ?? 'initial', $_SESSION['__token']);
+/**
+* トークン発行
+*/
+$_SESSION['__token'] = bin2hex(openssl_random_pseudo_bytes(32));
+/**
+* 共通関数
+*/
+function input_token(){
+    echo '<input type="hidden" name="__token" value="'.$_SESSION['__token'].'">';
+}
+/*
 ?>
-<!DOCTYPE html>
-<html lang="jp" dir="ltr">
-<head>
-    <?php
-    # metaの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Head/meta.php');
-    # cssの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Head/css.php');
-    ?>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <section>
-                <div class="row">
-                    <div class="col-12">
-                        <h1 class="py-3">PHPポケモン</h1>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </header>
-    <main>
-        <div class="container">
-            <section>
-                <div class="row">
-                    <div class="col-12 col-sm-6 mb-5">
-                        <h2 class="mb-3">最初のポケモンを選択</h2>
-                        <?php include(__DIR__.'/../Resources/Partials/Index/Forms/select_pokemon.php'); ?>
-                    </div>
-                    <div class="col-12 col-sm-6 mb-5">
-                        <div class="message-box border p-3 mb-3">
-                            <?php foreach($controller->getMessages() as list($msg, $status)): ?>
-                                <p><?=$msg?></p>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-</body>
-</html>
+・セッション
+<pre><?php var_export($_SESSION);?></pre>
+・ポスト
+<pre><?php var_export($_POST);?></pre>
+<?php
+*/
+/**
+* ページテンプレートの読み込み
+*/
+require_once($root_path.$route->template());
+?>

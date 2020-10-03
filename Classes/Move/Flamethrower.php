@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__.'/../Move.php');
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/Classes/Move.php');
 
 // かえんほうしゃ
 class Flamethrower extends Move

@@ -12,6 +12,12 @@ class Mew extends Pokemon
     protected $name = 'ミュウ';
 
     /**
+    * ニックネーム
+    * @var string(min:1 max:5)
+    */
+    protected $nickname = 'デバッガー';
+
+    /**
     * タイプ
     * @var array
     */

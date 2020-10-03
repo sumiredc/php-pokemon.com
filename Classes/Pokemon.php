@@ -1,19 +1,21 @@
 <?php
-require_once(__DIR__.'/../Resources/Lang/Translation.php');
-require_once(__DIR__.'/../Traits/ResponseTrait.php');
-require_once(__DIR__.'/../Traits/InstanceTrait.php');
-require_once(__DIR__.'/../Traits/Pokemon/SetTrait.php');
-require_once(__DIR__.'/../Traits/Pokemon/GetTrait.php');
-require_once(__DIR__.'/../Traits/Pokemon/CalculationTrait.php');
+$root_path = __DIR__.'/..';
+require_once($root_path.'/Resources/Lang/Translation.php');
+// トレイト
+require_once($root_path.'/App/Traits/ResponseTrait.php');
+require_once($root_path.'/App/Traits/InstanceTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
 
 // ポケモン
 abstract class Pokemon
 {
     use ResponseTrait;
     use InstanceTrait;
-    use SetTrait;
-    use GetTrait;
-    use CalculationTrait;
+    use ClassPokemonSetTrait;
+    use ClassPokemonGetTrait;
+    use ClassPokemonCalculationTrait;
 
     /**
     * ニックネーム

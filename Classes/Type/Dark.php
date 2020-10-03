@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__.'/../Type.php');
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/Classes/Type.php');
 
 // あくタイプ
 class Dark extends Type

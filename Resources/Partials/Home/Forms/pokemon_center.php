@@ -3,4 +3,5 @@
         <input type="hidden" name="action" value="recovery">
         <input class="btn btn-success" type="submit" value="ポケモンセンター">
     </div>
+    <?php input_token(); ?>
 </form>

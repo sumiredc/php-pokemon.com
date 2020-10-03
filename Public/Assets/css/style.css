@@ -8,6 +8,14 @@ pre{
     color: lime;
     padding: 1rem;
 }
+figure.first-pokemon{
+    text-align: center;
+    padding: 1rem;
+}
+.first-pokemon img{
+    max-width: 80px;
+    cursor: pointer;
+}
 .message-box{
     position: relative;
     height: 90px;

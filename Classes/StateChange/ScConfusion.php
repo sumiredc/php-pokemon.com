@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__.'/../StateChange.php');
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/Classes/StateChange.php');
 
 // こんらん
 class ScConfusion extends StateChange

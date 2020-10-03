@@ -1,6 +1,7 @@
 <?php
-require_once(__DIR__.'/../Traits/InstanceTrait.php');
-require_once(__DIR__.'/../Traits/ResponseTrait.php');
+$root_path = __DIR__.'/..';
+require_once($root_path.'/App/Traits/InstanceTrait.php');
+require_once($root_path.'/App/Traits/ResponseTrait.php');
 
 // 技
 abstract class Move

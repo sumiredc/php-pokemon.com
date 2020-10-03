@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__.'/../Pokemon.php');
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/Classes/Pokemon.php');
 
 // カメール
 class Kameil extends Pokemon

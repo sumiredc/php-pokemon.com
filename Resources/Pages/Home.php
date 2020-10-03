@@ -1,19 +1,19 @@
 <?php
-require_once(__DIR__.'/../Classes/Controller/HomeController.php');
-require_once(__DIR__.'/../Resources/Lang/Translation.php');
-session_start();
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/App/Controllers/Home/HomeController.php');
+require_once($root_path.'/Resources/Lang/Translation.php');
 $controller = new HomeController();
 $pokemon = $controller->getPokemon();
-$_SESSION['pokemon'] = $pokemon->export(); # ポケモンの情報をセッションに格納
+$_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報をセッションに格納
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
 <head>
     <?php
     # metaの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Head/meta.php');
+    include($root_path.'/Resources/Partials/Layouts/Head/meta.php');
     # cssの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Head/css.php');
+    include($root_path.'/Resources/Partials/Layouts/Head/css.php');
     ?>
 </head>
 <body>
@@ -57,23 +57,21 @@ $_SESSION['pokemon'] = $pokemon->export(); # ポケモンの情報をセッシ�
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <div class="message-box border p-3 mb-3">
-                            <?php foreach($controller->getMessages() as list($msg, $status)): ?>
+                            <?php foreach($controller->getMessages() as list($msg)): ?>
                                 <p><?=$msg?></p>
                             <?php endforeach; ?>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <?php include(__DIR__.'/../Resources/Partials/Home/Forms/change_nickname.php'); # ニックネームの変更?>
-                        <?php include(__DIR__.'/../Resources/Partials/Home/Forms/add_exp.php'); # 経験値の取得 ?>
                         <div class="d-flex">
                             <div class="mr-1">
-                                <?php include(__DIR__.'/../Resources/Partials/Home/Forms/pokemon_center.php'); # ポケモンセンター ?>
+                                <?php include($root_path.'/Resources/Partials/Home/Forms/pokemon_center.php'); # ポケモンセンター ?>
                             </div>
                             <div class="mx-1">
-                                <?php include(__DIR__.'/../Resources/Partials/Home/Forms/battle.php'); # バトル ?>
+                                <?php include($root_path.'/Resources/Partials/Home/Forms/battle.php'); # バトル ?>
                             </div>
                             <div class="ml-1">
-                                <?php include(__DIR__.'/../Resources/Partials/Home/Forms/reset.php'); # リセット ?>
+                                <?php include($root_path.'/Resources/Partials/Home/Forms/reset.php'); # リセット ?>
                             </div>
                         </div>
                     </div>
@@ -90,11 +88,11 @@ $_SESSION['pokemon'] = $pokemon->export(); # ポケモンの情報をセッシ�
     </main>
     <?php
     # モーダルの読み込み
-    include(__DIR__.'/../Resources/Partials/Home/Modals/details.php');
+    include($root_path.'/Resources/Partials/Home/Modals/details.php');
     # footerの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Foot/footer.php');
+    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # JSの読み込み
-    include(__DIR__.'/../Resources/Partials/Layouts/Foot/js.php');
+    include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
     <script src="/Assets/js/Home/details.js" type="text/javascript"></script>
 </body>

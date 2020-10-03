@@ -3,34 +3,34 @@
 trait CheckTrait
 {
 
-    /**
-    * にげる判定
-    * F = (A × 128 / B) + 30 × C
-    * Fを256で割った値 → 逃走成功率
-    * @var A 味方ポケモンのすばやさ（ランク補正有り）
-    * @var B 相手ポケモンのすばやさ（ランク補正無し）
-    * @var C 逃走を試みた回数
-    * @return boolean
-    */
-    protected function checkRun()
-    {
-        // 味方の素早さを取得（ランク補正有り）
-        $a = $this->pokemon
-        ->getStats('Speed', true);
-        // 相手の素早さを取得（ランク補正無し）
-        $b = $this->enemy
-        ->getStats('Speed');
-        // 逃走を試みた回数
-        $c = $this->run;
-        // 計算式への当てはめ
-        $f = ($a * 128 / $b) + 30 * $c;
-        // 確率計算
-        if(round($f / 256, 2) * 100 >= mt_rand(0, 100)){
-            return true;    # 逃走成功
-        }else{
-            return false;   # 逃走失敗
-        }
-    }
+    // /**
+    // * にげる判定
+    // * F = (A × 128 / B) + 30 × C
+    // * Fを256で割った値 → 逃走成功率
+    // * @var A 味方ポケモンのすばやさ（ランク補正有り）
+    // * @var B 相手ポケモンのすばやさ（ランク補正無し）
+    // * @var C 逃走を試みた回数
+    // * @return boolean
+    // */
+    // protected function checkRun()
+    // {
+    //     // 味方の素早さを取得（ランク補正有り）
+    //     $a = $this->pokemon
+    //     ->getStats('Speed', true);
+    //     // 相手の素早さを取得（ランク補正無し）
+    //     $b = $this->enemy
+    //     ->getStats('Speed');
+    //     // 逃走を試みた回数
+    //     $c = $this->run;
+    //     // 計算式への当てはめ
+    //     $f = ($a * 128 / $b) + 30 * $c;
+    //     // 確率計算
+    //     if(round($f / 256, 2) * 100 >= mt_rand(0, 100)){
+    //         return true;    # 逃走成功
+    //     }else{
+    //         return false;   # 逃走失敗
+    //     }
+    // }
 
     /**
     * 技の使用可不可判定

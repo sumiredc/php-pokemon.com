@@ -21,4 +21,5 @@
             </tbody>
         </table>
     </div>
+    <?php input_token(); ?>
 </form>

@@ -76,7 +76,20 @@ trait ResponseTrait
     }
 
     /**
-    * レスポンステータの取得
+    * 指定したレスポンステータの取得
+    *
+    * @param string|integer
+    * @return mixed
+    */
+    public function getResponse($param)
+    {
+        if(isset($this->responses[$param])){
+            return $this->responses[$param];
+        }
+    }
+
+    /**
+    * レスポンステータの全取得
     *
     * @return array
     */
@@ -101,6 +114,18 @@ trait ResponseTrait
             $this->responses[] = $response;
         }else{
             $this->responses[$key] = $response;
+        }
+    }
+
+    /**
+    * 指定されたプロパティをレスポンスにセット(出力)
+    *
+    * @return void
+    */
+    public function exportProperty(...$properties)
+    {
+        foreach($properties as $property){
+            $this->setResponse($this->$property, $property);
         }
     }
 

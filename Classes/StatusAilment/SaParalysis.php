@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__.'/../StatusAilment.php');
+$root_path = __DIR__.'/../..';
+require_once($root_path.'/Classes/StatusAilment.php');
 
 // まひ
 class SaParalysis extends StatusAilment
