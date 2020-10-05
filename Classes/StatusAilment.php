@@ -8,7 +8,7 @@ abstract class StatusAilment
     protected $sicked_msg = '';
     protected $sicked_already_msg = '';
     protected $turn_msg = '';
-    protected $false_msg = '';
+    protected $failed_msg = '';
     protected $recovery_msg = '';
 
     /**
@@ -70,9 +70,9 @@ abstract class StatusAilment
     * @param string $pokemon
     * @return string
     */
-    public function getFalseMessage($pokemon)
+    public function getFailedMessage($pokemon)
     {
-        return str_replace('::pokemon', $pokemon, $this->false_msg);
+        return str_replace('::pokemon', $pokemon, $this->failed_msg);
     }
 
     /**

@@ -34,7 +34,7 @@ class ScConfusion extends StateChange
     * 行動失敗
     * @var string
     */
-    protected $false_msg = '::pokemonは、わけも分からず自分を攻撃した';
+    protected $failed_msg = '::pokemonは、わけも分からず自分を攻撃した';
 
     /**
     * 回復時に表示されるメッセージ

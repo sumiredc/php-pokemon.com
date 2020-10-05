@@ -16,6 +16,24 @@ abstract class Move
     protected $charge_flg = false;
 
     /**
+    * 一撃必殺確認用フラグ
+    * @var boolean
+    */
+    protected $one_hit_knockout_flg = false;
+
+    /**
+    * 攻撃失敗時のメッセージ
+    * @var string
+    */
+    protected $failed_msg = 'しかし::pokemonの攻撃は外れた！';
+
+    /**
+    * 一撃必殺失敗時のメッセージ
+    * @var string
+    */
+    protected $one_hit_knockout_failed_msg = '::pokemonには全然効いていない！';
+
+    /**
     * インスタンス作成時に実行される処理
     *
     * @return void
@@ -37,7 +55,18 @@ abstract class Move
     }
 
     /**
-    * 追加効果
+    * 技回数
+    *
+    * @return integer
+    */
+    public function times()
+    {
+        // デフォルトは1
+        return 1;
+    }
+
+    /**
+    * 追加効果（ダメージ計算後に実行）
     *
     * @return void
     */
@@ -107,6 +136,20 @@ abstract class Move
     }
 
     /**
+    * 一撃必殺の命中率を計算
+    *
+    * @param string $pokemon
+    * @return integer
+    */
+    public function getOneHitKnockoutAccuracy($atk, $def)
+    {
+        if($atk->getLevel() > $def->getLevel()){
+            return $this->accuracy + ($atk->getLevel() - $def->getLevel());
+        }
+        return $this->accuracy;
+    }
+
+    /**
     * 使用回数の取得
     *
     * @param integer $correction 補正値
@@ -145,6 +188,38 @@ abstract class Move
     public function getChargeFlg()
     {
         return $this->charge_flg;
+    }
+
+    /**
+    * 一撃必殺フラグの取得
+    *
+    * @return boolean
+    */
+    public function getOneHitKnockoutFlg()
+    {
+        return $this->one_hit_knockout_flg;
+    }
+
+    /**
+    * 攻撃失敗時のメッセージを取得
+    *
+    * @param string $pokemon
+    * @return string
+    */
+    public function getFailedMessage($pokemon)
+    {
+        return str_replace('::pokemon', $pokemon, $this->failed_msg);
+    }
+
+    /**
+    * 一撃必殺失敗時（命中率が０）のメッセージを取得
+    *
+    * @param string $pokemon
+    * @return string
+    */
+    public function getOneHitKnockoutFailedMessage($pokemon)
+    {
+        return str_replace('::pokemon', $pokemon, $this->one_hit_knockout_failed_msg);
     }
 
 }

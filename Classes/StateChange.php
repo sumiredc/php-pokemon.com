@@ -8,7 +8,7 @@ abstract class StateChange
     protected $sicked_msg = '';
     protected $sicked_already_msg = '';
     protected $turn_msg = '';
-    protected $false_msg = '';
+    protected $failed_msg = '';
     protected $recovery_msg = '';
 
     /**
@@ -85,12 +85,12 @@ abstract class StateChange
     * @param string $pokemon
     * @return string
     */
-    public function getFalseMessage($pokemon, $param='Standard')
+    public function getFailedMessage($pokemon, $param='Standard')
     {
-        if(is_array($this->false_msg)){
-            return str_replace('::pokemon', $pokemon, $this->false_msg[$param]);
+        if(is_array($this->failed_msg)){
+            return str_replace('::pokemon', $pokemon, $this->failed_msg[$param]);
         }else{
-            return str_replace('::pokemon', $pokemon, $this->false_msg);
+            return str_replace('::pokemon', $pokemon, $this->failed_msg);
         }
     }
 

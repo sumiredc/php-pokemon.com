@@ -1,5 +1,5 @@
 <?php foreach($controller->getPokemonList() as $key => $name): ?>
-    <?php if($key === 'Mew') continue; ?>
+    <?php #if($key === 'Mew') continue; ?>
     <!-- Modal -->
     <div class="modal fade" id="<?=$key?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$key?>-modal-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

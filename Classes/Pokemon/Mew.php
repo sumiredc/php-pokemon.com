@@ -42,8 +42,8 @@ class Mew extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'SkullBash'],
-        [1, 'Bite'],
+        [1, 'Fissure'],
+        [1, 'CometPunch'],
         [1, 'LeechSeed'],
         [1, 'ConfuseRay'],
     ];

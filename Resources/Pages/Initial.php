@@ -31,7 +31,7 @@ $controller = new InitialController();
                 <h3 class="mb-3 text-center">一緒に旅をするポケモンを選んでください</h3>
                 <div class="row">
                     <?php foreach($controller->getPokemonList() as $key => $name): ?>
-                        <?php if($key === 'Mew') continue; ?>
+                        <?php #if($key === 'Mew') continue; ?>
                         <div class="col-6 col-sm-3">
                             <figure class="first-pokemon">
                                 <img src="/Assets/img/ball/monster_ball.png" alt="<?=$name?>" data-toggle="modal" data-target="#<?=$key?>-modal">

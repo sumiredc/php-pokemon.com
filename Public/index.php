@@ -9,7 +9,7 @@ session_start();
 * ルーティング
 */
 require_once($root_path.'/Classes/Route.php');
-$route = new Route($_SESSION['__route'] ?? 'initial', $_SESSION['__token']);
+$route = new Route($_SESSION['__route'] ?? 'initial', $_SESSION['__token'] ?? '');
 /**
 * トークン発行
 */

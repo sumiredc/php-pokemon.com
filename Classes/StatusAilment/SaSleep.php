@@ -28,7 +28,7 @@ class SaSleep extends StatusAilment
     * 行動失敗時に表示されるメッセージ
     * @var string
     */
-    protected $false_msg = '::pokemonは、ぐうぐう眠っている';
+    protected $failed_msg = '::pokemonは、ぐうぐう眠っている';
 
     /**
     * 回復時に表示されるメッセージ

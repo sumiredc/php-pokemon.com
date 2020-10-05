@@ -15,7 +15,13 @@ trait ServiceBattleAttackTrait
     * 補正値
     * @var float 小数点第2位までの数値
     */
-    private $m = 1;
+    private $m;
+
+    /**
+    * タイプ相性メッセージ
+    * @var string
+    */
+    private $type_comp_msg = '';
 
     /**
     * 攻撃
@@ -28,6 +34,8 @@ trait ServiceBattleAttackTrait
     */
     protected function attack($atk_pokemon, $def_pokemon, $move)
     {
+        // 補正値の初期化
+        $this->m = 1;
         // 行動チェック(状態異常・状態変化)
         if(!$this->checkBeforeSa($atk_pokemon) || !$this->checkBeforeSc($atk_pokemon)){
             // 行動失敗
@@ -49,7 +57,7 @@ trait ServiceBattleAttackTrait
         // 攻撃メッセージを格納
         $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！');
         // タイプ相性チェック
-        $type_comp_msg = $this->checkTypeCompatibility($move->getType(), $def_pokemon->getTypes());
+        $this->type_comp_msg = $this->checkTypeCompatibility($move->getType(), $def_pokemon->getTypes());
         // 「こうかがない」の判定（命中率と威力がnullではなく、タイプ相性補正が０の場合）
         if(!is_null($move->getAccuracy()) && !is_null($move->getPower()) && ($this->m === 0)){
             // こうかがない
@@ -57,12 +65,41 @@ trait ServiceBattleAttackTrait
             return;
         }
         // 命中判定
-        $hit = $this->checkHit($move->getAccuracy());
-        if(!$hit){
+        if(!$this->checkHit($atk_pokemon, $def_pokemon, $move)){
             // 攻撃失敗
-            $this->setMessage('しかし攻撃は外れた！');
             return;
         }
+        // 一撃必殺
+        if($move->getOneHitKnockoutFlg()){
+            $def_pokemon->calRemainingHp('death');
+            $this->setMessage('一撃必殺');
+            return;
+        }
+        // 技を回数分実行
+        $times = $move->times();
+        for($i = 0; $i < $times; $i++){
+            // 攻撃判定成功時の処理
+            $this->attackSuccess($atk_pokemon, $def_pokemon, $move);
+        }
+        // 連続技はヒット回数のメッセージを返却
+        if($times > 1){
+            return $this->setMessage($times.'回当たった');
+        }
+    }
+
+
+    /**
+    * 攻撃判定成功時の処理
+    *
+    * @param object $atk_pokemon
+    * @param object $def_pokemon
+    * @param object $move
+    * @return void
+    */
+    private function attackSuccess($atk_pokemon, $def_pokemon, $move)
+    {
+        // ローカル変数として補正値を用意
+        $m = 1;
         // 必要ステータスの取得
         $stats = $this->getStats($move->getSpecies(), $atk_pokemon, $def_pokemon);
         // ダメージ計算
@@ -74,11 +111,17 @@ trait ServiceBattleAttackTrait
                 // 急所判定（固定ダメージ技は判定不要）
                 $critical = $this->checkCritical($move->getCritical());
                 if($critical){
+                    // 補正値を乗算
+                    $m *= $critical;
                     $this->setMessage('急所に当たった！');
                 }
             }
             // 乱数補正値の計算
-            $this->calRandNum();
+            $rand = $this->calRandNum();
+            if($rand){
+                // 補正値を乗算
+                $m *= $rand;
+            }
             // タイプ一致補正の計算
             $this->calMatchType($move->getType(), $atk_pokemon->getTypes());
             // ダメージ計算
@@ -87,7 +130,7 @@ trait ServiceBattleAttackTrait
                 $stats['a'],                # 攻撃ポケモンの攻撃値
                 $stats['d'],                # 防御ポケモンの防御値
                 $move->getPower(),          # 技の威力
-                $this->m,                   # 補正値
+                $this->m * $m,              # 補正値(プロパティ*ローカル)
             );
             // やけど補正
             if(($move->getSpecies() === 'physical') && ($atk_pokemon->getSa() === 'SaBurn')){
@@ -95,7 +138,7 @@ trait ServiceBattleAttackTrait
                 $damage *= 0.5;
             }
             // タイプ相性のメッセージを返却
-            $this->setMessage($type_comp_msg);
+            $this->setMessage($this->type_comp_msg);
         }else{
             /**
             * 変化技
@@ -118,11 +161,27 @@ trait ServiceBattleAttackTrait
     /**
     * 命中判定
     *
-    * @param integer|null
+    * @param object $atk
+    * @param object $def
+    * @param object $move
     * @return boolean
     */
-    private function checkHit($accuracy)
+    private function checkHit($atk, $def, $move)
     {
+        // 一撃必殺技のチェック
+        if($move->getOneHitKnockoutFlg()){
+            if($atk->getLevel() < $def->getLevel()){
+                // 相手の方がレベルが高ければ無効
+                $this->setMessage($move->getOneHitKnockoutFailedMessage($def->getPrefixName()));
+                return false;
+            }
+            // レベル差計算を含めた命中率を取得
+            $accuracy = $move->getOneHitKnockoutAccuracy($atk, $def);
+
+        }else{
+            // 命中率取得
+            $accuracy = $move->getAccuracy();
+        }
         // nullの場合は命中率関係無し
         if(is_null($accuracy)){
             return true;
@@ -132,8 +191,11 @@ trait ServiceBattleAttackTrait
         * 例：命中80%→mt_randで60が生成されたら成功、90なら失敗
         */
         if($accuracy >= mt_rand(0, 100)){
+            // 攻撃成功
             return true;
         }
+        // 攻撃失敗
+        $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
         return false;
     }
 
@@ -193,9 +255,9 @@ trait ServiceBattleAttackTrait
         return $result;
     }
 
-    /****************************************************************
-    * 補正値の計算
-    ****************************************************************/
+    /**************************************************************************
+    * attack内で行う補正値の計算（補正値プロパティに直接格納）
+    **************************************************************************/
 
     /**
     * タイプ相性チェック
@@ -245,11 +307,15 @@ trait ServiceBattleAttackTrait
         return $message ?? '';
     }
 
+    /**************************************************************************
+    * attackSuccess内で行う補正値の計算（補正値プロパティに直接格納しない）
+    **************************************************************************/
+
     /**
     * 急所判定
     *
     * @param object $move
-    * @return void
+    * @return mixed (numeric|boolean)
     */
     private function checkCritical(...$rank)
     {
@@ -277,8 +343,7 @@ trait ServiceBattleAttackTrait
         */
         if(($chance * 100) >= (mt_rand(0, 10000))){
             // 急所に当たった
-            $this->m *= 1.5;
-            return true;
+            return 1.5;
         }
         // 急所に当たらなかった
         return false;
@@ -287,12 +352,12 @@ trait ServiceBattleAttackTrait
     /**
     * 乱数補正値の計算
     *
-    * @return void
+    * @return numeric
     */
     private function calRandNum()
     {
         // 85〜100の乱数をかけ、その後100で割る
-        $this->m *= (mt_rand(85, 100) / 100);
+        return (mt_rand(85, 100) / 100);
     }
 
     /**
@@ -300,14 +365,16 @@ trait ServiceBattleAttackTrait
     *
     * @param string $move_type 技タイプ
     * @param array $pokemon_types 攻撃ポケモンのタイプ
-    * @return void
+    * @return mixed (numeric|boolean)
     */
     private function calMatchType($move_type, $pokemon_types)
     {
         if(in_array($move_type, $pokemon_types, true)){
             // 攻撃ポケモンのタイプと技タイプが一致
-            $this->m *= 1.5;
+            return 1.5;
         }
+        // タイプ一致ではない
+        return false;
     }
 
 }

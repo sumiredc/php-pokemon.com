@@ -28,7 +28,7 @@ class SaParalysis extends StatusAilment
     * 行動失敗時のメッセージ
     * @var string
     */
-    protected $false_msg = '::pokemonは、体が痺れて動けない';
+    protected $failed_msg = '::pokemonは、体が痺れて動けない';
 
     /**
     * 回復時に表示されるメッセージ

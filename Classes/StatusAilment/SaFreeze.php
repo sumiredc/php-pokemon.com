@@ -28,7 +28,7 @@ class SaFreeze extends StatusAilment
     * 行動失敗時に表示されるメッセージ
     * @var string
     */
-    protected $false_msg = '::pokemonは、凍ってしまって動けない';
+    protected $failed_msg = '::pokemonは、凍ってしまって動けない';
 
     /**
     * 回復時に表示されるメッセージ

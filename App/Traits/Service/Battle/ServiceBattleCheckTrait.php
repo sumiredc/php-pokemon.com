@@ -87,7 +87,7 @@ trait ServiceBattleCheckTrait
             // 1/4の確率で行動不能
             $paralysis = new SaParalysis;
             if(random_int(1, 4) === 1){
-                $this->setMessage($paralysis->getFalseMessage($pokemon->getPrefixName()));
+                $this->setMessage($paralysis->getFailedMessage($pokemon->getPrefixName()));
                 return false;
             }
             break;
@@ -103,7 +103,7 @@ trait ServiceBattleCheckTrait
                 $this->setMessage($freeze->getRecoveryMessage($pokemon->getPrefixName()));
             }else{
                 // 行動不可
-                $this->setMessage($freeze->getFalseMessage($pokemon->getPrefixName()));
+                $this->setMessage($freeze->getFailedMessage($pokemon->getPrefixName()));
                 return false;
             }
             break;
@@ -121,7 +121,7 @@ trait ServiceBattleCheckTrait
                 $this->setMessage($sleep->getRecoveryMessage($pokemon->getPrefixName()));
             }else{
                 // 行動失敗
-                $this->setMessage($sleep->getFalseMessage($pokemon->getPrefixName()));
+                $this->setMessage($sleep->getFailedMessage($pokemon->getPrefixName()));
                 return false;
             }
             break;
@@ -173,7 +173,7 @@ trait ServiceBattleCheckTrait
                 // 1/3の確率で行動失敗
                 if(!random_int(0, 2)){
                     // 行動失敗（自分に威力４０の物理ダメージ）
-                    $this->setMessage($confusion->getFalseMessage($pokemon->getPrefixName()));
+                    $this->setMessage($confusion->getFailedMessage($pokemon->getPrefixName()));
                     // ダメージ計算
                     $damage = $this->calDamage(
                         $pokemon->getLevel(),                   # レベル
