@@ -22,6 +22,12 @@ abstract class Move
     protected $one_hit_knockout_flg = false;
 
     /**
+    * 固定ダメージ技確認用フラグ
+    * @var boolean
+    */
+    protected $fixed_damage_flg = false;
+
+    /**
     * 攻撃失敗時のメッセージ
     * @var string
     */
@@ -210,6 +216,16 @@ abstract class Move
     public function getOneHitKnockoutFlg()
     {
         return $this->one_hit_knockout_flg;
+    }
+
+    /**
+    * 固定ダメージ技フラグの取得
+    *
+    * @return boolean
+    */
+    public function getFixedDamageFlg()
+    {
+        return $this->fixed_damage_flg;
     }
 
     /**

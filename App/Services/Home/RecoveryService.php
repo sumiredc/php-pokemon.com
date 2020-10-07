@@ -25,7 +25,7 @@ class RecoveryService extends Service
     /**
     * @return void
     */
-    public function excute()
+    public function execute()
     {
         $this->recovery();
         $this->setMessage([

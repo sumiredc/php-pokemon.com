@@ -118,55 +118,53 @@ trait ServiceBattleAttackTrait
     */
     private function attackSuccess($atk_pokemon, $def_pokemon, $move)
     {
-        // ローカル変数として補正値を用意
-        $m = 1;
-        // 必要ステータスの取得
-        $stats = $this->getStats($move->getSpecies(), $atk_pokemon, $def_pokemon);
-        // ダメージ計算
-        if($move->getSpecies() !== 'status'){
+        if($move->getFixedDamageFlg()){
             /**
-            * 物理,特殊技
+            * 固定ダメージ技
             */
-            if(!is_null($move->getPower())){
-                // 急所判定（固定ダメージ技は判定不要）
+            $damage = $move->getFixedDamage($atk_pokemon, $def_pokemon);
+        }else{
+            /**
+            * 通常技
+            */
+            // ローカル変数として補正値を用意
+            $m = 1;
+            // 必要ステータスの取得
+            $stats = $this->getStats($move->getSpecies(), $atk_pokemon, $def_pokemon);
+            // ダメージ計算（物理,特殊技）
+            if($move->getSpecies() !== 'status'){
+                // 急所判定
                 $critical = $this->checkCritical($move->getCritical());
                 if($critical){
                     // 補正値を乗算
                     $m *= $critical;
                     $this->setMessage('急所に当たった！');
                 }
+                // 乱数補正値の計算
+                $m *= $this->calRandNum();
+                // タイプ一致補正の計算
+                $this->calMatchType($move->getType(), $atk_pokemon->getTypes());
+                // ダメージ計算
+                $damage = $this->calDamage(
+                    $atk_pokemon->getLevel(),   # 攻撃ポケモンのレベル
+                    $stats['a'],                # 攻撃ポケモンの攻撃値
+                    $stats['d'],                # 防御ポケモンの防御値
+                    $move->getPower(),          # 技の威力
+                    $this->m * $m,              # 補正値(プロパティ*ローカル)
+                );
+                // やけど補正
+                if(($move->getSpecies() === 'physical') && ($atk_pokemon->getSa() === 'SaBurn')){
+                    // 物理且つやけど状態ならダメージを半減
+                    $damage *= 0.5;
+                }
+                // タイプ相性のメッセージを返却
+                $this->setMessage($this->type_comp_msg);
             }
-            // 乱数補正値の計算
-            $rand = $this->calRandNum();
-            if($rand){
-                // 補正値を乗算
-                $m *= $rand;
-            }
-            // タイプ一致補正の計算
-            $this->calMatchType($move->getType(), $atk_pokemon->getTypes());
-            // ダメージ計算
-            $damage = $this->calDamage(
-                $atk_pokemon->getLevel(),   # 攻撃ポケモンのレベル
-                $stats['a'],                # 攻撃ポケモンの攻撃値
-                $stats['d'],                # 防御ポケモンの防御値
-                $move->getPower(),          # 技の威力
-                $this->m * $m,              # 補正値(プロパティ*ローカル)
-            );
-            // やけど補正
-            if(($move->getSpecies() === 'physical') && ($atk_pokemon->getSa() === 'SaBurn')){
-                // 物理且つやけど状態ならダメージを半減
-                $damage *= 0.5;
-            }
-            // タイプ相性のメッセージを返却
-            $this->setMessage($this->type_comp_msg);
-        }else{
-            /**
-            * 変化技
-            */
-            $damage = 0;
         }
+        // このターン受けるダメージをポケモンに格納
+        $def_pokemon->setTurnDamage($move->getSpecies(), $damage ?? 0);
         // ダメージ計算
-        $def_pokemon->calRemainingHp('sub', $damage);
+        $def_pokemon->calRemainingHp('sub', $damage ?? 0);
         // 追加効果(相手にHPが残っていれば)
         if($def_pokemon->getRemainingHp()){
             // 追加効果
@@ -174,6 +172,15 @@ trait ServiceBattleAttackTrait
             // 追加効果のメッセージをセット
             $this->setMessage($move->getMessages());
             $move->resetMessage();
+            // いかり判定
+            if($def_pokemon->checkSc('ScRage') && !empty($damage ?? 0)){
+                $rage = new ScRage;
+                // いかり発動メッセージをセット
+                $this->setMessage($rage->getActiveMessage($def_pokemon->getPrefixName()));
+                // こうげきランクを１段階上昇
+                $msg = $def_pokemon->addRank('Attack', 1);
+                $this->setMessage($msg);
+            }
             return;
         }
     }
@@ -197,7 +204,6 @@ trait ServiceBattleAttackTrait
             }
             // レベル差計算を含めた命中率を取得
             $accuracy = $move->getOneHitKnockoutAccuracy($atk, $def);
-
         }else{
             // 命中率取得
             $accuracy = $move->getAccuracy();
@@ -205,6 +211,12 @@ trait ServiceBattleAttackTrait
         // nullの場合は命中率関係無し
         if(is_null($accuracy)){
             return true;
+        }
+        // カウンターの失敗判定
+        if((get_class($move) === 'Counter') && empty($atk->getTurnDamage('physical'))){
+            // 自身にこのターン物理ダメージが蓄積していなければ失敗
+            $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
+            return false;
         }
         /**
         * 0〜100からランダムで数値を取得して、それより小さければ命中
@@ -377,7 +389,7 @@ trait ServiceBattleAttackTrait
     private function calRandNum()
     {
         // 85〜100の乱数をかけ、その後100で割る
-        return (mt_rand(85, 100) / 100);
+        return mt_rand(85, 100) / 100;
     }
 
     /**

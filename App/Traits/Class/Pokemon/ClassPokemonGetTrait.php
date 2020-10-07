@@ -361,4 +361,20 @@ trait ClassPokemonGetTrait
         return $sc['ScCharge']['param'] ?? '';
     }
 
+    /**
+    * このターンに受けたダメージの取得
+    * @param string (physical|special)
+    * @return mixed
+    */
+    public function getTurnDamage($param='')
+    {
+        if(empty($param)){
+            // 配列で全返却
+            return $this->turn_damage;
+        }else{
+            // 指定ダメージを取得
+            return $this->turn_damage[$param] ?? 0;
+        }
+    }
+
 }

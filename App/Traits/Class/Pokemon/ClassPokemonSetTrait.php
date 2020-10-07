@@ -249,7 +249,7 @@ trait ClassPokemonSetTrait
         }
         // セットできる状態異常一覧
         $sc_list = [
-            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil',
+            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil', 'ScRage',
         ];
         // クラスチェック
         if(!in_array($class, $sc_list, true) || !class_exists($class)){
@@ -269,6 +269,17 @@ trait ClassPokemonSetTrait
             ];
             return $sc->getSickedMessage($this->getPrefixName(), $param);
         }
+    }
+
+    /**
+    * このターン受けたダメージ量の格納
+    * @param string $param
+    * @param integer $damage
+    * @return void
+    */
+    public function setTurnDamage($param, int $damage)
+    {
+        $this->turn_damage[$param] = $damage;
     }
 
 }

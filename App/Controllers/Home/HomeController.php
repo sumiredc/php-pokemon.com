@@ -58,7 +58,7 @@ class HomeController extends Controller
                 */
                 case 'recovery':
                 $service = new RecoveryService($this->pokemon);
-                $service->excute();
+                $service->execute();
                 $this->setMessage($service->getMessages());
                 break;
                 /******************************************

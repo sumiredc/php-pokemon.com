@@ -56,7 +56,7 @@ class RunService extends Service
     /**
     * @return void
     */
-    public function excute()
+    public function execute()
     {
         if($this->checkRun()){
             // 逃走成功

@@ -56,8 +56,13 @@ class FightService extends Service
     /**
     * @return void
     */
-    public function excute()
+    public function execute()
     {
+        // ターンダメージのリセット
+        $this->pokemon
+        ->resetTurnDamage();
+        $this->enemy
+        ->resetTurnDamage();
         // 技取得
         $p_move = $this->selectMove();
         $e_move = $this->selectEnemyMove();
@@ -116,6 +121,8 @@ class FightService extends Service
     private function actionAttack($orders)
     {
         foreach($orders as list($atk, $def, $move)){
+            // 攻撃ポケモンの怒り解除
+            $atk->releaseSc('ScRage');
             // 攻撃
             $this->attack($atk, $def, $move);
             // ひんしチェック

@@ -83,7 +83,7 @@ class BattleController extends Controller
                 case 'battle':
                 // サービス実行
                 $service = new StartService;
-                $service->excute();
+                $service->execute();
                 // 実行結果
                 $this->enemy = $service->getResponse('enemy');
                 $this->setMessage($service->getMessages());
@@ -99,7 +99,7 @@ class BattleController extends Controller
                     $this->enemy,
                     $this->request('param'),
                 );
-                $service->excute();
+                $service->execute();
                 // 実行結果
                 $this->fainting = $service->getResponse('fainting');
                 $this->setMessage($service->getMessages());
@@ -117,7 +117,7 @@ class BattleController extends Controller
                     $this->enemy,
                     $this->run
                 );
-                $service->excute();
+                $service->execute();
                 // 実行結果
                 if($service->getResponse('result')){
                     // 成功

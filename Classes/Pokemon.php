@@ -6,6 +6,7 @@ require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/InstanceTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonResetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCheckTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
 
@@ -16,6 +17,7 @@ abstract class Pokemon
     use InstanceTrait;
     use ClassPokemonSetTrait;
     use ClassPokemonGetTrait;
+    use ClassPokemonResetTrait;
     use ClassPokemonCheckTrait;
     use ClassPokemonCalculationTrait;
 
@@ -54,6 +56,15 @@ abstract class Pokemon
     * @var string (enemy:敵|friend:味方)
     */
     protected $position = 'enemy';
+
+    /**
+    * このターンに受けた攻撃によるダメージ
+    * @var array
+    */
+    protected $turn_damage = [
+        'physical' => 0,
+        'special' => 0,
+    ];
 
     /**
     * 個体値
