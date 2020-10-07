@@ -101,7 +101,8 @@ trait ResponseTrait
     /**
     * レスポンステータの格納
     *
-    * @param mixed @response
+    * @param mixed $response
+    * @param mixed $key
     * @return array
     */
     public function setResponse($response, $key=null)
@@ -111,8 +112,16 @@ trait ResponseTrait
             return;
         }
         if(is_null($key)){
-            $this->responses[] = $response;
+            // キー指定無し
+            if(is_array($response)){
+                // $responseが配列の場合の処理
+                $this->responses = array_merge($this->responses, $response);
+            }else{
+                // $responseが配列ではない場合の処理
+                $this->responses[] = $response;
+            }
         }else{
+            // キー指定有り
             $this->responses[$key] = $response;
         }
     }

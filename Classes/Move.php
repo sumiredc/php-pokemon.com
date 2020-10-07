@@ -46,12 +46,24 @@ abstract class Move
     /**
     * チャージ効果
     *
+    * @param object Pokemon $atk
     * @return void
     */
     public function charge($atk)
     {
         // チャージ不要
         return false;
+    }
+
+    /**
+    * 技の失敗
+    *
+    * @param object Pokemon $atk
+    * @return void
+    */
+    public function failed($atk)
+    {
+        //
     }
 
     /**

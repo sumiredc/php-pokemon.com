@@ -31,7 +31,7 @@ class ScBind extends StateChange
     ];
 
     /**
-    * ターンチェック時に表示されるメッセージ
+    * 回復時に表示されるメッセージ
     * @var string
     */
     protected $recovery_msg = [

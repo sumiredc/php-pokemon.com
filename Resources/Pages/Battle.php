@@ -5,6 +5,7 @@ require_once($root_path.'/Resources/Lang/Translation.php');
 $controller = new BattleController();
 $pokemon = $controller->getPokemon();
 $enemy = $controller->getEnemy();
+$responses = $controller->getResponses();
 // 引き継ぐデータをセッションへ格納
 $_SESSION['__data']['pokemon'] = $pokemon->export(); # 自ポケモンの情報をセッションに格納
 $_SESSION['__data']['enemy'] = $enemy->export(); # 敵ポケモンの情報をセッションに格納
@@ -140,7 +141,7 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
-    <script src="/Assets/js/Battle/move.js" type="text/javascript"></script>
+    <script src="/Assets/js/Battle/fight.js" type="text/javascript"></script>
     <script src="/Assets/js/Battle/message.js" type="text/javascript"></script>
 </body>
 </html>

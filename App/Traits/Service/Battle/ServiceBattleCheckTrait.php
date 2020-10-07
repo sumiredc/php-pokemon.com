@@ -137,7 +137,9 @@ trait ServiceBattleCheckTrait
 
     /**
     * アタック前の状態変化チェック
-    *
+    * 1. ひるみ
+    * 2. 反動
+    * 3. こんらん
     * @param object Pokemon
     * @return boolean
     */
@@ -152,8 +154,18 @@ trait ServiceBattleCheckTrait
         * ひるみ
         */
         if(isset($sc['ScFlinch'])){
-            $flinch = new ScFlinch;
-            // 行動失敗（ひるみ解除はcheckAfterScで行う）
+            // 行動失敗（ひるみ解除はcheckAfterScで行う※先手はひるみの影響を受けないため）
+            return false;
+        }
+        /**
+        * 反動
+        */
+        if(isset($sc['ScRecoil'])){
+            $recoil = new ScRecoil;
+            // 反動メッセージを格納
+            $this->setMessage($recoil->getFailedMessage($pokemon->getPrefixName()));
+            // 反動解除
+            $pokemon->releaseSc('ScRecoil');
             return false;
         }
         /**

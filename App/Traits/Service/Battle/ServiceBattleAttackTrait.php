@@ -62,11 +62,14 @@ trait ServiceBattleAttackTrait
         if(!is_null($move->getAccuracy()) && !is_null($move->getPower()) && ($this->m === 0)){
             // こうかがない
             $this->setMessage($def_pokemon->getPrefixName().'には効果が無いみたいだ');
+            // 失敗判定
+            $this->attackFailed($atk_pokemon, $move);
             return;
         }
         // 命中判定
         if(!$this->checkHit($atk_pokemon, $def_pokemon, $move)){
             // 攻撃失敗
+            $this->attackFailed($atk_pokemon, $move);
             return;
         }
         // 一撃必殺
@@ -87,6 +90,23 @@ trait ServiceBattleAttackTrait
         }
     }
 
+    /**
+    * 攻撃判定失敗時の処理
+    *
+    * @param object Pokemon $atk
+    * @param object Move $move
+    * @return void
+    */
+    private function attackFailed($atk, $move)
+    {
+        // 技の失敗メソッドを呼び出し
+        $move->failed($atk);
+        // もしメッセージが返ってきていれば格納
+        if(!empty($move->getMessages())){
+            $this->setMessage($move->getMessages());
+            $move->resetMessage();
+        }
+    }
 
     /**
     * 攻撃判定成功時の処理

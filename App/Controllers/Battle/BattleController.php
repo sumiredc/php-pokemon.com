@@ -46,8 +46,8 @@ class BattleController extends Controller
         $this->takeOver();
         // 分岐処理
         $this->branch();
-        // 次のターンへの分岐
-        $this->nextTurn();
+        // 次のターンへの分岐(ループ処理)
+        while($this->nextTurn());
         // 親デストラクタの呼び出し
         parent::__destruct();
     }
@@ -59,8 +59,8 @@ class BattleController extends Controller
     private function takeOver()
     {
         // にげるの実行回数を引き継ぎ
-        if(isset($_SESSION['run'])){
-            $this->run = $_SESSION['run'];
+        if(isset($_SESSION['__data']['run'])){
+            $this->run = $_SESSION['__data']['run'];
         }
         // ポケモンの引き継ぎ
         $this->takeOverPokemon($_SESSION['__data']['pokemon']);
@@ -87,6 +87,7 @@ class BattleController extends Controller
                 // 実行結果
                 $this->enemy = $service->getResponse('enemy');
                 $this->setMessage($service->getMessages());
+                $this->setResponse($service->getResponses());
                 break;
                 /******************************************
                 * たたかう
@@ -102,6 +103,7 @@ class BattleController extends Controller
                 // 実行結果
                 $this->fainting = $service->getResponse('fainting');
                 $this->setMessage($service->getMessages());
+                $this->setResponse($service->getResponses());
                 break;
                 /******************************************
                 * にげる
@@ -134,6 +136,7 @@ class BattleController extends Controller
                     // 失敗
                     $this->fainting = $service->getResponse('fainting');
                     $this->setMessage($service->getMessages());
+                    $this->setResponse($service->getResponses());
                 }
                 break;
                 /******************************************
@@ -161,20 +164,22 @@ class BattleController extends Controller
     /**
     * 次のターンへの判定処理
     *
-    * @return void
+    * @return boolean
     */
     private function nextTurn()
     {
         // ひんしポケモンがでた場合の処理
         if($this->fainting['enemy'] || $this->fainting['friend']){
             $this->judgment();
-            return;
+            return false;
         }
-        // チャージ中なら再度アクション実行
-        if($this->chargeNow()){
+        // チャージ中または反動有りなら再度アクション実行
+        if($this->chargeNow() || $this->pokemon->checkSc('ScRecoil')){
             $this->branch();
+            return true;
         }else{
             $this->setMessage('行動を選択してください');
+            return false;
         }
     }
 

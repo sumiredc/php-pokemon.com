@@ -28,7 +28,7 @@ class StartService extends Service
     public function excute()
     {
         // 敵ポケモンを生成
-        $this->enemy = new Fushigidane;
+        $this->enemy = new Raichu;
         $this->exportProperty('enemy');
         $this->setMessage('野生の'.$this->enemy->getName().'が現れた！');
     }
