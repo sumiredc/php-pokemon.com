@@ -54,4 +54,21 @@ class Rage extends Move
     */
     protected $priority = 0;
 
+    /**
+    * 追加効果
+    *
+    * @param array $args
+    * @return void
+    */
+    public function effects(...$args)
+    {
+        /**
+        * @param Pokemon $atk 攻撃ポケモン
+        * @param Pokemon $def 防御ポケモン
+        */
+        list($atk, $def) = $args;
+        // 攻撃ポケモンを怒り状態にする
+        $atk->setSc('ScRage');
+    }
+
 }

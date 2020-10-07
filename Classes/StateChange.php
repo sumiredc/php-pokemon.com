@@ -10,6 +10,7 @@ abstract class StateChange
     protected $turn_msg = '';
     protected $failed_msg = '';
     protected $recovery_msg = '';
+    protected $active_msg = '';
 
     /**
     * インスタンス作成時に実行される処理
@@ -108,6 +109,17 @@ abstract class StateChange
         }else{
             return str_replace('::pokemon', $pokemon, $this->recovery_msg);
         }
+    }
+
+    /**
+    * 発動時のメッセージを取得
+    *
+    * @param string $pokemon
+    * @return string
+    */
+    public function getActiveMessage($pokemon)
+    {
+        return str_replace('::pokemon', $pokemon, $this->active_msg);
     }
 
 }
