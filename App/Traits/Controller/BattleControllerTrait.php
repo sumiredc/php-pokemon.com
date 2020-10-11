@@ -9,7 +9,8 @@ trait BattleControllerTrait
     /**
     * ポケモン情報の引き継ぎ
     *
-    * @return object
+    * @param Pokemon::export:array $pokemon
+    * @return void
     */
     protected function takeOverPokemon($pokemon)
     {
@@ -25,18 +26,24 @@ trait BattleControllerTrait
             $this->pokemon
             ->setSc($_SESSION['__data']['sc']['pokemon']);
         }
+        // 前ターンのHP（現在の残りHP）をプロパティに格納
+        $this->before_remaining_hp['friend'] = $this->pokemon
+        ->getRemainingHp();
     }
 
     /**
     * 相手ポケモンの引き継ぎ
     *
-    * @param array $pokemon
+    * @param Pokemon::export:array $enemy
     * @return void
     */
     protected function takeOverEnemy($enemy)
     {
         if(!empty($enemy)){
             $this->enemy = new $enemy['class_name']($enemy);
+            // 前ターンのHP（現在の残りHP）をプロパティに格納
+            $this->before_remaining_hp['enemy'] = $this->enemy
+            ->getRemainingHp();
         }
         // ランク（バトルステータス）の引き継ぎ
         if(isset($_SESSION['__data']['rank'])){
@@ -53,7 +60,7 @@ trait BattleControllerTrait
     /**
     * 敵ポケモン情報の取得
     *
-    * @return object
+    * @return Pokemon:object
     */
     public function getEnemy()
     {
@@ -74,6 +81,23 @@ trait BattleControllerTrait
             return true;
         }else{
             return false;
+        }
+    }
+
+    /**
+    * 前のターンの残りHPを取得（HPバー用）
+    *
+    * @param Pokemon:object $pokemon
+    * @param string $param (per)
+    * @return numeric
+    */
+    public function getBeforeRemainingHp($pokemon, $param='')
+    {
+        if($param === 'per'){
+            // 最大HPとの比率を%で取得(数値で返却)
+            return $this->before_remaining_hp[$pokemon->getPosition()] / $pokemon->getStats('HP') * 100;
+        }else{
+            return $this->before_remaining_hp[$pokemon->getPosition()];
         }
     }
 
@@ -101,7 +125,7 @@ trait BattleControllerTrait
             $this->setMessage($this->pokemon->getMessages());
         }
         // バトル終了判定用メッセージの格納
-        $this->setMessage(' ', 'battle-end');
+        $this->setEmptyMessage('battle-end');
     }
 
     /**
@@ -113,8 +137,8 @@ trait BattleControllerTrait
     * @var L 倒されたポケモン($lose)のレベル
     * @var Lp 倒したポケモン($win)のレベル
     *
-    * @param object $win Pokemon
-    * @param object $lose Pokemon
+    * @param Pokemon:object $win
+    * @param Pokeomo:object $lose
     * @return integer
     */
     protected function calExp($win, $lose)

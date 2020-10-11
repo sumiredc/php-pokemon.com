@@ -42,6 +42,8 @@ abstract class Controller
     public function __destruct()
     {
         $_POST = [];
+        // メッセージIDのリフレッシュ
+        unset($_SESSION['__message_ids']);
     }
 
     /**

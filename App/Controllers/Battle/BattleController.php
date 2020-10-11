@@ -36,6 +36,15 @@ class BattleController extends Controller
     ];
 
     /**
+    * 前ターンのHP
+    * @var array
+    */
+    protected $before_remaining_hp = [
+        'friend' => 0,
+        'enemy' => 0,
+    ];
+
+    /**
     * @return void
     */
     public function __construct()
@@ -86,6 +95,9 @@ class BattleController extends Controller
                 $service->execute();
                 // 実行結果
                 $this->enemy = $service->getResponse('enemy');
+                // 前ターンのHP（現在の残りHP）をプロパティに格納
+                $this->before_remaining_hp['enemy'] = $this->enemy
+                ->getRemainingHp();
                 $this->setMessage($service->getMessages());
                 $this->setResponse($service->getResponses());
                 break;
@@ -119,38 +131,27 @@ class BattleController extends Controller
                 );
                 $service->execute();
                 // 実行結果
-                if($service->getResponse('result')){
-                    // 成功
-                    $this->setMessage($service->getMessages());
-                    $_SESSION['__route'] = 'home';
-                    // 破棄
-                    unset(
-                        $_SESSION['__data']['enemy'],
-                        $_SESSION['__data']['rank'],
-                        $_SESSION['__data']['sc'],
-                        $_SESSION['__data']['run']
-                    );
-                    header("Location: ./", true, 307);
-                    exit;
-                }else{
+                if(!$service->getResponse('result')){
                     // 失敗
                     $this->fainting = $service->getResponse('fainting');
-                    $this->setMessage($service->getMessages());
-                    $this->setResponse($service->getResponses());
                 }
+                $this->setMessage($service->getMessages());
+                $this->setResponse($service->getResponses());
                 break;
                 /******************************************
                 * バトル終了
                 */
                 case 'end':
-                $_SESSION['__route'] = 'home';
-                header("Location: ./", true, 307);
-                exit;
+                $this->battleEnd();
                 break;
                 /******************************************
                 * アクション未選択 or 実装されていないアクション
                 */
                 default:
+                // もしどちらかが戦闘不能状態であればバトルを強制終了
+                if(empty($this->before_remaining_hp['friend']) || empty($this->before_remaining_hp['enemy'])){
+                    $this->battleEnd();
+                }
                 break;
             }
         } catch (\Exception $e) {
@@ -159,6 +160,25 @@ class BattleController extends Controller
             header("Location: ./", true, 307);
             exit;
         }
+    }
+
+    /**
+    * バトル終了メソッド
+    *
+    * @return boolean
+    */
+    private function battleEnd()
+    {
+        // 破棄
+        unset(
+            $_SESSION['__data']['enemy'],
+            $_SESSION['__data']['rank'],
+            $_SESSION['__data']['sc'],
+            $_SESSION['__data']['run']
+        );
+        $_SESSION['__route'] = 'home';
+        header("Location: ./", true, 307);
+        exit;
     }
 
     /**

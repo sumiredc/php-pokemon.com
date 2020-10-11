@@ -51,7 +51,13 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                         <p><?=$enemy->getName()?> Lv:<?=$enemy->getLevel()?> <?=$enemy->getSaName(false)?></p>
                         <div class="form-group">
                             <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width:<?=$enemy->getRemainingHp('per')?>%;" aria-valuenow="<?=$enemy->getRemainingHp()?>" aria-valuemin="0" aria-valuemax="<?=$enemy->getStats('HP')?>"></div>
+                                <div id="hpbar-enemy"
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                style="width:<?=$controller->getBeforeRemainingHp($enemy, 'per')?>%;"
+                                aria-valuenow="<?=$controller->getBeforeRemainingHp($enemy)?>"
+                                aria-valuemin="0"
+                                aria-valuemax="<?=$enemy->getStats('HP')?>"></div>
                             </div>
                         </div>
                     </div>
@@ -68,11 +74,20 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                         <p><?=$pokemon->getNickName()?> Lv:<?=$pokemon->getLevel()?> <?=$pokemon->getSaName(false)?></p>
                         <div class="form-group">
                             <div class="progress">
-                                <?php if($pokemon->getRemainingHp('per') <= 50) $hp_bar_class = 'bg-warning'; ?>
-                                <?php if($pokemon->getRemainingHp('per') <= 20) $hp_bar_class = 'bg-danger'; ?>
-                                <div class="progress-bar <?=$hp_bar_class ?? 'bg-success'?>" role="progressbar" style="width:<?=$pokemon->getRemainingHp('per')?>%;" aria-valuenow="<?=$pokemon->getRemainingHp()?>" aria-valuemin="0" aria-valuemax="<?=$pokemon->getStats('HP')?>"></div>
+                                <?php if($controller->getBeforeRemainingHp($pokemon, 'per') <= 50) $hp_bar_class = 'bg-warning'; ?>
+                                <?php if($controller->getBeforeRemainingHp($pokemon, 'per') <= 20) $hp_bar_class = 'bg-danger'; ?>
+                                <div id="hpbar-friend"
+                                class="progress-bar <?=$hp_bar_class ?? 'bg-success'?>"
+                                role="progressbar"
+                                style="width:<?=$controller->getBeforeRemainingHp($pokemon, 'per')?>%;"
+                                aria-valuenow="<?=$controller->getBeforeRemainingHp($pokemon)?>"
+                                aria-valuemin="0"
+                                aria-valuemax="<?=$pokemon->getStats('HP')?>"></div>
                             </div>
-                            <p class="text-right px-3"><?=$pokemon->getRemainingHp()?> / <?=$pokemon->getStats('HP')?></p>
+                            <p class="text-right px-3">
+                                <span id="remaining-hp-count-friend"><?=$controller->getBeforeRemainingHp($pokemon)?></span>
+                                / <?=$pokemon->getStats('HP')?>
+                            </p>
                             <?php # 経験値バー ?>
                             <div class="progress" style="height:4px;">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width:<?=$pokemon->getPerCompNexExp()?>%;" aria-valuenow="<?=$pokemon->getPerCompNexExp()?>" aria-valuemin="0" aria-valuemax="100"></div>
@@ -85,10 +100,17 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                 <div class="row">
                     <div class="col-12 col-sm-6">
                         <div class="message-box border p-3 mb-3">
-                            <?php foreach($controller->getMessages() as $key => list($msg, $status)): ?>
+                            <?php # メッセージエリア ?>
+                            <?php foreach($controller->getMessages() as $key => list($msg, $status, $auto)): ?>
                                 <?php $class = $key === $controller->getMessageFirstKey() ? 'active' : ''; ?>
                                 <?php $last_class = $key === $controller->getMessageLastKey() ? 'last-message' : ''; ?>
-                                <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"><?=$msg?></p>
+                                <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"
+                                    data-action="<?=$responses[$status]['action'] ?? ''?>"
+                                    data-target="<?=$responses[$status]['target'] ?? ''?>"
+                                    data-param="<?=$responses[$status]['param'] ?? ''?>"
+                                    data-auto="<?=$auto ?? ''?>">
+                                    <?=$msg?>
+                                </p>
                             <?php endforeach; ?>
                             <span class="message-scroll-icon">▼</span>
                         </div>

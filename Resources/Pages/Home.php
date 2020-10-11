@@ -20,9 +20,28 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
     <header>
         <div class="container">
             <section>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-12">
                         <h1 class="py-3">PHPポケモン</h1>
+                    </div>
+                    <div class="col-12">
+                        <div class="btn-group float-right">
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                メニュー
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <span class="dropdown-item p-0">
+                                    <?php include($root_path.'/Resources/Partials/Home/Forms/pokemon_center.php'); # ポケモンセンター ?>
+                                </span>
+                                <span class="dropdown-item p-0">
+                                    <?php include($root_path.'/Resources/Partials/Home/Forms/battle.php'); # バトル ?>
+                                </span>
+                                <div class="dropdown-divider"></div>
+                                <span class="dropdown-item p-0">
+                                    <?php include($root_path.'/Resources/Partials/Home/Forms/reset.php'); # リセット ?>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -55,24 +74,11 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
             </section>
             <section>
                 <div class="row">
-                    <div class="col-12 col-sm-6">
+                    <div class="col-12">
                         <div class="message-box border p-3 mb-3">
                             <?php foreach($controller->getMessages() as list($msg)): ?>
                                 <p><?=$msg?></p>
                             <?php endforeach; ?>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6">
-                        <div class="d-flex">
-                            <div class="mr-1">
-                                <?php include($root_path.'/Resources/Partials/Home/Forms/pokemon_center.php'); # ポケモンセンター ?>
-                            </div>
-                            <div class="mx-1">
-                                <?php include($root_path.'/Resources/Partials/Home/Forms/battle.php'); # バトル ?>
-                            </div>
-                            <div class="ml-1">
-                                <?php include($root_path.'/Resources/Partials/Home/Forms/reset.php'); # リセット ?>
-                            </div>
                         </div>
                     </div>
                 </div>

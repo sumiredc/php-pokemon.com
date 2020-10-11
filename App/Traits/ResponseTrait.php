@@ -27,7 +27,7 @@ trait ResponseTrait
     * メッセージの格納
     *
     * @param string|array $msg
-    * @param string $param error|success default=null
+    * @param mixed $param
     * @return array
     */
     public function setMessage($msg, $param=null)
@@ -41,8 +41,30 @@ trait ResponseTrait
             $this->msgs = array_merge($this->msgs, $msg);
         }else{
             // 単発登録
-            $this->msgs[] = [$msg, $param];
+            $this->msgs[] = [$msg, $param, ''];
         }
+    }
+
+    /**
+    * アニメーション用の自動メッセージの格納
+    *
+    * @param mixed $param
+    * @return array
+    */
+    public function setAutoMessage($param)
+    {
+        $this->msgs[] = ['', $param, 'auto'];
+    }
+
+    /**
+    * 空メッセージの格納
+    *
+    * @param string $param
+    * @return array
+    */
+    public function setEmptyMessage($param)
+    {
+        $this->msgs[] = ['', $param, ''];
     }
 
     /**
@@ -146,6 +168,23 @@ trait ResponseTrait
     public function resetResponse()
     {
         $this->responses = [];
+    }
+
+    /**
+    * メッセージIDの発行
+    *
+    * @return string
+    */
+    public function issueMsgId()
+    {
+        // IDを生成
+        $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
+        // ユニークになるようにチェック
+        while(in_array($id, $_SESSION['__message_ids'] ?? [], true)){
+            $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
+        }
+        $_SESSION['__message_ids'][] = $id;
+        return $id;
     }
 
 }

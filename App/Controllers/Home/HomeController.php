@@ -65,6 +65,10 @@ class HomeController extends Controller
                 * バトル
                 */
                 case 'battle':
+                if($this->pokemon->getRemainingHp() <= 0){
+                    $this->setMessage('バトルに参加できるポケモンがいません');
+                    break;
+                }
                 $_SESSION['__route'] = 'battle';
                 $_SESSION['__token'] = $_POST['__token'];
                 header("Location: ./", true, 307);

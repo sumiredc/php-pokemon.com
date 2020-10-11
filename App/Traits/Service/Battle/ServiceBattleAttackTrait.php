@@ -24,6 +24,12 @@ trait ServiceBattleAttackTrait
     private $type_comp_msg = '';
 
     /**
+    * 攻撃メッセージのパラメーターとして設定するID
+    * @var string
+    */
+    private $atk_msg_id;
+
+    /**
     * 攻撃
     * （攻撃→ダメージ計算→ひんし判定）
     *
@@ -55,7 +61,8 @@ trait ServiceBattleAttackTrait
             return;
         }
         // 攻撃メッセージを格納
-        $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！');
+        $this->atk_msg_id = $this->issueMsgId();
+        $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！', $this->atk_msg_id);
         // タイプ相性チェック
         $this->type_comp_msg = $this->checkTypeCompatibility($move->getType(), $def_pokemon->getTypes());
         // 「こうかがない」の判定（命中率と威力がnullではなく、タイプ相性補正が０の場合）
@@ -75,6 +82,12 @@ trait ServiceBattleAttackTrait
         // 一撃必殺
         if($move->getOneHitKnockoutFlg()){
             $def_pokemon->calRemainingHp('death');
+            // HPバーのアニメーション用レスポンス
+            $this->setResponse([
+                'param' => $def_pokemon->getStats('HP'),
+                'action' => 'hpbar',
+                'target' => $def_pokemon->getPosition(),
+            ], $this->atk_msg_id);
             $this->setMessage('一撃必殺');
             return;
         }
@@ -101,11 +114,12 @@ trait ServiceBattleAttackTrait
     {
         // 技の失敗メソッドを呼び出し
         $move->failed($atk);
-        // もしメッセージが返ってきていれば格納
-        if(!empty($move->getMessages())){
-            $this->setMessage($move->getMessages());
-            $move->resetMessage();
-        }
+        // メッセージとレスポンスを格納
+        $this->setMessage($move->getMessages());
+        $this->setResponse($move->getResponses());
+        // メッセージとレスポンスをリセット
+        $move->resetMessage();
+        $move->resetResponse();
     }
 
     /**
@@ -122,7 +136,7 @@ trait ServiceBattleAttackTrait
             /**
             * 固定ダメージ技
             */
-            $damage = $move->getFixedDamage($atk_pokemon, $def_pokemon);
+            $damage = (int)$move->getFixedDamage($atk_pokemon, $def_pokemon);
         }else{
             /**
             * 通常技
@@ -145,7 +159,7 @@ trait ServiceBattleAttackTrait
                 // タイプ一致補正の計算
                 $this->calMatchType($move->getType(), $atk_pokemon->getTypes());
                 // ダメージ計算
-                $damage = $this->calDamage(
+                $damage = (int)$this->calDamage(
                     $atk_pokemon->getLevel(),   # 攻撃ポケモンのレベル
                     $stats['a'],                # 攻撃ポケモンの攻撃値
                     $stats['d'],                # 防御ポケモンの防御値
@@ -165,13 +179,24 @@ trait ServiceBattleAttackTrait
         $def_pokemon->setTurnDamage($move->getSpecies(), $damage ?? 0);
         // ダメージ計算
         $def_pokemon->calRemainingHp('sub', $damage ?? 0);
+        // HPバーのアニメーション用レスポンス
+        if(isset($damage)){
+            $this->setResponse([
+                'param' => $damage,
+                'action' => 'hpbar',
+                'target' => $def_pokemon->getPosition(),
+            ], $this->atk_msg_id);
+        }
         // 追加効果(相手にHPが残っていれば)
         if($def_pokemon->getRemainingHp()){
             // 追加効果
             $move->effects($atk_pokemon, $def_pokemon);
-            // 追加効果のメッセージをセット
+            // メッセージとレスポンスを格納
             $this->setMessage($move->getMessages());
+            $this->setResponse($move->getResponses());
+            // メッセージとレスポンスをリセット
             $move->resetMessage();
+            $move->resetResponse();
             // いかり判定
             if($def_pokemon->checkSc('ScRage') && !empty($damage ?? 0)){
                 $rage = new ScRage;

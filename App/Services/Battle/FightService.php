@@ -13,7 +13,6 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
  */
 class FightService extends Service
 {
-
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;

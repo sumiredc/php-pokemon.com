@@ -1,7 +1,5 @@
 <form action="" method="post">
-    <div class="input-group mb-3">
-        <input type="hidden" name="action" value="recovery">
-        <input class="btn btn-success" type="submit" value="ポケモンセンター">
-    </div>
+    <input type="hidden" name="action" value="recovery">
+    <input class="btn btn-link text-success btn-block text-left font-weight-bolder px-4" type="submit" value="ポケモンセンター">
     <?php input_token(); ?>
 </form>

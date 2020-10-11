@@ -145,6 +145,7 @@ trait ServiceBattleCheckTrait
     */
     protected function checkBeforeSc($pokemon)
     {
+        // 状態変化の値を取得
         $sc = $pokemon->getSc();
         if(empty($sc)){
             // 状態変化にかかっていない
@@ -184,8 +185,10 @@ trait ServiceBattleCheckTrait
                 $this->setMessage($pokemon->getPrefixName().'は混乱している');
                 // 1/3の確率で行動失敗
                 if(!random_int(0, 2)){
+                    // メッセージIDの生成
+                    $msg_id = $this->issueMsgId();
                     // 行動失敗（自分に威力４０の物理ダメージ）
-                    $this->setMessage($confusion->getFailedMessage($pokemon->getPrefixName()));
+                    $this->setMessage($confusion->getFailedMessage($pokemon->getPrefixName()), $msg_id);
                     // ダメージ計算
                     $damage = $this->calDamage(
                         $pokemon->getLevel(),                   # レベル
@@ -196,6 +199,13 @@ trait ServiceBattleCheckTrait
                     );
                     // ダメージ計算
                     $pokemon->calRemainingHp('sub', $damage);
+                    // HPバーのアニメーション用レスポンス
+                    $this->setResponse([
+                        'param' => $damage,
+                        'action' => 'hpbar',
+                        'target' => $pokemon->getPosition(),
+                    ], $msg_id);
+                    // 行動失敗
                     return false;
                 }
             }
@@ -215,6 +225,9 @@ trait ServiceBattleCheckTrait
             // 状態異常にかかっていない
             return;
         }
+        // メッセージIDの生成
+        $msg_id = $this->issueMsgId();
+        // 状態異常に合わせた分岐
         switch ($pokemon->getSa()) {
             /**
             * どく
@@ -229,6 +242,7 @@ trait ServiceBattleCheckTrait
                 $damage = 1;
             }
             // メッセージ
+            $this->setAutoMessage($msg_id); # アニメーション用
             $this->setMessage($poison->getTurnMessage($pokemon->getPrefixName()));
             break;
             /**
@@ -246,6 +260,7 @@ trait ServiceBattleCheckTrait
                 $damage = 1;
             }
             // メッセージ
+            $this->setAutoMessage($msg_id); # アニメーション用
             $this->setMessage($bad_poison->getTurnMessage($pokemon->getPrefixName()));
             break;
             /**
@@ -261,11 +276,20 @@ trait ServiceBattleCheckTrait
                 $damage = 1;
             }
             // メッセージ
+            $this->setAutoMessage($msg_id); # アニメーション用
             $this->setMessage($burn->getTurnMessage($pokemon->getPrefixName()));
             break;
         }
-        // ダメージ計算
-        $pokemon->calRemainingHp('sub', $damage ?? 0);
+        // ダメージ判定
+        if(isset($damage)){
+            $pokemon->calRemainingHp('sub', $damage);
+            // HPバーのアニメーション用レスポンス
+            $this->setResponse([
+                'param' => $damage,
+                'action' => 'hpbar',
+                'target' => $pokemon->getPosition(),
+            ], $msg_id);
+        }
     }
 
     /**
@@ -288,6 +312,9 @@ trait ServiceBattleCheckTrait
         * やどりぎのタネ
         */
         if(isset($sc['ScLeechSeed'])){
+            // メッセージIDの生成(ダメージ用と回復用)
+            $ls_msg_id1 = $this->issueMsgId();
+            $ls_msg_id2 = $this->issueMsgId();
             // 最大HPの1/8HPを吸収する
             $leech_seed = new ScLeechSeed;
             // 小数点以下切り捨て
@@ -298,9 +325,23 @@ trait ServiceBattleCheckTrait
             }
             // ダメージ計算
             $sicked_pokemon->calRemainingHp('sub', $damage);
+            // HPバーのアニメーション用レスポンス
+            $this->setResponse([
+                'param' => $damage,
+                'action' => 'hpbar',
+                'target' => $sicked_pokemon->getPosition(),
+            ], $ls_msg_id1);
             // 回復
             $enemy_pokemon->calRemainingHp('add', $damage);
-            // メッセージ
+            // HPバーのアニメーション用レスポンス
+            $this->setResponse([
+                'param' => $damage * -1, # 加算するため負の数に変換してセット
+                'action' => 'hpbar',
+                'target' => $enemy_pokemon->getPosition(),
+            ], $ls_msg_id2);
+            // メッセージ（アニメーション用に空メッセージを2つ用意）
+            $this->setAutoMessage($ls_msg_id1);
+            $this->setAutoMessage($ls_msg_id2);
             $this->setMessage($leech_seed->getTurnMessage($sicked_pokemon->getPrefixName()));
             // HPが０になっていればチェック終了
             if(!$sicked_pokemon->getRemainingHp()){
@@ -320,6 +361,8 @@ trait ServiceBattleCheckTrait
                 $sicked_pokemon->releaseSc('ScBind');
                 $this->setMessage($bind->getRecoveryMessage($sicked_pokemon->getPrefixName(), $sc['ScBind']['param']));
             }else{
+                // メッセージIDの生成
+                $b_msg_id = $this->issueMsgId();
                 // 小数点以下切り捨て
                 $damage = (int)($sicked_pokemon->getStats('HP') / 8);
                 if($damage){
@@ -328,7 +371,14 @@ trait ServiceBattleCheckTrait
                 }
                 // ダメージ計算
                 $sicked_pokemon->calRemainingHp('sub', $damage);
+                // HPバーのアニメーション用レスポンス
+                $this->setResponse([
+                    'param' => $damage,
+                    'action' => 'hpbar',
+                    'target' => $enemy_pokemon->getPosition(),
+                ], $b_msg_id);
                 // メッセージ
+                $this->setAutoMessage($b_msg_id);
                 $this->setMessage($bind->getTurnMessage($sicked_pokemon->getPrefixName(), $sc['ScBind']['param']));
                 // HPが０になっていればチェック終了
                 if(!$sicked_pokemon->getRemainingHp()){

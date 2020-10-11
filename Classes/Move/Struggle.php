@@ -62,14 +62,22 @@ class Struggle extends Move
     */
     public function effects(...$args)
     {
+        $msg_id = $this->issueMsgId();
         /**
         * @param Pokemon $atk 攻撃ポケモン
         * @param Pokemon $def 防御ポケモン
         */
         list($atk, $def) = $args;
         // 自分の最大HPの1/4ダメージを受ける
-        $atk->calRemainingHp('sub', floor($atk->getStats('HP') / 4));
-        $this->setMessage($atk->getPrefixName().'は反動を受けた');
+        $damage = floor($atk->getStats('HP') / 4);
+        $atk->calRemainingHp('sub', $damage);
+        $this->setMessage($atk->getPrefixName().'は反動を受けた', $msg_id);
+        // HPバーのアニメーション用レスポンス
+        $this->setResponse([
+            'param' => $damage,
+            'action' => 'hpbar',
+            'target' => $atk->getPosition(),
+        ], $msg_id);
     }
 
 }

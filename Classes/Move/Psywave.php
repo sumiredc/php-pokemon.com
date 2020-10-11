@@ -70,7 +70,12 @@ class Psywave extends Move
     public function getFixedDamage($atk, $def)
     {
         // 攻撃ポケモンのレベル*(0.5〜1.5)倍のダメージを与える
-        return (int)($atk->getLevel() * (random_int(5, 15) / 10));
+        $damage = (int)($atk->getLevel() * (random_int(5, 15) / 10));
+        // 最小ダメージの処理
+        if(empty($damage)){
+            $damage = 1;
+        }
+        return $damage;
     }
 
 }

@@ -1,7 +1,5 @@
 <form action="" method="post">
     <input type="hidden" name="action" value="battle">
-    <div class="input-group mb-3">
-        <input class="btn btn-warning" type="submit" value="バトル">
-    </div>
+    <input class="btn btn-link text-warning btn-block text-left font-weight-bolder px-4" type="submit" value="バトル">
     <?php input_token(); ?>
 </form>

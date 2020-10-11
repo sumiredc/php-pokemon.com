@@ -63,11 +63,14 @@ class RunService extends Service
             $this->setResponse(true, 'result');
             $this->setMessage('上手く逃げ切れた');
             // バトル終了判定用メッセージの格納
-            $this->setMessage(' ', 'battle-end');
+            $this->setEmptyMessage('battle-end');
         }else{
             // 逃走失敗
             $this->setResponse(false, 'result');
             $this->setMessage('逃げられない！');
+            // 攻撃ポケモンの怒り解除
+            $this->pokemon
+            ->releaseSc('ScRage');
             // 相手ポケモンの攻撃
             if(!$this->enemyAttack()){
                 // どちらかがひんし状態なら処理終了
