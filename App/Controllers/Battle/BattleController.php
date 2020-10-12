@@ -91,7 +91,7 @@ class BattleController extends Controller
                 */
                 case 'battle':
                 // サービス実行
-                $service = new StartService;
+                $service = new StartService($this->pokemon);
                 $service->execute();
                 // 実行結果
                 $this->enemy = $service->getResponse('enemy');

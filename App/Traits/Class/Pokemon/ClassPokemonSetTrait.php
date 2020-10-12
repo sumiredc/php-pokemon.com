@@ -19,13 +19,19 @@ trait ClassPokemonSetTrait
 
     /**
     * レベルをセットする
+    * @param integer $level
     * @return void
     */
-    protected function setLevel()
+    protected function setLevel($level=0)
     {
-        // 初期レベルからランダムで値を取得
-        $key = array_rand($this->default_level);
-        $this->level = $this->default_level[$key];
+        if(empty($level)){
+            // 初期レベルからランダムで値を取得
+            $key = array_rand($this->default_level);
+            $this->level = $this->default_level[$key];
+        }else{
+            // 指定されたレベルをセット
+            $this->level = $level;
+        }
     }
 
     /**

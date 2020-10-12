@@ -133,18 +133,18 @@ abstract class Pokemon
     /**
     * インスタンス作成時に実行される処理
     *
-    * @param object|array|null
+    * @param object|array|integer
     * @return void
     */
-    public function __construct($before=null)
+    public function __construct($before=0)
     {
         switch (gettype($before)) {
             /**
-            * 新規登場時の処理
-            * @var null $before
+            * 新規登場時の処理(レベル指定)
+            * @var integer $before
             */
-            case 'NULL':
-            $this->setLevel();
+            case 'integer':
+            $this->setLevel($before);
             $this->setDefaultExp();
             $this->setDefaultMove();
             $this->setIv();

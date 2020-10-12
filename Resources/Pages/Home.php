@@ -21,8 +21,12 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
         <div class="container">
             <section>
                 <div class="row mb-3">
-                    <div class="col-12">
-                        <h1 class="py-3">PHPポケモン</h1>
+                    <div class="col-12 d-flex justify-content-between py-3">
+                        <h1>PHPポケモン</h1>
+                        <div class="d-block">
+                            <a href="https://s-yqual.com/blog/1324" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="はじめに">はじめに</a>
+                            <a href="https://s-yqual.com/contact" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="不具合・問い合わせ">不具合・問い合わせ</a>
+                        </div>
                     </div>
                     <div class="col-12">
                         <div class="btn-group float-right">
@@ -80,13 +84,6 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
                                 <p><?=$msg?></p>
                             <?php endforeach; ?>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div class="row">
-                    <div class="col-12">
-                        <pre><?php var_export($controller->getResponses()); ?></pre>
                     </div>
                 </div>
             </section>

@@ -14,7 +14,7 @@ class InitialController extends Controller
         'Hitokage' => 'ヒトカゲ',
         'Zenigame' => 'ゼニガメ',
         'Pikachu' => 'ピカチュウ',
-        'Mew' => 'ミュウ',
+        // 'Mew' => 'ミュウ',
     ];
 
     /**
@@ -43,6 +43,10 @@ class InitialController extends Controller
             case 'select_pokemon':
             // ポケモンを生成して引き継ぎデータをセッションに格納
             $class = $_POST['pokemon'];
+            if(!isset($this->pokemon_list[$class])){
+                $this->setMessage('選択されたポケモンは選ぶことが出来ません');
+                break;
+            }
             $pokemon = new $class;
             $pokemon->setPosition();
             $_SESSION['__data']['pokemon'] = $pokemon->export();

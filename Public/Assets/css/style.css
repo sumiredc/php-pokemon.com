@@ -13,7 +13,7 @@ figure.first-pokemon{
     padding: 1rem;
 }
 .first-pokemon img{
-    max-width: 80px;
+    max-width: 40px;
     cursor: pointer;
 }
 .message-box{
@@ -41,6 +41,9 @@ figure.first-pokemon{
 }
 .move-detail-content.active{
     display: block;
+}
+.move-detail-link{
+    cursor: pointer;
 }
 .now-loading{
     display: none;

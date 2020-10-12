@@ -18,8 +18,12 @@ $controller = new InitialController();
         <div class="container">
             <section>
                 <div class="row">
-                    <div class="col-12">
-                        <h1 class="py-3">PHPポケモン</h1>
+                    <div class="col-12 d-flex justify-content-between py-3">
+                        <h1>PHPポケモン</h1>
+                        <div class="d-block">
+                            <a href="https://s-yqual.com/blog/1324" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="はじめに">はじめに</a>
+                            <a href="https://s-yqual.com/contact" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="不具合・問い合わせ">不具合・問い合わせ</a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -28,16 +32,33 @@ $controller = new InitialController();
     <main>
         <div class="container">
             <section>
-                <h3 class="mb-3 text-center">一緒に旅をするポケモンを選んでください</h3>
+                <h3 class="mb-3">一緒に旅をするポケモンを選んでください</h3>
                 <div class="row">
                     <?php foreach($controller->getPokemonList() as $key => $name): ?>
-                        <?php #if($key === 'Mew') continue; ?>
                         <div class="col-6 col-sm-3">
                             <figure class="first-pokemon">
                                 <img src="/Assets/img/ball/monster_ball.png" alt="<?=$name?>" data-toggle="modal" data-target="#<?=$key?>-modal">
                             </figure>
                         </div>
                     <?php endforeach; ?>
+                </div>
+                <?php if($controller->getMessages()): ?>
+                    <div class="row">
+                        <?php foreach($controller->getMessages() as list($message)): ?>
+                            <div class="col-12">
+                                <p class="text-danger"><?=$message?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-12">
+                        <ul class="overflow-auto" style="height: 80px;">
+                            <li>2020/10/12 PHPポケモンを公開しました</li>
+                        </ul>
+                    </div>
                 </div>
             </section>
         </div>

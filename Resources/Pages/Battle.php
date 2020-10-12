@@ -35,8 +35,12 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
         <div class="container">
             <section>
                 <div class="row">
-                    <div class="col-12">
-                        <h1 class="py-3">PHPポケモン</h1>
+                    <div class="col-12 d-flex justify-content-between py-3">
+                        <h1>PHPポケモン</h1>
+                        <div class="d-block">
+                            <a href="https://s-yqual.com/blog/1324" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="はじめに">はじめに</a>
+                            <a href="https://s-yqual.com/contact" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="不具合・問い合わせ">不具合・問い合わせ</a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -136,15 +140,6 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                                 </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div class="row">
-                    <div class="col-12">
-                        <?php $controller->setResponse($pokemon->getRank()); ?>
-                        <?php $controller->setResponse($pokemon->getSc()); ?>
-                        <pre><?php var_export($controller->getResponses()); ?></pre>
                     </div>
                 </div>
             </section>

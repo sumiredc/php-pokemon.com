@@ -15,11 +15,44 @@ class StartService extends Service
     protected $enemy;
 
     /**
+    * 野生ポケモン レベル下限
+    * @var integer
+    */
+    protected $min;
+
+    /**
+    * 野生ポケモン レベル上限
+    * @var integer
+    */
+    protected $max;
+
+    /**
+    * 野生ポケモンリスト
+    * @var array
+    */
+    private $pokemon_list = [
+        'Fushigidane',
+        'Hitokage',
+        'Zenigame',
+        'Pikachu',
+    ];
+
+    /**
+    * @param Pokemon:object $pokemon
     * @return void
     */
-    public function __construct()
+    public function __construct($pokemon)
     {
-        //
+        $level = $pokemon->getLevel();
+        // 敵ポケモンのレベル幅を生成
+        $this->min = $level - 2;
+        if($this->min < 1){
+            $this->min = 1;
+        }
+        $this->max = $level + 2;
+        if($this->max > 100){
+            $this->max = 100;
+        }
     }
 
     /**
@@ -28,7 +61,10 @@ class StartService extends Service
     public function execute()
     {
         // 敵ポケモンを生成
-        $this->enemy = new Fushigidane;
+        $this->enemy = new $this->pokemon_list[random_int(0, 3)](
+            random_int($this->min, $this->max)
+        );
+        // 返却値をセット
         $this->exportProperty('enemy');
         $this->setMessage('野生の'.$this->enemy->getName().'が現れた！');
     }
