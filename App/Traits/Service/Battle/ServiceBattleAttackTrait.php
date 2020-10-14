@@ -220,6 +220,13 @@ trait ServiceBattleAttackTrait
     */
     private function checkHit($atk, $def, $move)
     {
+        // ふきとばし・ほえるのチェック
+        if(in_array(get_class($move), ['Whirlwind', 'Roar'], true)){
+            if($atk->getLevel() < $def->getLevel()){
+                $this->setMessage($def->getPrefixName().'は平気な顔をしている');
+                return false;
+            }
+        }
         // 一撃必殺技のチェック
         if($move->getOneHitKnockoutFlg()){
             if($atk->getLevel() < $def->getLevel()){
@@ -232,10 +239,32 @@ trait ServiceBattleAttackTrait
         }else{
             // 命中率取得
             $accuracy = $move->getAccuracy();
-        }
-        // nullの場合は命中率関係無し
-        if(is_null($accuracy)){
-            return true;
+            // nullの場合は命中率関係無し
+            if(is_null($accuracy)){
+                return true;
+            }
+            /**
+            * ランク補正
+            * 攻撃側の命中率 - 防御側の回避率
+            */
+            $rank = $atk->getRank('Accuracy') - $def->getRank('Evasion');
+            if($rank > 0){
+                // プラス補正
+                if($rank > 6){
+                    // 最大値丸め
+                    $rank = 6;
+                }
+                $per = (3 + $rank) / 3;
+            }else{
+                // マイナス補正
+                if($rank < -6){
+                    // 最小値丸め
+                    $rank = -6;
+                }
+                $per = 3 / (3 - $rank);
+            }
+            // 倍率を切り捨てしてランク補正込みの命中率を算出
+            $accuracy *= round($per, 2);
         }
         // カウンターの失敗判定
         if((get_class($move) === 'Counter') && empty($atk->getTurnDamage('physical'))){

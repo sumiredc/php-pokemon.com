@@ -14,7 +14,7 @@ class InitialController extends Controller
         'Hitokage' => 'ヒトカゲ',
         'Zenigame' => 'ゼニガメ',
         'Pikachu' => 'ピカチュウ',
-        // 'Mew' => 'ミュウ',
+        'Mew' => 'ミュウ',
     ];
 
     /**

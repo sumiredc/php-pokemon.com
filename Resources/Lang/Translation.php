@@ -7,6 +7,8 @@ function transJp($str)
         'defense' => 'ぼうぎょ',
         'spatk' => 'とくこう',
         'spdef' => 'とくぼう',
+        'accuracy' => '命中率',
+        'evasion' => '回避率',
         'speed' => 'すばやさ',
         'name' => '正式名称',
         'nickname' => 'ニックネーム',

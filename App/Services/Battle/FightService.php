@@ -124,6 +124,10 @@ class FightService extends Service
             $atk->releaseSc('ScRage');
             // 攻撃
             $this->attack($atk, $def, $move);
+            // バトル終了のレスポンスチェック（交代技など）
+            if($this->getResponse('end')){
+                break;
+            }
             // ひんしチェック
             $this->fainting = [
                 $atk->getPosition() => $this->checkFainting($atk),
