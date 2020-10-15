@@ -14,21 +14,10 @@ $controller = new InitialController();
     ?>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <section>
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-between py-3">
-                        <h1>PHPポケモン</h1>
-                        <div class="d-block">
-                            <a href="https://s-yqual.com/blog/1324" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="はじめに">はじめに</a>
-                            <a href="https://s-yqual.com/contact" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="不具合・問い合わせ">不具合・問い合わせ</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </header>
+    <?php
+    # headerの読み込み
+    include($root_path.'/Resources/Partials/Layouts/Head/header.php');
+    ?>
     <main>
         <div class="container">
             <section>

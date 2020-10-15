@@ -5,6 +5,8 @@ require_once($root_path.'/Resources/Lang/Translation.php');
 $controller = new BattleController();
 $pokemon = $controller->getPokemon();
 $enemy = $controller->getEnemy();
+$before_pokemon = $controller->getBefore($pokemon);
+$before_enemy = $controller->getBefore($enemy);
 $responses = $controller->getResponses();
 // 引き継ぐデータをセッションへ格納
 $_SESSION['__data']['pokemon'] = $pokemon->export(); # 自ポケモンの情報をセッションに格納
@@ -31,70 +33,73 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
     ?>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <section>
-                <div class="row">
-                    <div class="col-12 d-flex justify-content-between py-3">
-                        <h1>PHPポケモン</h1>
-                        <div class="d-block">
-                            <a href="https://s-yqual.com/blog/1324" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="はじめに">はじめに</a>
-                            <a href="https://s-yqual.com/contact" target="_blank" role="button" class="btn btn-outline-secondary btn-sm" title="不具合・問い合わせ">不具合・問い合わせ</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </header>
+    <?php
+    # headerの読み込み
+    include($root_path.'/Resources/Partials/Layouts/Head/header.php');
+    ?>
     <main>
         <div class="container">
             <section>
                 <div class="row mt-3 mb-5">
                     <?php # 敵ポケモン詳細 ?>
                     <div class="col-6">
-                        <p><?=$enemy->getName()?> Lv:<?=$enemy->getLevel()?> <?=$enemy->getSaName(false)?></p>
+                        <p>
+                            <span class="mr-2"><?=$before_enemy->getName()?></span>
+                            <span class="mr-2">Lv:<?=$before_enemy->getLevel()?></span>
+                            <span class="mr-2"><?=$before_enemy->getSaName(false)?></span>
+                        </p>
                         <div class="form-group">
                             <div class="progress">
                                 <div id="hpbar-enemy"
                                 class="progress-bar bg-success"
                                 role="progressbar"
-                                style="width:<?=$controller->getBeforeRemainingHp($enemy, 'per')?>%;"
-                                aria-valuenow="<?=$controller->getBeforeRemainingHp($enemy)?>"
+                                style="width:<?=$before_enemy->getRemainingHp('per')?>%;"
+                                aria-valuenow="<?=$before_enemy->getRemainingHp()?>"
                                 aria-valuemin="0"
-                                aria-valuemax="<?=$enemy->getStats('HP')?>"></div>
+                                aria-valuemax="<?=$before_enemy->getStats('HP')?>"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-6 text-center">
-                        <img src="/Assets/img/pokemon/dots/front/<?=get_class($enemy)?>.gif" alt="<?=$enemy->getName()?>">
+                        <img src="/Assets/img/pokemon/dots/front/<?=get_class($before_enemy)?>.gif" alt="<?=$before_enemy->getName()?>">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <?php # 自ポケモン詳細 ?>
                     <div class="col-6 text-center">
-                        <img src="/Assets/img/pokemon/dots/back/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>">
+                        <img src="/Assets/img/pokemon/dots/back/<?=get_class($before_pokemon)?>.gif" alt="<?=$before_pokemon->getName()?>">
                     </div>
                     <div class="col-6">
-                        <p><?=$pokemon->getNickName()?> Lv:<?=$pokemon->getLevel()?> <?=$pokemon->getSaName(false)?></p>
+                        <p>
+                            <span class="mr-2"><?=$pokemon->getNickName()?></span>
+                            <span class="mr-2">Lv:<span id="level"><?=$before_pokemon->getLevel()?></span></span>
+                            <span class="mr-2"><?=$before_pokemon->getSaName(false)?></span>
+                        </p>
                         <div class="form-group">
                             <div class="progress">
-                                <?php if($controller->getBeforeRemainingHp($pokemon, 'per') <= 50) $hp_bar_class = 'bg-warning'; ?>
-                                <?php if($controller->getBeforeRemainingHp($pokemon, 'per') <= 20) $hp_bar_class = 'bg-danger'; ?>
+                                <?php if($before_pokemon->getRemainingHp('per') <= 50) $hp_bar_class = 'bg-warning'; ?>
+                                <?php if($before_pokemon->getRemainingHp('per') <= 20) $hp_bar_class = 'bg-danger'; ?>
                                 <div id="hpbar-friend"
                                 class="progress-bar <?=$hp_bar_class ?? 'bg-success'?>"
                                 role="progressbar"
-                                style="width:<?=$controller->getBeforeRemainingHp($pokemon, 'per')?>%;"
-                                aria-valuenow="<?=$controller->getBeforeRemainingHp($pokemon)?>"
+                                style="width:<?=$before_pokemon->getRemainingHp('per')?>%;"
+                                aria-valuenow="<?=$before_pokemon->getRemainingHp()?>"
                                 aria-valuemin="0"
-                                aria-valuemax="<?=$pokemon->getStats('HP')?>"></div>
+                                aria-valuemax="<?=$before_pokemon->getStats('HP')?>"></div>
                             </div>
                             <p class="text-right px-3">
-                                <span id="remaining-hp-count-friend"><?=$controller->getBeforeRemainingHp($pokemon)?></span>
-                                / <?=$pokemon->getStats('HP')?>
+                                <span id="remaining-hp-count-friend"><?=$before_pokemon->getRemainingHp()?></span>
+                                / <span id="max-hp-count-friend"><?=$before_pokemon->getStats('HP')?></span>
                             </p>
                             <?php # 経験値バー ?>
                             <div class="progress" style="height:4px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width:<?=$pokemon->getPerCompNexExp()?>%;" aria-valuenow="<?=$pokemon->getPerCompNexExp()?>" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div id="expbar"
+                                class="progress-bar bg-primary"
+                                role="progressbar"
+                                style="width:<?=$before_pokemon->getPerCompNexExp()?>%;"
+                                aria-valuenow="<?=$before_pokemon->getPerCompNexExp()?>"
+                                aria-valuemin="0"
+                                aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -109,10 +114,10 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                                 <?php $class = $key === $controller->getMessageFirstKey() ? 'active' : ''; ?>
                                 <?php $last_class = $key === $controller->getMessageLastKey() ? 'last-message' : ''; ?>
                                 <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"
-                                    data-action="<?=$responses[$status]['action'] ?? ''?>"
-                                    data-target="<?=$responses[$status]['target'] ?? ''?>"
-                                    data-param="<?=$responses[$status]['param'] ?? ''?>"
-                                    data-auto="<?=$auto ?? ''?>">
+                                    data-action='<?=$responses[$status]['action'] ?? ''?>'
+                                    data-target='<?=$responses[$status]['target'] ?? ''?>'
+                                    data-param='<?=$responses[$status]['param'] ?? ''?>'
+                                    data-auto='<?=$auto ?? ''?>'>
                                     <?=$msg?>
                                 </p>
                             <?php endforeach; ?>
@@ -122,7 +127,15 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                     <div class="col-12 col-sm-6">
                         <div class="row">
                             <div class="col-6 mb-2">
-                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-move-modal" id="action-btn-fight">たたかう</button>
+                                <?php if($pokemon->checkUsedMove()): ?>
+                                    <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-move-modal" id="action-btn-fight">たたかう</button>
+                                <?php else: ?>
+                                    <form method="post">
+                                        <input type="hidden" name="action" value="fight">
+                                        <input type="submit" class="btn btn-outline-light btn-block action-btn" value="たたかう">
+                                        <?php input_token(); ?>
+                                    </form>
+                                <?php endif; ?>
                             </div>
                             <div class="col-6 mb-2">
                                 <button type="button" class="btn btn-outline-light btn-block action-btn" id="action-btn-item">どうぐ</button>
