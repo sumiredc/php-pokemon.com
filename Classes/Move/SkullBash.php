@@ -71,10 +71,8 @@ class SkullBash extends Move
         /**
         * @param Pokemon $atk 攻撃ポケモン
         */
-        // 状態変化の取得
-        $sc = $atk->getSc();
         // チャージ前後の分岐
-        if(isset($sc['ScCharge'])){
+        if($atk->checkChargeMove(get_class())){
             // チャージ完了
             $atk->releaseSc('ScCharge');
             return false;

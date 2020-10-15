@@ -40,6 +40,12 @@ abstract class Move
     protected $one_hit_knockout_failed_msg = '::pokemonには全然効いていない！';
 
     /**
+    * チャージ中に回避できない技
+    * @var array
+    */
+    protected $cant_escape_move = [];
+
+    /**
     * インスタンス作成時に実行される処理
     *
     * @return void
@@ -52,7 +58,7 @@ abstract class Move
     /**
     * チャージ効果
     *
-    * @param object Pokemon $atk
+    * @param Pokemon:object $atk
     * @return void
     */
     public function charge($atk)
@@ -64,7 +70,7 @@ abstract class Move
     /**
     * 技の失敗
     *
-    * @param object Pokemon $atk
+    * @param Pokemon:object  $atk
     * @return void
     */
     public function failed($atk)
@@ -86,11 +92,23 @@ abstract class Move
     /**
     * 追加効果（ダメージ計算後に実行）
     *
+    * @param mixed
     * @return void
     */
     public function effects(...$args)
     {
         //
+    }
+
+    /**
+    * 威力補正値の取得
+    *
+    * @param mixed
+    * @return integer
+    */
+    public function powerCorrection(...$args)
+    {
+        return 1;
     }
 
     /**
@@ -116,7 +134,7 @@ abstract class Move
     /**
     * タイプの取得
     *
-    * @return object
+    * @return Type:object
     */
     public function getType()
     {
@@ -226,6 +244,15 @@ abstract class Move
     public function getFixedDamageFlg()
     {
         return $this->fixed_damage_flg;
+    }
+
+    /**
+    * チャージ中に回避できない技を取得（チャージ技の場合）
+    * @return array
+    */
+    public function getCantEscapeMove()
+    {
+        return $this->cant_escape_move;
     }
 
     /**

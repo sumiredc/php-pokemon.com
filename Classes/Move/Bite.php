@@ -63,7 +63,7 @@ class Bite extends Move
     public function effects(...$args)
     {
         // 30%の確率
-        if(30 < random_int(0, 100)){
+        if(30 < random_int(1, 100)){
             // random_intで31以上が生成されたら失敗
             return;
         }

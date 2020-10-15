@@ -42,17 +42,20 @@ class Mew extends Pokemon
     * @var array
     */
     protected $level_move = [
-        // [1, 'HighJumpKick'],        # とびひざげり
-        // [1, 'HyperBeam'],           # はかいこうせん
+        // [1, 'Fissure'],        # じわれ
+        [1, 'HighJumpKick'],        # とびひざげり
+        [1, 'HyperBeam'],           # はかいこうせん
         [1, 'LeechSeed'],           # やどりぎのたね
         // [1, 'ConfuseRay'],          # あやしいひかり
         // [1, 'SeismicToss'],         # ちきゅうなげ
-        // [1, 'Psywave'],             # サイコウェーブ
+        [1, 'Psywave'],             # サイコウェーブ
         // [1, 'Counter'],             # カウンター
         // [1, 'Rage'],                # いかり
-        [1, 'SandAttack'],          # すなかけ
-        [1, 'Whirlwind'],           # ふきとばし
-        [1, 'DoubleTeam'],          # かげぶんしん
+        // [1, 'SandAttack'],          # すなかけ
+        // [1, 'Whirlwind'],           # ふきとばし
+        // [1, 'DoubleTeam'],          # かげぶんしん
+        // [1, 'Fly'],                 # そらをとぶ
+        // [1, 'Dig'],                 # あなをほる
     ];
 
     /**

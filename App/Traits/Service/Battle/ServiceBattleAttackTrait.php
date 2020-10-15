@@ -158,12 +158,14 @@ trait ServiceBattleAttackTrait
                 $m *= $this->calRandNum();
                 // タイプ一致補正の計算
                 $this->calMatchType($move->getType(), $atk_pokemon->getTypes());
+                // 技威力の取得(威力補正込み)
+                $power = $move->getPower() * $move->powerCorrection($atk_pokemon, $def_pokemon);
                 // ダメージ計算
                 $damage = (int)$this->calDamage(
                     $atk_pokemon->getLevel(),   # 攻撃ポケモンのレベル
                     $stats['a'],                # 攻撃ポケモンの攻撃値
                     $stats['d'],                # 防御ポケモンの防御値
-                    $move->getPower(),          # 技の威力
+                    $power,                     # 技の威力
                     $this->m * $m,              # 補正値(プロパティ*ローカル)
                 );
                 // やけど補正
@@ -227,6 +229,16 @@ trait ServiceBattleAttackTrait
                 return false;
             }
         }
+        // 相手のチャージ状態による判定チェック
+        $charge_move_class = $def->getChargeMove();
+        if(in_array($charge_move_class, ['Fly', 'Dig'], true)){
+            $charge_move = new $charge_move_class;
+            // 攻撃技が回避できない技リストになければ失敗
+            if(!in_array(get_class($move), $charge_move->getCantEscapeMove(), true)){
+                $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
+                return false;
+            }
+        }
         // 一撃必殺技のチェック
         if($move->getOneHitKnockoutFlg()){
             if($atk->getLevel() < $def->getLevel()){
@@ -274,9 +286,9 @@ trait ServiceBattleAttackTrait
         }
         /**
         * 0〜100からランダムで数値を取得して、それより小さければ命中
-        * 例：命中80%→mt_randで60が生成されたら成功、90なら失敗
+        * 例：命中80%→random_intで60が生成されたら成功、90なら失敗
         */
-        if($accuracy >= mt_rand(0, 100)){
+        if($accuracy >= random_int(1, 100)){
             // 攻撃成功
             return true;
         }
@@ -427,7 +439,7 @@ trait ServiceBattleAttackTrait
         * 0〜10000からランダムで数値を取得して、それより小さければ急所
         * 確率（$chance）は*100して整数で比較する
         */
-        if(($chance * 100) >= (mt_rand(0, 10000))){
+        if(($chance * 100) >= (random_int(1, 10000))){
             // 急所に当たった
             return 1.5;
         }
@@ -443,7 +455,7 @@ trait ServiceBattleAttackTrait
     private function calRandNum()
     {
         // 85〜100の乱数をかけ、その後100で割る
-        return mt_rand(85, 100) / 100;
+        return random_int(85, 100) / 100;
     }
 
     /**

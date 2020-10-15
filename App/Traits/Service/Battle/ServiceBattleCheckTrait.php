@@ -86,7 +86,7 @@ trait ServiceBattleCheckTrait
             case 'SaParalysis':
             // 1/4の確率で行動不能
             $paralysis = new SaParalysis;
-            if(random_int(1, 4) === 1){
+            if(!random_int(0, 3)){
                 $this->setMessage($paralysis->getFailedMessage($pokemon->getPrefixName()));
                 return false;
             }
@@ -97,7 +97,7 @@ trait ServiceBattleCheckTrait
             case 'SaFreeze':
             // 1/5の確率でこおり解除
             $freeze = new SaFreeze;
-            if(random_int(1, 5) === 1){
+            if(!random_int(0, 4)){
                 // こおり解除
                 $pokemon->releaseSa();
                 $this->setMessage($freeze->getRecoveryMessage($pokemon->getPrefixName()));

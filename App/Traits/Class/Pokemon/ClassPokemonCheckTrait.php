@@ -17,9 +17,26 @@ trait ClassPokemonCheckTrait
     }
 
     /**
+    * チャージ技の確認メソッド
+    * @param string $move_class
+    * @return void
+    */
+    public function checkChargeMove($move_class)
+    {
+        if(
+            isset($this->sc['ScCharge']) &&
+            $this->sc['ScCharge']['param'] === $move_class
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
     * 現在のレベルで覚えられる技があるか確認する処理
     *
-    * @return integer
+    * @return void
     */
     protected function checkMove()
     {
@@ -38,4 +55,19 @@ trait ClassPokemonCheckTrait
         }
     }
 
+    /**
+    * 使用できる技があるかどうか調べる処理
+    *
+    * @return boolean
+    */
+    public function checkUsedMove()
+    {
+        foreach($this->move as $move){
+            // PPが残っているか確認
+            if(!empty($move['remaining'])){
+                return true;
+            }
+        }
+        return false;
+    }
 }

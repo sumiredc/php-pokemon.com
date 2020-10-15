@@ -106,7 +106,7 @@ class RunService extends Service
         // 計算式への当てはめ
         $f = ($a * 128 / $b) + 30 * $c;
         // 確率計算
-        if(round($f / 256, 2) * 100 >= mt_rand(0, 100)){
+        if(round($f / 256, 2) * 100 >= random_int(1, 100)){
             return true;    # 逃走成功
         }else{
             return false;   # 逃走失敗

@@ -55,6 +55,27 @@ class Thunder extends Move
     protected $priority = 0;
 
     /**
+    * 威力補正値の取得
+    *
+    * @param mixed
+    * @return integer
+    */
+    public function powerCorrection(...$args)
+    {
+        /**
+        * @param Pokemon:object $atk 攻撃ポケモン
+        * @param Pokemon:object $def 防御ポケモン
+        */
+        list($atk, $def) = $args;
+        // もし相手がそらをとぶチャージ中なら威力2倍
+        if($def->getChargeMove() === 'Fly'){
+            return 2;
+        }
+        // 通常補正値
+        return 1;
+    }
+
+    /**
     * 追加効果
     *
     * @param array $args
@@ -69,7 +90,7 @@ class Thunder extends Move
         list($atk, $def) = $args;
         // 相手が状態異常にかかっていない
         // 30%の確率
-        if($def->getSa() || 30 < random_int(0, 100)){
+        if($def->getSa() || 30 < random_int(1, 100)){
             return;
         }
         // 相手をまひ状態にする

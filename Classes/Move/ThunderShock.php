@@ -69,7 +69,7 @@ class ThunderShock extends Move
         list($atk, $def) = $args;
         // 相手が状態異常にかかっていない
         // 10%の確率
-        if($def->getSa() || 10 < random_int(0, 100)){
+        if($def->getSa() || 10 < random_int(1, 100)){
             return;
         }
         // 相手をまひ状態にする

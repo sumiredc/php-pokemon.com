@@ -16,7 +16,7 @@ class Whirlwind extends Move
     * 説明文
     * @var string
     */
-    protected $description = '';
+    protected $description = '野生ポケモンとの戦闘を終了させる。トレーナー戦で使うと、相手ポケモンをランダムに交代させる。';
 
     /**
     * タイプ
