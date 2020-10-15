@@ -12,14 +12,27 @@
             </thead>
             <tbody>
                 <?php foreach($pokemon->getMove() as $key => $move): ?>
-                    <tr class="move-table-row" data-key="<?=$key?>">
-                        <th scope="row" class="w-50"><?=$move['class']->getName()?></th>
-                        <td><?=$move['class']->getType()->getName()?></td>
-                        <td><?=$move['remaining']?>/<?=$move['class']->getPp($move['correction'])?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-    <?php input_token(); ?>
+                    <?php if(empty($move['remaining'])):?>
+                        <tr class="bg-light text-secondary"
+                        style="cursor:not-allowed;">
+                    <?php else: ?>
+                        <tr class="move-table-row"
+                        data-key="<?=$key?>">
+                    <?php endif; ?>
+                    <th scope="row" class="w-50"><?=$move['class']->getName()?></th>
+                    <td><?=$move['class']->getType()->getName()?></td>
+                    <td>
+                        <?php if(empty($move['remaining'])):?>
+                            <span class="text-danger"><?=$move['remaining']?></span>
+                        <?php else: ?>
+                            <?=$move['remaining']?>
+                        <?php endif; ?>
+                        /<?=$move['class']->getPp($move['correction'])?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<?php input_token(); ?>
 </form>
