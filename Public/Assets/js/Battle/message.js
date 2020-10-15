@@ -66,10 +66,26 @@ var actionMsgBox = function(now){
                 //
                 case 'hpbar':
                 await doAnimateHpBar(
-                    now.data('action'),
                     now.data('target'),
                     now.data('param')
                 );
+                break;
+                // ==============================================
+                // 経験値バーの処理 =============================
+                //
+                case 'expbar':
+                await doAnimateExpBar(
+                    now.data('param')
+                );
+                break;
+                // ==============================================
+                // レベルアップ処理 =============================
+                //
+                case 'levelup':
+                await doAnimateLevelUp(
+                    now.data('param')
+                );
+                break;
                 // ==============================================
             }
             // 次のメッセージへ
@@ -79,15 +95,17 @@ var actionMsgBox = function(now){
     });
 }
 
+// ==============================================
+// HPバーの処理 =================================
+//
 /**
 * HPバーのアニメーションを実行
-* @param string action
 * @param string target
 * @param mixed param
 * @param now element
 * @return Promise
 **/
-var doAnimateHpBar = function(action, target, param){
+var doAnimateHpBar = function(target, param){
     return new Promise((resolve, reject) => {
         // 対象のHPバーを取得
         var hpbar = $('#hpbar-' + target);
@@ -175,6 +193,74 @@ var countHp = function(start, end){
         }, time);
     });
 }
+
+// ==============================================
+// 経験値バーの処理 =============================
+//
+/**
+* 経験値バーのアニメーションを実行
+* @param mixed param
+* @return Promise
+**/
+var doAnimateExpBar = function(param){
+    return new Promise ((resolve, reject) => {
+        var expbar = $("#expbar");
+        // EXPの現在の値を変更
+        expbar.attr('aria-valuenow', param);
+        // 経験値バーの長さを100%にする
+        expbar.animate({
+            width: param + "%"
+        }, {
+            duration: 500,
+            easing: 'easeOutQuad',
+            complete: function(){
+                // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
+                setTimeout(function() {
+                    resolve();
+                }, 500);
+            }
+        });
+    });
+}
+
+// ==============================================
+// レベルアップ処理 =============================
+//
+/**
+* 経験値バーのアニメーションを実行
+* @param json
+* @return Promise
+**/
+var doAnimateLevelUp = function(param){
+    return new Promise ((resolve, reject) => {
+        var expbar = $("#expbar");
+        expbar.hide();
+        expbar.css('width', 0);
+        // レベルアップ
+        $("#level").text(param.level);
+        // HPバーの変更
+        var hpbar = $("#hpbar-friend");
+        hpbar.attr('aria-valuenow', param.remaining_hp);
+        hpbar.attr('aria-valuemax', param.max_hp);
+        hpbar.css('width', param.remaining_hp_per + '%');
+        // 経験値バーをリセット
+        expbar.animate({
+            width: 0
+        }, {
+            duration: 1,
+            easing: 'easeOutQuad',
+            complete: function(){
+                // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
+                setTimeout(function() {
+                    expbar.show();
+                    resolve();
+                }, 500);
+            }
+        });
+    });
+}
+
+// ==============================================
 
 /**
 * 次のメッセージへ移行する処理

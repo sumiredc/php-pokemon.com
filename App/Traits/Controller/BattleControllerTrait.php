@@ -26,9 +26,8 @@ trait BattleControllerTrait
             $this->pokemon
             ->setSc($_SESSION['__data']['sc']['pokemon']);
         }
-        // 前ターンのHP（現在の残りHP）をプロパティに格納
-        $this->before_remaining_hp['friend'] = $this->pokemon
-        ->getRemainingHp();
+        // 前ターンの状態をプロパティに格納
+        $this->before['friend'] = clone $this->pokemon;
     }
 
     /**
@@ -41,9 +40,8 @@ trait BattleControllerTrait
     {
         if(!empty($enemy)){
             $this->enemy = new $enemy['class_name']($enemy);
-            // 前ターンのHP（現在の残りHP）をプロパティに格納
-            $this->before_remaining_hp['enemy'] = $this->enemy
-            ->getRemainingHp();
+            // 前ターンの状態をプロパティに格納
+            $this->before['enemy'] = clone $this->enemy;
         }
         // ランク（バトルステータス）の引き継ぎ
         if(isset($_SESSION['__data']['rank'])){
@@ -88,17 +86,11 @@ trait BattleControllerTrait
     * 前のターンの残りHPを取得（HPバー用）
     *
     * @param Pokemon:object $pokemon
-    * @param string $param (per)
     * @return numeric
     */
-    public function getBeforeRemainingHp($pokemon, $param='')
+    public function getBefore($pokemon)
     {
-        if($param === 'per'){
-            // 最大HPとの比率を%で取得(数値で返却)
-            return $this->before_remaining_hp[$pokemon->getPosition()] / $pokemon->getStats('HP') * 100;
-        }else{
-            return $this->before_remaining_hp[$pokemon->getPosition()];
-        }
+        return $this->before[$pokemon->getPosition()];
     }
 
     /**
@@ -121,8 +113,14 @@ trait BattleControllerTrait
             // 努力値を獲得
             $this->pokemon
             ->setEv($this->enemy->getRewardEv());
-            // ポケモンに溜まったメッセージを取得
+            // ポケモンに溜まったメッセージとレスポンスを取得
             $this->setMessage($this->pokemon->getMessages());
+            $this->setResponse($this->pokemon->getResponses());
+            // メッセージとレスポンスを初期化
+            $this->pokemon
+            ->resetMessage();
+            $this->pokemon
+            ->resetResponse();
         }
         // バトル終了判定用メッセージの格納
         $this->setEmptyMessage('battle-end');

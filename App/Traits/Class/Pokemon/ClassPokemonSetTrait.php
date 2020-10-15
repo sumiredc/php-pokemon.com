@@ -108,7 +108,9 @@ trait ClassPokemonSetTrait
         $next_exp = $this->getReqLevelUpExp();
         // 経験値を加算
         $this->exp += (int)$exp;
-        $this->setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', 'success');
+        // メッセージIDを生成
+        $msg_id = $this->issueMsgId();
+        $this->setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
         // レベル上限の確認
         if($this->level >= 100){
             return $this;
@@ -118,11 +120,26 @@ trait ClassPokemonSetTrait
             /**
             * 次のレベルに必要な経験値を超えている場合
             */
-            $this->actionLevelUp();
+            // レベルアップ処理
+            $this->actionLevelUp($msg_id);
+            // レベルアップ処理ループ
             while($this->getReqLevelUpExp() < 0){
-                $this->actionLevelUp();
+                // メッセージIDを再生成
+                $msg_id = $this->issueMsgId();
+                $this->setAutoMessage($msg_id);
+                // レベルアップ処理
+                $this->actionLevelUp($msg_id);
             }
+            // 全レベルアップ処理終了後、メッセージIDを再生成
+            $msg_id = $this->issueMsgId();
+            $this->setEmptyMessage($msg_id);
         }
+        // 経験値バーの最終アニメーション用レスポンス
+        $this->setResponse([
+            'param' => $this->getPerCompNexExp(),
+            'action' => 'expbar',
+        ], $msg_id);
+
         // 進化判定
         if(isset($levelup) && isset($this->evolve_level) && ($this->evolve_level <= $this->level)){
             return $this->evolve();
@@ -164,15 +181,10 @@ trait ClassPokemonSetTrait
     */
     protected function setIv()
     {
-        /**
-        * 個体値のランダム生成（コールバック用）
-        * @return integer
-        */
-        function randIv(){
+        $this->iv = array_map(function(){
             // 0〜31の間でランダムの数値を割り振る
-            return mt_rand(0, 31);
-        }
-        $this->iv = array_map('randIv', $this->iv);
+            return random_int(0, 31);
+        }, $this->iv);
     }
 
     /**

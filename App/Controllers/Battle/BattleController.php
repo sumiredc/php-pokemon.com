@@ -36,13 +36,14 @@ class BattleController extends Controller
     ];
 
     /**
-    * 前ターンのHP
+    * 前ターンのポケモンの状態
     * @var array
     */
-    protected $before_remaining_hp = [
-        'friend' => 0,
-        'enemy' => 0,
+    protected $before = [
+        'friend' => null,
+        'enemy' => null,
     ];
+
 
     /**
     * @return void
@@ -95,9 +96,8 @@ class BattleController extends Controller
                 $service->execute();
                 // 実行結果
                 $this->enemy = $service->getResponse('enemy');
-                // 前ターンのHP（現在の残りHP）をプロパティに格納
-                $this->before_remaining_hp['enemy'] = $this->enemy
-                ->getRemainingHp();
+                // 前ターンの状態をプロパティに格納
+                $this->before['enemy'] = clone $this->enemy;
                 $this->setMessage($service->getMessages());
                 $this->setResponse($service->getResponses());
                 break;
