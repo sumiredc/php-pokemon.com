@@ -116,11 +116,10 @@ trait BattleControllerTrait
             // ポケモンに溜まったメッセージとレスポンスを取得
             $this->setMessage($this->pokemon->getMessages());
             $this->setResponse($this->pokemon->getResponses());
-            // メッセージとレスポンスを初期化
+            $this->setModal($this->pokemon->getModals(), true);
+            // 全レスポンスを初期化
             $this->pokemon
-            ->resetMessage();
-            $this->pokemon
-            ->resetResponse();
+            ->resetAll();
         }
         // バトル終了判定用メッセージの格納
         $this->setEmptyMessage('battle-end');

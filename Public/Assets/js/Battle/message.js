@@ -28,8 +28,9 @@ var clickMsgBoxInit = function(){
     var click = true;
     // 変数をリセット
     auto_msg = false;
-    $('.message-box').click(async function(){
+    $('.action-message-box').click(async function(){
         if(click === false) return;
+        $(".message-scroll-icon").hide();
         // メッセージボックスを処理終了まで無効化
         click = false;
         // 現在のメッセージ

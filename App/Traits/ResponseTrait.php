@@ -8,10 +8,16 @@ trait ResponseTrait
     private $msgs = [];
 
     /**
-    * レスポンステータの格納用
+    * レスポンスデータの格納用
     * @var array
     */
     private $responses = [];
+
+    /**
+    * モーダルの格納用
+    * @var array
+    */
+    private $modals = [];
 
     /**
     * メッセージの取得
@@ -149,6 +155,47 @@ trait ResponseTrait
     }
 
     /**
+    * モーダルテータの取得
+    *
+    * @return array
+    */
+    public function getModals()
+    {
+        return $this->modals;
+    }
+
+    /**
+    * モーダル用テータの格納
+    *
+    * @param array $param
+    * @param boolean $merge
+    * @return array
+    */
+    public function setModal(array $param, bool $merge=false)
+    {
+        if(empty($param)){
+            // 空の場合はスキップ
+            return;
+        }
+        if($merge){
+            // 結合（引き継ぎ）
+            $this->modals = array_merge($this->modals, $param);
+        }else{
+            $this->modals[] = $param;
+        }
+    }
+
+    /**
+    * モーダル情報の初期化
+    *
+    * @return void
+    */
+    public function resetModal()
+    {
+        $this->modals = [];
+    }
+
+    /**
     * 指定されたプロパティをレスポンスにセット(出力)
     *
     * @return void
@@ -185,6 +232,18 @@ trait ResponseTrait
         }
         $_SESSION['__message_ids'][] = $id;
         return $id;
+    }
+
+    /**
+    * 全リセット
+    *
+    * @return void
+    */
+    public function resetAll()
+    {
+        $this->messages = [];
+        $this->responses = [];
+        $this->modals = [];
     }
 
 }

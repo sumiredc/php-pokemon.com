@@ -213,11 +213,17 @@ abstract class Pokemon
         $this->setAutoMessage($msg_id1);
         // レベルアップメッセージ
         $this->setMessage($this->getNickName().'のレベルは'.$this->level.'になった！', $msg_id2);
-        // ステータスモーダルを用意
+        // レスポンスデータをセット
         $this->setResponse([
-            'stats' => $this->getStats(),
-            'action' => 'modal',
+            'toggle' => 'modal',
+            'target' => '#'.$msg_id2.'-modal',
         ], $msg_id2);
+        // モーダル用のレスポンスをセット
+        $this->setModal([
+            'id' => $msg_id2,
+            'modal' => 'levelup',
+            'stats' => $this->getStats(),
+        ]);
         // 現在のレベルで習得できる技があるか確認
         $this->checkMove();
     }

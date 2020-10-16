@@ -24,14 +24,38 @@ figure.first-pokemon{
 }
 .result-message{
     display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    margin-bottom: 0;
 }
 .result-message.active{
     display: block;
 }
 .message-scroll-icon{
     position: absolute;
+    pointer-events: none;
     right: 8px;
     bottom: 8px;
+    /* 点滅 */
+    -webkit-animation:blink 1s ease-in-out infinite alternate;
+    -moz-animation:blink 1s ease-in-out infinite alternate;
+    animation:blink 1s ease-in-out infinite alternate;
+}
+@-webkit-keyframes blink{
+    0% {opacity:0.1;}
+    100% {opacity:1;}
+}
+@-moz-keyframes blink{
+    0% {opacity:0.1;}
+    100% {opacity:1;}
+}
+@keyframes blink{
+    0% {opacity:0.1;}
+    100% {opacity:1;}
 }
 .move-table-row{
     cursor: pointer;

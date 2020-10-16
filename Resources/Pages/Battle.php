@@ -108,7 +108,7 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
             <section class="position-relative">
                 <div class="row">
                     <div class="col-12 col-sm-6">
-                        <div class="message-box border p-3 mb-3">
+                        <div class="message-box action-message-box border p-3 mb-3">
                             <?php # メッセージエリア ?>
                             <?php foreach($controller->getMessages() as $key => list($msg, $status, $auto)): ?>
                                 <?php $class = $key === $controller->getMessageFirstKey() ? 'active' : ''; ?>
@@ -117,11 +117,12 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                                     data-action='<?=$responses[$status]['action'] ?? ''?>'
                                     data-target='<?=$responses[$status]['target'] ?? ''?>'
                                     data-param='<?=$responses[$status]['param'] ?? ''?>'
+                                    data-toggle='<?=$responses[$status]['toggle'] ?? ''?>'
                                     data-auto='<?=$auto ?? ''?>'>
                                     <?=$msg?>
                                 </p>
                             <?php endforeach; ?>
-                            <span class="message-scroll-icon">▼</span>
+                            <span class="message-scroll-icon small">【CLICK】</span>
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
@@ -163,6 +164,9 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
         <input type="hidden" name="action" id="remote-form-action">
         <?php input_token(); ?>
     </form>
+    <?php foreach($controller->getModals() as $modal): ?>
+        <?php include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php'); ?>
+    <?php endforeach; ?>
     <?php
     # モーダルの読み込み
     include($root_path.'/Resources/Partials/Battle/Modals/move.php');
