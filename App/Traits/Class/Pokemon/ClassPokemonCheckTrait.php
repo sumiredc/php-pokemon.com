@@ -45,11 +45,12 @@ trait ClassPokemonCheckTrait
         foreach($level_move_keys as $key){
             $move_class = $this->level_move[$key][1];
             // 覚えようとしている技（クラス）が存在かつ重複していないか
-            if(class_exists($move_class) && !in_array($move_class, $this->move, true)){
-                // 技クラスをセット
-                $this->setMove($move_class);
+            if(!in_array($move_class, array_column($this->move, 'class'), true)){
                 // インスタンス化
                 $move = new $move_class();
+                // 技クラスをセット
+                $this->setMove($move);
+
                 $this->setMessage($move->getName().'を覚えた！', 'success');
             }
         }

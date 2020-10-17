@@ -80,6 +80,10 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
                     </div>
                 </div>
             </section>
+            <?php
+            # お知らせ
+            include($root_path.'/Resources/Partials/Common/info.php');
+            ?>
         </div>
     </main>
     <?php
