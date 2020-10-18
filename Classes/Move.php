@@ -28,6 +28,12 @@ abstract class Move
     protected $fixed_damage_flg = false;
 
     /**
+    * 能力下降確定技フラグ
+    * @var boolean
+    */
+    protected $confirm_debuff_flg = false;
+
+    /**
     * 攻撃失敗時のメッセージ
     * @var string
     */
@@ -90,12 +96,33 @@ abstract class Move
     }
 
     /**
+    * フィールド効果
+    *
+    * @return array
+    */
+    public function field()
+    {
+        return [];
+    }
+
+    /**
     * 追加効果（ダメージ計算後に実行）
     *
     * @param mixed
     * @return void
     */
     public function effects(...$args)
+    {
+        //
+    }
+
+    /**
+    * 能力下降効果（ダメージ計算後に実行）
+    *
+    * @param mixed
+    * @return void
+    */
+    public function debuff(...$args)
     {
         //
     }
@@ -253,6 +280,15 @@ abstract class Move
     public function getCantEscapeMove()
     {
         return $this->cant_escape_move;
+    }
+
+    /**
+    * 能力下降確定技フラグの取得
+    * @return boolean
+    */
+    public function getConfirmDebuffFlg()
+    {
+        return $this->confirm_debuff_flg;
     }
 
     /**

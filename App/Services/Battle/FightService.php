@@ -3,6 +3,7 @@ $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
 // トレイト
+require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
@@ -13,6 +14,7 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
  */
 class FightService extends Service
 {
+    use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
@@ -34,6 +36,11 @@ class FightService extends Service
     protected $move_number;
 
     /**
+    * @var array
+    */
+    protected $field;
+
+    /**
     * ひんし状態の格納
     * @var array
     */
@@ -45,11 +52,12 @@ class FightService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $move_number)
+    public function __construct($pokemon, $enemy, $move_number, $field)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
         $this->move_number = $move_number;
+        $this->field = $field;
     }
 
     /**
@@ -71,15 +79,14 @@ class FightService extends Service
             [$this->enemy, $this->pokemon, $e_move],
         );
         // 攻撃処理
-        if(!$this->actionAttack($orders)){
-            // どちらかがひんし状態になった
-            $this->exportProperty('fainting');
-            return;
+        if($this->actionAttack($orders)){
+            // 行動後の状態異常・変化をチェック
+            $this->afterCheck();
         }
-        // 行動後の状態異常・変化をチェック
-        $this->afterCheck();
+        // フィールドのカウントを進める
+        $this->goFieldTurn();
         // 指定したプロパティを返却
-        $this->exportProperty('fainting');
+        $this->exportProperty('fainting', 'field');
     }
 
     /**
@@ -180,4 +187,5 @@ class FightService extends Service
             ];
         } # endforeach
     }
+
 }

@@ -3,6 +3,7 @@ $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
 // トレイト
+require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
@@ -13,6 +14,8 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
  */
 class RunService extends Service
 {
+    
+    use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
@@ -35,6 +38,11 @@ class RunService extends Service
     protected $count;
 
     /**
+    * @var array
+    */
+    protected $field;
+
+    /**
     * ひんし状態の格納
     * @var array
     */
@@ -46,11 +54,12 @@ class RunService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $count)
+    public function __construct($pokemon, $enemy, $count, $field)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
         $this->count = $count;
+        $this->field = $field;
     }
 
     /**
@@ -72,16 +81,15 @@ class RunService extends Service
             $this->pokemon
             ->releaseSc('ScRage');
             // 相手ポケモンの攻撃
-            if(!$this->enemyAttack()){
-                // どちらかがひんし状態なら処理終了
-                $this->exportProperty('fainting');
-                return;
+            if($this->enemyAttack()){
+                // 行動後の状態異常・変化をチェック
+                $this->afterCheck();
             }
+            // フィールドのカウントを進める
+            $this->goFieldTurn();
         }
-        // 行動後の状態異常・変化をチェック
-        $this->afterCheck();
         // 指定したプロパティを返却
-        $this->exportProperty('fainting');
+        $this->exportProperty('fainting', 'field');
     }
 
     /**

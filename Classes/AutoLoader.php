@@ -8,7 +8,7 @@ class AutoLoader
     * @return void
     */
     private $folders = [
-        'Move', 'Pokemon', 'Type', 'StatusAilment', 'StateChange',
+        'Move', 'Pokemon', 'Type', 'StatusAilment', 'StateChange', 'Field'
     ];
 
     /**

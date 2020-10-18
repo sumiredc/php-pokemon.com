@@ -148,4 +148,6 @@ trait BattleControllerTrait
         return (int)($exp * $lm ** 2.5 + 1);
     }
 
+    
+
 }

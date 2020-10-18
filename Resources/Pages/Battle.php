@@ -12,6 +12,7 @@ $responses = $controller->getResponses();
 $_SESSION['__data']['pokemon'] = $pokemon->export(); # 自ポケモンの情報をセッションに格納
 $_SESSION['__data']['enemy'] = $enemy->export(); # 敵ポケモンの情報をセッションに格納
 $_SESSION['__data']['run'] = $controller->run; # にげるの実行回数をセッションへ格納
+$_SESSION['__data']['field'] = $controller->getField(); # にげるの実行回数をセッションへ格納
 $_SESSION['__data']['rank'] = [ # ランクをセッションに格納
 'pokemon' => $pokemon->export('rank'),
 'enemy' => $enemy->export('rank'),

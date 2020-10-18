@@ -38,7 +38,7 @@ trait ServiceBattleAttackTrait
     * @param object $move
     * @return void
     */
-    protected function attack($atk_pokemon, $def_pokemon, $move)
+    protected function attack(object $atk_pokemon, object $def_pokemon, object $move)
     {
         // 補正値の初期化
         $this->m = 1;
@@ -193,9 +193,25 @@ trait ServiceBattleAttackTrait
         if($def_pokemon->getRemainingHp()){
             // 追加効果
             $move->effects($atk_pokemon, $def_pokemon);
+            // 能力下降効果
+            $field_mist = new FieldMist;
+            if($this->checkField($def_pokemon->getPosition(), $field_mist)){
+                // 能力下降確定技であれば失敗メッセージを出力
+                if($move->getConfirmDebuffFlg()){
+                    $this->setMessage($field_mist->getFailedMessage($def_pokemon->getPrefixName()));
+                }
+            }else{
+                $move->debuff($atk_pokemon, $def_pokemon);
+            }
             // メッセージとレスポンスを格納
             $this->setMessage($move->getMessages());
             $this->setResponse($move->getResponses());
+            // フィールド効果
+            if($move->field()){
+                $field = $move->field();
+                // フィールドをセット
+                $this->setField($atk_pokemon->getPosition(), new $field['class'], $field['turn']);
+            }
             // メッセージとレスポンスをリセット
             $move->resetMessage();
             $move->resetResponse();

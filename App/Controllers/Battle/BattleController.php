@@ -6,12 +6,14 @@ require_once($root_path.'/App/Services/Battle/StartService.php');
 require_once($root_path.'/App/Services/Battle/RunService.php');
 require_once($root_path.'/App/Services/Battle/FightService.php');
 // トレイト
+require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
 
 // バトル用コントローラー
 class BattleController extends Controller
 {
 
+    use CommonFieldTrait;
     use BattleControllerTrait;
 
     /**
@@ -27,10 +29,19 @@ class BattleController extends Controller
     public $run = 0;
 
     /**
+    * フィールド効果
+    * @var integer
+    */
+    protected $field = [
+        'friend' => [],
+        'enemy' => [],
+    ];
+
+    /**
     * ひんし状態の格納
     * @var array
     */
-    private $fainting = [
+    protected $fainting = [
         'friend' => false,
         'enemy' => false,
     ];
@@ -43,7 +54,6 @@ class BattleController extends Controller
         'friend' => null,
         'enemy' => null,
     ];
-
 
     /**
     * @return void
@@ -71,6 +81,10 @@ class BattleController extends Controller
         // にげるの実行回数を引き継ぎ
         if(isset($_SESSION['__data']['run'])){
             $this->run = $_SESSION['__data']['run'];
+        }
+        // フィールド状態を引き継ぎ
+        if(isset($_SESSION['__data']['field'])){
+            $this->field = $_SESSION['__data']['field'];
         }
         // ポケモンの引き継ぎ
         $this->takeOverPokemon($_SESSION['__data']['pokemon']);
@@ -110,10 +124,12 @@ class BattleController extends Controller
                     $this->pokemon,
                     $this->enemy,
                     $this->request('param'),
+                    $this->field
                 );
                 $service->execute();
                 // 実行結果
                 $this->fainting = $service->getResponse('fainting');
+                $this->field = $service->getResponse('field');
                 $this->setMessage($service->getMessages());
                 $this->setResponse($service->getResponses());
                 break;
@@ -127,13 +143,15 @@ class BattleController extends Controller
                 $service = new RunService(
                     $this->pokemon,
                     $this->enemy,
-                    $this->run
+                    $this->run,
+                    $this->field
                 );
                 $service->execute();
                 // 実行結果
                 if(!$service->getResponse('result')){
                     // 失敗
                     $this->fainting = $service->getResponse('fainting');
+                    $this->field = $service->getResponse('field');
                 }
                 $this->setMessage($service->getMessages());
                 $this->setResponse($service->getResponses());
@@ -174,7 +192,8 @@ class BattleController extends Controller
             $_SESSION['__data']['enemy'],
             $_SESSION['__data']['rank'],
             $_SESSION['__data']['sc'],
-            $_SESSION['__data']['run']
+            $_SESSION['__data']['run'],
+            $_SESSION['__data']['field']
         );
         $_SESSION['__route'] = 'home';
         header("Location: ./", true, 307);
