@@ -34,9 +34,9 @@ trait ClassPokemonGetTrait
     public function getPrefixName()
     {
         if($this->position === 'enemy'){
-            return '相手の'.$this->name;
+            return '相手の'.$this->getNickname();
         }else{
-            return $this->name;
+            return $this->getNickname();
         }
     }
 
