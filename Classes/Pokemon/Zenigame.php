@@ -16,7 +16,7 @@ class Zenigame extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Water'];
+    protected $types = ['TypeWater'];
 
     /**
     * 進化後（クラス名）
@@ -49,14 +49,14 @@ class Zenigame extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Tackle'],
-        [1, 'TailWhip'],
-        [8, 'Bubble'],
-        [15, 'WaterGun'],
-        [22, 'Bite'],
-        [28, 'Withdraw'],
-        [35, 'SkullBash'],
-        [42, 'HydroPump'],
+        [1, 'MoveTackle'],
+        [1, 'MoveTailWhip'],
+        [8, 'MoveBubble'],
+        [15, 'MoveWaterGun'],
+        [22, 'MoveBite'],
+        [28, 'MoveWithdraw'],
+        [35, 'MoveSkullBash'],
+        [42, 'MoveHydroPump'],
     ];
 
     /**

@@ -16,7 +16,7 @@ class Hitokage extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Fire'];
+    protected $types = ['TypeFire'];
 
     /**
     * 進化後（クラス名）
@@ -49,14 +49,14 @@ class Hitokage extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Scratch'],
-        [1, 'Growl'],
-        [9, 'Ember'],
-        [15, 'Leer'],
-        [22, 'Rage'],
-        [30, 'Slash'],
-        [38, 'Flamethrower'],
-        [46, 'FireSpin'],
+        [1, 'MoveScratch'],
+        [1, 'MoveGrowl'],
+        [9, 'MoveEmber'],
+        [15, 'MoveLeer'],
+        [22, 'MoveRage'],
+        [30, 'MoveSlash'],
+        [38, 'MoveFlamethrower'],
+        [46, 'MoveFireSpin'],
     ];
 
     /**

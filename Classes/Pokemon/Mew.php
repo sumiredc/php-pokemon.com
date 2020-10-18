@@ -21,7 +21,7 @@ class Mew extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Psychic'];
+    protected $types = ['TypePsychic'];
 
     /**
     * 初期レベル
@@ -42,20 +42,22 @@ class Mew extends Pokemon
     * @var array
     */
     protected $level_move = [
-        // [1, 'Fissure'],        # じわれ
-        [1, 'HighJumpKick'],        # とびひざげり
-        [1, 'HyperBeam'],           # はかいこうせん
-        [1, 'LeechSeed'],           # やどりぎのたね
-        // [1, 'ConfuseRay'],          # あやしいひかり
-        // [1, 'SeismicToss'],         # ちきゅうなげ
-        [1, 'Psywave'],             # サイコウェーブ
-        // [1, 'Counter'],             # カウンター
-        // [1, 'Rage'],                # いかり
-        // [1, 'SandAttack'],          # すなかけ
-        // [1, 'Whirlwind'],           # ふきとばし
-        // [1, 'DoubleTeam'],          # かげぶんしん
-        // [1, 'Fly'],                 # そらをとぶ
-        // [1, 'Dig'],                 # あなをほる
+        // [1, 'MoveFissure'],        # じわれ
+        [1, 'MoveHighJumpKick'],        # とびひざげり
+        // [1, 'MoveHyperBeam'],           # はかいこうせん
+        [1, 'MovePsychic'],           # サイコキネシス
+        [1, 'MoveLeechSeed'],           # やどりぎのたね
+        // [1, 'MoveConfuseRay'],          # あやしいひかり
+        // [1, 'MoveSeismicToss'],         # ちきゅうなげ
+        // [1, 'MovePsywave'],             # サイコウェーブ
+        // [1, 'MoveCounter'],             # カウンター
+        // [1, 'MoveRage'],                # いかり
+        // [1, 'MoveSandAttack'],          # すなかけ
+        // [1, 'MoveWhirlwind'],           # ふきとばし
+        // [1, 'MoveDoubleTeam'],          # かげぶんしん
+        // [1, 'MoveFly'],                 # そらをとぶ
+        // [1, 'MoveDig'],                 # あなをほる
+        [1, 'MoveMist'],           # しろいきり
     ];
 
     /**

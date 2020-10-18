@@ -16,7 +16,7 @@ class Fushigidane extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Grass', 'Poison'];
+    protected $types = ['TypeGrass', 'TypePoison'];
 
     /**
     * 進化後（クラス名）
@@ -49,15 +49,15 @@ class Fushigidane extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Tackle'],
-        [1, 'Growl'],
-        [7, 'LeechSeed'],
-        [13, 'VineWhip'],
-        [20, 'PoisonPowder'],
-        [27, 'RazorLeaf'],
-        [34, 'Growth'],
-        [41, 'SleepPowder'],
-        [48, 'SolarBeam'],
+        [1, 'MoveTackle'],
+        [1, 'MoveGrowl'],
+        [7, 'MoveLeechSeed'],
+        [13, 'MoveVineWhip'],
+        [20, 'MovePoisonPowder'],
+        [27, 'MoveRazorLeaf'],
+        [34, 'MoveGrowth'],
+        [41, 'MoveSleepPowder'],
+        [48, 'MoveSolarBeam'],
     ];
 
     /**

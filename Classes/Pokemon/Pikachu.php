@@ -16,7 +16,7 @@ class Pikachu extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Electric'];
+    protected $types = ['TypeElectric'];
 
     /**
     * 進化後（クラス名）
@@ -43,13 +43,13 @@ class Pikachu extends Pokemon
     * @var array[習得レベル(integer), 技名称(class_name)]
     */
     protected $level_move = [
-        [1, 'ThunderShock'],
-        [1, 'Growl'],
-        [9, 'ThunderWave'],
-        [16, 'QuickAttack'],
-        [26, 'Swift'],
-        [33, 'Agility'],
-        [43, 'Thunder'],
+        [1, 'MoveThunderShock'],
+        [1, 'MoveGrowl'],
+        [9, 'MoveThunderWave'],
+        [16, 'MoveQuickAttack'],
+        [26, 'MoveSwift'],
+        [33, 'MoveAgility'],
+        [43, 'MoveThunder'],
     ];
 
     /**

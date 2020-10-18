@@ -16,7 +16,7 @@ class Lizardo extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Fire'];
+    protected $types = ['TypeFire'];
 
     /**
     * 進化前（クラス名）
@@ -55,15 +55,15 @@ class Lizardo extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Scratch'],
-        [1, 'Growl'],
-        [1, 'Ember'],
-        [9, 'Ember'],
-        [15, 'Leer'],
-        [24, 'Rage'],
-        [33, 'Slash'],
-        [42, 'Flamethrower'],
-        [56, 'FireSpin'],
+        [1, 'MoveScratch'],
+        [1, 'MoveGrowl'],
+        [1, 'MoveEmber'],
+        [9, 'MoveEmber'],
+        [15, 'MoveLeer'],
+        [24, 'MoveRage'],
+        [33, 'MoveSlash'],
+        [42, 'MoveFlamethrower'],
+        [56, 'MoveFireSpin'],
     ];
 
     /**

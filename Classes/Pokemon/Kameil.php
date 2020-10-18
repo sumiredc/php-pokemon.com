@@ -16,7 +16,7 @@ class Kameil extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Water'];
+    protected $types = ['TypeWater'];
 
     /**
     * 進化前（クラス名）
@@ -55,15 +55,15 @@ class Kameil extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Tackle'],
-        [1, 'Tailwhip'],
-        [1, 'Bubble'],
-        [8, 'Bubble'],
-        [15, 'WaterGun'],
-        [24, 'Bite'],
-        [31, 'Withdraw'],
-        [39, 'SkullBash'],
-        [47, 'HydroPump'],
+        [1, 'MoveTackle'],
+        [1, 'MoveTailwhip'],
+        [1, 'MoveBubble'],
+        [8, 'MoveBubble'],
+        [15, 'MoveWaterGun'],
+        [24, 'MoveBite'],
+        [31, 'MoveWithdraw'],
+        [39, 'MoveSkullBash'],
+        [47, 'MoveHydroPump'],
     ];
 
     /**

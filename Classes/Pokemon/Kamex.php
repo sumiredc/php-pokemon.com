@@ -16,7 +16,7 @@ class Kamex extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Water'];
+    protected $types = ['TypeWater'];
 
     /**
     * 進化前（クラス名）
@@ -43,16 +43,16 @@ class Kamex extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Tackle'],
-        [1, 'TailWhip'],
-        [1, 'WaterGun'],
-        [1, 'Bubble'],
-        [8, 'Bubble'],
-        [15, 'WaterGun'],
-        [24, 'Bite'],
-        [31, 'Withdraw'],
-        [42, 'SkullBash'],
-        [52, 'HydroPump'],
+        [1, 'MoveTackle'],
+        [1, 'MoveTailWhip'],
+        [1, 'MoveWaterGun'],
+        [1, 'MoveBubble'],
+        [8, 'MoveBubble'],
+        [15, 'MoveWaterGun'],
+        [24, 'MoveBite'],
+        [31, 'MoveWithdraw'],
+        [42, 'MoveSkullBash'],
+        [52, 'MoveHydroPump'],
     ];
 
     /**

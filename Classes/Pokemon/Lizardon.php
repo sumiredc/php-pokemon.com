@@ -16,7 +16,7 @@ class Lizardon extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Fire', 'Flying'];
+    protected $types = ['TypeFire', 'TypeFlying'];
 
     /**
     * 進化前（クラス名）
@@ -43,16 +43,16 @@ class Lizardon extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'Scratch'],
-        [1, 'Growl'],
-        [1, 'Growl'],
-        [1, 'Ember'],
-        [9, 'Ember'],
-        [15, 'Leer'],
-        [24, 'Rage'],
-        [36, 'Slash'],
-        [46, 'Flamethrower'],
-        [55, 'FireSpin'],
+        [1, 'MoveScratch'],
+        [1, 'MoveGrowl'],
+        [1, 'MoveGrowl'],
+        [1, 'MoveEmber'],
+        [9, 'MoveEmber'],
+        [15, 'MoveLeer'],
+        [24, 'MoveRage'],
+        [36, 'MoveSlash'],
+        [46, 'MoveFlamethrower'],
+        [55, 'MoveFireSpin'],
     ];
 
     /**

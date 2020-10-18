@@ -16,7 +16,7 @@ class Raichu extends Pokemon
     * タイプ
     * @var array
     */
-    protected $types = ['Electric'];
+    protected $types = ['TypeElectric'];
 
     /**
     * 進化前（クラス名）
@@ -43,10 +43,9 @@ class Raichu extends Pokemon
     * @var array
     */
     protected $level_move = [
-        // [1, 'ThunderShock'],
-        // [1, 'Growl'],
-        // [9, 'ThunderWave'],
-        [1, 'Thunder'],
+        [1, 'MoveThunderShock'],
+        [1, 'MoveGrowl'],
+        [9, 'MoveThunderWave'],
     ];
 
     /**
