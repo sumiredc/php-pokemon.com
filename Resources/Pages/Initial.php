@@ -1,7 +1,6 @@
 <?php
 $root_path = __DIR__.'/../..';
-require_once($root_path.'/App/Controllers/Initial/InitialController.php');
-$controller = new InitialController();
+require_once($root_path.'/Resources/Partials/Layouts/Head/initial.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">

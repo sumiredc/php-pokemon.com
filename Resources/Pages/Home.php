@@ -1,10 +1,6 @@
 <?php
 $root_path = __DIR__.'/../..';
-require_once($root_path.'/App/Controllers/Home/HomeController.php');
-require_once($root_path.'/Resources/Lang/Translation.php');
-$controller = new HomeController();
-$pokemon = $controller->getPokemon();
-$_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報をセッションに格納
+require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
