@@ -7,7 +7,3 @@ Header set X-Content-Type-Options nosniff
 <Files ~ "\.(log|ini)$">
     Deny from all
 </Files>
-
-php_value session.gc_maxlifetime 86400
-php_value session.gc_probability 1
-php_value session.gc_divisor 50

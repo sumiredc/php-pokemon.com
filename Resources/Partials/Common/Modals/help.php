@@ -1,6 +1,7 @@
 <?php
 $collapses = [
     'about_session',
+    'lose_data',
     'howto_battle',
 ];
 ?>
