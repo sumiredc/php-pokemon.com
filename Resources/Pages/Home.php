@@ -50,7 +50,11 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
                                 <img src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif" class="mb-5" alt="<?=$pokemon->getName()?>" style="cursor:pointer;" data-toggle="modal" data-target="#pokemon-details-modal">
                             </div>
                             <div class="col-12 col-sm-9 col-md-5">
-                                <p><?=$pokemon->getNickName()?> Lv:<?=$pokemon->getLevel()?> <?=$pokemon->getSaName()?></p>
+                                <p>
+                                    <span class="mr-2"><?=$pokemon->getNickName()?></span>
+                                    <span class="mr-2">Lv:<?=$pokemon->getLevel()?></span>
+                                    <span class="mr-2 badge badge-<?=$pokemon->getSaColor()?>"><?=$pokemon->getSaName()?></span>
+                                </p>
                                 <div class="form-group">
                                     <?php # HPバー ?>
                                     <div class="progress">

@@ -238,6 +238,21 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * 現在の状態異常（Sa）の名称を取得する
+    * @return string
+    */
+    public function getSaColor()
+    {
+        if(empty($this->sa)){
+            return '';
+        }
+        $sa = $this->getInstance(array_key_first($this->sa));
+        if($sa){
+            return $sa->getColor();
+        }
+    }
+
+    /**
     * ステータスの取得
     *
     * @param string|null

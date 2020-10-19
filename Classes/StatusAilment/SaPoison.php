@@ -13,6 +13,12 @@ class SaPoison extends StatusAilment
     protected $name = 'どく';
 
     /**
+    * 色
+    * @var string
+    */
+    protected $color = 'purple';
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

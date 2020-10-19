@@ -13,6 +13,12 @@ class SaBadPoison extends StatusAilment
     protected $name = 'もうどく';
 
     /**
+    * 色
+    * @var string
+    */
+    protected $color = 'purple';
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

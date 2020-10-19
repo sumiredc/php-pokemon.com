@@ -46,7 +46,7 @@ class Mew extends Pokemon
         // [1, 'MoveHighJumpKick'],        # とびひざげり
         // [1, 'MoveHyperBeam'],           # はかいこうせん
         [1, 'MovePsychic'],           # サイコキネシス
-        [1, 'MoveLeechSeed'],           # やどりぎのたね
+        // [1, 'MoveLeechSeed'],           # やどりぎのたね
         // [1, 'MoveConfuseRay'],          # あやしいひかり
         // [1, 'MoveSeismicToss'],         # ちきゅうなげ
         // [1, 'MovePsywave'],             # サイコウェーブ
@@ -58,8 +58,11 @@ class Mew extends Pokemon
         // [1, 'MoveFly'],                 # そらをとぶ
         // [1, 'MoveDig'],                 # あなをほる
         // [1, 'MoveMist'],           # しろいきり
-        [1, 'MoveReflect'],           # リフレクター
-        [1, 'MoveLightScreen'],           # ひかりのかべ
+        // [1, 'MoveReflect'],           # リフレクター
+        // [1, 'MoveLightScreen'],           # ひかりのかべ
+        [1, 'MovePoisonPowder'],   # どくのこな
+        [1, 'MoveSleepPowder'],    # ねむりごな
+        [1, 'MoveThunderWave'],     # でんじは
     ];
 
     /**

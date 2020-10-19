@@ -13,6 +13,12 @@ class SaParalysis extends StatusAilment
     protected $name = 'まひ';
 
     /**
+    * 色
+    * @var string
+    */
+    protected $color = 'warning';
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

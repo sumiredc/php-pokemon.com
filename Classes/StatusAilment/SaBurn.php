@@ -13,6 +13,12 @@ class SaBurn extends StatusAilment
     protected $name = 'やけど';
 
     /**
+    * 色
+    * @var string
+    */
+    protected $color = 'danger';
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

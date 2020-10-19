@@ -13,6 +13,12 @@ class SaFreeze extends StatusAilment
     protected $name = 'こおり';
 
     /**
+    * 色
+    * @var string
+    */
+    protected $color = 'primary';
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

@@ -32,6 +32,16 @@ abstract class StatusAilment
     }
 
     /**
+    * カラーの取得
+    *
+    * @return string
+    */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
     * 状態異常にかかった際のメッセージを取得
     *
     * @param string $pokemon

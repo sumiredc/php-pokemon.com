@@ -12,4 +12,10 @@ class SaFainting extends StatusAilment
     */
     protected $name = 'ひんし';
 
+    /**
+    * 色
+    * @var string
+    */
+    protected $color = 'secondary';
+
 }

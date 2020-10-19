@@ -12,6 +12,14 @@ figure.first-pokemon{
     text-align: center;
     padding: 1rem;
 }
+/* カラーの追加 */
+.text-purple{
+ color: #563d7c;
+}
+.badge-purple, .bg-purple{
+    color: #fff;
+    background-color: #563d7c;
+}
 .first-pokemon img{
     max-width: 40px;
     cursor: pointer;

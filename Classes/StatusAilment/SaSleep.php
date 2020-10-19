@@ -13,6 +13,12 @@ class SaSleep extends StatusAilment
     protected $name = 'ねむり';
 
     /**
+    * 色
+    * @var string
+    */
+    protected $color = 'info';
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

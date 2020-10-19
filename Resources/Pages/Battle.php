@@ -47,7 +47,7 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                         <p>
                             <span class="mr-2"><?=$before_enemy->getName()?></span>
                             <span class="mr-2">Lv:<?=$before_enemy->getLevel()?></span>
-                            <span class="mr-2"><?=$before_enemy->getSaName(false)?></span>
+                            <span class="mr-2 badge badge-<?=$before_enemy->getSaColor()?>"><?=$before_enemy->getSaName(false)?></span>
                         </p>
                         <div class="form-group">
                             <div class="progress">
@@ -74,7 +74,7 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                         <p>
                             <span class="mr-2"><?=$pokemon->getNickName()?></span>
                             <span class="mr-2">Lv:<span id="level"><?=$before_pokemon->getLevel()?></span></span>
-                            <span class="mr-2"><?=$before_pokemon->getSaName(false)?></span>
+                            <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor()?>"><?=$before_pokemon->getSaName(false)?></span>
                         </p>
                         <div class="form-group">
                             <div class="progress">
