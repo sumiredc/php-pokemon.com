@@ -91,6 +91,8 @@ trait ServiceBattleAttackTrait
             $this->setMessage('一撃必殺');
             return;
         }
+        // 壁補正
+        $this->checkWall($move, $def_pokemon);
         // 技を回数分実行
         $times = $move->times();
         for($i = 0; $i < $times; $i++){
@@ -317,8 +319,8 @@ trait ServiceBattleAttackTrait
     * ステータス（攻撃値、防御値）の取得
     *
     * @param string $species
-    * @param object $atk_pokemon
-    * @param object $def_pokemon
+    * @param Pokemon:object $atk_pokemon
+    * @param Pokemon:object $def_pokemon
     * @return array
     */
     private function getStats($species, $atk_pokemon, $def_pokemon)
@@ -376,7 +378,7 @@ trait ServiceBattleAttackTrait
     /**
     * タイプ相性チェック
     *
-    * @param object $atk_type
+    * @param Type:object $atk_type
     * @param array $def_types
     * @return string
     */
@@ -421,6 +423,38 @@ trait ServiceBattleAttackTrait
         return $message ?? '';
     }
 
+    /**
+    * 壁補正判定
+    *
+    * @param Move:object $move
+    * @param Pokemon:object $def
+    * @return string
+    */
+    private function checkWall(object $move, object $def)
+    {
+        // ダメージ補正(初期値は等倍)
+        $m = 1;
+        // 技種類での分岐
+        switch ($move->getSpecies()) {
+            // 物理
+            case 'physical':
+            // 相手がリフレクター状態であれば半減
+            if($this->checkField($def->getPosition(), new FieldReflect)){
+                $m = 0.5;
+            }
+            break;
+            // 特殊
+            case 'special':
+            // 相手がひかりのかべ状態であれば半減
+            if($this->checkField($def->getPosition(), new FieldLightScreen)){
+                $m = 0.5;
+            }
+            break;
+        }
+        // プロパティに算出結果を乗算
+        $this->m *= $m;
+    }
+
     /**************************************************************************
     * attackSuccess内で行う補正値の計算（補正値プロパティに直接格納しない）
     **************************************************************************/
@@ -428,7 +462,7 @@ trait ServiceBattleAttackTrait
     /**
     * 急所判定
     *
-    * @param object $move
+    * @param Move:object $move
     * @return mixed (numeric|boolean)
     */
     private function checkCritical(...$rank)

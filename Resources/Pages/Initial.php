@@ -43,7 +43,7 @@ $controller = new InitialController();
             </section>
             <?php
             # お知らせ
-            include($root_path.'/Resources/Partials/Common/info.php');
+            include($root_path.'/Resources/Partials/Common/notice.php');
             ?>
         </div>
     </main>

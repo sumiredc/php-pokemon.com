@@ -2,21 +2,21 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Field.php');
 
-// しろいきり
-class FieldMist extends Field
+// ひかりのかべ
+class FieldLightScreen extends Field
 {
 
     /**
     * 正式名称
     * @var string
     */
-    protected $name = 'しろいきり';
+    protected $name = 'ひかりのかべ';
 
     /**
     * フィールドセット時のメッセージ
     * @var string
     */
-    protected $set_msg = '::prefixはしろいきりに包まれた';
+    protected $set_msg = '::prefixはひかりのかべで特殊に強くなった';
 
     /**
     * 既にフィールドセットされている状態のメッセージ
@@ -28,12 +28,6 @@ class FieldMist extends Field
     * フィールド解除時のメッセージ
     * @var string
     */
-    protected $release_msg = '::prefixのしろいきりが晴れた';
-
-    /**
-    * デバフ無効化時のメッセージ
-    * @var string
-    */
-    protected $failed_msg = '::pokemonはしろいきりに守られている';
+    protected $release_msg = '::prefixのひかりのかべが無くなった';
 
 }

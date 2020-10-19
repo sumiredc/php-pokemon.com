@@ -43,7 +43,7 @@ class Mew extends Pokemon
     */
     protected $level_move = [
         // [1, 'MoveFissure'],        # じわれ
-        [1, 'MoveHighJumpKick'],        # とびひざげり
+        // [1, 'MoveHighJumpKick'],        # とびひざげり
         // [1, 'MoveHyperBeam'],           # はかいこうせん
         [1, 'MovePsychic'],           # サイコキネシス
         [1, 'MoveLeechSeed'],           # やどりぎのたね
@@ -57,7 +57,9 @@ class Mew extends Pokemon
         // [1, 'MoveDoubleTeam'],          # かげぶんしん
         // [1, 'MoveFly'],                 # そらをとぶ
         // [1, 'MoveDig'],                 # あなをほる
-        [1, 'MoveMist'],           # しろいきり
+        // [1, 'MoveMist'],           # しろいきり
+        [1, 'MoveReflect'],           # リフレクター
+        [1, 'MoveLightScreen'],           # ひかりのかべ
     ];
 
     /**

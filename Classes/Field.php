@@ -28,11 +28,11 @@ abstract class Field
     */
     public function getSetMessage($target)
     {
-        $prefix = '味方は';
+        $prefix = '味方';
         if($target === 'enemy'){
-            $prefix = '相手は';
+            $prefix = '相手';
         }
-        return ($prefix ?? '').$this->set_msg;
+        return str_replace('::prefix', $prefix, $this->set_msg);
     }
 
     /**
@@ -43,11 +43,11 @@ abstract class Field
     */
     public function getAlreadyMessage($target)
     {
-        $prefix = '味方は';
+        $prefix = '味方';
         if($target === 'enemy'){
-            $prefix = '相手は';
+            $prefix = '相手';
         }
-        return ($prefix ?? '').$this->already_msg;
+        return str_replace('::prefix', $prefix, $this->already_msg);
     }
 
     /**
@@ -58,11 +58,11 @@ abstract class Field
     */
     public function getReleaseMessage($target)
     {
-        $prefix = '味方の';
+        $prefix = '味方';
         if($target === 'enemy'){
-            $prefix = '相手の';
+            $prefix = '相手';
         }
-        return ($prefix ?? '').$this->release_msg;
+        return str_replace('::prefix', $prefix, $this->release_msg);
     }
 
     /**
