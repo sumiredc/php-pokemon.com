@@ -48,10 +48,10 @@ $controller = new InitialController();
         </div>
     </main>
     <?php
-    # モーダルの読み込み
-    include($root_path.'/Resources/Partials/Initial/Modals/pokemon.php');
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
+    # モーダルの読み込み
+    include($root_path.'/Resources/Partials/Initial/Modals/pokemon.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>

@@ -87,11 +87,11 @@ $_SESSION['__data']['pokemon'] = $pokemon->export(); # ポケモンの情報を�
         </div>
     </main>
     <?php
+    # footerの読み込み
+    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # モーダルの読み込み
     include($root_path.'/Resources/Partials/Home/Modals/details.php');
     include($root_path.'/Resources/Partials/Home/Modals/reset.php');
-    # footerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>

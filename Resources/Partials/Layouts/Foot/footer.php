@@ -7,3 +7,7 @@
         <div class="spinner-border text-danger" role="status"></div>
     </div>
 </div>
+<?php
+# 共通モーダルの読み込み
+include($root_path.'/Resources/Partials/Common/Modals/help.php');
+?>

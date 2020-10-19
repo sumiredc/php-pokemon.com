@@ -140,10 +140,10 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
                                 <?php endif; ?>
                             </div>
                             <div class="col-6 mb-2">
-                                <button type="button" class="btn btn-outline-light btn-block action-btn" id="action-btn-item">どうぐ</button>
+                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-item-modal" id="action-btn-item">どうぐ</button>
                             </div>
                             <div class="col-6 mb-2">
-                                <button type="button" class="btn btn-outline-light btn-block action-btn" id="action-btn-pokemon">ポケモン</button>
+                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-pokemon-modal" id="action-btn-pokemon">ポケモン</button>
                             </div>
                             <div class="col-6 mb-2">
                                 <form action="" method="post">
@@ -169,10 +169,12 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
         <?php include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php'); ?>
     <?php endforeach; ?>
     <?php
-    # モーダルの読み込み
-    include($root_path.'/Resources/Partials/Battle/Modals/move.php');
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
+    # モーダルの読み込み
+    include($root_path.'/Resources/Partials/Battle/Modals/move.php');
+    include($root_path.'/Resources/Partials/Battle/Modals/item.php');
+    include($root_path.'/Resources/Partials/Battle/Modals/pokemon.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
