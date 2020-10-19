@@ -167,7 +167,7 @@ class BattleController extends Controller
                 */
                 default:
                 // もしどちらかが戦闘不能状態であればバトルを強制終了
-                if(empty($this->before_remaining_hp['friend']) || empty($this->before_remaining_hp['enemy'])){
+                if(empty($this->enemy->getRemainingHp()) || empty($this->pokemon->getRemainingHp())){
                     $this->battleEnd();
                 }
                 break;
