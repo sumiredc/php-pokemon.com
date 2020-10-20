@@ -10,30 +10,6 @@ abstract class Move
     use ResponseTrait;
 
     /**
-    * チャージ技確認用フラグ
-    * @var boolean
-    */
-    protected $charge_flg = false;
-
-    /**
-    * 一撃必殺確認用フラグ
-    * @var boolean
-    */
-    protected $one_hit_knockout_flg = false;
-
-    /**
-    * 固定ダメージ技確認用フラグ
-    * @var boolean
-    */
-    protected $fixed_damage_flg = false;
-
-    /**
-    * 能力下降確定技フラグ
-    * @var boolean
-    */
-    protected $confirm_debuff_flg = false;
-
-    /**
     * 攻撃失敗時のメッセージ
     * @var string
     */
@@ -44,12 +20,6 @@ abstract class Move
     * @var string
     */
     protected $one_hit_knockout_failed_msg = '::pokemonには全然効いていない！';
-
-    /**
-    * チャージ中に回避できない技
-    * @var array
-    */
-    protected $cant_escape_move = [];
 
     /**
     * インスタンス作成時に実行される処理
@@ -230,7 +200,17 @@ abstract class Move
     */
     public function getPriority()
     {
-        return $this->priority;
+        return $this->priority ?? 0;
+    }
+
+    /**
+    * 対象の取得
+    *
+    * @return integer
+    */
+    public function getTarget()
+    {
+        return $this->target;
     }
 
     /**
@@ -250,7 +230,7 @@ abstract class Move
     */
     public function getChargeFlg()
     {
-        return $this->charge_flg;
+        return $this->charge_flg ?? false;
     }
 
     /**
@@ -260,7 +240,7 @@ abstract class Move
     */
     public function getOneHitKnockoutFlg()
     {
-        return $this->one_hit_knockout_flg;
+        return $this->one_hit_knockout_flg ?? false;
     }
 
     /**
@@ -270,7 +250,7 @@ abstract class Move
     */
     public function getFixedDamageFlg()
     {
-        return $this->fixed_damage_flg;
+        return $this->fixed_damage_flg ?? false;
     }
 
     /**
@@ -279,7 +259,7 @@ abstract class Move
     */
     public function getCantEscapeMove()
     {
-        return $this->cant_escape_move;
+        return $this->cant_escape_move ?? [];
     }
 
     /**
@@ -288,7 +268,7 @@ abstract class Move
     */
     public function getConfirmDebuffFlg()
     {
-        return $this->confirm_debuff_flg;
+        return $this->confirm_debuff_flg ?? false;
     }
 
     /**
