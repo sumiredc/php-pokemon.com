@@ -131,6 +131,17 @@ var doAnimateHpBar = function(target, param){
                 easing: 'easeOutQuad',
                 complete: function(){
                     // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
+                    if(target === 'friend'){
+                        // HPバーの色チェック
+                        hpbar.removeClass('bg-success bg-warning bg-danger');
+                        if(width <= 20){
+                            hpbar.addClass('bg-danger');
+                        }else if(width <= 50){
+                            hpbar.addClass('bg-warning');
+                        }else{
+                            hpbar.addClass('bg-success');
+                        }
+                    }
                     setTimeout(function() {
                         resolve();
                     }, 500);
@@ -185,13 +196,16 @@ var countHp = function(start, end){
         }
         // 繰り返し関数
         var time = parseInt(1000 / diff, 10);
-        var interval_id = setInterval(function(){
-            counter();
-            if(start === end){
-                clearInterval(interval_id);
-                return resolve();
-            }
-        }, time);
+        // 0.3秒後にカウントスタート
+        setTimeout(function() {
+            var interval_id = setInterval(function(){
+                counter();
+                if(start === end){
+                    clearInterval(interval_id);
+                    return resolve();
+                }
+            }, time);
+        }, 300);
     });
 }
 
@@ -281,7 +295,9 @@ var nextMsg = function(now){
         // バトル終了
         if(next.hasClass('battle-end')){
             $('#remote-form-action').val('end');
-            $('#remote-form').submit();
+            setTimeout(function() {
+                $('#remote-form').submit();
+            }, 500);
             return;
         }
         // 最終メッセージかどうかの判別

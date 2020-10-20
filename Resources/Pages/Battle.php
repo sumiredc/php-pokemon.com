@@ -58,8 +58,8 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         </p>
                         <div class="form-group">
                             <div class="progress">
-                                <?php if($before_pokemon->getRemainingHp('per') <= 50) $hp_bar_class = 'bg-warning'; ?>
                                 <?php if($before_pokemon->getRemainingHp('per') <= 20) $hp_bar_class = 'bg-danger'; ?>
+                                <?php if($before_pokemon->getRemainingHp('per') <= 50) $hp_bar_class = 'bg-warning'; ?>
                                 <div id="hpbar-friend"
                                 class="progress-bar <?=$hp_bar_class ?? 'bg-success'?>"
                                 role="progressbar"
