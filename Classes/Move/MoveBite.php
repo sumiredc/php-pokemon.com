@@ -49,10 +49,10 @@ class Moveite extends Move
     protected $pp = 25;
 
     /**
-    * 優先度
-    * @var integer
+    * 対象
+    * @var string
     */
-    protected $priority = 0;
+    protected $target = 'enemy';
 
     /**
     * 追加効果

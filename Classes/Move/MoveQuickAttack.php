@@ -54,4 +54,10 @@ class MoveQuickAttack extends Move
     */
     protected $priority = 1;
 
+    /**
+    * 対象
+    * @var string
+    */
+    protected $target = 'enemy';
+
 }

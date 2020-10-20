@@ -47,12 +47,12 @@ class MoveThunder extends Move
     * @var integer
     */
     protected $pp = 10;
-
+    
     /**
-    * 優先度
-    * @var integer
+    * 対象
+    * @var string
     */
-    protected $priority = 0;
+    protected $target = 'enemy';
 
     /**
     * 威力補正値の取得

@@ -49,10 +49,10 @@ class MoveFissure extends Move
     protected $pp = 5;
 
     /**
-    * 優先度
-    * @var integer
+    * 対象
+    * @var string
     */
-    protected $priority = 0;
+    protected $target = 'enemy';
 
     /**
     * 一撃必殺技確認用フラグ

@@ -49,12 +49,6 @@ class Move000 extends Move
     protected $pp = ;
 
     /**
-    * 優先度
-    * @var integer
-    */
-    protected $priority = ;
-
-    /**
     * 追加効果
     *
     * @param array $args

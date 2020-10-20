@@ -55,6 +55,12 @@ class MoveCounter extends Move
     protected $priority = -5;
 
     /**
+    * 対象
+    * @var string
+    */
+    protected $target = 'enemy';
+
+    /**
     * 固定ダメージフラグ
     * @var boolean
     */

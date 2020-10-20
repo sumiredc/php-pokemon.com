@@ -49,10 +49,10 @@ class MoveReflect extends Move
     protected $pp = 20;
 
     /**
-    * 優先度
-    * @var integer
+    * 対象
+    * @var string
     */
-    protected $priority = 0;
+    protected $target = 'friend';
 
     /**
     * フィールド効果

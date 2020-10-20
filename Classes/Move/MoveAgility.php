@@ -49,10 +49,10 @@ class MoveAgility extends Move
     protected $pp = 30;
 
     /**
-    * 優先度
-    * @var integer
+    * 対象
+    * @var string
     */
-    protected $priority = 0;
+    protected $target = 'friend';
 
     /**
     * 追加効果

@@ -55,6 +55,12 @@ class MoveWhirlwind extends Move
     protected $priority = -6;
 
     /**
+    * 対象
+    * @var string
+    */
+    protected $target = 'enemy';
+
+    /**
     * 追加効果
     *
     * @param array $args
