@@ -49,6 +49,12 @@ class Move000 extends Move
     protected $pp = ;
 
     /**
+    * 対象
+    * @var string
+    */
+    protected $targeet = ;
+
+    /**
     * 追加効果
     *
     * @param array $args
