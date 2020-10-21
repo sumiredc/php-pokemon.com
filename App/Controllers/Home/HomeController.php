@@ -59,7 +59,6 @@ class HomeController extends Controller
                 case 'recovery':
                 $service = new RecoveryService($this->pokemon);
                 $service->execute();
-                $this->setMessage($service->getMessages());
                 break;
                 /******************************************
                 * バトル
@@ -78,6 +77,13 @@ class HomeController extends Controller
                 */
                 default:
                 break;
+            }
+            // メッセージとレスポンスとモーダルをコントローラーへ引き継ぎ
+            if(isset($service)){
+                $this->setMessage($service->getMessages());
+                $this->setResponse($service->getResponses());
+                $this->setModal($service->getModals(), true);
+                $service->resetAll();
             }
         } catch (\Exception $e) {
             // 初期画面へ移管

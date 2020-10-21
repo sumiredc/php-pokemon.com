@@ -62,7 +62,8 @@ class Mew extends Pokemon
         // [1, 'MoveLightScreen'],           # ひかりのかべ
         [1, 'MovePoisonPowder'],   # どくのこな
         [1, 'MoveSleepPowder'],    # ねむりごな
-        [1, 'MoveThunderWave'],     # でんじは
+        // [1, 'MoveThunderWave'],     # でんじは
+        [1, 'MoveThrash'],     # あばれる
     ];
 
     /**

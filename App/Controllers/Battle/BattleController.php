@@ -112,8 +112,6 @@ class BattleController extends Controller
                 $this->enemy = $service->getResponse('enemy');
                 // 前ターンの状態をプロパティに格納
                 $this->before['enemy'] = clone $this->enemy;
-                $this->setMessage($service->getMessages());
-                $this->setResponse($service->getResponses());
                 break;
                 /******************************************
                 * たたかう
@@ -130,8 +128,6 @@ class BattleController extends Controller
                 // 実行結果
                 $this->fainting = $service->getResponse('fainting');
                 $this->field = $service->getResponse('field');
-                $this->setMessage($service->getMessages());
-                $this->setResponse($service->getResponses());
                 break;
                 /******************************************
                 * にげる
@@ -153,8 +149,6 @@ class BattleController extends Controller
                     $this->fainting = $service->getResponse('fainting');
                     $this->field = $service->getResponse('field');
                 }
-                $this->setMessage($service->getMessages());
-                $this->setResponse($service->getResponses());
                 break;
                 /******************************************
                 * バトル終了
@@ -171,6 +165,13 @@ class BattleController extends Controller
                     $this->battleEnd();
                 }
                 break;
+            }
+            // メッセージとレスポンスとモーダルをコントローラーへ引き継ぎ
+            if(isset($service)){
+                $this->setMessage($service->getMessages());
+                $this->setResponse($service->getResponses());
+                $this->setModal($service->getModals(), true);
+                $service->resetAll();
             }
         } catch (\Exception $e) {
             // 初期画面へ移管
@@ -212,8 +213,12 @@ class BattleController extends Controller
             $this->judgment();
             return false;
         }
-        // チャージ中または反動有りなら再度アクション実行
-        if($this->chargeNow() || $this->pokemon->checkSc('ScRecoil')){
+        // チャージ中、反動有り、あばれる状態なら再度アクション実行
+        if(
+            $this->chargeNow() ||
+            $this->pokemon->checkSc('ScRecoil') ||
+            $this->pokemon->checkSc('ScThrash')
+        ){
             $this->branch();
             return true;
         }else{

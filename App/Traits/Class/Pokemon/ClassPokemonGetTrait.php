@@ -196,11 +196,28 @@ trait ClassPokemonGetTrait
 
     /**
     * 現在の状態変化を取得する
-    * @return array
+    * @param class:string
+    * @param turn:boolean
+    * @param param:boolean
+    * @return mixed
     */
-    public function getSc()
+    public function getSc(string $class='', bool $turn=false, bool $param=false)
     {
-        return $this->sc;
+        if(empty($class)){
+            // 全状態異常を取得
+            return $this->sc;
+        }else{
+            if($this->checkSc($class)){
+                // 残ターン数を取得
+                if($turn){
+                    return $this->sc[$class]['turn'];
+                }
+                // パラメーターを取得
+                if($param){
+                    return $this->sc[$class]['param'];
+                }
+            }
+        }
     }
 
     /**
@@ -368,12 +385,13 @@ trait ClassPokemonGetTrait
 
     /**
     * チャージ技を取得
-    * @return string
+    * @return string|null
     */
     public function getChargeMove()
     {
-        $sc = $this->getSc();
-        return $sc['ScCharge']['param'] ?? '';
+        if($this->checkSc('ScCharge')){
+            return $this->getSc('ScCharge', false, true);
+        }
     }
 
     /**

@@ -13,7 +13,7 @@ trait ServiceBattleCheckTrait
     protected function checkEnabledMove(object $move, object $pokemon)
     {
         $move_class = get_class($move);
-        if($move_class === 'Struggle'){
+        if($move_class === 'MoveStruggle'){
             // わるあがき
             return false;
         }
@@ -26,8 +26,8 @@ trait ServiceBattleCheckTrait
         );
         // PP残数の確認
         if($move_list[$num]['remaining'] > 0){
-            // チャージターンは残PPそのまま
-            if(!$this->checkChargeTurn($pokemon, $move)){
+            // チャージターンかつあばれる状態でなければPP減少
+            if(!$this->checkChargeTurn($pokemon, $move) && !$pokemon->checkSc('ScThrash')){
                 // 残PPをマイナス1
                 $pokemon->calRemainingPp('sub', 1, $num);
             }
@@ -51,15 +51,13 @@ trait ServiceBattleCheckTrait
         if(!$move->getChargeFlg()){
             return false;
         }
-        // 状態変化を取得
-        $sc = $pokemon->getSc();
         // 現在未チャージ状態
-        if(!isset($sc['ScCharge'])){
+        if(!$pokemon->checkSc('ScCharge')){
             // チャージターン
             return true;
         }
         // 残チャージターン数が1超過
-        if($sc['ScCharge']['turn'] > 1){
+        if($pokemon->getSc('ScCharge', true) > 1){
             // チャージターン
             return true;
         }
@@ -115,9 +113,8 @@ trait ServiceBattleCheckTrait
             $sleep = new SaSleep;
             // ターンカウントを進める
             $pokemon->goSaTurn();
-            if($pokemon->getSa('turn') <= 0){
+            if(empty($pokemon->getSa())){
                 // ねむり解除
-                $pokemon->releaseSa();
                 $this->setMessage($sleep->getRecoveryMessage($pokemon->getPrefixName()));
             }else{
                 // 行動失敗
@@ -146,22 +143,21 @@ trait ServiceBattleCheckTrait
     protected function checkBeforeSc($pokemon)
     {
         // 状態変化の値を取得
-        $sc = $pokemon->getSc();
-        if(empty($sc)){
+        if(empty($pokemon->getSc())){
             // 状態変化にかかっていない
             return true;
         }
         /**
         * ひるみ
         */
-        if(isset($sc['ScFlinch'])){
+        if($pokemon->checkSc('ScFlinch')){
             // 行動失敗（ひるみ解除はcheckAfterScで行う※先手はひるみの影響を受けないため）
             return false;
         }
         /**
         * 反動
         */
-        if(isset($sc['ScRecoil'])){
+        if($pokemon->checkSc('ScRecoil')){
             $recoil = new ScRecoil;
             // 反動メッセージを格納
             $this->setMessage($recoil->getFailedMessage($pokemon->getPrefixName()));
@@ -172,13 +168,12 @@ trait ServiceBattleCheckTrait
         /**
         * こんらん
         */
-        if(isset($sc['ScConfusion'])){
+        if($pokemon->checkSc('ScConfusion')){
             $confusion = new ScConfusion;
             // こんらんのターンカウントを進める
             $pokemon->goScTurn('ScConfusion');
-            if($sc['ScConfusion']['turn'] <= 0){
+            if(!$pokemon->checkSc('ScConfusion')){
                 // こんらん解除
-                $pokemon->releaseSc('ScConfusion');
                 $this->setMessage($confusion->getRecoveryMessage($pokemon->getPrefixName()));
             }else{
                 // こんらんしている旨のメッセージ
@@ -302,16 +297,14 @@ trait ServiceBattleCheckTrait
     {
         // ひるみ解除
         $sicked_pokemon->releaseSc('ScFlinch');
-        // 状態変化を取得
-        $sc = $sicked_pokemon->getSc();
-        if(empty($sc)){
-            // 状態異常にかかっていない
+        // 状態異常にかかっていない
+        if(empty($sicked_pokemon->getSc())){
             return;
         }
         /**
         * やどりぎのタネ
         */
-        if(isset($sc['ScLeechSeed'])){
+        if($sicked_pokemon->checkSc('ScLeechSeed')){
             // メッセージIDの生成(ダメージ用と回復用)
             $ls_msg_id1 = $this->issueMsgId();
             $ls_msg_id2 = $this->issueMsgId();
@@ -351,15 +344,18 @@ trait ServiceBattleCheckTrait
         /**
         * バインド
         */
-        if(isset($sc['ScBind'])){
+        if($sicked_pokemon->checkSc('ScBind')){
             // 最大HPの1/8ダメージを受ける
             $bind = new ScBind;
             // バインドのターンカウントを進める
             $sicked_pokemon->goScTurn('ScBind');
-            if($sc['ScBind']['turn'] <= 0){
+            if(!$sicked_pokemon->checkSc('ScBind')){
                 // バインド解除
-                $sicked_pokemon->releaseSc('ScBind');
-                $this->setMessage($bind->getRecoveryMessage($sicked_pokemon->getPrefixName(), $sc['ScBind']['param']));
+                $this->setMessage($bind->getRecoveryMessage(
+                    $sicked_pokemon->getPrefixName(),
+                    $sicked_pokemon->getSc('ScBind', false, true)
+                    )
+                );
             }else{
                 // メッセージIDの生成
                 $b_msg_id = $this->issueMsgId();
@@ -379,7 +375,11 @@ trait ServiceBattleCheckTrait
                 ], $b_msg_id);
                 // メッセージ
                 $this->setAutoMessage($b_msg_id);
-                $this->setMessage($bind->getTurnMessage($sicked_pokemon->getPrefixName(), $sc['ScBind']['param']));
+                $this->setMessage($bind->getTurnMessage(
+                    $sicked_pokemon->getPrefixName(),
+                    $sicked_pokemon->getSc('ScBind', false, true)
+                    )
+                );
                 // HPが０になっていればチェック終了
                 if(!$sicked_pokemon->getRemainingHp()){
                     return;
@@ -399,8 +399,8 @@ trait ServiceBattleCheckTrait
         if($pokemon->getSa() === 'SaFainting'){
             // ひんし状態
             $this->setMessage($pokemon->getMessages());
-            // ポケモン内のメッセージを削除
-            $pokemon->resetMessage();
+            // ポケモン内のメッセージとレスポンスを削除
+            $pokemon->resetAll();
             // ひんしポケモンの状態変化を全解除
             $pokemon->releaseSc();
             return true;
@@ -409,7 +409,5 @@ trait ServiceBattleCheckTrait
             return false;
         }
     }
-
-    
 
 }

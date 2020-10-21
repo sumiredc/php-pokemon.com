@@ -265,9 +265,9 @@ trait ClassPokemonSetTrait
             $this->sc = $class;
             return;
         }
-        // セットできる状態異常一覧
+        // セットできる状態変化一覧
         $sc_list = [
-            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil', 'ScRage',
+            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil', 'ScRage', 'ScThrash',
         ];
         // クラスチェック
         if(!in_array($class, $sc_list, true) || !class_exists($class)){

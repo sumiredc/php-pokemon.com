@@ -299,9 +299,10 @@ abstract class Pokemon
     /**
     * ターンカウントをすすめる（状態異常）
     *
+    * @param release:boolean
     * @return void
     */
-    public function goSaTurn()
+    public function goSaTurn(bool $release=true)
     {
         // 状態異常クラスを取得
         $sa = $this->getSa();
@@ -312,6 +313,10 @@ abstract class Pokemon
             case 'SaSleep':
             // 残ターン数を1マイナス
             $this->sa[$sa]--;
+            // $releaseがtrueなら解除判定
+            if($release && ($this->sa[$sa] <= 0)){
+                $this->sa = [];
+            }
             break;
             /**
             * もうどく
@@ -330,16 +335,22 @@ abstract class Pokemon
     /**
     * ターンカウントをすすめる（状態変化）
     *
-    * @param string $class
+    * @param class:string
+    * @param release:boolean
     * @return void
     */
-    public function goScTurn($class)
+    public function goScTurn(string $class, bool $release=true)
     {
         // 状態変化を取得
         $sc = $this->getSc();
         if(isset($sc[$class])){
             // 残ターン数を1マイナス
             $this->sc[$class]['turn']--;
+            // $releaseがtrueなら解除チェック
+            if($release && ($this->sc[$class]['turn'] <= 0)){
+                // 指定された状態変化の解除
+                unset($this->sc[$class]);
+            }
         }
     }
 

@@ -51,13 +51,13 @@ trait ServiceBattleAttackTrait
         if(!$this->checkEnabledMove($move, $atk_pokemon)){
             $this->setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
             // わるあがきをセット
-            $move = new Struggle;
+            $move = new MoveStruggle;
         }
         // チャージチェック
         if($move->charge($atk_pokemon)){
             // チャージターンならメッセージを格納して行動終了
             $this->setMessage($atk_pokemon->getMessages());
-            $atk_pokemon->resetMessage();
+            $atk_pokemon->resetAll();
             return;
         }
         // 攻撃メッセージを格納
@@ -120,8 +120,7 @@ trait ServiceBattleAttackTrait
         $this->setMessage($move->getMessages());
         $this->setResponse($move->getResponses());
         // メッセージとレスポンスをリセット
-        $move->resetMessage();
-        $move->resetResponse();
+        $move->resetAll();
     }
 
     /**
@@ -215,8 +214,7 @@ trait ServiceBattleAttackTrait
                 $this->setField($atk_pokemon->getPosition(), new $field['class'], $field['turn']);
             }
             // メッセージとレスポンスをリセット
-            $move->resetMessage();
-            $move->resetResponse();
+            $move->resetAll();
             // いかり判定
             if($def_pokemon->checkSc('ScRage') && !empty($damage ?? 0)){
                 $rage = new ScRage;
@@ -241,7 +239,7 @@ trait ServiceBattleAttackTrait
     private function checkHit($atk, $def, $move)
     {
         // ふきとばし・ほえるのチェック
-        if(in_array(get_class($move), ['Whirlwind', 'Roar'], true)){
+        if(in_array(get_class($move), ['MoveWhirlwind', 'MoveRoar'], true)){
             if($atk->getLevel() < $def->getLevel()){
                 $this->setMessage($def->getPrefixName().'は平気な顔をしている');
                 return false;
@@ -249,7 +247,7 @@ trait ServiceBattleAttackTrait
         }
         // 相手のチャージ状態による判定チェック
         $charge_move_class = $def->getChargeMove();
-        if(in_array($charge_move_class, ['Fly', 'Dig'], true)){
+        if(in_array($charge_move_class, ['MoveFly', 'MoveDig'], true)){
             $charge_move = new $charge_move_class;
             // 攻撃技が回避できない技リストになければ失敗
             if(!in_array(get_class($move), $charge_move->getCantEscapeMove(), true)){
@@ -297,7 +295,7 @@ trait ServiceBattleAttackTrait
             $accuracy *= round($per, 2);
         }
         // カウンターの失敗判定
-        if((get_class($move) === 'Counter') && empty($atk->getTurnDamage('physical'))){
+        if((get_class($move) === 'MoveCounter') && empty($atk->getTurnDamage('physical'))){
             // 自身にこのターン物理ダメージが蓄積していなければ失敗
             $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
             return false;
