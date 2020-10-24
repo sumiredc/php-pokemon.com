@@ -2,7 +2,6 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
 ?>
-
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
 <head>

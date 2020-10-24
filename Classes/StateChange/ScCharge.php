@@ -17,10 +17,10 @@ class ScCharge extends StateChange
     * @var string
     */
     protected $sicked_msg = [
-        'SkullBash' => '::pokemonは、頭を引っ込めた',
-        'SolarBeam' => '::pokemonは、光を吸収した',
-        'Fly' => '::pokemonは、空高く飛び上がった',
-        'Dig' => '::pokemonは、地中深く潜った',
+        'MoveSkullBash' => '::pokemonは、頭を引っ込めた',
+        'MoveSolarBeam' => '::pokemonは、光を吸収した',
+        'MoveFly' => '::pokemonは、空高く飛び上がった',
+        'MoveDig' => '::pokemonは、地中深く潜った',
     ];
 
 }

@@ -20,3 +20,6 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
 'pokemon' => $pokemon->export('sc'),
 'enemy' => $enemy->export('sc'),
 ];
+// レスポンスデータを引き継ぎ用にセッションへ格納
+$_SESSION['__data']['before_reponses'] = $responses;
+$_SESSION['__data']['before_messages'] = $controller->getMessages();

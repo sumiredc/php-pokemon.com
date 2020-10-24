@@ -68,7 +68,7 @@ trait ResponseTrait
     * @param string $param
     * @return array
     */
-    public function setEmptyMessage($param)
+    public function setEmptyMessage(string $param='')
     {
         $this->msgs[] = ['', $param, ''];
     }
@@ -181,7 +181,10 @@ trait ResponseTrait
             // 結合（引き継ぎ）
             $this->modals = array_merge($this->modals, $param);
         }else{
+            // モーダル格納
             $this->modals[] = $param;
+            // モーダル起動時用のからメッセージをセット
+            $this->msgs[] = ['', '', ''];
         }
     }
 

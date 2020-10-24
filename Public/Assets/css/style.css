@@ -77,6 +77,9 @@ figure.first-pokemon{
 .move-detail-link{
     cursor: pointer;
 }
+.move-detail-link.active{
+    background-color: rgba(0,0,0,.075);
+}
 .now-loading{
     display: none;
     position: fixed;

@@ -60,8 +60,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($pokemon->getMove() as $move): ?>
-                                    <tr class="move-detail-link" data-target="#move_<?=get_class($move['class'])?>-content">
+                                <?php foreach($pokemon->getMove() as $key => $move): ?>
+                                    <tr class="move-detail-link <?php if($key === 0) echo 'active'; ?>" data-target="#move_<?=get_class($move['class'])?>-content">
                                         <th scope="row" class="w-50"><?=$move['class']->getName()?></th>
                                         <td><?=$move['class']->getType()->getName()?></td>
                                         <td><?=$move['remaining']?>/<?=$move['class']->getPp($move['correction'])?></td>

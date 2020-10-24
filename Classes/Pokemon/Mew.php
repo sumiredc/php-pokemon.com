@@ -46,24 +46,24 @@ class Mew extends Pokemon
         // [1, 'MoveHighJumpKick'],        # とびひざげり
         // [1, 'MoveHyperBeam'],           # はかいこうせん
         [1, 'MovePsychic'],           # サイコキネシス
+        [6, 'MoveThrash'],     # あばれる
+        [7, 'MoveMist'],           # しろいきり
+        [8, 'MoveReflect'],           # リフレクター
+        [9, 'MoveLightScreen'],           # ひかりのかべ
+        [10, 'MoveSandAttack'],          # すなかけ
+        [11, 'MoveWhirlwind'],           # ふきとばし
+        [12, 'MoveDoubleTeam'],          # かげぶんしん
         // [1, 'MoveLeechSeed'],           # やどりぎのたね
         // [1, 'MoveConfuseRay'],          # あやしいひかり
         // [1, 'MoveSeismicToss'],         # ちきゅうなげ
         // [1, 'MovePsywave'],             # サイコウェーブ
         // [1, 'MoveCounter'],             # カウンター
         // [1, 'MoveRage'],                # いかり
-        // [1, 'MoveSandAttack'],          # すなかけ
-        // [1, 'MoveWhirlwind'],           # ふきとばし
-        // [1, 'MoveDoubleTeam'],          # かげぶんしん
-        // [1, 'MoveFly'],                 # そらをとぶ
-        // [1, 'MoveDig'],                 # あなをほる
-        // [1, 'MoveMist'],           # しろいきり
-        // [1, 'MoveReflect'],           # リフレクター
-        // [1, 'MoveLightScreen'],           # ひかりのかべ
         [1, 'MovePoisonPowder'],   # どくのこな
         [1, 'MoveSleepPowder'],    # ねむりごな
-        // [1, 'MoveThunderWave'],     # でんじは
-        [1, 'MoveThrash'],     # あばれる
+        [1, 'MoveThunderWave'],     # でんじは
+        [13, 'MoveFly'],                 # そらをとぶ
+        [14, 'MoveDig'],                 # あなをほる
     ];
 
     /**

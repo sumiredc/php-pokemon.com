@@ -41,17 +41,52 @@ trait ClassPokemonCheckTrait
     protected function checkMove()
     {
         // レベルアップして覚えられる技があれば習得する
-        $level_move_keys = array_keys(array_column($this->level_move, 0), $this->level);
+        $level_move_keys = array_keys(
+            array_column($this->level_move, 0),
+            $this->level
+        );
         foreach($level_move_keys as $key){
             $move_class = $this->level_move[$key][1];
             // 覚えようとしている技（クラス）が存在かつ重複していないか
             if(!in_array($move_class, array_column($this->move, 'class'), true)){
                 // インスタンス化
-                $move = new $move_class();
-                // 技クラスをセット
-                $this->setMove($move);
-
-                $this->setMessage($move->getName().'を覚えた！', 'success');
+                $move = new $move_class;
+                if(count($this->move) < 4){
+                    /**
+                    * 技が4つ未満なら即習得
+                    */
+                    // 技クラスをセット
+                    $this->setMove($move);
+                    $this->setMessage($move->getName().'を覚えた！');
+                }else{
+                    /**
+                    * 技選択用モーダルの返却
+                    */
+                    // メッセージIDを生成
+                    $msg_id = $this->issueMsgId();
+                    // レベルアップメッセージ
+                    $this->setMessage($this->getNickName().'は'.$move->getName().'を覚えたい');
+                    $this->setMessage('しかし技を４つ覚えるので精一杯だ');
+                    $this->setMessage($move->getName().'の代わりに他の技を忘れさせますか？', $msg_id);
+                    // レスポンスデータをセット
+                    $this->setResponse([
+                        'toggle' => 'modal',
+                        'target' => '#'.$msg_id.'-modal',
+                        'move' => $move_class
+                    ], $msg_id);
+                    // モーダル用のレスポンスをセット
+                    $this->setModal([
+                        'id' => $msg_id,
+                        'modal' => 'selectmove',
+                        'move' => array_merge($this->getMove(), [[
+                            'class' => $move,
+                            'remaining' => $move->getPp(),
+                            'correction' => 0,
+                        ]]),
+                    ]);
+                    // 諦めメッセージを事前に用意しておく
+                    $this->setMessage($this->getNickName().'は'.$move->getName().'を覚えるのを諦めた');
+                }
             }
         }
     }

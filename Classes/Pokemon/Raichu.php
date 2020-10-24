@@ -43,6 +43,7 @@ class Raichu extends Pokemon
     * @var array
     */
     protected $level_move = [
+        // [1, 'MoveThunder'],
         [1, 'MoveThunderShock'],
         [1, 'MoveGrowl'],
         [9, 'MoveThunderWave'],

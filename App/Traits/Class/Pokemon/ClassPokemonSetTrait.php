@@ -22,7 +22,7 @@ trait ClassPokemonSetTrait
     * @param integer $level
     * @return void
     */
-    protected function setLevel($level=0)
+    public function setLevel($level=0)
     {
         if(empty($level)){
             // 初期レベルからランダムで値を取得
@@ -53,7 +53,12 @@ trait ClassPokemonSetTrait
     */
     protected function setDefaultMove()
     {
-        foreach($this->level_move as list($level, $move)){
+        // レベル順に並び替えて取得
+        $move_list = $this->level_move;
+        $keys = array_column($move_list, 0);
+        array_multisort($keys, SORT_ASC, $move_list);
+        // 低レベルから順番に技を取得
+        foreach($move_list as list($level, $move)){
             if($level <= $this->level){
                 // 現在レベル以下の技であれば習得
                 $this->setMove(new $move);
@@ -66,9 +71,11 @@ trait ClassPokemonSetTrait
 
     /**
     * 技を覚える
+    * @param move:Move:object
+    * @param num:integer
     * @return object Move
     */
-    protected function setMove($move)
+    public function setMove($move, int $num=0)
     {
         $this->move[] = [
             'class' => get_class($move),
@@ -76,8 +83,12 @@ trait ClassPokemonSetTrait
             'correction' => 0,
         ];
         if(count($this->move) > 4){
-            // 技が4つを超過していれば、一番上を忘れさせる
-            unset($this->move[0]);
+            // 技が4つを超過していれば、選択された番号の技を忘れさせる
+            if(!isset($this->move[$num])){
+                // もし指定番号に技がなければ一番上を忘れさせる
+                $num = 0;
+            }
+            unset($this->move[$num]);
             // 技の添字を採番する
             $this->move = array_values($this->move);
         }
@@ -87,9 +98,25 @@ trait ClassPokemonSetTrait
     * 初期経験値をセットする
     * @return integer
     */
-    protected function setDefaultExp()
+    public function setDefaultExp()
     {
         $this->exp = $this->level ** 3;
+    }
+
+    /**
+    * 残りHPをセット
+    * @param val:integer
+    * @return integer
+    */
+    public function setRemainingHp($val)
+    {
+        // 0超過、最大HP以下
+        if(
+            $val > 0 &&
+            $this->getStats('HP') >= $val
+        ){
+            $this->remaining_hp = $val;
+        }
     }
 
     /**
@@ -132,7 +159,7 @@ trait ClassPokemonSetTrait
             }
             // 全レベルアップ処理終了後、メッセージIDを再生成
             $msg_id = $this->issueMsgId();
-            $this->setEmptyMessage($msg_id);
+            $this->setAutoMessage($msg_id);
         }
         // 経験値バーの最終アニメーション用レスポンス
         $this->setResponse([

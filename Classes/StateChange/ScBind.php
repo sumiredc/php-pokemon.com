@@ -18,7 +18,7 @@ class ScBind extends StateChange
     */
     protected $sicked_msg = [
         'Standard' => '::pokemonは、しめつけられた',
-        'FireSpin' => '::pokemonは、ほのおのうずに閉じ込められた',
+        'MoveFireSpin' => '::pokemonは、ほのおのうずに閉じ込められた',
     ];
 
     /**
@@ -27,7 +27,7 @@ class ScBind extends StateChange
     */
     protected $turn_msg = [
         'Standard' => '::pokemonは、しめつけられている',
-        'FireSpin' => '::pokemonは、ほのおのうずに巻き込まれている',
+        'MoveFireSpin' => '::pokemonは、ほのおのうずに巻き込まれている',
     ];
 
     /**
@@ -36,7 +36,7 @@ class ScBind extends StateChange
     */
     protected $recovery_msg = [
         'Standard' => '::pokemonは、しめつけから開放された',
-        'FireSpin' => '::pokemonは、ほのおのうずから抜け出した',
+        'MoveFireSpin' => '::pokemonは、ほのおのうずから抜け出した',
     ];
 
 }

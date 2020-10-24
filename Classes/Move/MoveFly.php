@@ -64,7 +64,7 @@ class MoveFly extends Move
     * チャージ中に回避できない技
     * @var array
     */
-    protected $cant_escape_move = ['Thunder', 'Gust'];
+    protected $cant_escape_move = ['MoveThunder', 'MoveGust'];
 
     /**
     * チャージ

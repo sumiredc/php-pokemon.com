@@ -1,6 +1,7 @@
 /*----------------------------------------------------------
 // 初期化する関数
 ----------------------------------------------------------*/
+var supportedFlag = $.keyframe.isSupported();
 // 自動メッセージ判定用
 var auto_msg;
 
@@ -28,7 +29,7 @@ var clickMsgBoxInit = function(){
     var click = true;
     // 変数をリセット
     auto_msg = false;
-    $('.action-message-box').click(async function(){
+    $('.action-message-box').on('click', async function(){
         if(click === false) return;
         $(".message-scroll-icon").hide();
         // メッセージボックスを処理終了まで無効化
@@ -121,14 +122,27 @@ var doAnimateHpBar = function(target, param){
         }
         // 処理後のHPバーの長さを算出
         var width = hp / hpbar.attr('aria-valuemax') * 100;
+        // キーフレームの用意
+        $.keyframe.define({
+            name: target + 'hpbar-animation',
+            from: {
+                width: hpbar.width()
+            },
+            to: {
+                width: width + '%'
+            }
+        });
         // 非同期1
         var promise1 = new Promise((resolve, reject) => {
             // 長さを変更
-            hpbar.animate({
-                width: width + "%"
-            }, {
-                duration: 500,
-                easing: 'easeOutQuad',
+            hpbar.playKeyframe({
+                name: target + 'hpbar-animation',
+                duration: '1000ms',
+                timingFunction: 'ease',
+                delay: '0s',
+                iterationCount: 1, // 繰り返し回数
+                direction: 'normal',
+                fillMode: 'forwards',
                 complete: function(){
                     // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
                     if(target === 'friend'){
@@ -147,6 +161,30 @@ var doAnimateHpBar = function(target, param){
                     }, 500);
                 }
             });
+            // hpbar.stop()
+            // .animate({
+            //     width: width + "%"
+            // }, {
+            //     duration: 500,
+            //     easing: 'linear',
+            //     complete: function(){
+            //         // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
+            //         if(target === 'friend'){
+            //             // HPバーの色チェック
+            //             hpbar.removeClass('bg-success bg-warning bg-danger');
+            //             if(width <= 20){
+            //                 hpbar.addClass('bg-danger');
+            //             }else if(width <= 50){
+            //                 hpbar.addClass('bg-warning');
+            //             }else{
+            //                 hpbar.addClass('bg-success');
+            //             }
+            //         }
+            //         setTimeout(function() {
+            //             resolve();
+            //         }, 500);
+            //     }
+            // });
         });
         // 非同期2
         var promise2 = new Promise( async (resolve, reject) => {
@@ -222,19 +260,44 @@ var doAnimateExpBar = function(param){
         var expbar = $("#expbar");
         // EXPの現在の値を変更
         expbar.attr('aria-valuenow', param);
-        // 経験値バーの長さを100%にする
-        expbar.animate({
-            width: param + "%"
-        }, {
-            duration: 500,
-            easing: 'easeOutQuad',
+        // キーフレームの用意
+        $.keyframe.define({
+            name: 'expbar-animation',
+            from: {
+                width: expbar.width()
+            },
+            to: {
+                width: param + '%'
+            }
+        });
+        // 経験値バーのアニメーション
+        expbar.playKeyframe({
+            name: 'expbar-animation',
+            duration: '1000ms',
+            timingFunction: 'ease',
+            delay: '0s',
+            iterationCount: 1, // 繰り返し回数
+            direction: 'normal',
+            fillMode: 'forwards',
             complete: function(){
-                // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
                 setTimeout(function() {
                     resolve();
                 }, 500);
             }
         });
+        // expbar.stop()
+        // .animate({
+        //     width: param + "%"
+        // }, {
+        //     duration: 500,
+        //     easing: 'linear',
+        //     complete: function(){
+        //         // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
+        //         setTimeout(function() {
+        //             resolve();
+        //         }, 500);
+        //     }
+        // });
     });
 }
 
@@ -249,6 +312,8 @@ var doAnimateExpBar = function(param){
 var doAnimateLevelUp = function(param){
     return new Promise ((resolve, reject) => {
         var expbar = $("#expbar");
+        // アニメーションをリセット
+        expbar.resetKeyframe(function(){});
         expbar.hide();
         expbar.css('width', 0);
         // レベルアップ
@@ -259,11 +324,12 @@ var doAnimateLevelUp = function(param){
         hpbar.attr('aria-valuemax', param.max_hp);
         hpbar.css('width', param.remaining_hp_per + '%');
         // 経験値バーをリセット
-        expbar.animate({
+        expbar.stop()
+        .animate({
             width: 0
         }, {
             duration: 1,
-            easing: 'easeOutQuad',
+            easing: 'linear',
             complete: function(){
                 // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
                 setTimeout(function() {

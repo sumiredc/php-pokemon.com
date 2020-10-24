@@ -64,7 +64,7 @@ class MoveDig extends Move
     * チャージ中に回避できない技
     * @var array
     */
-    protected $cant_escape_move = ['Earthquake'];
+    protected $cant_escape_move = ['MoveEarthquake'];
 
     /**
     * チャージ

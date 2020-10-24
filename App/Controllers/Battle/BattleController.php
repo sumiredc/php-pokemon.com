@@ -5,6 +5,7 @@ require_once($root_path.'/App/Controllers/Controller.php');
 require_once($root_path.'/App/Services/Battle/StartService.php');
 require_once($root_path.'/App/Services/Battle/RunService.php');
 require_once($root_path.'/App/Services/Battle/FightService.php');
+require_once($root_path.'/App/Services/Battle/LearnMoveService.php');
 // トレイト
 require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
@@ -149,6 +150,21 @@ class BattleController extends Controller
                     $this->fainting = $service->getResponse('fainting');
                     $this->field = $service->getResponse('field');
                 }
+                break;
+                /******************************************
+                * 技の習得
+                */
+                case 'learn_move':
+                // サービス実行
+                $service = new LearnMoveService(
+                    $this->pokemon,
+                    $_SESSION['__data']['before_reponses'],
+                    $_SESSION['__data']['before_messages'],
+                    $this->request('param')
+                );
+                $service->execute();
+                // 描画するポケモン情報を置き換え
+                $this->before['friend'] = $service->getTmpPokemon();
                 break;
                 /******************************************
                 * バトル終了

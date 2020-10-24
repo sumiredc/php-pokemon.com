@@ -95,6 +95,5 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
-    <script src="/Assets/js/Home/details.js" type="text/javascript"></script>
 </body>
 </html>
