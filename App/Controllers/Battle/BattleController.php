@@ -160,6 +160,7 @@ class BattleController extends Controller
                     $this->pokemon,
                     $_SESSION['__data']['before_reponses'],
                     $_SESSION['__data']['before_messages'],
+                    $_SESSION['__data']['before_modals'],
                     $this->request('param')
                 );
                 $service->execute();
@@ -204,14 +205,14 @@ class BattleController extends Controller
     */
     private function battleEnd()
     {
-        // 破棄
-        unset(
-            $_SESSION['__data']['enemy'],
-            $_SESSION['__data']['rank'],
-            $_SESSION['__data']['sc'],
-            $_SESSION['__data']['run'],
-            $_SESSION['__data']['field']
-        );
+        // セッション破棄
+        $target = [
+            'enemy', 'rank', 'sc', 'run', 'field',
+            'before_responses', 'before_messages', 'before_modals'
+        ];
+        foreach($target as $key){
+            unset($_SESSION['__data'][$key]);
+        }
         $_SESSION['__route'] = 'home';
         header("Location: ./", true, 307);
         exit;

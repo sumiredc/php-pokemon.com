@@ -47,7 +47,7 @@ class MoveThunder extends Move
     * @var integer
     */
     protected $pp = 10;
-    
+
     /**
     * 対象
     * @var string
@@ -68,7 +68,7 @@ class MoveThunder extends Move
         */
         list($atk, $def) = $args;
         // もし相手がそらをとぶチャージ中なら威力2倍
-        if($def->getChargeMove() === 'Fly'){
+        if($def->getChargeMove() === 'MoveFly'){
             return 2;
         }
         // 通常補正値

@@ -20,6 +20,38 @@ trait ResponseTrait
     private $modals = [];
 
     /**
+    * メッセージIDの発行
+    *
+    * @return string
+    */
+    public function issueMsgId()
+    {
+        // IDを生成
+        $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
+        // ユニークになるようにチェック
+        while(in_array($id, $_SESSION['__message_ids'] ?? [], true)){
+            $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
+        }
+        $_SESSION['__message_ids'][] = $id;
+        return $id;
+    }
+
+    /**
+    * 全リセット
+    *
+    * @return void
+    */
+    public function resetAll()
+    {
+        $this->messages = [];
+        $this->responses = [];
+        $this->modals = [];
+    }
+
+    /**==================================================================
+    * メッセージ関係の処理
+    ==================================================================**/
+    /**
     * メッセージの取得
     *
     * @return array
@@ -103,6 +135,9 @@ trait ResponseTrait
         return array_key_last($this->msgs);
     }
 
+    /**==================================================================
+    * レスポンス関係の処理
+    ==================================================================**/
     /**
     * 指定したレスポンステータの取得
     *
@@ -155,6 +190,31 @@ trait ResponseTrait
     }
 
     /**
+    * 指定されたプロパティをレスポンスにセット(出力)
+    *
+    * @return void
+    */
+    public function exportProperty(...$properties)
+    {
+        foreach($properties as $property){
+            $this->setResponse($this->$property, $property);
+        }
+    }
+
+    /**
+    * レスポンステータの初期化
+    *
+    * @return void
+    */
+    public function resetResponse()
+    {
+        $this->responses = [];
+    }
+
+    /**==================================================================
+    * モーダル関係の処理
+    ==================================================================**/
+    /**
     * モーダルテータの取得
     *
     * @return array
@@ -195,57 +255,6 @@ trait ResponseTrait
     */
     public function resetModal()
     {
-        $this->modals = [];
-    }
-
-    /**
-    * 指定されたプロパティをレスポンスにセット(出力)
-    *
-    * @return void
-    */
-    public function exportProperty(...$properties)
-    {
-        foreach($properties as $property){
-            $this->setResponse($this->$property, $property);
-        }
-    }
-
-    /**
-    * レスポンステータの初期化
-    *
-    * @return void
-    */
-    public function resetResponse()
-    {
-        $this->responses = [];
-    }
-
-    /**
-    * メッセージIDの発行
-    *
-    * @return string
-    */
-    public function issueMsgId()
-    {
-        // IDを生成
-        $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
-        // ユニークになるようにチェック
-        while(in_array($id, $_SESSION['__message_ids'] ?? [], true)){
-            $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
-        }
-        $_SESSION['__message_ids'][] = $id;
-        return $id;
-    }
-
-    /**
-    * 全リセット
-    *
-    * @return void
-    */
-    public function resetAll()
-    {
-        $this->messages = [];
-        $this->responses = [];
         $this->modals = [];
     }
 

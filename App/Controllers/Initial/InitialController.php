@@ -24,6 +24,11 @@ class InitialController extends Controller
     {
         // 親コンストラクタの呼び出し
         parent::__construct();
+        // 本番環境用の分岐
+        if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.s-yqual.com'){
+            // ミュウはローカルのみ
+            unset($this->pokemon_list['Mew']);
+        }
         // 分岐処理
         $this->branch();
         // 親デストラクタの呼び出し

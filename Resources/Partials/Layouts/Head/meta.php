@@ -22,10 +22,9 @@ $description = 'WEBブラウザで遊べる「PHPポケモン」。PHPやJavaScr
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152719184-3"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-152719184-3');
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-152719184-3');
 </script>
 <title><?=$site_title?></title>

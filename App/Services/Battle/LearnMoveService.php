@@ -34,13 +34,19 @@ class LearnMoveService extends Service
     protected $request;
 
     /**
+    * @param Pokemon:object
+    * @param before_response:array
+    * @param before_messages:array
+    * @param before_modals:array
+    * @param request:array
     * @return void
     */
-    public function __construct($pokemon, $before_responses, $before_messages, $request)
+    public function __construct($pokemon, $before_responses, $before_messages, $before_modals, $request)
     {
         $this->pokemon = $pokemon;
-        $this->before_responses = $before_responses;
+        $this->before_responses = $this->unserializeObject($before_responses);
         $this->before_messages = $before_messages;
+        $this->before_modals = $this->unserializeObject($before_modals);
         $this->request = $request;
     }
 
@@ -49,14 +55,21 @@ class LearnMoveService extends Service
     */
     public function execute()
     {
+        // 描画用ポケモンオブジェクトの作成
         $this->tmp_pokemon = $this->createTmpPokemon();
+        // 技の置き換え
         $this->replaceMove();
-        // メッセージとレスポンスの引き継ぎ
-        $this->setMessage(
-            $this->getUntreatedResponses($this->before_messages, $this->request['id'], true)
-        );
+        // レスポンスの引き継ぎ
         $this->setResponse(
             $this->getUntreatedResponses($this->before_responses, $this->request['id'])
+        );
+        // メッセージの引き継ぎ
+        $this->setMessage(
+            $this->getUntreatedResponses($this->before_messages, $this->request['id'], 'message')
+        );
+        // モーダルの引き継ぎ
+        $this->setModal(
+            $this->getUntreatedResponses($this->before_modals, $this->request['id'], 'modal'), true
         );
     }
 
@@ -103,35 +116,52 @@ class LearnMoveService extends Service
     }
 
     /**
-    * 未処理メッセージ・レスポンスの引き継ぎ処理
-    * @return void
+    * 未処理レスポンス・メッセージ・モーダルの引き継ぎ処理
+    * @param response:array
+    * @param msg_id:string
+    * @param param:string::response|message|modal
+    * @return array
     */
-    private function getUntreatedResponses($responses, $msg_id, $msg=false)
+    private function getUntreatedResponses(array $responses, string $msg_id, string $param='response')
     {
-        if($msg){
-            /**
-            * メッセージの処理
+        $cnt = 1;
+        switch ($param) {
+            /********
+            * メッセージの引き継ぎ
             */
+            case 'message':
             $key = array_search(
                 $msg_id,
-                array_column($responses, 1),
+                array_column($responses, 1), # メッセージIDの位置は1番目
                 true
             );
-            // 対象メッセージを含め3つ目までを削除した配列を返却
-            return array_splice($responses, $key + 3);
-        }else{
-            /**
-            * レスポンスの処理
+            // 対象メッセージを含め3つ目までを削除
+            $cnt = 3;
+            break;
+            /********
+            * モーダルの引き継ぎ
             */
+            case 'modal':
+            $key = array_search(
+                $msg_id,
+                array_column($responses, 0), # メッセージIDの位置は0番目
+                true
+            );
+            break;
+            /********
+            * レスポンスの引き継ぎ
+            */
+            default:
             // メッセージIDのレスポンスが入った位置を取得
             $key = array_search(
                 $msg_id,
                 array_keys($responses),
                 true
             );
-            // メッセージIDより後のレスポンスを返却
-            return array_splice($responses, $key + 1);
+            break;
         }
+        // 未処理だけを切り出して返却
+        return array_splice($responses, $key + $cnt);
     }
 
 }

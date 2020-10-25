@@ -23,20 +23,25 @@ var clickMoveInit = function(){
 **/
 var selectForgetMoveInit = function(){
     $('.forget-selectmove').on('click', function(){
+        var modal = $(this).data('modal');
         // 諦めるボタンの無効化切り替え
         if($(this).hasClass('new-move')){
-            $("#btn-abandon-move").prop('disabled', false);
-            $('#btn-forget-move').hide();
+            $(modal).find(".btn-abandon-move")
+            .prop('disabled', false);
+            $(modal).find('.btn-forget-move')
+            .hide();
             return;
         }else{
-            $("#btn-abandon-move").prop('disabled', true);
+            $(modal).find(".btn-abandon-move")
+            .prop('disabled', true);
         }
         // 技名を取得
         var name = $(this).data('name');
         // ボタンに技名をセット
-        $('#btn-forget-move').find('.move-name')
+        $(modal).find('.btn-forget-move .move-name')
         .text(name);
-        $('#btn-forget-move').show();
+        $(modal).find('.btn-forget-move')
+        .show();
     });
 }
 
@@ -46,11 +51,12 @@ var selectForgetMoveInit = function(){
 * @return void
 **/
 var submitForgetMoveInit = function(){
-    $('#btn-forget-move').on('click', function(){
+    $('.btn-forget-move').on('click', function(){
+        var modal = $(this).data('modal');
         // 技をフォームへセット
         var data = {
             id: $(this).data('msg_id'),
-            forget: $('.forget-selectmove.active').data('num'),
+            forget: $(modal).find('.forget-selectmove.active').data('num'),
             level: $('#level').text(),
             hp: $('#hpbar-friend').attr('aria-valuenow')
         };

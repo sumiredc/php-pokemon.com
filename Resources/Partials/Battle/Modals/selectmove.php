@@ -16,8 +16,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($modal['move'] as $key => $move): ?>
+                        <?php foreach($pokemon->getMove() as $key => $move): ?>
                             <tr class="move-detail-link forget-selectmove <?php if($key === 4) echo 'active new-move'; ?>"
+                                data-modal="#<?=$modal['id']?>-modal"
                                 data-target="#<?=$modal['id']?>_<?=get_class($move['class'])?>-content"
                                 data-name="<?=$move['class']->getName()?>"
                                 data-num="<?=$key?>">
@@ -26,29 +27,48 @@
                                 <td><?=$move['remaining']?>/<?=$move['class']->getPp($move['correction'])?></td>
                             </tr>
                         <?php endforeach; ?>
+                        <?php # 覚えようとしている技 ?>
+                        <tr class="move-detail-link forget-selectmove active new-move"
+                            data-modal="#<?=$modal['id']?>-modal"
+                            data-target="#<?=$modal['id']?>_<?=get_class($modal['new_move'])?>-content"
+                            data-name="<?=$modal['new_move']->getName()?>"
+                            data-num="<?=$key?>">
+                            <th scope="row" class="w-50"><?=$modal['new_move']->getName()?></th>
+                            <td><?=$modal['new_move']->getType()->getName()?></td>
+                            <td><?=$modal['new_move']->getPp()?>/<?=$modal['new_move']->getPp()?></td>
+                        </tr>
                     </tbody>
                 </table>
                 <?php # 技説明 ?>
                 <div class="overflow-auto p-3 border" style="height:160px;">
-                    <?php foreach($modal['move'] as $key => $move): ?>
-                        <div class="move-detail-content <?php if($key === 4) echo 'active'; ?>" id="<?=$modal['id']?>_<?=get_class($move['class'])?>-content">
+                    <?php foreach($pokemon->getMove() as $key => $move): ?>
+                        <div class="move-detail-content" id="<?=$modal['id']?>_<?=get_class($move['class'])?>-content">
                             <h6><?=$move['class']->getName()?></h6>
                             <hr>
                             <p><?=$move['class']->getDescription()?></p>
                         </div>
                     <?php endforeach; ?>
+                    <?php # 覚えようとしている技 ?>
+                    <div class="move-detail-content active" id="<?=$modal['id']?>_<?=get_class($modal['new_move'])?>-content">
+                        <h6><?=$modal['new_move']->getName()?></h6>
+                        <hr>
+                        <p><?=$modal['new_move']->getDescription()?></p>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <?php # 忘れさせるボタン ?>
                 <button type="button"
-                class="btn btn-danger btn-sm"
-                id="btn-forget-move"
+                class="btn btn-danger btn-sm btn-forget-move"
+                data-modal="#<?=$modal['id']?>-modal"
                 data-msg_id="<?=$modal['id']?>"
                 style="display:none;">
                 <span class="move-name"></span>を忘れる</button>
-                <button type="button" class="btn btn-secondary btn-sm action-message-box" id="btn-abandon-move" data-dismiss="modal">
-                    <?=$modal['move'][4]['class']->getName()?>を諦める
-                </button>
+                <?php # 諦めるボタン ?>
+                <button type="button"
+                class="btn btn-secondary btn-sm action-message-box btn-abandon-move"
+                data-dismiss="modal">
+                <?=$modal['new_move']->getName()?>を諦める</button>
             </div>
         </div>
     </div>

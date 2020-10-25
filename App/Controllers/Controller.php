@@ -5,12 +5,14 @@ require_once($root_path.'/Classes/Sanitize.php');
 // トレイト
 require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/InstanceTrait.php');
+require_once($root_path.'/App/Traits/SerializeTrait.php');
 
 // コントローラー
 abstract class Controller
 {
     use ResponseTrait;
     use InstanceTrait;
+    use SerializeTrait;
 
     /**
     * ポケモン格納用

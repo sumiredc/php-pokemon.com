@@ -44,9 +44,11 @@ class Raichu extends Pokemon
     */
     protected $level_move = [
         // [1, 'MoveThunder'],
-        [1, 'MoveThunderShock'],
-        [1, 'MoveGrowl'],
-        [9, 'MoveThunderWave'],
+        [1, 'MoveTailWhip'],
+
+        // [1, 'MoveThunderShock'],
+        // [1, 'MoveGrowl'],
+        // [9, 'MoveThunderWave'],
     ];
 
     /**

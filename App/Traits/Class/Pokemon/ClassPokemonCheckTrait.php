@@ -38,7 +38,7 @@ trait ClassPokemonCheckTrait
     *
     * @return void
     */
-    protected function checkMove()
+    protected function checkLevelMove()
     {
         // レベルアップして覚えられる技があれば習得する
         $level_move_keys = array_keys(
@@ -78,11 +78,7 @@ trait ClassPokemonCheckTrait
                     $this->setModal([
                         'id' => $msg_id,
                         'modal' => 'selectmove',
-                        'move' => array_merge($this->getMove(), [[
-                            'class' => $move,
-                            'remaining' => $move->getPp(),
-                            'correction' => 0,
-                        ]]),
+                        'new_move' => $move
                     ]);
                     // 諦めメッセージを事前に用意しておく
                     $this->setMessage($this->getNickName().'は'.$move->getName().'を覚えるのを諦めた');

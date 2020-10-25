@@ -168,7 +168,7 @@ abstract class Pokemon
                 // メッセージの引き継ぎ
                 $this->setMessage($before->getMessages());
                 $this->setMessage($this->name.'に進化した', 'success');
-                $this->checkMove();
+                $this->checkLevelMove();
             }
             break;
         }
@@ -225,7 +225,7 @@ abstract class Pokemon
             'stats' => $this->getStats(),
         ]);
         // 現在のレベルで習得できる技があるか確認
-        $this->checkMove();
+        $this->checkLevelMove();
     }
 
     /**

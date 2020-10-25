@@ -161,30 +161,6 @@ var doAnimateHpBar = function(target, param){
                     }, 500);
                 }
             });
-            // hpbar.stop()
-            // .animate({
-            //     width: width + "%"
-            // }, {
-            //     duration: 500,
-            //     easing: 'linear',
-            //     complete: function(){
-            //         // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
-            //         if(target === 'friend'){
-            //             // HPバーの色チェック
-            //             hpbar.removeClass('bg-success bg-warning bg-danger');
-            //             if(width <= 20){
-            //                 hpbar.addClass('bg-danger');
-            //             }else if(width <= 50){
-            //                 hpbar.addClass('bg-warning');
-            //             }else{
-            //                 hpbar.addClass('bg-success');
-            //             }
-            //         }
-            //         setTimeout(function() {
-            //             resolve();
-            //         }, 500);
-            //     }
-            // });
         });
         // 非同期2
         var promise2 = new Promise( async (resolve, reject) => {
@@ -285,19 +261,6 @@ var doAnimateExpBar = function(param){
                 }, 500);
             }
         });
-        // expbar.stop()
-        // .animate({
-        //     width: param + "%"
-        // }, {
-        //     duration: 500,
-        //     easing: 'linear',
-        //     complete: function(){
-        //         // 処理完了(css変更のズレがあるため0.5秒後にresolveを返却)
-        //         setTimeout(function() {
-        //             resolve();
-        //         }, 500);
-        //     }
-        // });
     });
 }
 
@@ -322,6 +285,9 @@ var doAnimateLevelUp = function(param){
         var hpbar = $("#hpbar-friend");
         hpbar.attr('aria-valuenow', param.remaining_hp);
         hpbar.attr('aria-valuemax', param.max_hp);
+        // 表示されているHPを変更
+        $('#remaining-hp-count-friend').text(param.remaining_hp);
+        $('#max-hp-count-friend').text(param.max_hp);
         hpbar.css('width', param.remaining_hp_per + '%');
         // 経験値バーをリセット
         expbar.stop()

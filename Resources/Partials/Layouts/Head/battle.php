@@ -21,5 +21,11 @@ $_SESSION['__data']['sc'] = [ # 状態変化をセッションに格納
 'enemy' => $enemy->export('sc'),
 ];
 // レスポンスデータを引き継ぎ用にセッションへ格納
-$_SESSION['__data']['before_reponses'] = $responses;
+// レスポンス・モーダルはシリアライズ化
+$_SESSION['__data']['before_reponses'] = $controller->serializeObject(
+    $controller->getResponses()
+);
+$_SESSION['__data']['before_modals'] = $controller->serializeObject(
+    $controller->getModals()
+);
 $_SESSION['__data']['before_messages'] = $controller->getMessages();
