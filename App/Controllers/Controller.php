@@ -36,6 +36,14 @@ abstract class Controller
         // サニタイズ
         $sanitize = new Sanitize;
         $this->post = $sanitize->getPost();
+        // メッセージIDの重複回避
+        if(
+            isset($_SESSION['__data']['before_reponses'])
+            || isset($_SESSION['__data']['before_messages'])
+            || isset($_SESSION['__data']['before_modals'])
+        ){
+            $this->avoidMessageId();
+        }
     }
 
     /**
@@ -46,6 +54,49 @@ abstract class Controller
         $_POST = [];
         // メッセージIDのリフレッシュ
         unset($_SESSION['__message_ids']);
+    }
+
+    /**
+    * メッセージIDの重複回避
+    *
+    * @return void
+    */
+    private function avoidMessageId()
+    {
+        // 格納用の空配列
+        $results = [];
+        // array_fillterコールバック用関数
+        function callback($msg_id){
+            // 行頭にmsgがついているかを判定
+            return preg_match('/^msg/', $msg_id);
+        }
+        // レスポンス
+        if(isset($_SESSION['__data']['before_responses'])){
+            $results = array_filter(
+                array_keys($_SESSION['__data']['before_responses']),
+                'callback'
+            );
+        }
+        // メッセージ
+        if(isset($_SESSION['__data']['before_messages'])){
+            $msg_ids = array_filter(
+                array_column($_SESSION['__data']['before_messages'], 1),
+                'callback'
+            );
+            // 結果の差分を格納
+            $results = array_merge($results, array_diff($msg_ids, $results));
+        }
+        // モーダル
+        if(isset($_SESSION['__data']['before_modals'])){
+            $msg_ids = array_filter(
+                array_column($_SESSION['__data']['before_modals'], 0),
+                'callback'
+            );
+            // 結果の差分を格納
+            $results = array_merge($results, array_diff($msg_ids, $results));
+        }
+        // 重複回避用セッションに格納
+        $_SESSION['__message_ids'] = $results;
     }
 
     /**
