@@ -64,7 +64,6 @@ class StartService extends Service
         $this->enemy = new $this->pokemon_list[random_int(0, 3)](
             random_int($this->min, $this->max)
         );
-        // $this->enemy = new Raichu(15);
         // 返却値をセット
         $this->exportProperty('enemy');
         $this->setMessage('野生の'.$this->enemy->getName().'が現れた！');

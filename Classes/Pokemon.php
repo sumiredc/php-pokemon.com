@@ -131,6 +131,12 @@ abstract class Pokemon
     protected $sc = [];
 
     /**
+    * 進化フラグ
+    * @var boolean
+    */
+    protected $evolve_flg = false;
+
+    /**
     * インスタンス作成時に実行される処理
     *
     * @param object|array|integer
@@ -167,7 +173,6 @@ abstract class Pokemon
                 $this->takeOverAbility($before->export());
                 // メッセージの引き継ぎ
                 $this->setMessage($before->getMessages());
-                $this->setMessage($this->name.'に進化した', 'success');
                 $this->checkLevelMove();
             }
             break;
@@ -231,11 +236,14 @@ abstract class Pokemon
     /**
     * 進化
     *
-    * @return Classes\Pokemon\$after_class
+    * @return Pokemon
     */
-    protected function evolve()
+    public function evolve()
     {
-        if(class_exists($this->after_class ?? null)){
+        if(
+            $this->evolve_flg
+            && class_exists($this->after_class ?? null)
+        ){
             // 現在のHPを取得
             $before_hp = $this->getStats('HP');
             // 進化ポケモンのインスタンスを生成
@@ -244,15 +252,17 @@ abstract class Pokemon
             if(!isset($pokemon->sa['SaFainting'])){
                 $pokemon->calRemainingHp('add', $pokemon->getStats('HP') - $before_hp);
             }
+            $pokemon->setMessage('おめでとう！'.$this->getNickName().'は'.$pokemon->getName().'に進化した！');
             // 進化後のインスタンスを返却
             return $pokemon;
         }else{
-            $this->setMessage('このポケモンは進化できません', 'error');
+            $this->setMessage('このポケモンは進化できません');
+            return $this;
         }
     }
 
     /**
-    * 現在インスタンスを出力(引き継ぎ用)
+    * 現在インスタンスを出力(引き継ぎ用:進化で使用中)
     *
     * @param string
     * @return array
@@ -355,6 +365,18 @@ abstract class Pokemon
     }
 
     /**
+    * リフレッシュ処理（ランク・状態変化・バトルダメージをリセット）
+    *
+    * @return void
+    */
+    public function releaseBattleStatsAll()
+    {
+        $this->releaseSc();
+        $this->releaseRank();
+        $this->resetTurnDamage();
+    }
+
+    /**
     * 状態異常の解除
     *
     * @return void
@@ -380,6 +402,25 @@ abstract class Pokemon
         }else{
             // 指定された状態変化の解除
             unset($this->sc[$class]);
+        }
+    }
+
+    /**
+    * ランク補正の解除
+    *
+    * @param string $param
+    * @return void
+    */
+    public function releaseRank($param='')
+    {
+        if($param && isset($this->rank[$param])){
+            // 指定されたランクを解除
+            $this->rank[$param] = 0;
+        }else{
+            // 全解除
+            $this->rank = array_map(function($val){
+                return 0;
+            }, $this->rank);
         }
     }
 

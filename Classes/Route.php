@@ -37,6 +37,10 @@ class Route
             case 'battle':
             $path = '/Resources/Pages/Battle.php';
             break;
+            // 進化画面
+            case 'evolve':
+            $path = '/Resources/Pages/Evolve.php';
+            break;
             // デフォルト（初期設定）
             default:
             $path = '/Resources/Pages/Initial.php';

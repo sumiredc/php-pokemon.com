@@ -400,7 +400,7 @@ trait ServiceBattleCheckTrait
             // ひんし状態
             $this->setMessage($pokemon->getMessages());
             // ポケモン内のメッセージとレスポンスを削除
-            $pokemon->resetAll();
+            $pokemon->resetResponsesAll();
             // ひんしポケモンの状態変化を全解除
             $pokemon->releaseSc();
             return true;

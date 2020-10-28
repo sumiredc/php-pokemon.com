@@ -57,7 +57,7 @@ trait ServiceBattleAttackTrait
         if($move->charge($atk_pokemon)){
             // チャージターンならメッセージを格納して行動終了
             $this->setMessage($atk_pokemon->getMessages());
-            $atk_pokemon->resetAll();
+            $atk_pokemon->resetResponsesAll();
             return;
         }
         // 攻撃メッセージを格納
@@ -120,7 +120,7 @@ trait ServiceBattleAttackTrait
         $this->setMessage($move->getMessages());
         $this->setResponse($move->getResponses());
         // メッセージとレスポンスをリセット
-        $move->resetAll();
+        $move->resetResponsesAll();
     }
 
     /**
@@ -214,7 +214,7 @@ trait ServiceBattleAttackTrait
                 $this->setField($atk_pokemon->getPosition(), new $field['class'], $field['turn']);
             }
             // メッセージとレスポンスをリセット
-            $move->resetAll();
+            $move->resetResponsesAll();
             // いかり判定
             if($def_pokemon->checkSc('ScRage') && !empty($damage ?? 0)){
                 $rage = new ScRage;

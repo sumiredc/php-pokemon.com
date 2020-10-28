@@ -48,6 +48,15 @@ trait ClassPokemonSetTrait
     }
 
     /**
+    * 進化フラグをfalseにする
+    * @return void
+    */
+    public function setEvolveFlgFalse()
+    {
+        $this->evolve_flg = false;
+    }
+
+    /**
     * 初期技をセットする
     * @return void
     */
@@ -122,7 +131,7 @@ trait ClassPokemonSetTrait
     /**
     * 経験値をセット（取得）する
     * @param integer $exp
-    * @return object
+    * @return void
     */
     public function setExp($exp)
     {
@@ -166,12 +175,13 @@ trait ClassPokemonSetTrait
             'param' => $this->getPerCompNexExp(),
             'action' => 'expbar',
         ], $msg_id);
-
         // 進化判定
-        if(isset($levelup) && isset($this->evolve_level) && ($this->evolve_level <= $this->level)){
-            return $this->evolve();
-        }else{
-            return $this;
+        if(
+            isset($levelup) &&
+            isset($this->evolve_level) &&
+            $this->evolve_level <= $this->level
+        ){
+            $this->evolve_flg = true;
         }
     }
 
@@ -252,6 +262,13 @@ trait ClassPokemonSetTrait
         // ひんしをセット
         if($class === 'SaFainting'){
             $this->sa = [$class => $turn];
+            // ランク・状態変化・バトルダメージをリセット
+            $this->releaseBattleStatsAll();
+            // 進化フラグがtureになっていればfalseに変更
+            if($this->evolve_flg){
+                $this->evolve_flg = false;
+            }
+            // メッセージの返却
             return $this->getPrefixName().'は倒れた';
         }
         // セットできる状態異常一覧

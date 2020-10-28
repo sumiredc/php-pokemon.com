@@ -62,6 +62,15 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * 進化先のクラスを取得する
+    * @return string
+    */
+    public function getAfterClass()
+    {
+        return $this->after_class ?? '';
+    }
+
+    /**
     * 覚えている技の一覧を取得する
     * @param integer $num
     * @param string
@@ -96,7 +105,15 @@ trait ClassPokemonGetTrait
                 return new $move['class'];
             }
         }
+    }
 
+    /**
+    * 進化フラグを取得する
+    * @return boolean
+    */
+    public function getEvolveFlg()
+    {
+        return $this->evolve_flg;
     }
 
     /**

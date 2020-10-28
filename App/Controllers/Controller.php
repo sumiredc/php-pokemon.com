@@ -54,6 +54,11 @@ abstract class Controller
         $_POST = [];
         // メッセージIDのリフレッシュ
         unset($_SESSION['__message_ids']);
+        // ポケモンに溜まっているレスポンスデータを全解除
+        if(is_object($this->pokemon)){
+            $this->pokemon
+            ->resetResponsesAll();
+        }
     }
 
     /**

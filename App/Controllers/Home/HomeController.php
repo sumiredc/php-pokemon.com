@@ -83,7 +83,7 @@ class HomeController extends Controller
                 $this->setMessage($service->getMessages());
                 $this->setResponse($service->getResponses());
                 $this->setModal($service->getModals(), true);
-                $service->resetAll();
+                $service->resetResponsesAll();
             }
         } catch (\Exception $e) {
             // 初期画面へ移管

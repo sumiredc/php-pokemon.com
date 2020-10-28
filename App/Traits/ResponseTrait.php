@@ -5,7 +5,7 @@ trait ResponseTrait
     * メッセージの格納用
     * @var array
     */
-    private $msgs = [];
+    private $messages = [];
 
     /**
     * レスポンスデータの格納用
@@ -41,7 +41,7 @@ trait ResponseTrait
     *
     * @return void
     */
-    public function resetAll()
+    public function resetResponsesAll()
     {
         $this->messages = [];
         $this->responses = [];
@@ -58,7 +58,7 @@ trait ResponseTrait
     */
     public function getMessages()
     {
-        return $this->msgs;
+        return $this->messages;
     }
 
     /**
@@ -76,10 +76,10 @@ trait ResponseTrait
         }
         if(is_array($msg)){
             // 一括登録
-            $this->msgs = array_merge($this->msgs, $msg);
+            $this->messages = array_merge($this->messages, $msg);
         }else{
             // 単発登録
-            $this->msgs[] = [$msg, $param, ''];
+            $this->messages[] = [$msg, $param, ''];
         }
     }
 
@@ -91,7 +91,7 @@ trait ResponseTrait
     */
     public function setAutoMessage($param)
     {
-        $this->msgs[] = ['', $param, 'auto'];
+        $this->messages[] = ['', $param, 'auto'];
     }
 
     /**
@@ -102,7 +102,7 @@ trait ResponseTrait
     */
     public function setEmptyMessage(string $param='')
     {
-        $this->msgs[] = ['', $param, ''];
+        $this->messages[] = ['', $param, ''];
     }
 
     /**
@@ -112,7 +112,7 @@ trait ResponseTrait
     */
     public function resetMessage()
     {
-        $this->msgs = [];
+        $this->messages = [];
     }
 
     /**
@@ -122,7 +122,7 @@ trait ResponseTrait
     */
     public function getMessageFirstKey()
     {
-        return array_key_first($this->msgs);
+        return array_key_first($this->messages);
     }
 
     /**
@@ -132,7 +132,7 @@ trait ResponseTrait
     */
     public function getMessageLastKey()
     {
-        return array_key_last($this->msgs);
+        return array_key_last($this->messages);
     }
 
     /**==================================================================
@@ -244,7 +244,7 @@ trait ResponseTrait
             // モーダル格納
             $this->modals[] = $param;
             // モーダル起動時用のからメッセージをセット
-            $this->msgs[] = ['', '', ''];
+            $this->messages[] = ['', '', ''];
         }
     }
 

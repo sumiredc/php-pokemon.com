@@ -8,15 +8,16 @@ trait HomeControllerTrait
     /**
     * ポケモン情報の引き継ぎ
     *
-    * @return object
+    * @return object|array
     */
     protected function takeOverPokemon($pokemon)
     {
-        try {
+        if(isset($pokemon['class_name'])){
+            // 旧処理
             $class = $pokemon['class_name'];
             $this->pokemon = new $class($pokemon);
-        } catch (\Exception $e) {
-            throw $e;
+        }else{
+            $this->pokemon = $this->unserializeObject($pokemon);
         }
     }
 }

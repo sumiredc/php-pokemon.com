@@ -52,9 +52,9 @@ class InitialController extends Controller
                 $this->setMessage('選択されたポケモンは選ぶことが出来ません');
                 break;
             }
-            $pokemon = new $class;
+            $pokemon = new $class(5);
             $pokemon->setPosition();
-            $_SESSION['__data']['pokemon'] = $pokemon->export();
+            $_SESSION['__data']['pokemon'] = $this->serializeObject($pokemon);
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
             header("Location: ./", true, 307);

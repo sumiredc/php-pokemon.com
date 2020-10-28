@@ -6,54 +6,33 @@
 trait BattleControllerTrait
 {
 
-    /**
-    * ポケモン情報の引き継ぎ
-    *
-    * @param Pokemon::export:array $pokemon
-    * @return void
-    */
-    protected function takeOverPokemon($pokemon)
-    {
-        $class = $pokemon['class_name'];
-        $this->pokemon = new $class($pokemon);
-        // ランク（バトルステータス）の引き継ぎ
-        if(isset($_SESSION['__data']['rank'])){
-            $this->pokemon
-            ->setRank($_SESSION['__data']['rank']['pokemon']);
-        }
-        // 状態変化の引き継ぎ
-        if(isset($_SESSION['__data']['sc'])){
-            $this->pokemon
-            ->setSc($_SESSION['__data']['sc']['pokemon']);
-        }
-        // 前ターンの状態をプロパティに格納
-        $this->before['friend'] = clone $this->pokemon;
-    }
-
-    /**
-    * 相手ポケモンの引き継ぎ
-    *
-    * @param Pokemon::export:array $enemy
-    * @return void
-    */
-    protected function takeOverEnemy($enemy)
-    {
-        if(!empty($enemy)){
-            $this->enemy = new $enemy['class_name']($enemy);
-            // 前ターンの状態をプロパティに格納
-            $this->before['enemy'] = clone $this->enemy;
-        }
-        // ランク（バトルステータス）の引き継ぎ
-        if(isset($_SESSION['__data']['rank'])){
-            $this->enemy
-            ->setRank($_SESSION['__data']['rank']['enemy']);
-        }
-        // 状態変化の引き継ぎ
-        if(isset($_SESSION['__data']['sc'])){
-            $this->enemy
-            ->setSc($_SESSION['__data']['sc']['enemy']);
-        }
-    }
+    // /**
+    // * ポケモン情報の引き継ぎ
+    // *
+    // * @param Pokemon::export:array $pokemon
+    // * @return void
+    // */
+    // protected function takeOverPokemon($pokemon)
+    // {
+    //     $this->pokemon = $this->unserializeObject($pokemon);
+    //     // 前ターンの状態をプロパティに格納
+    //     $this->before['friend'] = clone $this->pokemon;
+    // }
+    //
+    // /**
+    // * 相手ポケモンの引き継ぎ
+    // *
+    // * @param Pokemon::export:array $enemy
+    // * @return void
+    // */
+    // protected function takeOverEnemy($enemy)
+    // {
+    //     if(!empty($enemy)){
+    //         $this->enemy = $this->unserializeObject($enemy);
+    //         // 前ターンの状態をプロパティに格納
+    //         $this->before['enemy'] = clone $this->enemy;
+    //     }
+    // }
 
     /**
     * 敵ポケモン情報の取得
@@ -107,8 +86,8 @@ trait BattleControllerTrait
             // 相手がひんし状態になった（味方はひんし状態ではない）
             // 経験値の計算
             $exp = $this->calExp($this->pokemon, $this->enemy);
-            // 経験値をポケモンにセット(返り値をpokemonに格納)
-            $this->pokemon = $this->pokemon
+            // 経験値をポケモンにセット
+            $this->pokemon
             ->setExp($exp);
             // 努力値を獲得
             $this->pokemon
@@ -119,7 +98,7 @@ trait BattleControllerTrait
             $this->setModal($this->pokemon->getModals(), true);
             // 全レスポンスを初期化
             $this->pokemon
-            ->resetAll();
+            ->resetResponsesAll();
         }
         // バトル終了判定用メッセージの格納
         $this->setEmptyMessage('battle-end');
@@ -147,7 +126,5 @@ trait BattleControllerTrait
         // 経験値の計算結果を整数（切り捨て）で返却
         return (int)($exp * $lm ** 2.5 + 1);
     }
-
-    
 
 }

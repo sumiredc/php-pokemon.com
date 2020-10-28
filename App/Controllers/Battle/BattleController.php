@@ -87,10 +87,18 @@ class BattleController extends Controller
         if(isset($_SESSION['__data']['field'])){
             $this->field = $_SESSION['__data']['field'];
         }
+        // ========
         // ポケモンの引き継ぎ
-        $this->takeOverPokemon($_SESSION['__data']['pokemon']);
+        $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
+        // 前ターンの状態をプロパティに格納
+        $this->before['friend'] = clone $this->pokemon;
+        // ========
         // 敵ポケモンの引き継ぎ
-        $this->takeOverEnemy($_SESSION['__data']['enemy'] ?? '');
+        if(isset($_SESSION['__data']['enemy'])){
+            $this->enemy = $this->unserializeObject($_SESSION['__data']['enemy']);
+            // 前ターンの状態をプロパティに格納
+            $this->before['enemy'] = clone $this->enemy;
+        }
     }
 
     /**
@@ -188,7 +196,7 @@ class BattleController extends Controller
                 $this->setMessage($service->getMessages());
                 $this->setResponse($service->getResponses());
                 $this->setModal($service->getModals(), true);
-                $service->resetAll();
+                $service->resetResponsesAll();
             }
         } catch (\Exception $e) {
             // 初期画面へ移管
@@ -205,15 +213,27 @@ class BattleController extends Controller
     */
     private function battleEnd()
     {
+        // ポケモンのランク補正・状態変化・バトルダメージを解除
+        $this->pokemon
+        ->releaseBattleStatsAll();
+        // 更新したポケモンオブジェクトをセッションへ格納
+        $_SESSION['__data']['pokemon'] = $this->serializeObject($this->pokemon);
         // セッション破棄
         $target = [
-            'enemy', 'rank', 'sc', 'run', 'field',
+            'enemy', 'run', 'field',
             'before_responses', 'before_messages', 'before_modals'
         ];
         foreach($target as $key){
             unset($_SESSION['__data'][$key]);
         }
-        $_SESSION['__route'] = 'home';
+        // 進化フラグのチェック
+        if($this->pokemon->getEvolveFlg()){
+            // 進化画面へ移管
+            $_SESSION['__route'] = 'evolve';
+        }else{
+            // ホーム画面へ移管
+            $_SESSION['__route'] = 'home';
+        }
         header("Location: ./", true, 307);
         exit;
     }
