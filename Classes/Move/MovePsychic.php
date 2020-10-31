@@ -58,7 +58,7 @@ class MovePsychic extends Move
     * 能力下降効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function debuff(...$args)
     {
@@ -68,8 +68,9 @@ class MovePsychic extends Move
         */
         list($atk, $def) = $args;
         // 相手のとくぼうランクを1段階下げる
-        $msg = $def->subRank('SpDef', 1);
-        $this->setMessage($msg);
+        return [
+            'message' => $def->subRank('SpDef', 1)
+        ];
     }
 
 }

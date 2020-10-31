@@ -68,9 +68,9 @@ class MoveConfuseRay extends Move
         */
         list($atk, $def) = $args;
         // 相手をこんらん状態にする
-        $msg = $def->setSc('ScConfusion', random_int(1, 4));
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->setSc('ScConfusion', random_int(1, 4))
+        ];
     }
 
 }

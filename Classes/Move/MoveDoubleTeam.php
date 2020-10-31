@@ -68,8 +68,9 @@ class MoveDoubleTeam extends Move
         */
         list($atk, $def) = $args;
         // 自分の回避率ランクを1段階上げる
-        $msg = $atk->addRank('Evasion', 1);
-        $this->setMessage($msg);
+        return [
+            'message' => $atk->addRank('Evasion', 1)
+        ];
     }
 
 }

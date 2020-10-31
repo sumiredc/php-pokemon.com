@@ -67,9 +67,6 @@ class Move000 extends Move
         * @param Pokemon $def 防御ポケモン
         */
         list($atk, $def) = $args;
-        //
-        $msg = ;
-        $this->setMessage($msg);
     }
 
 }

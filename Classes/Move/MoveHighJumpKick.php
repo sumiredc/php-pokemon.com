@@ -58,22 +58,22 @@ class MoveHighJumpKick extends Move
     * 技の失敗
     *
     * @param object Pokemon $atk
-    * @return void
+    * @return array
     */
     public function failed($atk)
     {
-        $msg_id = $this->issueMsgId();
         // 最大HPの1/2ダメージを受ける
         $damage = $atk->getStats('HP') / 2;
         $atk->calRemainingHp('sub', $damage);
-        // メッセージをセット
-        $this->setMessage('勢い余って'.$atk->getPrefixName().'は地面にぶつかった', $msg_id);
-        // HPバーのアニメーション用レスポンス
-        $this->setResponse([
-            'param' => $damage,
-            'action' => 'hpbar',
-            'target' => $atk->getPosition(),
-        ], $msg_id);
+        // レスポンスとメッセージを返却
+        return [
+            'message' => '勢い余って'.$atk->getPrefixName().'は地面にぶつかった',
+            'response' => [
+                'param' => $damage,
+                'action' => 'hpbar',
+                'target' => $atk->getPosition(),
+            ]
+        ];
     }
 
 }

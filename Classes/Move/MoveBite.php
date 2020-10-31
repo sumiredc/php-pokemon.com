@@ -58,7 +58,7 @@ class Moveite extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return mixed
     */
     public function effects(...$args)
     {
@@ -73,9 +73,9 @@ class Moveite extends Move
         */
         list($atk, $def) = $args;
         // 相手をひるませる
-        $msg = $def->setSc('ScFlinch');
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->setSc('ScFlinch')
+        ];
     }
 
 }

@@ -58,7 +58,7 @@ class MoveBubble extends Move
     * 能力下降効果
     *
     * @param array $args
-    * @return void
+    * @return mixed
     */
     public function debuff(...$args)
     {
@@ -73,9 +73,9 @@ class MoveBubble extends Move
         */
         list($atk, $def) = $args;
         // 相手の素早さランクを1段階下げる
-        $msg = $def->subRank('Speed', 1);
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->subRank('Speed', 1)
+        ];
     }
 
 }

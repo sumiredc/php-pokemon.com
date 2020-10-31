@@ -58,7 +58,7 @@ class MoveAgility extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function effects(...$args)
     {
@@ -68,9 +68,9 @@ class MoveAgility extends Move
         */
         list($atk, $def) = $args;
         // 自分の素早さランクを2段階上げる
-        $msg = $atk->addRank('Speed', 2);
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $atk->addRank('Speed', 2)
+        ];
     }
 
 }

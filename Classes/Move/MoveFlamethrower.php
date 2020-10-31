@@ -73,9 +73,7 @@ class MoveFlamethrower extends Move
             return;
         }
         // 相手をやけど状態にする
-        $msg = $def->setSa('SaBurn');
-        // メッセージをセット
-        $this->setMessage($msg);
+        return $def->setSa('SaBurn');
     }
 
 }

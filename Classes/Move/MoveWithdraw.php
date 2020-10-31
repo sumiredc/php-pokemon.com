@@ -58,7 +58,7 @@ class MoveWithdraw extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function effects(...$args)
     {
@@ -68,9 +68,9 @@ class MoveWithdraw extends Move
         */
         list($atk, $def) = $args;
         // 自分の防御ランクを1段階上げる
-        $msg = $atk->addRank('Defense', 1);
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $atk->addRank('Defense', 1)
+        ];
     }
 
 }

@@ -79,7 +79,7 @@ class MoveThunder extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return mixed
     */
     public function effects(...$args)
     {
@@ -94,9 +94,7 @@ class MoveThunder extends Move
             return;
         }
         // 相手をまひ状態にする
-        $msg = $def->setSa('SaParalysis');
-        // メッセージをセット
-        $this->setMessage($msg);
+        return $def->setSa('SaParalysis');
     }
 
 }

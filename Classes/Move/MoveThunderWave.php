@@ -47,7 +47,7 @@ class MoveThunderWave extends Move
     * @var integer
     */
     protected $pp = 30;
-    
+
     /**
     * 対象
     * @var string
@@ -58,7 +58,7 @@ class MoveThunderWave extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function effects(...$args)
     {
@@ -68,9 +68,10 @@ class MoveThunderWave extends Move
         */
         list($atk, $def) = $args;
         // 相手をまひ状態にする
-        $msg = $def->setSa('SaParalysis');
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->setSa('SaParalysis'),
+            'sa' => 'SaParalysis'
+        ];
     }
 
 }

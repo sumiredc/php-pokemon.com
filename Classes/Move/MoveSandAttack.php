@@ -64,7 +64,7 @@ class MoveSandAttack extends Move
     * 能力下降効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function debuff(...$args)
     {
@@ -74,8 +74,9 @@ class MoveSandAttack extends Move
         */
         list($atk, $def) = $args;
         // 相手の命中ランクを1段階下げる
-        $msg = $def->subRank('Accuracy', 1);;
-        $this->setMessage($msg);
+        return [
+            'message' => $def->subRank('Accuracy', 1)
+        ];
     }
 
 }

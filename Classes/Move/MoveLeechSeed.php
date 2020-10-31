@@ -68,8 +68,9 @@ class MoveLeechSeed extends Move
         */
         list($atk, $def) = $args;
         // 相手をやどりぎのタネ状態にする
-        $msg = $def->setSc('ScLeechSeed');
-        $this->setMessage($msg);
+        return [
+            'message' => $def->setSc('ScLeechSeed')
+        ];
     }
 
 }

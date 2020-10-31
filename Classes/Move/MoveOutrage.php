@@ -58,7 +58,7 @@ class MoveOutrage extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return mixed
     */
     public function effects(...$args)
     {
@@ -76,8 +76,9 @@ class MoveOutrage extends Move
         $atk->goScTurn('ScThrash');
         // あばれる状態が解除されており、こんらん状態でなければ、こんらん状態にする
         if(!$atk->checkSc('ScThrash') && !$atk->checkSc('ScConfusion')){
-            $msg = $atk->setSc('ScConfusion', random_int(1, 4));
-            $this->setMessage($msg);
+            return [
+                'message' => $atk->setSc('ScConfusion', random_int(1, 4))
+            ];
         }
     }
 

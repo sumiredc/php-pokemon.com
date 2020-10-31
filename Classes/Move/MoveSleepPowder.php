@@ -58,7 +58,7 @@ class MoveSleepPowder extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function effects(...$args)
     {
@@ -68,9 +68,7 @@ class MoveSleepPowder extends Move
         */
         list($atk, $def) = $args;
         // 相手をねむり状態にする（2〜4ターン）
-        $msg = $def->setSa('SaSleep', random_int(2, 4));
-        // メッセージをセット
-        $this->setMessage($msg);
+        return $def->setSa('SaSleep', random_int(2, 4));
     }
 
 }

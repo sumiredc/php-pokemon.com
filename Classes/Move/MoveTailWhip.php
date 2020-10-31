@@ -47,7 +47,7 @@ class MoveTailWhip extends Move
     * @var integer
     */
     protected $pp = 30;
-    
+
     /**
     * 対象
     * @var string
@@ -74,9 +74,9 @@ class MoveTailWhip extends Move
         */
         list($atk, $def) = $args;
         // 相手の防御ランクを1段階下げる
-        $msg = $def->subRank('Defense', 1);
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->subRank('Defense', 1)
+        ];
     }
 
 }

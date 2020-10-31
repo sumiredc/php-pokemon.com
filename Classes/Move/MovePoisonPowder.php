@@ -58,7 +58,7 @@ class MovePoisonPowder extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function effects(...$args)
     {
@@ -68,9 +68,7 @@ class MovePoisonPowder extends Move
         */
         list($atk, $def) = $args;
         // 相手をどく状態にする
-        $msg = $def->setSa('SaPoison');
-        // メッセージをセット
-        $this->setMessage($msg);
+        return $def->setSa('SaPoison');
     }
 
 }

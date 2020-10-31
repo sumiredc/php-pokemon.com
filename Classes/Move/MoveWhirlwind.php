@@ -64,7 +64,7 @@ class MoveWhirlwind extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return array
     */
     public function effects(...$args)
     {
@@ -74,9 +74,10 @@ class MoveWhirlwind extends Move
         */
         list($atk, $def) = $args;
         // バトル終了
-        $this->setMessage($def->getPrefixName().'は吹き飛ばされた');
-        $this->setEmptyMessage('battle-end');
-        $this->setResponse(true, 'end');
+        return [
+            'message' => $def->getPrefixName().'は吹き飛ばされた',
+            'end' => true
+        ];
     }
 
 }

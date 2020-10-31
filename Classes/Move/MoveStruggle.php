@@ -47,7 +47,7 @@ class MoveStruggle extends Move
     * @var integer
     */
     protected $pp = null;
-    
+
     /**
     * 対象
     * @var string
@@ -55,29 +55,30 @@ class MoveStruggle extends Move
     protected $target = 'enemy';
 
     /**
-    * 追加効果
+    * 反動
     *
     * @param array $args
-    * @return void
+    * @return array
     */
-    public function effects(...$args)
+    public function recoil(...$args)
     {
-        $msg_id = $this->issueMsgId();
         /**
         * @param Pokemon $atk 攻撃ポケモン
         * @param Pokemon $def 防御ポケモン
         */
         list($atk, $def) = $args;
-        // 自分の最大HPの1/4ダメージを受ける
+
         $damage = floor($atk->getStats('HP') / 4);
         $atk->calRemainingHp('sub', $damage);
-        $this->setMessage($atk->getPrefixName().'は反動を受けた', $msg_id);
-        // HPバーのアニメーション用レスポンス
-        $this->setResponse([
-            'param' => $damage,
-            'action' => 'hpbar',
-            'target' => $atk->getPosition(),
-        ], $msg_id);
+        // メッセージとレスポンスを返却
+        return [
+            'message' => $atk->getPrefixName().'は反動を受けた',
+            'response' => [
+                'param' => $damage,
+                'action' => 'hpbar',
+                'target' => $atk->getPosition(),
+            ]
+        ];
     }
 
 }

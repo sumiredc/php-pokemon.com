@@ -68,9 +68,9 @@ class MoveFireSpin extends Move
         */
         list($atk, $def) = $args;
         // 相手をバインド状態にする
-        $msg = $def->setSc('ScBind', random_int(4, 5), get_class());
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->setSc('ScBind', random_int(4, 5), get_class())
+        ];
     }
 
 }

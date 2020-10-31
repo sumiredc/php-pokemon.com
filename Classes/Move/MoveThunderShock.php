@@ -47,7 +47,7 @@ class MoveThunderShock extends Move
     * @var integer
     */
     protected $pp = 30;
-    
+
     /**
     * 対象
     * @var string
@@ -58,7 +58,7 @@ class MoveThunderShock extends Move
     * 追加効果
     *
     * @param array $args
-    * @return void
+    * @return mixed
     */
     public function effects(...$args)
     {
@@ -73,9 +73,7 @@ class MoveThunderShock extends Move
             return;
         }
         // 相手をまひ状態にする
-        $msg = $def->setSa('SaParalysis');
-        // メッセージをセット
-        $this->setMessage($msg);
+        return $def->setSa('SaParalysis');
     }
 
 }

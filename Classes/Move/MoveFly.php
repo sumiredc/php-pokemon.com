@@ -70,7 +70,7 @@ class MoveFly extends Move
     * チャージ
     *
     * @param object $atk
-    * @return boolean (true:準備ターン, false:攻撃ターン)
+    * @return mixed (array:準備ターン, false:攻撃ターン)
     */
     public function charge($atk)
     {
@@ -85,9 +85,7 @@ class MoveFly extends Move
         }else{
             // チャージ開始
             // 自身をチャージ状態にする
-            $msg = $atk->setSc('ScCharge', 1, get_class());
-            $atk->setMessage($msg);
-            return true;
+            return $atk->setSc('ScCharge', 1, get_class());
         }
     }
 

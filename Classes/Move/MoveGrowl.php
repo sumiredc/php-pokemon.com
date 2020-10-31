@@ -74,9 +74,9 @@ class MoveGrowl extends Move
         */
         list($atk, $def) = $args;
         // 相手の攻撃ランクを1段階下げる
-        $msg = $def->subRank('Attack', 1);
-        // メッセージをセット
-        $this->setMessage($msg);
+        return [
+            'message' => $def->subRank('Attack', 1)
+        ];
     }
 
 }

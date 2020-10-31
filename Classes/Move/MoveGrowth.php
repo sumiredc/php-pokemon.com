@@ -67,12 +67,13 @@ class MoveGrowth extends Move
         * @param Pokemon $def 防御ポケモン
         */
         list($atk, $def) = $args;
-        // 自分の攻撃ランクを1段階上げる
-        $msg = $atk->addRank('Attack', 1);
-        $this->setMessage($msg);
-        // 自分の特攻ランクを1段階上げる
-        $msg = $atk->addRank('SpAtk', 1);
-        $this->setMessage($msg);
+        //
+        return [
+            'message' => [
+                $atk->addRank('Attack', 1), # 自分の攻撃ランクを1段階上げる
+                $atk->addRank('SpAtk', 1)   # 自分の特攻ランクを1段階上げる
+            ]
+        ];
     }
 
 }
