@@ -1,5 +1,5 @@
 <?php
-trait ResponseTrait
+class Response
 {
     /**
     * メッセージの格納用
