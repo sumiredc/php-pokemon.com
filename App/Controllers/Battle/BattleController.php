@@ -88,6 +88,9 @@ class BattleController extends Controller
             $this->field = $_SESSION['__data']['field'];
         }
         // ========
+        // パーティーの引き継ぎ
+        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
+        // ========
         // ポケモンの引き継ぎ
         $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
         // 前ターンの状態をプロパティに格納
@@ -99,6 +102,7 @@ class BattleController extends Controller
             // 前ターンの状態をプロパティに格納
             $this->before['enemy'] = clone $this->enemy;
         }
+
     }
 
     /**
@@ -118,7 +122,7 @@ class BattleController extends Controller
                 $service = new StartService($this->pokemon);
                 $service->execute();
                 // 実行結果
-                $this->enemy = $service->getResponse('enemy');
+                $this->enemy = $service->getProperty('enemy');
                 // 前ターンの状態をプロパティに格納
                 $this->before['enemy'] = clone $this->enemy;
                 break;
@@ -135,8 +139,8 @@ class BattleController extends Controller
                 );
                 $service->execute();
                 // 実行結果
-                $this->fainting = $service->getResponse('fainting');
-                $this->field = $service->getResponse('field');
+                $this->fainting = $service->getProperty('fainting');
+                $this->field = $service->getProperty('field');
                 break;
                 /******************************************
                 * にげる
@@ -153,10 +157,10 @@ class BattleController extends Controller
                 );
                 $service->execute();
                 // 実行結果
-                if(!$service->getResponse('result')){
+                if(!getResponse('result')){
                     // 失敗
-                    $this->fainting = $service->getResponse('fainting');
-                    $this->field = $service->getResponse('field');
+                    $this->fainting = $service->getProperty('fainting');
+                    $this->field = $service->getProperty('field');
                 }
                 break;
                 /******************************************
@@ -190,13 +194,6 @@ class BattleController extends Controller
                     $this->battleEnd();
                 }
                 break;
-            }
-            // メッセージとレスポンスとモーダルをコントローラーへ引き継ぎ
-            if(isset($service)){
-                $this->setMessage($service->getMessages());
-                $this->setResponse($service->getResponses());
-                $this->setModal($service->getModals(), true);
-                $service->resetResponsesAll();
             }
         } catch (\Exception $e) {
             // 初期画面へ移管
@@ -259,7 +256,7 @@ class BattleController extends Controller
             $this->branch();
             return true;
         }else{
-            $this->setMessage('行動を選択してください');
+            setMessage('行動を選択してください');
             return false;
         }
     }

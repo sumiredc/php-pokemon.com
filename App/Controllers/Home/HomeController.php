@@ -3,14 +3,10 @@ $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Controllers/Controller.php');
 // サービス
 require_once($root_path.'/App/Services/Home/RecoveryService.php');
-// トレイト
-require_once($root_path.'/App/Traits/Controller/HomeControllerTrait.php');
 
 // ホーム用コントローラー
 class HomeController extends Controller
 {
-
-    use HomeControllerTrait;
 
     /**
     * @return void
@@ -34,7 +30,9 @@ class HomeController extends Controller
     private function takeOver()
     {
         // ポケモンの引き継ぎ
-        $this->takeOverPokemon($_SESSION['__data']['pokemon']);
+        $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
+        // パーティーにセット
+        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
     }
 
     /**
@@ -65,7 +63,7 @@ class HomeController extends Controller
                 */
                 case 'battle':
                 if($this->pokemon->getRemainingHp() <= 0){
-                    $this->setMessage('バトルに参加できるポケモンがいません');
+                    setMessage('バトルに参加できるポケモンがいません');
                     break;
                 }
                 $_SESSION['__route'] = 'battle';
@@ -77,13 +75,6 @@ class HomeController extends Controller
                 */
                 default:
                 break;
-            }
-            // メッセージとレスポンスとモーダルをコントローラーへ引き継ぎ
-            if(isset($service)){
-                $this->setMessage($service->getMessages());
-                $this->setResponse($service->getResponses());
-                $this->setModal($service->getModals(), true);
-                $service->resetResponsesAll();
             }
         } catch (\Exception $e) {
             // 初期画面へ移管

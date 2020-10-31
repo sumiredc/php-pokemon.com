@@ -14,11 +14,21 @@ class EvolveController extends Controller
         // 親コンストラクタの呼び出し
         parent::__construct();
         // 引き継ぎ
-        $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
+        $this->takeOver();
         // 分岐処理
         $this->branch();
         // 親デストラクタの呼び出し
         parent::__destruct();
+    }
+
+    /**
+    * 引き継ぎ処理
+    * @return void
+    */
+    private function takeOver()
+    {
+        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
+        $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
     }
 
     /**
@@ -38,8 +48,6 @@ class EvolveController extends Controller
             case 'evolve':
             $this->pokemon = $this->pokemon
             ->evolve();
-            $this->setMessage($this->pokemon->getMessages());
-            $this->setResponse($this->pokemon->getResponses());
             break;
             /******************************************
             * 進化キャンセル
@@ -56,21 +64,21 @@ class EvolveController extends Controller
             */
             default:
             // 確認メッセージ
-            $msg_id1 = $this->issueMsgId();
-            $this->setMessage('・・・おや！？ '.$this->pokemon->getNickName().'の様子が・・・！');
-            $this->setAutoMessage($msg_id1);
-            $this->setResponse([
+            $msg_id1 = issueMsgId();
+            setMessage('・・・おや！？ '.$this->pokemon->getNickName().'の様子が・・・！');
+            setAutoMessage($msg_id1);
+            setResponse([
                 'action' => 'evolve'
             ], $msg_id1);
             // 終了メッセージ
-            $msg_id2 = $this->issueMsgId();
-            $this->setMessage('あれ・・・？ '.$this->pokemon->getNickName().'の変化が止まった！', $msg_id2);
-            $this->setResponse([
+            $msg_id2 = issueMsgId();
+            setMessage('あれ・・・？ '.$this->pokemon->getNickName().'の変化が止まった！', $msg_id2);
+            setResponse([
                 'action' => 'cancel'
             ], $msg_id2);
             break;
         }
-        $this->setEmptyMessage();
+        setEmptyMessage();
     }
 
     /**

@@ -1,16 +1,17 @@
 <?php
+global $test_message;
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/AutoLoader.php');
 require_once($root_path.'/Classes/Sanitize.php');
 // トレイト
-require_once($root_path.'/App/Traits/ResponseTrait.php');
+// require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/InstanceTrait.php');
 require_once($root_path.'/App/Traits/SerializeTrait.php');
 
 // コントローラー
 abstract class Controller
 {
-    use ResponseTrait;
+    // use ResponseTrait;
     use InstanceTrait;
     use SerializeTrait;
 
@@ -19,6 +20,12 @@ abstract class Controller
     * @var object
     */
     protected $pokemon;
+
+    /**
+    * パーティー
+    * @var array
+    */
+    protected $party = [];
 
     /**
     * サニタイズ後のポストデータ格納用
@@ -54,11 +61,6 @@ abstract class Controller
         $_POST = [];
         // メッセージIDのリフレッシュ
         unset($_SESSION['__message_ids']);
-        // ポケモンに溜まっているレスポンスデータを全解除
-        if(is_object($this->pokemon)){
-            $this->pokemon
-            ->resetResponsesAll();
-        }
     }
 
     /**
@@ -112,6 +114,16 @@ abstract class Controller
     public function getPokemon()
     {
         return $this->pokemon;
+    }
+
+    /**
+    * パーティーの取得
+    *
+    * @return array
+    */
+    public function getParty()
+    {
+        return $this->party;
     }
 
     /**

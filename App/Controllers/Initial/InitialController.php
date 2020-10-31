@@ -49,12 +49,14 @@ class InitialController extends Controller
             // ポケモンを生成して引き継ぎデータをセッションに格納
             $class = $_POST['pokemon'];
             if(!isset($this->pokemon_list[$class])){
-                $this->setMessage('選択されたポケモンは選ぶことが出来ません');
+                setMessage('選択されたポケモンは選ぶことが出来ません');
                 break;
             }
             $pokemon = new $class(5);
             $pokemon->setPosition();
-            $_SESSION['__data']['pokemon'] = $this->serializeObject($pokemon);
+            $serialize = $this->serializeObject($pokemon);
+            $_SESSION['__data']['pokemon'] = $serialize;
+            $_SESSION['__data']['party'] = [$serialize];
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
             header("Location: ./", true, 307);
