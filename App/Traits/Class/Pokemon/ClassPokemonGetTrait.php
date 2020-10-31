@@ -1,7 +1,6 @@
 <?php
 trait ClassPokemonGetTrait
 {
-
     /**
     * 詳細を取得する
     * @return integer
@@ -239,17 +238,34 @@ trait ClassPokemonGetTrait
 
     /**
     * 残りHPを取得
-    * @return string $param
+    * @return string $param (per|color)
     * @return integer
     */
     public function getRemainingHp($param='')
     {
-        if($param === 'per'){
-            // 最大HPとの比率を%で取得(数値で返却)
-            return $this->remaining_hp / $this->getStats('HP') * 100;
-        }else{
-            return $this->remaining_hp;
+        if($param){
+            // 割合を算出
+            $per = $this->remaining_hp / $this->getStats('HP') * 100;
+            // パラメーターによる分岐
+            switch ($param) {
+                // ========================
+                // 最大HPとの比率を%で取得(数値で返却)
+                case 'per':
+                return $per;
+                break;
+                // ========================
+                // HPバーのカラーを取得
+                case 'color':
+                // 赤
+                if($per <= 20) return 'danger';
+                // 黄色
+                if($per <= 50) return 'warning';
+                // 緑
+                return 'success';
+                break;
+            }
         }
+        return $this->remaining_hp;
     }
 
     /**

@@ -6,34 +6,6 @@
 trait BattleControllerTrait
 {
 
-    // /**
-    // * ポケモン情報の引き継ぎ
-    // *
-    // * @param Pokemon::export:array $pokemon
-    // * @return void
-    // */
-    // protected function takeOverPokemon($pokemon)
-    // {
-    //     $this->pokemon = $this->unserializeObject($pokemon);
-    //     // 前ターンの状態をプロパティに格納
-    //     $this->before['friend'] = clone $this->pokemon;
-    // }
-    //
-    // /**
-    // * 相手ポケモンの引き継ぎ
-    // *
-    // * @param Pokemon::export:array $enemy
-    // * @return void
-    // */
-    // protected function takeOverEnemy($enemy)
-    // {
-    //     if(!empty($enemy)){
-    //         $this->enemy = $this->unserializeObject($enemy);
-    //         // 前ターンの状態をプロパティに格納
-    //         $this->before['enemy'] = clone $this->enemy;
-    //     }
-    // }
-
     /**
     * 敵ポケモン情報の取得
     *
@@ -81,7 +53,7 @@ trait BattleControllerTrait
     {
         if($this->fainting['friend']){
             // 味方がひんし状態になった
-            $this->setMessage('目の前が真っ暗になった');
+            setMessage('目の前が真っ暗になった');
         }else{
             // 相手がひんし状態になった（味方はひんし状態ではない）
             // 経験値の計算
@@ -92,16 +64,9 @@ trait BattleControllerTrait
             // 努力値を獲得
             $this->pokemon
             ->setEv($this->enemy->getRewardEv());
-            // ポケモンに溜まったメッセージとレスポンスを取得
-            $this->setMessage($this->pokemon->getMessages());
-            $this->setResponse($this->pokemon->getResponses());
-            $this->setModal($this->pokemon->getModals(), true);
-            // 全レスポンスを初期化
-            $this->pokemon
-            ->resetResponsesAll();
         }
         // バトル終了判定用メッセージの格納
-        $this->setEmptyMessage('battle-end');
+        setEmptyMessage('battle-end');
     }
 
     /**

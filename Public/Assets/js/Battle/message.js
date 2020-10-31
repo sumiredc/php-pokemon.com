@@ -89,6 +89,15 @@ var actionMsgBox = function(now){
                 );
                 break;
                 // ==============================================
+                // 状態異常処理 =================================
+                //
+                case 'sa':
+                await doAnimateSa(
+                    now.data('target'),
+                    now.data('param')
+                );
+                break;
+                // ==============================================
             }
             // 次のメッセージへ
             await nextMsg(now);
@@ -304,6 +313,24 @@ var doAnimateLevelUp = function(param){
                 }, 500);
             }
         });
+    });
+}
+
+// ==============================================
+// 状態異常処理 =================================
+//
+/**
+* 状態異常をセット
+* @param json
+* @return Promise
+**/
+var doAnimateSa = function (target, param){
+    return new Promise ((resolve, reject) => {
+        var badge = $('#sa-' + target);
+        badge.removeClass("badge-");
+        badge.addClass("badge-" + param.color);
+        badge.text(param.name);
+        resolve();
     });
 }
 

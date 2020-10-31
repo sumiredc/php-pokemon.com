@@ -42,9 +42,9 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
                     <div class="col-12">
                         <div class="message-box action-message-box border p-3 mb-3">
                             <?php # メッセージエリア ?>
-                            <?php foreach($controller->getMessages() as $key => list($msg, $status, $auto)): ?>
-                                <?php $class = $key === $controller->getMessageFirstKey() ? 'active' : ''; ?>
-                                <?php $last_class = $key === $controller->getMessageLastKey() ? 'last-message' : ''; ?>
+                            <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
+                                <?php $class = $key === $global_responses->getMessageFirstKey() ? 'active' : ''; ?>
+                                <?php $last_class = $key === $global_responses->getMessageLastKey() ? 'last-message' : ''; ?>
                                 <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"
                                     data-action='<?=$responses[$status]['action'] ?? ''?>'
                                     data-target='<?=$responses[$status]['target'] ?? ''?>'

@@ -85,8 +85,7 @@ class FightService extends Service
         }
         // フィールドのカウントを進める
         $this->goFieldTurn();
-        // 指定したプロパティを返却
-        $this->exportProperty('fainting', 'field');
+
     }
 
     /**
@@ -132,7 +131,7 @@ class FightService extends Service
             // 攻撃
             $this->attack($atk, $def, $move);
             // バトル終了のレスポンスチェック（交代技など）
-            if($this->getResponse('end')){
+            if(getResponse('end')){
                 break;
             }
             // ひんしチェック

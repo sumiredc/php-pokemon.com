@@ -28,7 +28,7 @@ class RecoveryService extends Service
     public function execute()
     {
         $this->recovery();
-        $this->setMessage([
+        setMessage([
             ['お預かりしたポケモンたちは、皆元気になりましたよ'],
             ['またのご利用お待ちしております']
         ]);

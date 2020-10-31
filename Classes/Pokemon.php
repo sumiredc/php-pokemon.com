@@ -1,8 +1,8 @@
 <?php
 $root_path = __DIR__.'/..';
-require_once($root_path.'/Resources/Lang/Translation.php');
+// require_once($root_path.'/Resources/Lang/Translation.php');
 // トレイト
-require_once($root_path.'/App/Traits/ResponseTrait.php');
+// require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/InstanceTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
@@ -13,7 +13,7 @@ require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.
 // ポケモン
 abstract class Pokemon
 {
-    use ResponseTrait;
+    // use ResponseTrait;
     use InstanceTrait;
     use ClassPokemonSetTrait;
     use ClassPokemonGetTrait;
@@ -137,6 +137,12 @@ abstract class Pokemon
     protected $evolve_flg = false;
 
     /**
+    * レスポンス格納用
+    * @var object
+    */
+    public $responses;
+
+    /**
     * インスタンス作成時に実行される処理
     *
     * @param object|array|integer
@@ -144,6 +150,10 @@ abstract class Pokemon
     */
     public function __construct($before=0)
     {
+
+        global $global_response;
+        $this->responses = $global_response;
+
         switch (gettype($before)) {
             /**
             * 新規登場時の処理(レベル指定)
@@ -171,8 +181,6 @@ abstract class Pokemon
             // 進化前のポケモンと一致しているかチェック
             if(is_a($before, $this->before_class ?? null)){
                 $this->takeOverAbility($before->export());
-                // メッセージの引き継ぎ
-                $this->setMessage($before->getMessages());
                 $this->checkLevelMove();
             }
             break;
@@ -189,7 +197,7 @@ abstract class Pokemon
     {
         // メッセージIDの指定があれば、経験値バーのアニメーション用レスポンスをセット
         if(!is_null($msg_id)){
-            $this->setResponse([
+            setResponse([
                 'param' => 100, # %
                 'action' => 'expbar',
             ], $msg_id);
@@ -203,10 +211,10 @@ abstract class Pokemon
             $this->calRemainingHp('add', $this->getStats('HP') - $before_hp);
         }
         // メッセージIDを生成
-        $msg_id1 = $this->issueMsgId();
-        $msg_id2 = $this->issueMsgId();
+        $msg_id1 = issueMsgId();
+        $msg_id2 = issueMsgId();
         // レベルアップアニメーション用レスポンス
-        $this->setResponse([
+        setResponse([
             'param' => json_encode([
                 'level' => $this->level,
                 'remaining_hp' => $this->getRemainingHp(),
@@ -215,16 +223,16 @@ abstract class Pokemon
             ]),
             'action' => 'levelup',
         ], $msg_id1);
-        $this->setAutoMessage($msg_id1);
+        setAutoMessage($msg_id1);
         // レベルアップメッセージ
-        $this->setMessage($this->getNickName().'のレベルは'.$this->level.'になった！', $msg_id2);
+        setMessage($this->getNickName().'のレベルは'.$this->level.'になった！', $msg_id2);
         // レスポンスデータをセット
-        $this->setResponse([
+        setResponse([
             'toggle' => 'modal',
             'target' => '#'.$msg_id2.'-modal',
         ], $msg_id2);
         // モーダル用のレスポンスをセット
-        $this->setModal([
+        setModal([
             'id' => $msg_id2,
             'modal' => 'levelup',
             'stats' => $this->getStats(),
@@ -252,11 +260,11 @@ abstract class Pokemon
             if(!isset($pokemon->sa['SaFainting'])){
                 $pokemon->calRemainingHp('add', $pokemon->getStats('HP') - $before_hp);
             }
-            $pokemon->setMessage('おめでとう！'.$this->getNickName().'は'.$pokemon->getName().'に進化した！');
+            setMessage('おめでとう！'.$this->getNickName().'は'.$pokemon->getName().'に進化した！');
             // 進化後のインスタンスを返却
             return $pokemon;
         }else{
-            $this->setMessage('このポケモンは進化できません');
+            setMessage('このポケモンは進化できません');
             return $this;
         }
     }

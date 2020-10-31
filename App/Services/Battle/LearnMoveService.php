@@ -60,15 +60,15 @@ class LearnMoveService extends Service
         // 技の置き換え
         $this->replaceMove();
         // レスポンスの引き継ぎ
-        $this->setResponse(
+        setResponse(
             $this->getUntreatedResponses($this->before_responses, $this->request['id'])
         );
         // メッセージの引き継ぎ
-        $this->setMessage(
+        setMessage(
             $this->getUntreatedResponses($this->before_messages, $this->request['id'], 'message')
         );
         // モーダルの引き継ぎ
-        $this->setModal(
+        setModal(
             $this->getUntreatedResponses($this->before_modals, $this->request['id'], 'modal'), true
         );
     }
@@ -110,9 +110,9 @@ class LearnMoveService extends Service
         $this->pokemon
         ->setMove($new_move, $this->request['forget']);
         // メッセージの返却
-        $this->setMessage('1 2の ……ポカン！');
-        $this->setMessage($this->pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
-        $this->setMessage($this->pokemon->getNickname().'は新しく、'.$new_move->getName().'を覚えた！');
+        setMessage('1 2の ……ポカン！');
+        setMessage($this->pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
+        setMessage($this->pokemon->getNickname().'は新しく、'.$new_move->getName().'を覚えた！');
     }
 
     /**

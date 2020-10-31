@@ -26,7 +26,9 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         <p>
                             <span class="mr-2"><?=$before_enemy->getName()?></span>
                             <span class="mr-2">Lv:<?=$before_enemy->getLevel()?></span>
-                            <span class="mr-2 badge badge-<?=$before_enemy->getSaColor()?>"><?=$before_enemy->getSaName(false)?></span>
+                            <span class="mr-2 badge badge-<?=$before_enemy->getSaColor()?>" id="sa-enemy">
+                                <?=$before_enemy->getSaName(false)?>
+                            </span>
                         </p>
                         <div class="form-group">
                             <div class="progress">
@@ -53,7 +55,9 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         <p>
                             <span class="mr-2"><?=$pokemon->getNickName()?></span>
                             <span class="mr-2">Lv:<span id="level"><?=$before_pokemon->getLevel()?></span></span>
-                            <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor()?>"><?=$before_pokemon->getSaName(false)?></span>
+                            <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor()?>" id="sa-friend">
+                                <?=$before_pokemon->getSaName(false)?>
+                            </span>
                         </p>
                         <div class="form-group">
                             <div class="progress">
@@ -90,9 +94,9 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                     <div class="col-12 col-sm-6">
                         <div class="message-box action-message-box border p-3 mb-3">
                             <?php # メッセージエリア ?>
-                            <?php foreach($controller->getMessages() as $key => list($msg, $status, $auto)): ?>
-                                <?php $class = $key === $controller->getMessageFirstKey() ? 'active' : ''; ?>
-                                <?php $last_class = $key === $controller->getMessageLastKey() ? 'last-message' : ''; ?>
+                            <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
+                                <?php $class = $key === $global_responses->getMessageFirstKey() ? 'active' : ''; ?>
+                                <?php $last_class = $key === $global_responses->getMessageLastKey() ? 'last-message' : ''; ?>
                                 <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"
                                     data-action='<?=$responses[$status]['action'] ?? ''?>'
                                     data-target='<?=$responses[$status]['target'] ?? ''?>'
@@ -144,7 +148,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
         <input type="hidden" name="action" id="remote-form-action">
         <?php input_token(); ?>
     </form>
-    <?php foreach($controller->getModals() as $modal): ?>
+    <?php foreach($modals as $modal): ?>
         <?php include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php'); ?>
     <?php endforeach; ?>
     <?php

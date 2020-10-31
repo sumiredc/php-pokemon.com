@@ -57,31 +57,31 @@ trait ClassPokemonCheckTrait
                     */
                     // 技クラスをセット
                     $this->setMove($move);
-                    $this->setMessage($move->getName().'を覚えた！');
+                    setMessage($move->getName().'を覚えた！');
                 }else{
                     /**
                     * 技選択用モーダルの返却
                     */
                     // メッセージIDを生成
-                    $msg_id = $this->issueMsgId();
+                    $msg_id = issueMsgId();
                     // レベルアップメッセージ
-                    $this->setMessage($this->getNickName().'は'.$move->getName().'を覚えたい');
-                    $this->setMessage('しかし技を４つ覚えるので精一杯だ');
-                    $this->setMessage($move->getName().'の代わりに他の技を忘れさせますか？', $msg_id);
+                    setMessage($this->getNickName().'は'.$move->getName().'を覚えたい');
+                    setMessage('しかし技を４つ覚えるので精一杯だ');
+                    setMessage($move->getName().'の代わりに他の技を忘れさせますか？', $msg_id);
                     // レスポンスデータをセット
-                    $this->setResponse([
+                    setResponse([
                         'toggle' => 'modal',
                         'target' => '#'.$msg_id.'-modal',
                         'move' => $move_class
                     ], $msg_id);
                     // モーダル用のレスポンスをセット
-                    $this->setModal([
+                    setModal([
                         'id' => $msg_id,
                         'modal' => 'selectmove',
                         'new_move' => $move
                     ]);
                     // 諦めメッセージを事前に用意しておく
-                    $this->setMessage($this->getNickName().'は'.$move->getName().'を覚えるのを諦めた');
+                    setMessage($this->getNickName().'は'.$move->getName().'を覚えるのを諦めた');
                 }
             }
         }

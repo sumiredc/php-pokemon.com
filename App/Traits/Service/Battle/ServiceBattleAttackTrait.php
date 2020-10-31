@@ -49,46 +49,52 @@ trait ServiceBattleAttackTrait
         }
         // わざの使用可不可判定
         if(!$this->checkEnabledMove($move, $atk_pokemon)){
-            $this->setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
+            setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
             // わるあがきをセット
             $move = new MoveStruggle;
         }
         // チャージチェック
-        if($move->charge($atk_pokemon)){
-            // チャージターンならメッセージを格納して行動終了
-            $this->setMessage($atk_pokemon->getMessages());
-            $atk_pokemon->resetResponsesAll();
+        $charge = $move->charge($atk_pokemon);
+        if($charge){
+            // チャージターンなら行動終了
+            setMessage($charge);
             return;
         }
         // 攻撃メッセージを格納
-        $this->atk_msg_id = $this->issueMsgId();
-        $this->setMessage($atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！', $this->atk_msg_id);
+        $this->atk_msg_id = issueMsgId();
+        setMessage(
+            $atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！',
+            $this->atk_msg_id
+        );
         // タイプ相性チェック
-        $this->type_comp_msg = $this->checkTypeCompatibility($move->getType(), $def_pokemon->getTypes());
+        $this->type_comp_msg = $this->checkTypeCompatibility(
+            $move->getType(),
+            $def_pokemon->getTypes()
+        );
         // 「こうかがない」の判定（命中率と威力がnullではなく、タイプ相性補正が０の場合）
         if(!is_null($move->getAccuracy()) && !is_null($move->getPower()) && ($this->m === 0)){
             // こうかがない
-            $this->setMessage($def_pokemon->getPrefixName().'には効果が無いみたいだ');
-            // 失敗判定
-            $this->attackFailed($atk_pokemon, $move);
+            setMessage($def_pokemon->getPrefixName().'には効果が無いみたいだ');
+            // 攻撃失敗
+            $this->failedMove();
             return;
         }
         // 命中判定
         if(!$this->checkHit($atk_pokemon, $def_pokemon, $move)){
             // 攻撃失敗
-            $this->attackFailed($atk_pokemon, $move);
+            $this->failedMove();
             return;
         }
         // 一撃必殺
         if($move->getOneHitKnockoutFlg()){
             $def_pokemon->calRemainingHp('death');
             // HPバーのアニメーション用レスポンス
-            $this->setResponse([
+            setResponse([
                 'param' => $def_pokemon->getStats('HP'),
                 'action' => 'hpbar',
                 'target' => $def_pokemon->getPosition(),
             ], $this->atk_msg_id);
-            $this->setMessage('一撃必殺');
+            setMessage('一撃必殺');
             return;
         }
         // 壁補正
@@ -101,26 +107,8 @@ trait ServiceBattleAttackTrait
         }
         // 連続技はヒット回数のメッセージを返却
         if($times > 1){
-            return $this->setMessage($times.'回当たった');
+            return setMessage($times.'回当たった');
         }
-    }
-
-    /**
-    * 攻撃判定失敗時の処理
-    *
-    * @param object Pokemon $atk
-    * @param object Move $move
-    * @return void
-    */
-    private function attackFailed($atk, $move)
-    {
-        // 技の失敗メソッドを呼び出し
-        $move->failed($atk);
-        // メッセージとレスポンスを格納
-        $this->setMessage($move->getMessages());
-        $this->setResponse($move->getResponses());
-        // メッセージとレスポンスをリセット
-        $move->resetResponsesAll();
     }
 
     /**
@@ -153,7 +141,7 @@ trait ServiceBattleAttackTrait
                 if($critical){
                     // 補正値を乗算
                     $m *= $critical;
-                    $this->setMessage('急所に当たった！');
+                    setMessage('急所に当たった！');
                 }
                 // 乱数補正値の計算
                 $m *= $this->calRandNum();
@@ -170,12 +158,15 @@ trait ServiceBattleAttackTrait
                     $this->m * $m,              # 補正値(プロパティ*ローカル)
                 );
                 // やけど補正
-                if(($move->getSpecies() === 'physical') && ($atk_pokemon->getSa() === 'SaBurn')){
+                if(
+                    $move->getSpecies() === 'physical' &&
+                    $atk_pokemon->getSa() === 'SaBurn'
+                ){
                     // 物理且つやけど状態ならダメージを半減
                     $damage *= 0.5;
                 }
                 // タイプ相性のメッセージを返却
-                $this->setMessage($this->type_comp_msg);
+                setMessage($this->type_comp_msg);
             }
         }
         // このターン受けるダメージをポケモンに格納
@@ -184,45 +175,67 @@ trait ServiceBattleAttackTrait
         $def_pokemon->calRemainingHp('sub', $damage ?? 0);
         // HPバーのアニメーション用レスポンス
         if(isset($damage)){
-            $this->setResponse([
+            setResponse([
                 'param' => $damage,
                 'action' => 'hpbar',
                 'target' => $def_pokemon->getPosition(),
             ], $this->atk_msg_id);
         }
+        // 反動処理
+        $recoil = $move->recoil($atk_pokemon, $def_pokemon);
+        if($recoil){
+            // HPバーのアニメーション用レスポンス
+            $recoil_id = issueMsgId();
+            setMessage($recoil['message'], $recoil_id);
+            setResponse($recoil['response'], $recoil_id);
+        }
         // 追加効果(相手にHPが残っていれば)
         if($def_pokemon->getRemainingHp()){
             // 追加効果
-            $move->effects($atk_pokemon, $def_pokemon);
+            $effects = $this->effectMove($atk_pokemon, $def_pokemon, $move);
+            // バトル終了
+            if(isset($effects['end'])){
+                $this->setMessage($effects['message']);
+                $this->setEmptyMessage('battle-end');
+                $this->setResponse(true, 'end');
+                return;
+            }
             // 能力下降効果
             $field_mist = new FieldMist;
             if($this->checkField($def_pokemon->getPosition(), $field_mist)){
                 // 能力下降確定技であれば失敗メッセージを出力
                 if($move->getConfirmDebuffFlg()){
-                    $this->setMessage($field_mist->getFailedMessage($def_pokemon->getPrefixName()));
+                    setMessage(
+                        $field_mist->getFailedMessage($def_pokemon->getPrefixName())
+                    );
                 }
             }else{
-                $move->debuff($atk_pokemon, $def_pokemon);
+                $debuff = $move->debuff($atk_pokemon, $def_pokemon);
+                if(isset($debuff['message'])){
+                    setMessage($debuff);
+                }
             }
-            // メッセージとレスポンスを格納
-            $this->setMessage($move->getMessages());
-            $this->setResponse($move->getResponses());
             // フィールド効果
             if($move->field()){
                 $field = $move->field();
                 // フィールドをセット
-                $this->setField($atk_pokemon->getPosition(), new $field['class'], $field['turn']);
+                $this->setField(
+                    $atk_pokemon->getPosition(),
+                    new $field['class'],
+                    $field['turn']
+                );
             }
-            // メッセージとレスポンスをリセット
-            $move->resetResponsesAll();
             // いかり判定
             if($def_pokemon->checkSc('ScRage') && !empty($damage ?? 0)){
                 $rage = new ScRage;
                 // いかり発動メッセージをセット
-                $this->setMessage($rage->getActiveMessage($def_pokemon->getPrefixName()));
+                setMessage(
+                    $rage->getActiveMessage($def_pokemon->getPrefixName())
+                );
                 // こうげきランクを１段階上昇
-                $msg = $def_pokemon->addRank('Attack', 1);
-                $this->setMessage($msg);
+                setMessage(
+                    $def_pokemon->addRank('Attack', 1)
+                );
             }
             return;
         }
@@ -241,7 +254,7 @@ trait ServiceBattleAttackTrait
         // ふきとばし・ほえるのチェック
         if(in_array(get_class($move), ['MoveWhirlwind', 'MoveRoar'], true)){
             if($atk->getLevel() < $def->getLevel()){
-                $this->setMessage($def->getPrefixName().'は平気な顔をしている');
+                setMessage($def->getPrefixName().'は平気な顔をしている');
                 return false;
             }
         }
@@ -251,7 +264,9 @@ trait ServiceBattleAttackTrait
             $charge_move = new $charge_move_class;
             // 攻撃技が回避できない技リストになければ失敗
             if(!in_array(get_class($move), $charge_move->getCantEscapeMove(), true)){
-                $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
+                setMessage(
+                    $move->getFailedMessage($atk->getPrefixName())
+                );
                 return false;
             }
         }
@@ -259,7 +274,9 @@ trait ServiceBattleAttackTrait
         if($move->getOneHitKnockoutFlg()){
             if($atk->getLevel() < $def->getLevel()){
                 // 相手の方がレベルが高ければ無効
-                $this->setMessage($move->getOneHitKnockoutFailedMessage($def->getPrefixName()));
+                setMessage(
+                    $move->getOneHitKnockoutFailedMessage($def->getPrefixName())
+                );
                 return false;
             }
             // レベル差計算を含めた命中率を取得
@@ -297,7 +314,9 @@ trait ServiceBattleAttackTrait
         // カウンターの失敗判定
         if((get_class($move) === 'MoveCounter') && empty($atk->getTurnDamage('physical'))){
             // 自身にこのターン物理ダメージが蓄積していなければ失敗
-            $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
+            setMessage(
+                $move->getFailedMessage($atk->getPrefixName())
+            );
             return false;
         }
         /**
@@ -309,8 +328,63 @@ trait ServiceBattleAttackTrait
             return true;
         }
         // 攻撃失敗
-        $this->setMessage($move->getFailedMessage($atk->getPrefixName()));
+        setMessage(
+            $move->getFailedMessage($atk->getPrefixName())
+        );
         return false;
+    }
+
+    /**
+    * ステータス（攻撃値、防御値）の取得
+    *
+    * @param Pokemon:object $atk
+    * @param Move:object $move
+    * @return void
+    */
+    private function failedMove($atk, $move)
+    {
+        $failed_id = issueMsgId();
+        $failed = $move->failed($atk);
+        setMessage($failed['message'], $failed_id);
+        setResponse($failed['response'], $failed_id);
+    }
+
+    /**
+    * 追加効果の処理
+    *
+    * @param Pokemon:object $atk
+    * @param Pokemon:object $def
+    * @param Move:object $move
+    * @return array
+    */
+    private function effectMove($atk, $def, $move)
+    {
+        $effects = $move->effects($atk, $def);
+        // メッセージが取得できたらセット
+        if(isset($effects['message']) && isset($effects['sa'])){
+            // 状態異常有り
+            $effect_id = issueMsgId();
+            $sa = new $effects['sa'];
+            setMessage($effects['message'], $effect_id);
+            setResponse([
+                'param' => json_encode([
+                    'name' => $sa->getName(),
+                    'color' => $sa->getColor()
+                ]),
+                'action' => 'sa',
+                'target' => $def->getPosition()
+            ], $effect_id);
+        }elseif(isset($effects['message'])){
+            // メッセージのみ返却
+            setMessage($effects['message']);
+        }
+        // バトル終了
+        if(isset($effects['end'])){
+            setEmptyMessage('battle-end');
+            setResponse(true, 'end');
+            // バトル終了判定
+            return $effects;
+        }
     }
 
     /**

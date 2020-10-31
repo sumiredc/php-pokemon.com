@@ -1,11 +1,11 @@
 <?php
 $root_path = __DIR__.'/../..';
-require_once($root_path.'/App/Traits/ResponseTrait.php');
+// require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/SerializeTrait.php');
 
 abstract class Service
 {
-    use ResponseTrait;
+    // use ResponseTrait;
     use SerializeTrait;
 
     /**
@@ -16,6 +16,16 @@ abstract class Service
     public function __construct()
     {
         //
+    }
+
+    /**
+    * プロパティの取得
+    * @var string
+    * @return mixed
+    */
+    public function getProperty(string $name)
+    {
+        return $this->$name ?? '';
     }
 
 }

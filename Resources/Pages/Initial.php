@@ -30,9 +30,9 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/initial.php');
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <?php if($controller->getMessages()): ?>
+                <?php if($messages): ?>
                     <div class="row">
-                        <?php foreach($controller->getMessages() as list($message)): ?>
+                        <?php foreach($messages as list($message)): ?>
                             <div class="col-12">
                                 <p class="text-danger"><?=$message?></p>
                             </div>

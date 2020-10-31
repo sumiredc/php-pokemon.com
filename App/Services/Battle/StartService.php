@@ -49,10 +49,10 @@ class StartService extends Service
         if($this->min < 1){
             $this->min = 1;
         }
-        $this->max = $level + 2;
-        if($this->max > 100){
-            $this->max = 100;
-        }
+        $this->max = $level;
+        // if($this->max > 100){
+        //     $this->max = 100;
+        // }
     }
 
     /**
@@ -65,7 +65,6 @@ class StartService extends Service
             random_int($this->min, $this->max)
         );
         // 返却値をセット
-        $this->exportProperty('enemy');
-        $this->setMessage('野生の'.$this->enemy->getName().'が現れた！');
+        setMessage('野生の'.$this->enemy->getName().'が現れた！');
     }
 }

@@ -73,8 +73,8 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
                 <div class="row">
                     <div class="col-12">
                         <div class="message-box border p-3 mb-3">
-                            <?php foreach($controller->getMessages() as list($msg)): ?>
-                                <p><?=$msg?></p>
+                            <?php foreach($messages as list($message)): ?>
+                                <p><?=$message?></p>
                             <?php endforeach; ?>
                         </div>
                     </div>

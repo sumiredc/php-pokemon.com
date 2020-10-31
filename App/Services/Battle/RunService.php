@@ -14,7 +14,7 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
  */
 class RunService extends Service
 {
-    
+
     use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
@@ -69,14 +69,14 @@ class RunService extends Service
     {
         if($this->checkRun()){
             // 逃走成功
-            $this->setResponse(true, 'result');
-            $this->setMessage('上手く逃げ切れた');
+            setResponse(true, 'result');
+            setMessage('上手く逃げ切れた');
             // バトル終了判定用メッセージの格納
-            $this->setEmptyMessage('battle-end');
+            setEmptyMessage('battle-end');
         }else{
             // 逃走失敗
-            $this->setResponse(false, 'result');
-            $this->setMessage('逃げられない！');
+            setResponse(false, 'result');
+            setMessage('逃げられない！');
             // 攻撃ポケモンの怒り解除
             $this->pokemon
             ->releaseSc('ScRage');
@@ -88,8 +88,6 @@ class RunService extends Service
             // フィールドのカウントを進める
             $this->goFieldTurn();
         }
-        // 指定したプロパティを返却
-        $this->exportProperty('fainting', 'field');
     }
 
     /**

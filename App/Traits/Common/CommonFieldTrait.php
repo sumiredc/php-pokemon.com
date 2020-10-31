@@ -41,11 +41,11 @@ trait CommonFieldTrait
     {
         if($this->checkField($target, $field)){
             // 既にセットされている
-            $this->setMessage($field->getAlreadyMessage($target));
+            setMessage($field->getAlreadyMessage($target));
         }else{
             // フィールドをセット
             $this->field[$target][get_class($field)] = $turn;
-            $this->setMessage($field->getSetMessage($target));
+            setMessage($field->getSetMessage($target));
         }
     }
 
@@ -62,7 +62,7 @@ trait CommonFieldTrait
             // 解除
             unset($this->field[$target][get_class($field)]);
             // 解除メッセージをセット
-            $this->setMessage($field->getReleaseMessage($target));
+            setMessage($field->getReleaseMessage($target));
         }
     }
 

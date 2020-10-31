@@ -98,8 +98,8 @@ trait ClassPokemonCalculationTrait
         // HPが0以下になった場合の処理
         if($this->remaining_hp <= 0){
             // 状態異常をひんしに書き換え
-            $message = $this->setSa('SaFainting');
-            $this->setMessage($message);
+            $result = $this->setSa('SaFainting');
+            setMessage($result['message']);
             $this->remaining_hp = 0;
         }
         // 残りHPを返却

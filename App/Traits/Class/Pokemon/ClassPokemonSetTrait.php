@@ -10,11 +10,11 @@ trait ClassPokemonSetTrait
     public function setNickname($nickname)
     {
         if(empty($nickname) || mb_strlen($nickname, 'UTF-8') > 5){
-            $this->setMessage('ニックネームは１〜５文字で入力してください', 'error');
+            setMessage('ニックネームは１〜５文字で入力してください');
             return;
         }
         $this->nickname = $nickname;
-        $this->setMessage('ニックネームを変更しました', 'success');
+        setMessage('ニックネームを変更しました');
     }
 
     /**
@@ -137,7 +137,7 @@ trait ClassPokemonSetTrait
     {
         if(!is_numeric($exp)){
             // 入力値のチェック
-            $this->setMessage('数値を入力してください', 'error');
+            setMessage('数値を入力してください', 'error');
             return $this;
         }
         // 次のレベルに必要な経験値を取得
@@ -145,8 +145,8 @@ trait ClassPokemonSetTrait
         // 経験値を加算
         $this->exp += (int)$exp;
         // メッセージIDを生成
-        $msg_id = $this->issueMsgId();
-        $this->setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
+        $msg_id = issueMsgId();
+        setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
         // レベル上限の確認
         if($this->level >= 100){
             return $this;
@@ -161,17 +161,17 @@ trait ClassPokemonSetTrait
             // レベルアップ処理ループ
             while($this->getReqLevelUpExp() < 0){
                 // メッセージIDを再生成
-                $msg_id = $this->issueMsgId();
-                $this->setAutoMessage($msg_id);
+                $msg_id = issueMsgId();
+                setAutoMessage($msg_id);
                 // レベルアップ処理
                 $this->actionLevelUp($msg_id);
             }
             // 全レベルアップ処理終了後、メッセージIDを再生成
-            $msg_id = $this->issueMsgId();
-            $this->setAutoMessage($msg_id);
+            $msg_id = issueMsgId();
+            setAutoMessage($msg_id);
         }
         // 経験値バーの最終アニメーション用レスポンス
-        $this->setResponse([
+        setResponse([
             'param' => $this->getPerCompNexExp(),
             'action' => 'expbar',
         ], $msg_id);
@@ -255,7 +255,7 @@ trait ClassPokemonSetTrait
     * 状態異常をセットする
     * @param string $class
     * @param integer $turn|0
-    * @return string
+    * @return array
     */
     public function setSa($class, $turn=0)
     {
@@ -269,7 +269,9 @@ trait ClassPokemonSetTrait
                 $this->evolve_flg = false;
             }
             // メッセージの返却
-            return $this->getPrefixName().'は倒れた';
+            return [
+                'message' => $this->getPrefixName().'は倒れた'
+            ];
         }
         // セットできる状態異常一覧
         $sa_list = [
@@ -278,21 +280,30 @@ trait ClassPokemonSetTrait
         // クラスチェック
         if(!in_array($class, $sa_list, true) || !class_exists($class)){
             // 不正なクラス
-            return '指定された状態異常は存在しません';
+            return [
+                'message' => '指定された状態異常は存在しません'
+            ];
         }
         // 状態異常にかかっていない場合
         if(empty($this->sa)){
             $sa = new $class;
             // 状態異常をセット
             $this->sa[$class] = $turn;
-            return $sa->getSickedMessage($this->getPrefixName());
+            return [
+                'message' => $sa->getSickedMessage($this->getPrefixName()),
+                'sa' => $class
+            ];
         }
         if(isset($this->sa[$class])){
             $sa = new $class;
             // 既に同じ状態異常にかかっている
-            return $sa->getSickedAlreadyMessage($this->getPrefixName());
+            return [
+                'message' => $sa->getSickedAlreadyMessage($this->getPrefixName())
+            ];
         }
-        return 'しかし上手く決まらなかった';
+        return [
+            'message' => 'しかし上手く決まらなかった'
+        ];
     }
 
     /**

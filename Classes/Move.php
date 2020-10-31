@@ -1,13 +1,13 @@
 <?php
 $root_path = __DIR__.'/..';
 require_once($root_path.'/App/Traits/InstanceTrait.php');
-require_once($root_path.'/App/Traits/ResponseTrait.php');
+// require_once($root_path.'/App/Traits/ResponseTrait.php');
 
 // 技
 abstract class Move
 {
     use InstanceTrait;
-    use ResponseTrait;
+    // use ResponseTrait;
 
     /**
     * 攻撃失敗時のメッセージ
@@ -73,6 +73,17 @@ abstract class Move
     public function field()
     {
         return [];
+    }
+
+    /**
+    * 反動
+    *
+    * @param mixed
+    * @return boolean
+    */
+    public function recoil(...$args)
+    {
+        return false;
     }
 
     /**
