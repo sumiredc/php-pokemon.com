@@ -3,7 +3,7 @@ $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Move.php');
 
 // かみつく
-class Moveite extends Move
+class MoveBite extends Move
 {
 
     /**

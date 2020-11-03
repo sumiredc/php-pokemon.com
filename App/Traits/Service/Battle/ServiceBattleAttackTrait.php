@@ -76,13 +76,13 @@ trait ServiceBattleAttackTrait
             // こうかがない
             setMessage($def_pokemon->getPrefixName().'には効果が無いみたいだ');
             // 攻撃失敗
-            $this->failedMove();
+            $this->failedMove($atk_pokemon, $move);
             return;
         }
         // 命中判定
         if(!$this->checkHit($atk_pokemon, $def_pokemon, $move)){
             // 攻撃失敗
-            $this->failedMove();
+            $this->failedMove($atk_pokemon, $move);
             return;
         }
         // 一撃必殺
@@ -212,7 +212,7 @@ trait ServiceBattleAttackTrait
             }else{
                 $debuff = $move->debuff($atk_pokemon, $def_pokemon);
                 if(isset($debuff['message'])){
-                    setMessage($debuff);
+                    setMessage($debuff['message']);
                 }
             }
             // フィールド効果
@@ -345,8 +345,12 @@ trait ServiceBattleAttackTrait
     {
         $failed_id = issueMsgId();
         $failed = $move->failed($atk);
-        setMessage($failed['message'], $failed_id);
-        setResponse($failed['response'], $failed_id);
+        if(isset($failed['message'])){
+            setMessage($failed['message'], $failed_id);
+        }
+        if(isset($failed['response'])){
+            setResponse($failed['response'], $failed_id);
+        }
     }
 
     /**

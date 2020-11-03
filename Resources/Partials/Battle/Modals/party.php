@@ -1,9 +1,9 @@
 <!-- Modal -->
-<div class="modal fade" id="select-pokemon-modal" tabindex="-1" role="dialog" aria-labelledby="select-pokemon-modal-title" aria-hidden="true">
+<div class="modal fade" id="select-party-modal" tabindex="-1" role="dialog" aria-labelledby="select-party-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="select-pokemon-modal-title">ポケモンを選択</h5>
+                <h5 class="modal-title" id="select-party-modal-title">ポケモンを選択</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

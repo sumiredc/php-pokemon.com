@@ -2,6 +2,12 @@
 class Response
 {
     /**
+    * 使用中のメッセージID格納用
+    * @var array
+    */
+    private $message_ids = [];
+
+    /**
     * メッセージの格納用
     * @var array
     */
@@ -29,11 +35,25 @@ class Response
         // IDを生成
         $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
         // ユニークになるようにチェック
-        while(in_array($id, $_SESSION['__message_ids'] ?? [], true)){
+        while(in_array($id, $this->message_ids ?? [], true)){
             $id = 'msg'.substr(bin2hex(random_bytes(16)), 0, 16);
         }
-        $_SESSION['__message_ids'][] = $id;
+        $this->message_ids[] = $id;
         return $id;
+    }
+
+    /**
+    * 使用中のメッセージIDを格納
+    *
+    * @return string
+    */
+    public function setUsedMessageId($arg)
+    {
+        if(is_array($arg)){
+            $this->message_ids = array_merge($this->message_ids, $arg);
+        }else{
+            $this->message_ids[] = $arg;
+        }
     }
 
     /**

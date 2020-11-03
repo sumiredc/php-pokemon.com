@@ -126,7 +126,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                                 <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-item-modal" id="action-btn-item">どうぐ</button>
                             </div>
                             <div class="col-6 mb-2">
-                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-pokemon-modal" id="action-btn-pokemon">ポケモン</button>
+                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-party-modal">ポケモン</button>
                             </div>
                             <div class="col-6 mb-2">
                                 <form action="" method="post">
@@ -148,20 +148,21 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
         <input type="hidden" name="action" id="remote-form-action">
         <?php input_token(); ?>
     </form>
-    <?php foreach($modals as $modal): ?>
-        <?php include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php'); ?>
-    <?php endforeach; ?>
     <?php
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # モーダルの読み込み
+    foreach($modals as $modal){
+        include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php');
+    }
     include($root_path.'/Resources/Partials/Battle/Modals/move.php');
     include($root_path.'/Resources/Partials/Battle/Modals/item.php');
-    include($root_path.'/Resources/Partials/Battle/Modals/pokemon.php');
+    include($root_path.'/Resources/Partials/Battle/Modals/party.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
-    <script src="/Assets/js/Battle/fight.js" type="text/javascript"></script>
-    <script src="/Assets/js/Battle/message.js" type="text/javascript"></script>
+    <script src="/Assets/js/forget-move.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Battle/fight.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Battle/message.js" type="text/javascript" defer></script>
 </body>
 </html>

@@ -15,11 +15,6 @@ class LearnMoveService extends Service
     protected $pokemon;
 
     /**
-    * @var Pokemon:object
-    */
-    protected $tmp_pokemon;
-
-    /**
     * @var array
     */
     protected $before_responses;
@@ -30,16 +25,17 @@ class LearnMoveService extends Service
     protected $request;
 
     /**
-    * @param Pokemon:object
+    * @param parth:array
+    * @param order:integer
     * @param before_response:array
     * @param before_messages:array
     * @param before_modals:array
     * @param request:array
     * @return void
     */
-    public function __construct($pokemon, $before_responses, $before_messages, $before_modals, $request)
+    public function __construct($party, $order, $before_responses, $before_messages, $before_modals, $request)
     {
-        $this->pokemon = $pokemon;
+        $this->pokemon = $party[$order];
         $this->before_responses = $this->unserializeObject($before_responses);
         $this->before_messages = $before_messages;
         $this->before_modals = $this->unserializeObject($before_modals);
@@ -51,8 +47,6 @@ class LearnMoveService extends Service
     */
     public function execute()
     {
-        // 描画用ポケモンオブジェクトの作成
-        $this->tmp_pokemon = $this->createTmpPokemon();
         // 技の置き換え
         $this->replaceMove();
         // レスポンスの引き継ぎ
@@ -72,23 +66,9 @@ class LearnMoveService extends Service
     /**
     * @return Pokomon:object
     */
-    public function getTmpPokemon()
+    public function getPokemon()
     {
-        return $this->tmp_pokemon;
-    }
-
-    /**
-    * 表示用のポケモンオブジェクトを生成
-    * @return Pokemon:object
-    */
-    private function createTmpPokemon()
-    {
-        $pokemon = clone $this->pokemon;
-        // クローンオブジェクトにレベルと残HPをセット
-        $pokemon->setLevel($this->request['level']);
-        $pokemon->setRemainingHp($this->request['hp']);
-        $pokemon->setDefaultExp();
-        return $pokemon;
+        return $this->pokemon;
     }
 
     /**

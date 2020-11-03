@@ -12,14 +12,14 @@ class RecoveryService extends Service
     /**
     * @var object Pokemon
     */
-    private $pokemon;
+    private $party;
 
     /**
     * @return void
     */
-    public function __construct($pokemon)
+    public function __construct($party)
     {
-        $this->pokemon = $pokemon;
+        $this->party = $party;
     }
 
     /**
@@ -27,7 +27,9 @@ class RecoveryService extends Service
     */
     public function execute()
     {
-        $this->recovery();
+        foreach($this->party as $partner){
+            $this->recovery($partner);
+        }
         setMessage([
             ['お預かりしたポケモンたちは、皆元気になりましたよ'],
             ['またのご利用お待ちしております']
@@ -39,17 +41,14 @@ class RecoveryService extends Service
     *
     * @return void
     */
-    private function recovery()
+    private function recovery($partner)
     {
         // HP回復
-        $this->pokemon
-        ->calRemainingHp('reset');
+        $partner->calRemainingHp('reset');
         // 状態異常解除
-        $this->pokemon
-        ->releaseSa();
+        $partner->releaseSa();
         // PP回復
-        $this->pokemon
-        ->calRemainingPp('reset');
+        $partner->calRemainingPp('reset');
     }
 
 }

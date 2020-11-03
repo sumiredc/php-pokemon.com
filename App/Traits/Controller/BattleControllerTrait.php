@@ -7,6 +7,16 @@ trait BattleControllerTrait
 {
 
     /**
+    * 味方ポケモン情報の取得
+    *
+    * @return object
+    */
+    public function getPokemon()
+    {
+        return $this->pokemon;
+    }
+
+    /**
     * 敵ポケモン情報の取得
     *
     * @return Pokemon:object
@@ -90,6 +100,62 @@ trait BattleControllerTrait
         $lm = (2 * $lose->getLevel() + 10) / ($lose->getLevel() + $win->getLevel() + 10);
         // 経験値の計算結果を整数（切り捨て）で返却
         return (int)($exp * $lm ** 2.5 + 1);
+    }
+
+    /**
+    * 引き継ぎ処理
+    * @return void
+    */
+    protected function takeOver()
+    {
+        // にげるの実行回数を引き継ぎ
+        if(isset($_SESSION['__data']['run'])){
+            $this->run = $_SESSION['__data']['run'];
+        }
+        // フィールド状態を引き継ぎ
+        if(isset($_SESSION['__data']['field'])){
+            $this->field = $_SESSION['__data']['field'];
+        }
+        // ポケモン番号の引き継ぎ
+        $this->order = $_SESSION['__data']['order'];
+        // パーティーの引き継ぎ
+        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
+        // 敵ポケモンの引き継ぎ
+        if(isset($_SESSION['__data']['enemy'])){
+            $this->enemy = $this->unserializeObject($_SESSION['__data']['enemy']);
+            // 前ターンの状態をプロパティに格納
+            $this->before['enemy'] = clone $this->enemy;
+        }
+        // 戦闘中のポケモンをプロパティにセット
+        $this->pokemon = $this->party[$this->order];
+        // 前ターンの状態をプロパティに格納
+        $this->before['friend'] = clone $this->pokemon;
+    }
+
+    /**
+    * 次のターンへの判定処理
+    *
+    * @return boolean
+    */
+    private function nextTurn()
+    {
+        // ひんしポケモンがでた場合の処理
+        if($this->fainting['enemy'] || $this->fainting['friend']){
+            $this->judgment();
+            return false;
+        }
+        // チャージ中、反動有り、あばれる状態なら再度アクション実行
+        if(
+            $this->chargeNow() ||
+            $this->pokemon->checkSc('ScRecoil') ||
+            $this->pokemon->checkSc('ScThrash')
+        ){
+            $this->branch();
+            return true;
+        }else{
+            setMessage('行動を選択してください');
+            return false;
+        }
     }
 
 }

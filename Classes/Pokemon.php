@@ -181,7 +181,6 @@ abstract class Pokemon
             // 進化前のポケモンと一致しているかチェック
             if(is_a($before, $this->before_class ?? null)){
                 $this->takeOverAbility($before->export());
-                $this->checkLevelMove();
             }
             break;
         }
@@ -239,34 +238,6 @@ abstract class Pokemon
         ]);
         // 現在のレベルで習得できる技があるか確認
         $this->checkLevelMove();
-    }
-
-    /**
-    * 進化
-    *
-    * @return Pokemon
-    */
-    public function evolve()
-    {
-        if(
-            $this->evolve_flg
-            && class_exists($this->after_class ?? null)
-        ){
-            // 現在のHPを取得
-            $before_hp = $this->getStats('HP');
-            // 進化ポケモンのインスタンスを生成
-            $pokemon = new $this->after_class($this);
-            // HPの上昇値分だけ残りHPを加算(ひんし状態を除く)
-            if(!isset($pokemon->sa['SaFainting'])){
-                $pokemon->calRemainingHp('add', $pokemon->getStats('HP') - $before_hp);
-            }
-            setMessage('おめでとう！'.$this->getNickName().'は'.$pokemon->getName().'に進化した！');
-            // 進化後のインスタンスを返却
-            return $pokemon;
-        }else{
-            setMessage('このポケモンは進化できません');
-            return $this;
-        }
     }
 
     /**

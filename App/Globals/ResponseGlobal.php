@@ -17,6 +17,18 @@ function issueMsgId()
 }
 
 /**
+* 使用中のメッセージIDを格納
+*
+* @return string
+*/
+function setUsedMessageId($arg)
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name($arg);
+}
+
+/**
 * 全リセット
 * @return void
 */

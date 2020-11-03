@@ -1,10 +1,24 @@
 <?php
 $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Controllers/Controller.php');
+// サービス
+require_once($root_path.'/App/Services/Evolve/EvolveService.php');
+require_once($root_path.'/App/Services/Evolve/CancelService.php');
+require_once($root_path.'/App/Services/Evolve/DefaultService.php');
+require_once($root_path.'/App/Services/Evolve/LearnMoveService.php');
+// トレイト
+require_once($root_path.'/App/Traits/Controller/EvolveControllerTrait.php');
 
 // 進化画面用コントローラー
 class EvolveController extends Controller
 {
+
+    use EvolveControllerTrait;
+
+    /**
+    * @return void
+    */
+    protected $process_flg = false;
 
     /**
     * @return void
@@ -22,13 +36,20 @@ class EvolveController extends Controller
     }
 
     /**
-    * 引き継ぎ処理
     * @return void
     */
-    private function takeOver()
+    public function __destruct()
     {
-        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
-        $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
+        // 次画面へ送るデータ
+        $_SESSION['__data']['party'] = $this->serializeObject($this->party);
+        $_SESSION['__data']['before_reponses'] = $this->serializeObject(getResponses());
+        $_SESSION['__data']['before_modals'] = $this->serializeObject(getModals());
+        $_SESSION['__data']['before_messages'] = getMessages();
+        if($this->process_flg){
+            $_SESSION['__data']['order'] = $this->order;
+        }
+        // 親デストラクタの呼び出し
+        parent::__destruct();
     }
 
     /**
@@ -37,57 +58,87 @@ class EvolveController extends Controller
     */
     private function branch()
     {
-        // 進化処理が終わっていればホーム画面へ移管
-        if(!$this->pokemon->getEvolveFlg()){
+        // 対象がいなければホーム画面へ移管
+        if(is_null($this->order)){
             $this->goToHome();
         }
+        // アクションに合わせた分岐
         switch ($_POST['action'] ?? '') {
             /******************************************
             * 進化
             */
             case 'evolve':
-            $this->pokemon = $this->pokemon
-            ->evolve();
+            $service = new EvolveService($this->party, $this->order);
+            $service->execute();
+            // 新しくなったパーティーをセット
+            $this->party = $service->getParty();
+            // 処理中フラグを引き継ぎ
+            $this->process_flg = $service->process_flg;
             break;
             /******************************************
             * 進化キャンセル
             */
             case 'cancel':
-            // 進化フラグをfalseにする
-            $this->pokemon
-            ->setEvolveFlgFalse();
-            $_SESSION['__data']['pokemon'] = $this->serializeObject($this->pokemon);
-            $this->goToHome();
+            $service = new CancelService($this->party, $this->order);
+            $service->execute();
+            // ページをリロード
+            $this->reload();
             break;
             /******************************************
-            * 進化確認画面(初期)
+            * 技の習得
+            */
+            case 'learn_move':
+            // サービス実行
+            $service = new LearnMoveService(
+                $this->party,
+                $this->order,
+                $_SESSION['__data']['before_reponses'],
+                $_SESSION['__data']['before_messages'],
+                $_SESSION['__data']['before_modals'],
+                $this->request('param')
+            );
+            $service->execute();
+            break;
+            /******************************************
+            * 進化確認画面
             */
             default:
-            // 確認メッセージ
-            $msg_id1 = issueMsgId();
-            setMessage('・・・おや！？ '.$this->pokemon->getNickName().'の様子が・・・！');
-            setAutoMessage($msg_id1);
-            setResponse([
-                'action' => 'evolve'
-            ], $msg_id1);
-            // 終了メッセージ
-            $msg_id2 = issueMsgId();
-            setMessage('あれ・・・？ '.$this->pokemon->getNickName().'の変化が止まった！', $msg_id2);
-            setResponse([
-                'action' => 'cancel'
-            ], $msg_id2);
+            $service = new DefaultService($this->party, $this->order);
+            $service->execute();
             break;
         }
-        setEmptyMessage();
+        
     }
 
     /**
     * ホーム画面へ移管させる処理
     * @return void
     */
-    private function goToHome()
+    protected function goToHome()
     {
+        unset(
+            $_SESSION['__data']['order'],
+            $_SESSION['__data']['before_messages'],
+            $_SESSION['__data']['before_modals'],
+            $_SESSION['__data']['before_responses']
+        );
         $_SESSION['__route'] = 'home';
+        header("Location: ./", true, 307);
+    }
+
+    /**
+    * リロード処理
+    * @return void
+    */
+    protected function reload()
+    {
+        unset(
+            $_SESSION['__data']['order'],
+            $_SESSION['__data']['before_messages'],
+            $_SESSION['__data']['before_modals'],
+            $_SESSION['__data']['before_responses']
+        );
+        $_SESSION['__route'] = 'evolve';
         header("Location: ./", true, 307);
     }
 

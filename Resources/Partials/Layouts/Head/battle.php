@@ -11,7 +11,6 @@ $modals = $global_responses->getModals();
 $messages = $global_responses->getMessages();
 // 引き継ぐデータをセッションへ格納
 $_SESSION['__data']['party'] = $controller->serializeObject($controller->getParty());
-$_SESSION['__data']['pokemon'] = $controller->serializeObject($pokemon);
 $_SESSION['__data']['enemy'] = $controller->serializeObject($enemy);
 $_SESSION['__data']['run'] = $controller->run; # にげるの実行回数をセッションへ格納
 $_SESSION['__data']['field'] = $controller->getField(); # にげるの実行回数をセッションへ格納

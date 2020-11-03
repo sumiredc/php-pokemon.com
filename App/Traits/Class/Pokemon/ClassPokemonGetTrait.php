@@ -443,4 +443,18 @@ trait ClassPokemonGetTrait
         }
     }
 
+    /**
+    * 現在のレベルで覚えられる技の数を取得する処理
+    *
+    * @return boolean
+    */
+    public function getLevelMoveCount()
+    {
+        $level_move_keys = array_keys(
+            array_column($this->level_move, 0),
+            $this->level
+        );
+        return count($level_move_keys);
+    }
+
 }

@@ -20,7 +20,7 @@ $collapses = [
                 <div class="accordion mb-3" id="help-accordion">
                     <div class="card">
                         <?php foreach($collapses as $num => $collapse): ?>
-                            <?php include($root_path.'/Resources/Partials/Common/Modals/Collapses/'.$collapse.'.php'); ?>
+                            <?php include($root_path.'/Resources/Partials/Common/Modals/Partials/Help/'.$collapse.'.php'); ?>
                         <?php endforeach; ?>
                     </div>
                 </div><?php # アコーディオン終了 ?>

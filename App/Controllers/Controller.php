@@ -16,12 +16,6 @@ abstract class Controller
     use SerializeTrait;
 
     /**
-    * ポケモン格納用
-    * @var object
-    */
-    protected $pokemon;
-
-    /**
     * パーティー
     * @var array
     */
@@ -59,8 +53,6 @@ abstract class Controller
     public function __destruct()
     {
         $_POST = [];
-        // メッセージIDのリフレッシュ
-        unset($_SESSION['__message_ids']);
     }
 
     /**
@@ -102,18 +94,8 @@ abstract class Controller
             // 結果の差分を格納
             $results = array_merge($results, array_diff($msg_ids, $results));
         }
-        // 重複回避用セッションに格納
-        $_SESSION['__message_ids'] = $results;
-    }
-
-    /**
-    * ポケモン情報の取得
-    *
-    * @return object
-    */
-    public function getPokemon()
-    {
-        return $this->pokemon;
+        // 重複回避用のメッセージIDに格納
+        setUsedMessageId($results);
     }
 
     /**

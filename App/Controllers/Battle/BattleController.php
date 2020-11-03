@@ -18,6 +18,18 @@ class BattleController extends Controller
     use BattleControllerTrait;
 
     /**
+    * 戦闘に参加しているポケモン番号
+    * @var integer
+    */
+    protected $order;
+
+    /**
+    * 味方ポケモン格納用
+    * @var object
+    */
+    protected $pokemon;
+
+    /**
     * 敵ポケモン格納用
     * @var object
     */
@@ -71,38 +83,6 @@ class BattleController extends Controller
         while($this->nextTurn());
         // 親デストラクタの呼び出し
         parent::__destruct();
-    }
-
-    /**
-    * 引き継ぎ処理
-    * @return void
-    */
-    private function takeOver()
-    {
-        // にげるの実行回数を引き継ぎ
-        if(isset($_SESSION['__data']['run'])){
-            $this->run = $_SESSION['__data']['run'];
-        }
-        // フィールド状態を引き継ぎ
-        if(isset($_SESSION['__data']['field'])){
-            $this->field = $_SESSION['__data']['field'];
-        }
-        // ========
-        // パーティーの引き継ぎ
-        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
-        // ========
-        // ポケモンの引き継ぎ
-        $this->pokemon = $this->unserializeObject($_SESSION['__data']['pokemon']);
-        // 前ターンの状態をプロパティに格納
-        $this->before['friend'] = clone $this->pokemon;
-        // ========
-        // 敵ポケモンの引き継ぎ
-        if(isset($_SESSION['__data']['enemy'])){
-            $this->enemy = $this->unserializeObject($_SESSION['__data']['enemy']);
-            // 前ターンの状態をプロパティに格納
-            $this->before['enemy'] = clone $this->enemy;
-        }
-
     }
 
     /**
@@ -217,7 +197,7 @@ class BattleController extends Controller
         $_SESSION['__data']['pokemon'] = $this->serializeObject($this->pokemon);
         // セッション破棄
         $target = [
-            'enemy', 'run', 'field',
+            'enemy', 'run', 'field', 'order',
             'before_responses', 'before_messages', 'before_modals'
         ];
         foreach($target as $key){
@@ -233,32 +213,6 @@ class BattleController extends Controller
         }
         header("Location: ./", true, 307);
         exit;
-    }
-
-    /**
-    * 次のターンへの判定処理
-    *
-    * @return boolean
-    */
-    private function nextTurn()
-    {
-        // ひんしポケモンがでた場合の処理
-        if($this->fainting['enemy'] || $this->fainting['friend']){
-            $this->judgment();
-            return false;
-        }
-        // チャージ中、反動有り、あばれる状態なら再度アクション実行
-        if(
-            $this->chargeNow() ||
-            $this->pokemon->checkSc('ScRecoil') ||
-            $this->pokemon->checkSc('ScThrash')
-        ){
-            $this->branch();
-            return true;
-        }else{
-            setMessage('行動を選択してください');
-            return false;
-        }
     }
 
 }

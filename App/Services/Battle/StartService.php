@@ -50,9 +50,6 @@ class StartService extends Service
             $this->min = 1;
         }
         $this->max = $level;
-        // if($this->max > 100){
-        //     $this->max = 100;
-        // }
     }
 
     /**
@@ -64,6 +61,7 @@ class StartService extends Service
         $this->enemy = new $this->pokemon_list[random_int(0, 3)](
             random_int($this->min, $this->max)
         );
+        // $this->enemy = new Kamex(15);
         // 返却値をセット
         setMessage('野生の'.$this->enemy->getName().'が現れた！');
     }

@@ -38,7 +38,7 @@ trait ClassPokemonCheckTrait
     *
     * @return void
     */
-    protected function checkLevelMove()
+    public function checkLevelMove()
     {
         // レベルアップして覚えられる技があれば習得する
         $level_move_keys = array_keys(

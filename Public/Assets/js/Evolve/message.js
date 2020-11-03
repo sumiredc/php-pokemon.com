@@ -59,8 +59,8 @@ var clickCancelEvolveInit = function(){
         // 自身のボタンを非表示化
         $(this).hide()
         // アニメーションの強制終了(コールバックを無効化)
-        $('#pokemon-before').resetKeyframe(function(){});
-        $('#pokemon-before').css('opacity', 1);
+        $('#pokemon-after').resetKeyframe(function(){});
+        $('#pokemon-after').css('opacity', 0);
         await nextMsg($('.result-message.active'));
         // cancelボタンで発火しないように１秒後にメッセージボックスを有効可
         setTimeout(function() {
@@ -120,7 +120,7 @@ var evolvePokemon = function(param){
     return new Promise ((resolve, reject) => {
         var keyframe = {};
         var per = 100;
-        var opacity = 1;
+        var opacity = 0;
         while (per) {
             if(opacity){
                 keyframe[per + '%'] = {opacity: 0};
@@ -139,7 +139,7 @@ var evolvePokemon = function(param){
         // キーフレームの用意
         $.keyframe.define(keyframe);
         // 経験値バーのアニメーション
-        $('#pokemon-before').playKeyframe({
+        $('#pokemon-after').playKeyframe({
             name: 'evolve-animation',
             duration: '5000ms',
             timingFunction: 'ease',
