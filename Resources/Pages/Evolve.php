@@ -39,10 +39,10 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
                     </div>
                 </div>
             </section>
-            <section>
+            <section class="bg-light p-3">
                 <div class="row">
                     <div class="col-12">
-                        <div class="message-box action-message-box border p-3 mb-3">
+                        <div class="message-box action-message-box border p-3">
                             <?php # メッセージエリア ?>
                             <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
                                 <?php $class = $key === $global_responses->getMessageFirstKey() ? 'active' : ''; ?>
@@ -68,11 +68,6 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
             ?>
         </div>
     </main>
-    <?php # 遠隔操作用隠しフォーム ?>
-    <form action="" method="post" id="remote-form">
-        <input type="hidden" name="action" id="remote-form-action">
-        <?php input_token(); ?>
-    </form>
     <?php
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');

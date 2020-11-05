@@ -89,10 +89,10 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                     </div>
                 </div>
             </section>
-            <section class="position-relative">
-                <div class="row">
+            <section class="position-relative bg-light p-3">
+                <div class="row align-items-center">
                     <div class="col-12 col-sm-6">
-                        <div class="message-box action-message-box border p-3 mb-3">
+                        <div class="message-box action-message-box border p-3">
                             <?php # メッセージエリア ?>
                             <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
                                 <?php $class = $key === $global_responses->getMessageFirstKey() ? 'active' : ''; ?>
@@ -110,7 +110,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="row">
+                        <div class="row pt-3">
                             <div class="col-6 mb-2">
                                 <?php if($pokemon->checkUsedMove()): ?>
                                     <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-move-modal" id="action-btn-fight">たたかう</button>
@@ -125,10 +125,10 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                             <div class="col-6 mb-2">
                                 <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-item-modal" id="action-btn-item">どうぐ</button>
                             </div>
-                            <div class="col-6 mb-2">
+                            <div class="col-6">
                                 <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-party-modal">ポケモン</button>
                             </div>
-                            <div class="col-6 mb-2">
+                            <div class="col-6">
                                 <form action="" method="post">
                                     <div class="input-group mb-3">
                                         <input type="hidden" name="action" value="run">
@@ -143,11 +143,6 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
             </section>
         </div>
     </main>
-    <?php # 遠隔操作用隠しフォーム ?>
-    <form action="" method="post" id="remote-form">
-        <input type="hidden" name="action" id="remote-form-action">
-        <?php input_token(); ?>
-    </form>
     <?php
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');

@@ -31,9 +31,12 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
                 </div>
             </section>
             <section>
+                <?php include($root_path.'/Resources/Partials/Home/action.php'); ?>
+            </section>
+            <section class="bg-light p-3">
                 <div class="row">
                     <div class="col-12">
-                        <div class="message-box border p-3 mb-3">
+                        <div class="message-box border p-3">
                             <?php foreach($messages as list($message)): ?>
                                 <p><?=$message?></p>
                             <?php endforeach; ?>

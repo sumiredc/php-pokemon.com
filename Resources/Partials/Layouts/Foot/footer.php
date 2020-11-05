@@ -1,3 +1,8 @@
+<?php # 遠隔操作用隠しフォーム ?>
+<form action="" method="post" id="remote-form">
+    <input type="hidden" name="action" id="remote-form-action">
+    <?php input_token(); ?>
+</form>
 <footer>
     <p class="small text-center">※ポケットモンスター・ポケモン・Pokemonは任天堂・クリーチャーズ・ゲームフリークの登録商標です。</p>
 </footer>

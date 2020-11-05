@@ -52,6 +52,18 @@ var dubbleModalInit = function() {
     });
 }
 
+/**
+ * リモートフォームへのサブミット
+ *
+ * @function on show modal
+ */
+var submitRemoteInit = function() {
+    $('[data-submit_remote]').on('click', function(){
+        $("#remote-form-action").val($(this).data('submit_remote'))
+        $('form#remote-form').submit();
+    });
+}
+
 /*----------------------------------------------------------
 // 処理内で呼び出す関数
 ----------------------------------------------------------*/
@@ -64,4 +76,5 @@ jQuery(function($){
     nowLoadingInit();
     navMoveBoxInit();
     dubbleModalInit();
+    submitRemoteInit();
 });
