@@ -41,9 +41,9 @@ class EvolveController extends Controller
     public function __destruct()
     {
         // 次画面へ送るデータ
-        $_SESSION['__data']['party'] = $this->serializeObject($this->party);
-        $_SESSION['__data']['before_reponses'] = $this->serializeObject(getResponses());
-        $_SESSION['__data']['before_modals'] = $this->serializeObject(getModals());
+        $_SESSION['__data']['party'] = serializeObject($this->party);
+        $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
+        $_SESSION['__data']['before_modals'] = serializeObject(getModals());
         $_SESSION['__data']['before_messages'] = getMessages();
         if($this->process_flg){
             $_SESSION['__data']['order'] = $this->order;
@@ -92,7 +92,7 @@ class EvolveController extends Controller
             $service = new LearnMoveService(
                 $this->party,
                 $this->order,
-                $_SESSION['__data']['before_reponses'],
+                $_SESSION['__data']['before_responses'],
                 $_SESSION['__data']['before_messages'],
                 $_SESSION['__data']['before_modals'],
                 $this->request('param')
@@ -107,7 +107,7 @@ class EvolveController extends Controller
             $service->execute();
             break;
         }
-        
+
     }
 
     /**
@@ -123,7 +123,8 @@ class EvolveController extends Controller
             $_SESSION['__data']['before_responses']
         );
         $_SESSION['__route'] = 'home';
-        header("Location: ./", true, 307);
+        // 画面移管
+        $this->redirect();
     }
 
     /**
@@ -139,7 +140,8 @@ class EvolveController extends Controller
             $_SESSION['__data']['before_responses']
         );
         $_SESSION['__route'] = 'evolve';
-        header("Location: ./", true, 307);
+        // 画面移管
+        $this->redirect();
     }
 
 }

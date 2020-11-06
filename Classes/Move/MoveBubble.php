@@ -57,8 +57,8 @@ class MoveBubble extends Move
     /**
     * 能力下降効果
     *
-    * @param array $args
-    * @return mixed
+    * @param args:array
+    * @return array
     */
     public function debuff(...$args)
     {

@@ -27,6 +27,16 @@ trait BattleControllerTrait
     }
 
     /**
+    * バトル状態の取得
+    *
+    * @return object::BattleState
+    */
+    public function getBattleState()
+    {
+        return $this->battle_state;
+    }
+
+    /**
     * 行動不可（チャージ中）の判定
     *
     * @return boolean (true:行動不可, false:行動可)
@@ -106,23 +116,32 @@ trait BattleControllerTrait
     * 引き継ぎ処理
     * @return void
     */
-    protected function takeOver()
+    protected function inheritance()
     {
-        // にげるの実行回数を引き継ぎ
-        if(isset($_SESSION['__data']['run'])){
-            $this->run = $_SESSION['__data']['run'];
-        }
-        // フィールド状態を引き継ぎ
-        if(isset($_SESSION['__data']['field'])){
-            $this->field = $_SESSION['__data']['field'];
+        // // にげるの実行回数を引き継ぎ
+        // if(isset($_SESSION['__data']['run'])){
+        //     $this->run = $_SESSION['__data']['run'];
+        // }
+        // // フィールド状態を引き継ぎ
+        // if(isset($_SESSION['__data']['field'])){
+        //     $this->field = $_SESSION['__data']['field'];
+        // }
+        // バトル状態の引き継ぎ
+        if(isset($_SESSION['__data']['battle_state'])){
+            $this->battle_state = unserializeObject($_SESSION['__data']['battle_state']);
+            // ターン最初の状態へ初期化
+            $this->battle_state
+            ->turnInit();
+        }else{
+            $this->battle_state = new BattleState;
         }
         // ポケモン番号の引き継ぎ
         $this->order = $_SESSION['__data']['order'];
         // パーティーの引き継ぎ
-        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
+        $this->party = unserializeObject($_SESSION['__data']['party']);
         // 敵ポケモンの引き継ぎ
         if(isset($_SESSION['__data']['enemy'])){
-            $this->enemy = $this->unserializeObject($_SESSION['__data']['enemy']);
+            $this->enemy = unserializeObject($_SESSION['__data']['enemy']);
             // 前ターンの状態をプロパティに格納
             $this->before['enemy'] = clone $this->enemy;
         }

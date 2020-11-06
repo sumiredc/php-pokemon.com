@@ -6,8 +6,8 @@ trait ServiceBattleCheckTrait
     /**
     * 技の使用可不可判定
     *
-    * @param object $move Move
-    * @param object $pokemon Pokemon
+    * @param move:object::Move
+    * @param pokemon:object::Pokemon
     * @return boolean (true: 使用可, false:使用不可(わるあがき))
     */
     protected function checkEnabledMove(object $move, object $pokemon)
@@ -24,18 +24,40 @@ trait ServiceBattleCheckTrait
             $move_class,
             array_column($move_list, 'class'),
         );
-        // PP残数の確認
-        if($move_list[$num]['remaining'] > 0){
-            // チャージターンかつあばれる状態でなければPP減少
-            if(!$this->checkChargeTurn($pokemon, $move) && !$pokemon->checkSc('ScThrash')){
-                // 残PPをマイナス1
-                $pokemon->calRemainingPp('sub', 1, $num);
-            }
-            return true;
-        }else{
-            // 使用不可
-            return false;
+        // チャージターンかつあばれる状態でなければPP減少
+        if(
+            !$this->checkChargeTurn($pokemon, $move) &&
+            !$pokemon->checkSc('ScThrash')
+        ){
+            // 残PPをマイナス1
+            $pokemon->calRemainingPp('sub', 1, $num);
         }
+        return true;
+
+        //※PPチェックはサービスへ移行※
+        //
+        // // ポケモンの技一覧
+        // $move_list = $pokemon->getMove(null, 'array');
+        // // 選択された技の添番を取得
+        // $num = array_search(
+        //     $move_class,
+        //     array_column($move_list, 'class'),
+        // );
+        // // PP残数の確認
+        // if($move_list[$num]['remaining'] > 0){
+        //     // チャージターンかつあばれる状態でなければPP減少
+        //     if(
+        //         !$this->checkChargeTurn($pokemon, $move) &&
+        //         !$pokemon->checkSc('ScThrash')
+        //     ){
+        //         // 残PPをマイナス1
+        //         $pokemon->calRemainingPp('sub', 1, $num);
+        //     }
+        //     return true;
+        // }else{
+        //     // 使用不可
+        //     return false;
+        // }
     }
 
     /**

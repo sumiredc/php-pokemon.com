@@ -36,9 +36,9 @@ class LearnMoveService extends Service
     public function __construct($party, $order, $before_responses, $before_messages, $before_modals, $request)
     {
         $this->pokemon = $party[$order];
-        $this->before_responses = $this->unserializeObject($before_responses);
+        $this->before_responses = unserializeObject($before_responses);
         $this->before_messages = $before_messages;
-        $this->before_modals = $this->unserializeObject($before_modals);
+        $this->before_modals = unserializeObject($before_modals);
         $this->request = $request;
     }
 

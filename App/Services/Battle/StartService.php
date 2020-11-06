@@ -61,7 +61,10 @@ class StartService extends Service
         $this->enemy = new $this->pokemon_list[random_int(0, 3)](
             random_int($this->min, $this->max)
         );
-        // $this->enemy = new Kamex(15);
+        if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
+            // $this->enemy = new Kamex(15);
+            $this->enemy = new Raichu(5);
+        }
         // 返却値をセット
         setMessage('野生の'.$this->enemy->getName().'が現れた！');
     }

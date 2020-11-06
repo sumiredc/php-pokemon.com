@@ -63,12 +63,17 @@ class MoveSeismicToss extends Move
     /**
     * 固定ダメージ量の取得
     *
-    * @param Pokemon $atk 攻撃ポケモン
-    * @param Pokemon $def 防御ポケモン
+    * @param args:array
     * @return integer
     */
-    public function getFixedDamage($atk, $def)
+    public function getFixedDamage(...$args)
     {
+        /**
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
+        * @param battle_state:object::BattleState バトル状態
+        */
+        list($atk, $def, $battle_state) = $args;
         // 攻撃ポケモンのレベル分ダメージを与える
         return $atk->getLevel();
     }

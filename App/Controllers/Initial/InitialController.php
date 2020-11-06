@@ -55,12 +55,12 @@ class InitialController extends Controller
             $pokemon = new $class(5);
             $pokemon->setPosition();
             $_SESSION['__data']['party'] = [
-                $this->serializeObject($pokemon)
+                serializeObject($pokemon)
             ];
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
-            header("Location: ./", true, 307);
-            exit;
+            // 画面移管
+            $this->redirect();
             break;
             /**
             * アクション未選択 or 実装されていないアクション

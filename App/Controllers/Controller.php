@@ -39,9 +39,9 @@ abstract class Controller
         $this->post = $sanitize->getPost();
         // メッセージIDの重複回避
         if(
-            isset($_SESSION['__data']['before_reponses'])
-            || isset($_SESSION['__data']['before_messages'])
-            || isset($_SESSION['__data']['before_modals'])
+            isset($_SESSION['__data']['before_reponses']) ||
+            isset($_SESSION['__data']['before_messages']) ||
+            isset($_SESSION['__data']['before_modals'])
         ){
             $this->avoidMessageId();
         }
@@ -53,6 +53,20 @@ abstract class Controller
     public function __destruct()
     {
         $_POST = [];
+    }
+
+    /**
+    * 画面移管
+    * @return void
+    */
+    protected function redirect()
+    {
+        // セッションを保存
+        session_write_close();
+        // リダイレクト
+        header("Location: ./", true, 307);
+        // 処理終了
+        exit;
     }
 
     /**

@@ -417,29 +417,26 @@ trait ClassPokemonGetTrait
     }
 
     /**
-    * チャージ技を取得
+    * チャージ技（クラス）を取得 ※getScのラップ
     * @return string|null
     */
     public function getChargeMove()
     {
+        // チャージ状態であれば、技クラスを取得
         if($this->checkSc('ScCharge')){
             return $this->getSc('ScCharge', false, true);
         }
     }
 
     /**
-    * このターンに受けたダメージの取得
-    * @param string (physical|special)
-    * @return mixed
+    * あばれる技（クラス）を取得 ※getScのラップ
+    * @return string|null
     */
-    public function getTurnDamage($param='')
+    public function getThrashMove()
     {
-        if(empty($param)){
-            // 配列で全返却
-            return $this->turn_damage;
-        }else{
-            // 指定ダメージを取得
-            return $this->turn_damage[$param] ?? 0;
+        // あばれる状態であれば、技クラスを取得
+        if($this->checkSc('ScThrash')){
+            return $this->getSc('ScThrash', false, true);
         }
     }
 

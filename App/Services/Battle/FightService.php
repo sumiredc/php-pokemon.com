@@ -3,7 +3,7 @@ $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
+// require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
@@ -14,31 +14,31 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
  */
 class FightService extends Service
 {
-    use CommonFieldTrait;
+    // use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
     use ServiceBattleOrderGenelatorTrait;
 
     /**
-    * @var object Pokemon
+    * @var object::Pokemon
     */
     protected $pokemon;
 
     /**
-    * @var object Pokemon
+    * @var object::Pokemon
     */
     protected $enemy;
+
+    /**
+    * @var object::BattleState
+    */
+    protected $battle_state;
 
     /**
     * @var integer
     */
     protected $move_number;
-
-    /**
-    * @var array
-    */
-    protected $field;
 
     /**
     * ひんし状態の格納
@@ -52,12 +52,12 @@ class FightService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $move_number, $field)
+    public function __construct($pokemon, $enemy, $move_number, $battle_state)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
         $this->move_number = $move_number;
-        $this->field = $field;
+        $this->battle_state = $battle_state;
     }
 
     /**
@@ -65,11 +65,6 @@ class FightService extends Service
     */
     public function execute()
     {
-        // ターンダメージのリセット
-        $this->pokemon
-        ->resetTurnDamage();
-        $this->enemy
-        ->resetTurnDamage();
         // 技取得
         $p_move = $this->selectMove();
         $e_move = $this->selectEnemyMove();
@@ -84,24 +79,32 @@ class FightService extends Service
             $this->afterCheck();
         }
         // フィールドのカウントを進める
-        $this->goFieldTurn();
+        $this->battle_state
+        ->goTurnFields();
 
     }
 
     /**
     * 選択された技を取得
     *
-    * @return object Move
+    * @return object::Move
     */
     private function selectMove()
     {
         // 自ポケモンの技をインスタンス化
         if($this->move_number === ''){
-            // 技が未選択の場合は「わるあがき」をセット
+            // 技が未選択の場合は「わるあがき」を返却
             return new Struggle;
         }else{
-            return $this->pokemon
-            ->getMove($this->move_number);
+            // 配列で取得
+            $move = $this->pokemon
+            ->getMove($this->move_number, 'array');
+            // 残PPがなければ「わるあがき」を返却
+            if($move['remaining'] <= 0){
+                return new Struggle;
+            }
+            // 技オブジェクトを返却
+            return new $move['class'];
         }
     }
 
@@ -128,8 +131,11 @@ class FightService extends Service
         foreach($orders as list($atk, $def, $move)){
             // 攻撃ポケモンの怒り解除
             $atk->releaseSc('ScRage');
-            // 攻撃
-            $this->attack($atk, $def, $move);
+            // 攻撃(返り値に使用した技を受け取る)
+            $attack_move = $this->attack($atk, $def, $move);
+            // 最後に使用した技を格納
+            $this->battle_state
+            ->setLastMove($atk->getPosition(), $attack_move);
             // バトル終了のレスポンスチェック（交代技など）
             if(getResponse('end')){
                 break;

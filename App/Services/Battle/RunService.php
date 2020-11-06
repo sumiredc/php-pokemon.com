@@ -3,7 +3,7 @@ $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
+// require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
@@ -15,32 +15,37 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
 class RunService extends Service
 {
 
-    use CommonFieldTrait;
+    // use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
     use ServiceBattleOrderGenelatorTrait;
 
     /**
-    * @var object Pokemon
+    * @var object::Pokemon
     */
     protected $pokemon;
 
     /**
-    * @var object Pokemon
+    * @var object::Pokemon
     */
     protected $enemy;
 
     /**
-    * にげる回数
-    * @var integer
+    * @var object::BattleState
     */
-    protected $count;
+    protected $battle_state;
 
-    /**
-    * @var array
-    */
-    protected $field;
+    // /**
+    // * にげる回数
+    // * @var integer
+    // */
+    // protected $count;
+
+    // /**
+    // * @var array
+    // */
+    // protected $field;
 
     /**
     * ひんし状態の格納
@@ -54,12 +59,13 @@ class RunService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $count, $field)
+    public function __construct($pokemon, $enemy, $battle_state)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
-        $this->count = $count;
-        $this->field = $field;
+        // $this->count = $count;
+        // $this->field = $field;
+        $this->battle_state = $battle_state;
     }
 
     /**
@@ -67,6 +73,9 @@ class RunService extends Service
     */
     public function execute()
     {
+        // にげるのカウントを進める
+        $this->battle_state
+        ->run();
         if($this->checkRun()){
             // 逃走成功
             setResponse(true, 'result');
@@ -86,7 +95,8 @@ class RunService extends Service
                 $this->afterCheck();
             }
             // フィールドのカウントを進める
-            $this->goFieldTurn();
+            $this->battle_state
+            ->goTurnFields();
         }
     }
 
@@ -108,7 +118,8 @@ class RunService extends Service
         $b = $this->enemy
         ->getStats('Speed');
         // 逃走を試みた回数
-        $c = $this->count;
+        $c = $this->battle_state
+        ->getRun();
         // 計算式への当てはめ
         $f = ($a * 128 / $b) + 30 * $c;
         // 確率計算

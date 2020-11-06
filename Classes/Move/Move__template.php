@@ -52,7 +52,7 @@ class Move000 extends Move
     * 対象
     * @var string
     */
-    protected $targeet = ;
+    protected $target = ;
 
     /**
     * 追加効果

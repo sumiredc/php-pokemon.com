@@ -11,7 +11,7 @@ trait EvolveControllerTrait
     */
     protected function takeOver()
     {
-        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
+        $this->party = unserializeObject($_SESSION['__data']['party']);
         $this->order = $this->selectEvolveTarget();
     }
 

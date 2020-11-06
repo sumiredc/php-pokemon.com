@@ -13,7 +13,7 @@ trait HomeControllerTrait
     protected function takeOver()
     {
         // パーティーにセット
-        $this->party = $this->unserializeObject($_SESSION['__data']['party']);
+        $this->party = unserializeObject($_SESSION['__data']['party']);
     }
 
     /**

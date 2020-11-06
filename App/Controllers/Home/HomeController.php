@@ -40,8 +40,8 @@ class HomeController extends Controller
                 */
                 case 'reset':
                 $_SESSION['__route'] = 'initial';
-                header("Location: ./", true, 307);
-                // exit;
+                // 画面移管
+                $this->redirect();
                 break;
                 /******************************************
                 * ポケモンセンター
@@ -62,7 +62,8 @@ class HomeController extends Controller
                 $_SESSION['__data']['order'] = $order;
                 $_SESSION['__route'] = 'battle';
                 $_SESSION['__token'] = $_POST['__token'];
-                header("Location: ./", true, 307);
+                // 画面移管
+                $this->redirect();
                 break;
                 /******************************************
                 * アクション未選択 or 実装されていないアクション
@@ -73,8 +74,8 @@ class HomeController extends Controller
         } catch (\Exception $ex) {
             // 初期画面へ移管
             $_SESSION['__route'] = 'initial';
-            header("Location: ./", true, 307);
-            exit;
+            // 画面移管
+            $this->redirect();
         }
     }
 

@@ -52,7 +52,7 @@ class MoveEarthquake extends Move
     * 対象
     * @var string
     */
-    protected $targeet = 'enemy';
+    protected $target = 'enemy';
 
     /**
     * 威力補正値の取得

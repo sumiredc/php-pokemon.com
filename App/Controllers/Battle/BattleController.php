@@ -7,14 +7,16 @@ require_once($root_path.'/App/Services/Battle/RunService.php');
 require_once($root_path.'/App/Services/Battle/FightService.php');
 require_once($root_path.'/App/Services/Battle/LearnMoveService.php');
 // トレイト
-require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
+// require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
+// クラス
+require_once($root_path.'/Classes/BattleState.php');
 
 // バトル用コントローラー
 class BattleController extends Controller
 {
 
-    use CommonFieldTrait;
+    // use CommonFieldTrait;
     use BattleControllerTrait;
 
     /**
@@ -34,21 +36,6 @@ class BattleController extends Controller
     * @var object
     */
     protected $enemy;
-
-    /**
-    * 逃走を試みた回数
-    * @var integer
-    */
-    public $run = 0;
-
-    /**
-    * フィールド効果
-    * @var integer
-    */
-    protected $field = [
-        'friend' => [],
-        'enemy' => [],
-    ];
 
     /**
     * ひんし状態の格納
@@ -76,11 +63,25 @@ class BattleController extends Controller
         // 親コンストラクタの呼び出し
         parent::__construct();
         // 引き継ぎ
-        $this->takeOver();
+        $this->inheritance();
         // 分岐処理
         $this->branch();
         // 次のターンへの分岐(ループ処理)
         while($this->nextTurn());
+    }
+
+    /**
+    * @return void
+    */
+    public function __destruct()
+    {
+        // 次画面へ送るデータ
+        $_SESSION['__data']['party'] = serializeObject($this->party);
+        $_SESSION['__data']['enemy'] = serializeObject($this->enemy);
+        $_SESSION['__data']['battle_state'] = serializeObject($this->battle_state);
+        $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
+        $_SESSION['__data']['before_modals'] = serializeObject(getModals());
+        $_SESSION['__data']['before_messages'] = getMessages();
         // 親デストラクタの呼び出し
         parent::__destruct();
     }
@@ -115,32 +116,32 @@ class BattleController extends Controller
                     $this->pokemon,
                     $this->enemy,
                     $this->request('param'),
-                    $this->field
+                    $this->battle_state
                 );
                 $service->execute();
                 // 実行結果
                 $this->fainting = $service->getProperty('fainting');
-                $this->field = $service->getProperty('field');
                 break;
                 /******************************************
                 * にげる
                 */
                 case 'run':
                 // 回数をプラス
-                $this->run++;
+                // $this->run++;
                 // サービス実行
                 $service = new RunService(
                     $this->pokemon,
                     $this->enemy,
-                    $this->run,
-                    $this->field
+                    $this->battle_state
+                    // $this->run,
+                    // $this->field
                 );
                 $service->execute();
                 // 実行結果
                 if(!getResponse('result')){
                     // 失敗
                     $this->fainting = $service->getProperty('fainting');
-                    $this->field = $service->getProperty('field');
+                    // $this->field = $service->getProperty('field');
                 }
                 break;
                 /******************************************
@@ -150,7 +151,7 @@ class BattleController extends Controller
                 // サービス実行
                 $service = new LearnMoveService(
                     $this->pokemon,
-                    $_SESSION['__data']['before_reponses'],
+                    $_SESSION['__data']['before_responses'],
                     $_SESSION['__data']['before_messages'],
                     $_SESSION['__data']['before_modals'],
                     $this->request('param')
@@ -170,16 +171,19 @@ class BattleController extends Controller
                 */
                 default:
                 // もしどちらかが戦闘不能状態であればバトルを強制終了
-                if(empty($this->enemy->getRemainingHp()) || empty($this->pokemon->getRemainingHp())){
+                if(
+                    empty($this->enemy->getRemainingHp()) ||
+                    empty($this->pokemon->getRemainingHp())
+                ){
                     $this->battleEnd();
                 }
                 break;
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $ex) {
             // 初期画面へ移管
             $_SESSION['__route'] = 'initial';
-            header("Location: ./", true, 307);
-            exit;
+            // 画面移管
+            $this->redirect();
         }
     }
 
@@ -190,29 +194,36 @@ class BattleController extends Controller
     */
     private function battleEnd()
     {
-        // ポケモンのランク補正・状態変化・バトルダメージを解除
+        // ポケモンのランク補正・状態変化を解除
         $this->pokemon
         ->releaseBattleStatsAll();
-        // 更新したポケモンオブジェクトをセッションへ格納
-        $_SESSION['__data']['pokemon'] = $this->serializeObject($this->pokemon);
         // セッション破棄
-        $target = [
-            'enemy', 'run', 'field', 'order',
+        // // 更新したポケモンオブジェクトをセッションへ格納
+        // $_SESSION['__data']['pokemon'] = $this->serializeObject($this->pokemon);
+        $keys = [
+            'pokemon', 'enemy', 'order', 'battle_state',
             'before_responses', 'before_messages', 'before_modals'
         ];
-        foreach($target as $key){
+        // $target = [
+        //     'enemy', 'run', 'field', 'order',
+        //     'before_responses', 'before_messages', 'before_modals'
+        // ];
+        foreach($keys as $key){
             unset($_SESSION['__data'][$key]);
         }
         // 進化フラグのチェック
-        if($this->pokemon->getEvolveFlg()){
+        $evolves = array_filter($this->party, function($pokemon){
+            return $pokemon->getEvolveFlg();
+        });
+        if($evolves){
             // 進化画面へ移管
             $_SESSION['__route'] = 'evolve';
         }else{
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
         }
-        header("Location: ./", true, 307);
-        exit;
+        // 画面移管
+        $this->redirect();
     }
 
 }

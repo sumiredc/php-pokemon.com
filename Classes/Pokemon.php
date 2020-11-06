@@ -57,14 +57,14 @@ abstract class Pokemon
     */
     protected $position = 'enemy';
 
-    /**
-    * このターンに受けた攻撃によるダメージ
-    * @var array
-    */
-    protected $turn_damage = [
-        'physical' => 0,
-        'special' => 0,
-    ];
+    // /**
+    // * このターンに受けた攻撃によるダメージ
+    // * @var array
+    // */
+    // protected $turn_damage = [
+    //     'physical' => 0,
+    //     'special' => 0,
+    // ];
 
     /**
     * 個体値
@@ -136,11 +136,11 @@ abstract class Pokemon
     */
     protected $evolve_flg = false;
 
-    /**
-    * レスポンス格納用
-    * @var object
-    */
-    public $responses;
+    // /**
+    // * レスポンス格納用
+    // * @var object
+    // */
+    // public $responses;
 
     /**
     * インスタンス作成時に実行される処理
@@ -150,9 +150,8 @@ abstract class Pokemon
     */
     public function __construct($before=0)
     {
-
-        global $global_response;
-        $this->responses = $global_response;
+        // global $global_response;
+        // $this->responses = $global_response;
 
         switch (gettype($before)) {
             /**
@@ -352,7 +351,7 @@ abstract class Pokemon
     {
         $this->releaseSc();
         $this->releaseRank();
-        $this->resetTurnDamage();
+        // $this->resetTurnDamage();
     }
 
     /**

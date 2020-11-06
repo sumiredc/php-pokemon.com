@@ -344,15 +344,15 @@ trait ClassPokemonSetTrait
         }
     }
 
-    /**
-    * このターン受けたダメージ量の格納
-    * @param string $param
-    * @param integer $damage
-    * @return void
-    */
-    public function setTurnDamage($param, int $damage)
-    {
-        $this->turn_damage[$param] = $damage;
-    }
+    // /**
+    // * このターン受けたダメージ量の格納
+    // * @param string $param
+    // * @param integer $damage
+    // * @return void
+    // */
+    // public function setTurnDamage($param, int $damage)
+    // {
+    //     $this->turn_damage[$param] = $damage;
+    // }
 
 }

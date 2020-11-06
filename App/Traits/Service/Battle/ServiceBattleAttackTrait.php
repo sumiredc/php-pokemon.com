@@ -33,32 +33,45 @@ trait ServiceBattleAttackTrait
     * 攻撃
     * （攻撃→ダメージ計算→ひんし判定）
     *
-    * @param object $atk_pokemon
-    * @param object $def_pokemon
-    * @param object $move
-    * @return void
+    * @param atk_pokemon:object::Pokemon
+    * @param def_pokemon:object::Pokemon
+    * @param move:object::Move
+    * @return object::Move
     */
-    protected function attack(object $atk_pokemon, object $def_pokemon, object $move)
+    protected function attack(object $atk_pokemon, object $def_pokemon, object $move) :object
     {
         // 補正値の初期化
         $this->m = 1;
         // 行動チェック(状態異常・状態変化)
-        if(!$this->checkBeforeSa($atk_pokemon) || !$this->checkBeforeSc($atk_pokemon)){
+        if(
+            !$this->checkBeforeSa($atk_pokemon) ||
+            !$this->checkBeforeSc($atk_pokemon)
+        ){
             // 行動失敗
-            return;
+            return $move;
         }
-        // わざの使用可不可判定
+        // 「わるあがき」の確認とPP消費処理
         if(!$this->checkEnabledMove($move, $atk_pokemon)){
             setMessage($atk_pokemon->getPrefixName().'は出すことのできる技がない');
-            // わるあがきをセット
-            $move = new MoveStruggle;
+        }
+        // 「オウムがえし」の特別処理
+        if(get_class($move) === 'MoveMirrorMove'){
+            $mirror_move = $this->attackMirrorMove($atk_pokemon, $def_pokemon, $move);
+            if(!$mirror_move){
+                // 技失敗
+                setMessage('しかし上手く決まらなかった');
+                return $move;
+            }else{
+                // ミラー技をセット
+                $move = $mirror_move;
+            }
         }
         // チャージチェック
         $charge = $move->charge($atk_pokemon);
         if($charge){
             // チャージターンなら行動終了
             setMessage($charge);
-            return;
+            return $move;
         }
         // 攻撃メッセージを格納
         $this->atk_msg_id = issueMsgId();
@@ -72,18 +85,22 @@ trait ServiceBattleAttackTrait
             $def_pokemon->getTypes()
         );
         // 「こうかがない」の判定（命中率と威力がnullではなく、タイプ相性補正が０の場合）
-        if(!is_null($move->getAccuracy()) && !is_null($move->getPower()) && ($this->m === 0)){
+        if(
+            !is_null($move->getAccuracy()) &&
+            !is_null($move->getPower()) &&
+            ($this->m === 0)
+        ){
             // こうかがない
             setMessage($def_pokemon->getPrefixName().'には効果が無いみたいだ');
             // 攻撃失敗
             $this->failedMove($atk_pokemon, $move);
-            return;
+            return $move;
         }
         // 命中判定
         if(!$this->checkHit($atk_pokemon, $def_pokemon, $move)){
             // 攻撃失敗
             $this->failedMove($atk_pokemon, $move);
-            return;
+            return $move;
         }
         // 一撃必殺
         if($move->getOneHitKnockoutFlg()){
@@ -95,7 +112,7 @@ trait ServiceBattleAttackTrait
                 'target' => $def_pokemon->getPosition(),
             ], $this->atk_msg_id);
             setMessage('一撃必殺');
-            return;
+            return $move;
         }
         // 壁補正
         $this->checkWall($move, $def_pokemon);
@@ -107,8 +124,10 @@ trait ServiceBattleAttackTrait
         }
         // 連続技はヒット回数のメッセージを返却
         if($times > 1){
-            return setMessage($times.'回当たった');
+             setMessage($times.'回当たった');
         }
+        // 技オブジェクトを返却
+        return $move;
     }
 
     /**
@@ -125,7 +144,7 @@ trait ServiceBattleAttackTrait
             /**
             * 固定ダメージ技
             */
-            $damage = (int)$move->getFixedDamage($atk_pokemon, $def_pokemon);
+            $damage = (int)$move->getFixedDamage($atk_pokemon, $def_pokemon, $this->battle_state);
         }else{
             /**
             * 通常技
@@ -170,7 +189,13 @@ trait ServiceBattleAttackTrait
             }
         }
         // このターン受けるダメージをポケモンに格納
-        $def_pokemon->setTurnDamage($move->getSpecies(), $damage ?? 0);
+        // $def_pokemon->setTurnDamage($move->getSpecies(), $damage ?? 0);
+        $this->battle_state
+        ->setTurnDamage(
+            $def_pokemon->getPosition(),
+            $move->getSpecies(),
+            $damage ?? 0
+        );
         // ダメージ計算
         $def_pokemon->calRemainingHp('sub', $damage ?? 0);
         // HPバーのアニメーション用レスポンス
@@ -202,7 +227,7 @@ trait ServiceBattleAttackTrait
             }
             // 能力下降効果
             $field_mist = new FieldMist;
-            if($this->checkField($def_pokemon->getPosition(), $field_mist)){
+            if($this->battle_state->checkField($def_pokemon->getPosition(), $field_mist)){
                 // 能力下降確定技であれば失敗メッセージを出力
                 if($move->getConfirmDebuffFlg()){
                     setMessage(
@@ -219,14 +244,18 @@ trait ServiceBattleAttackTrait
             if($move->field()){
                 $field = $move->field();
                 // フィールドをセット
-                $this->setField(
+                $this->battle_state
+                ->setField(
                     $atk_pokemon->getPosition(),
                     new $field['class'],
                     $field['turn']
                 );
             }
             // いかり判定
-            if($def_pokemon->checkSc('ScRage') && !empty($damage ?? 0)){
+            if(
+                $def_pokemon->checkSc('ScRage') &&
+                !empty($damage ?? 0)
+            ){
                 $rage = new ScRage;
                 // いかり発動メッセージをセット
                 setMessage(
@@ -239,6 +268,31 @@ trait ServiceBattleAttackTrait
             }
             return;
         }
+    }
+
+    /**
+    * オウムがえしの特別処理
+    *
+    * @param atk:object::Pokemon
+    * @param def:object::Pokemon
+    * @param move:object::Move
+    * @return mixed::Move|false
+    */
+    private function attackMirrorMove($atk, $def, $move)
+    {
+        // オウムがえしで「チャージ状態」になっているかどうかを確認
+        $charge = $atk->getChargeMove();
+        if($charge){
+            return new $charge;
+        }
+        // オウムがえしで「あばれる状態」になっているかどうかを確認
+        $thrash = $atk->getThrashMove();
+        if($thrash){
+            return new $thrash;
+        }
+        // オウム返しの発動メッセージ
+        setMessage($atk->getPrefixName().'は'.$move->getName().'を使った！');
+        return $move->exMirrorMove($def, $this->battle_state);
     }
 
     /**
@@ -312,7 +366,11 @@ trait ServiceBattleAttackTrait
             $accuracy *= round($per, 2);
         }
         // カウンターの失敗判定
-        if((get_class($move) === 'MoveCounter') && empty($atk->getTurnDamage('physical'))){
+        if(
+            get_class($move) === 'MoveCounter' &&
+            // empty($atk->getTurnDamage('physical'))
+            empty($this->battle_state->getTurnDamage($atk->getPosition(), 'physical'))
+        ){
             // 自身にこのターン物理ダメージが蓄積していなければ失敗
             setMessage(
                 $move->getFailedMessage($atk->getPrefixName())
@@ -515,14 +573,14 @@ trait ServiceBattleAttackTrait
             // 物理
             case 'physical':
             // 相手がリフレクター状態であれば半減
-            if($this->checkField($def->getPosition(), new FieldReflect)){
+            if($this->battle_state->checkField($def->getPosition(), new FieldReflect)){
                 $m = 0.5;
             }
             break;
             // 特殊
             case 'special':
             // 相手がひかりのかべ状態であれば半減
-            if($this->checkField($def->getPosition(), new FieldLightScreen)){
+            if($this->battle_state->checkField($def->getPosition(), new FieldLightScreen)){
                 $m = 0.5;
             }
             break;
