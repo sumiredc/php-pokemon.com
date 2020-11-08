@@ -7,10 +7,3 @@ $modals = $global_responses->getModals();
 $messages = $global_responses->getMessages();
 // ポケモン
 $pokemon = $controller->getPokemon();
-// セッションへ格納
-// $_SESSION['__data']['party'] = $controller->serializeObject($controller->getParty());
-// // レスポンスデータを引き継ぎ用にセッションへ格納
-// // レスポンス・モーダルはシリアライズ化
-// $_SESSION['__data']['before_responses'] = $controller->serializeObject($responses);
-// $_SESSION['__data']['before_modals'] = $controller->serializeObject($modals);
-// $_SESSION['__data']['before_messages'] = $messages;

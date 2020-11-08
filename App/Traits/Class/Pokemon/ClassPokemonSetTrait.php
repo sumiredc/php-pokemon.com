@@ -262,7 +262,7 @@ trait ClassPokemonSetTrait
         // ひんしをセット
         if($class === 'SaFainting'){
             $this->sa = [$class => $turn];
-            // ランク・状態変化・バトルダメージをリセット
+            // ランク・状態変化をリセット
             $this->releaseBattleStatsAll();
             // 進化フラグがtureになっていればfalseに変更
             if($this->evolve_flg){
@@ -343,16 +343,5 @@ trait ClassPokemonSetTrait
             return $sc->getSickedMessage($this->getPrefixName(), $param);
         }
     }
-
-    // /**
-    // * このターン受けたダメージ量の格納
-    // * @param string $param
-    // * @param integer $damage
-    // * @return void
-    // */
-    // public function setTurnDamage($param, int $damage)
-    // {
-    //     $this->turn_damage[$param] = $damage;
-    // }
 
 }

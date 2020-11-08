@@ -44,28 +44,30 @@ class Mew extends Pokemon
     protected $level_move = [
         // [1, 'MoveFissure'],        # じわれ
         // [1, 'MoveHighJumpKick'],        # とびひざげり
-        [8, 'MoveHyperBeam'],           # はかいこうせん
-        [1, 'MovePsychic'],           # サイコキネシス
+        // [8, 'MoveHyperBeam'],           # はかいこうせん
+        // [1, 'MovePsychic'],           # サイコキネシス
         // [8, 'MoveEarthquake'],       # じしん
         // [6, 'MoveThrash'],     # あばれる
-        // [6, 'MoveMist'],           # しろいきり
-        // [6, 'MoveReflect'],           # リフレクター
-        [1, 'MovePoisonPowder'],   # どくのこな
+        [1, 'MoveMist'],           # しろいきり
+        [1, 'MoveReflect'],           # リフレクター
+        // [1, 'MovePoisonPowder'],   # どくのこな
         // [1, 'MoveSleepPowder'],    # ねむりごな
-        // [7, 'MoveThunderWave'],     # でんじは
-        [9, 'MoveLightScreen'],           # ひかりのかべ
-        [10, 'MoveSandAttack'],          # すなかけ
-        [11, 'MoveWhirlwind'],           # ふきとばし
-        [12, 'MoveDoubleTeam'],          # かげぶんしん
-        [13, 'MoveFly'],                 # そらをとぶ
-        [14, 'MoveDig'],                 # あなをほる
+        // [1, 'MoveThunderWave'],     # でんじは
+        // [1, 'MoveLightScreen'],           # ひかりのかべ
+        // [10, 'MoveSandAttack'],          # すなかけ
+        // [11, 'MoveWhirlwind'],           # ふきとばし
+        // [12, 'MoveDoubleTeam'],          # かげぶんしん
+        // [13, 'MoveFly'],                 # そらをとぶ
+        // [14, 'MoveDig'],                 # あなをほる
         // [1, 'MoveLeechSeed'],           # やどりぎのたね
-        // [1, 'MoveConfuseRay'],          # あやしいひかり
+        [1, 'MoveConfuseRay'],          # あやしいひかり
         // [1, 'MoveSeismicToss'],         # ちきゅうなげ
         // [1, 'MovePsywave'],             # サイコウェーブ
-        [1, 'MoveCounter'],             # カウンター
+        // [1, 'MoveCounter'],             # カウンター
         // [1, 'MoveRage'],                # いかり
-        [1, 'MoveMirrorMove'],             # カウンター
+        // [1, 'MoveMirrorMove'],             # オウムがえし
+        [1, 'MoveMetronome'],             # ゆびをふる
+        // [1, 'MoveCometPunch'],            # れんぞくパンチ
     ];
 
     /**

@@ -215,6 +215,7 @@ trait ClassPokemonGetTrait
     * @param class:string
     * @param turn:boolean
     * @param param:boolean
+    * @param object_flg:boolean
     * @return mixed
     */
     public function getSc(string $class='', bool $turn=false, bool $param=false)
@@ -234,6 +235,17 @@ trait ClassPokemonGetTrait
                 }
             }
         }
+    }
+
+    /**
+    * 現在の状態変化をインスタンス化して配列で取得する
+    * @return array
+    */
+    public function getScObject()
+    {
+        return array_map(function($class){
+            return new $class;
+        }, array_keys($this->sc));
     }
 
     /**
@@ -270,6 +282,7 @@ trait ClassPokemonGetTrait
 
     /**
     * 現在の状態異常（Sa）の名称を取得する
+    * @param fainting:boolean
     * @return string
     */
     public function getSaName($fainting=true)
@@ -278,7 +291,10 @@ trait ClassPokemonGetTrait
             return '';
         }
         // ひんしの場合は不要（バトル画面など）
-        if(!$fainting && (array_key_first($this->sa) === 'SaFainting')){
+        if(
+            !$fainting &&
+            array_key_first($this->sa) === 'SaFainting'
+        ){
             return '';
         }
         $sa = $this->getInstance(array_key_first($this->sa));
@@ -289,11 +305,19 @@ trait ClassPokemonGetTrait
 
     /**
     * 現在の状態異常（Sa）の名称を取得する
+    * @param fainting:boolean
     * @return string
     */
-    public function getSaColor()
+    public function getSaColor($fainting=true)
     {
         if(empty($this->sa)){
+            return '';
+        }
+        // ひんしの場合は不要（バトル画面など）
+        if(
+            !$fainting &&
+            array_key_first($this->sa) === 'SaFainting'
+        ){
             return '';
         }
         $sa = $this->getInstance(array_key_first($this->sa));

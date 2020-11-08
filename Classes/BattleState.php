@@ -146,13 +146,24 @@ class BattleState
     }
 
     /**
-    * ターンダメージの取得
+    * フィールド情報の取得
     * @param position:string::friend|enemy
+    * @param object_flg:boolean
     * @return array
     */
-    public function getField(string $position) :array
+    public function getField(string $position, bool $object_flg=false) :array
     {
-        return $this->fields[$position];
+        if($object_flg){
+            // フィールドをオブジェクトにして返却
+            $fields = [];
+            foreach($this->fields[$position] as $class => $turn){
+                $fields[] = [new $class, $turn];
+            }
+            return $fields;
+        }else{
+            // そのまま返却
+            return $this->fields[$position];
+        }
     }
 
     /**
@@ -169,7 +180,7 @@ class BattleState
             setMessage($field->getAlreadyMessage($position));
         }else{
             // フィールドをセット
-            $this->fields[$target][get_class($field)] = $turn;
+            $this->fields[$position][get_class($field)] = $turn;
             setMessage($field->getSetMessage($position));
         }
     }

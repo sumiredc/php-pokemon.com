@@ -54,9 +54,8 @@ class InitialController extends Controller
             }
             $pokemon = new $class(5);
             $pokemon->setPosition();
-            $_SESSION['__data']['party'] = [
-                serializeObject($pokemon)
-            ];
+            // 親クラスでリダイレクト前にサニタイズして格納させる
+            $this->party[] = $pokemon;
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
             // 画面移管

@@ -194,20 +194,15 @@ class BattleController extends Controller
     */
     private function battleEnd()
     {
-        // ポケモンのランク補正・状態変化を解除
-        $this->pokemon
-        ->releaseBattleStatsAll();
+        // パーティーのランク補正・状態変化を解除
+        array_map(function($partner){
+            $partner->releaseBattleStatsAll();
+        }, $this->party);        
         // セッション破棄
-        // // 更新したポケモンオブジェクトをセッションへ格納
-        // $_SESSION['__data']['pokemon'] = $this->serializeObject($this->pokemon);
         $keys = [
             'pokemon', 'enemy', 'order', 'battle_state',
             'before_responses', 'before_messages', 'before_modals'
         ];
-        // $target = [
-        //     'enemy', 'run', 'field', 'order',
-        //     'before_responses', 'before_messages', 'before_modals'
-        // ];
         foreach($keys as $key){
             unset($_SESSION['__data'][$key]);
         }

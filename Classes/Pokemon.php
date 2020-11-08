@@ -1,25 +1,24 @@
 <?php
 $root_path = __DIR__.'/..';
-// require_once($root_path.'/Resources/Lang/Translation.php');
 // トレイト
-// require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/InstanceTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonResetTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonDefaultTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCheckTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonReleaseTrait.php');
 
 // ポケモン
 abstract class Pokemon
 {
-    // use ResponseTrait;
     use InstanceTrait;
     use ClassPokemonSetTrait;
     use ClassPokemonGetTrait;
-    use ClassPokemonResetTrait;
+    use ClassPokemonDefaultTrait;
     use ClassPokemonCheckTrait;
     use ClassPokemonCalculationTrait;
+    use ClassPokemonReleaseTrait;
 
     /**
     * ニックネーム
@@ -57,55 +56,23 @@ abstract class Pokemon
     */
     protected $position = 'enemy';
 
-    // /**
-    // * このターンに受けた攻撃によるダメージ
-    // * @var array
-    // */
-    // protected $turn_damage = [
-    //     'physical' => 0,
-    //     'special' => 0,
-    // ];
-
     /**
     * 個体値
     * @var array(value min:0 max:31)
     */
-    protected $iv = [
-        'HP' => null,
-        'Attack' => null,
-        'Defense' => null,
-        'SpAtk' => null,
-        'SpDef' => null,
-        'Speed' => null,
-    ];
+    protected $iv = [];
 
     /**
     * 努力値
     * @var array
     */
-    protected $ev = [
-        'HP' => 0,
-        'Attack' => 0,
-        'Defense' => 0,
-        'SpAtk' => 0,
-        'SpDef' => 0,
-        'Speed' => 0,
-    ];
+    protected $ev = [];
 
     /**
     * ランク（バトルステータス）
     * @var array(min:-6, max:6)
     */
-    protected $rank = [
-        'Attack' => 0,
-        'Defense' => 0,
-        'SpAtk' => 0,
-        'SpDef' => 0,
-        'Speed' => 0,
-        'Critical' => 0,    # 急所率
-        'Accuracy' => 0,    # 命中率
-        'Evasion' => 0,     # 回避率
-    ];
+    protected $rank = [];
 
     /**
     * 状態異常（バトル後も継続）
@@ -136,50 +103,56 @@ abstract class Pokemon
     */
     protected $evolve_flg = false;
 
-    // /**
-    // * レスポンス格納用
-    // * @var object
-    // */
-    // public $responses;
-
     /**
     * インスタンス作成時に実行される処理
     *
-    * @param object|array|integer
+    * @param param:mixed
     * @return void
     */
-    public function __construct($before=0)
+    public function __construct($param=null)
     {
-        // global $global_response;
-        // $this->responses = $global_response;
+        $this->init($param);
+    }
 
-        switch (gettype($before)) {
+    /**
+    * 初期化
+    * @param param:mixed
+    * @return void
+    */
+    private function init($param)
+    {
+        // 初期値のセット
+        $this->defaultRank();
+        $this->defaultIv();
+        $this->defaultEv();
+        // パラメーターに合わせた分岐
+        switch (gettype($param)) {
             /**
             * 新規登場時の処理(レベル指定)
-            * @var integer $before
+            * @var integer
             */
             case 'integer':
-            $this->setLevel($before);
+            $this->setLevel($param);
             $this->setDefaultExp();
             $this->setDefaultMove();
             $this->setIv();
             $this->calRemainingHp('reset');
             break;
-            /**
-            * 前の画面からの引き継ぎ
-            * @var array $before
-            */
-            case 'array':
-            $this->takeOverAbility($before);
-            break;
+            // /**
+            // * 前の画面からの引き継ぎ
+            // * @var array
+            // */
+            // case 'array':
+            // $this->takeOverAbility($param);
+            // break;
             /**
             * 進化した際の処理
-            * @var object $before
+            * @var object
             */
             case 'object':
             // 進化前のポケモンと一致しているかチェック
-            if(is_a($before, $this->before_class ?? null)){
-                $this->takeOverAbility($before->export());
+            if(is_a($param, $this->before_class ?? null)){
+                $this->takeOverAbility($param->export());
             }
             break;
         }
@@ -274,7 +247,7 @@ abstract class Pokemon
     /**
     * 能力引き継ぎ処理
     *
-    * @param array $before
+    * @param before:array
     * @return void
     */
     protected function takeOverAbility($before)
@@ -339,66 +312,6 @@ abstract class Pokemon
                 // 指定された状態変化の解除
                 unset($this->sc[$class]);
             }
-        }
-    }
-
-    /**
-    * リフレッシュ処理（ランク・状態変化・バトルダメージをリセット）
-    *
-    * @return void
-    */
-    public function releaseBattleStatsAll()
-    {
-        $this->releaseSc();
-        $this->releaseRank();
-        // $this->resetTurnDamage();
-    }
-
-    /**
-    * 状態異常の解除
-    *
-    * @return void
-    */
-    public function releaseSa()
-    {
-        if($this->getSa() !== 'SaFainting'){
-            $this->sa = [];
-        }
-    }
-
-    /**
-    * 状態変化の解除
-    *
-    * @param string $class
-    * @return void
-    */
-    public function releaseSc($class='')
-    {
-        if(empty($class)){
-            // 全解除
-            $this->sc = [];
-        }else{
-            // 指定された状態変化の解除
-            unset($this->sc[$class]);
-        }
-    }
-
-    /**
-    * ランク補正の解除
-    *
-    * @param string $param
-    * @return void
-    */
-    public function releaseRank($param='')
-    {
-        if($param && isset($this->rank[$param])){
-            // 指定されたランクを解除
-            $this->rank[$param] = 0;
-        }else{
-            // 全解除
-            $this->rank = array_map(function($val){
-                return 0;
-            }, $this->rank);
         }
     }
 

@@ -3,22 +3,24 @@ $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
 // トレイト
-// require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorTrait.php');
+require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
+require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
 
 /**
  * バトル開始
  */
 class FightService extends Service
 {
-    // use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
     use ServiceBattleOrderGenelatorTrait;
+    use ServiceBattleExTrait;
+    use ServiceBattleCalTrait;
 
     /**
     * @var object::Pokemon

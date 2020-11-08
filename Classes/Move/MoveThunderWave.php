@@ -68,10 +68,7 @@ class MoveThunderWave extends Move
         */
         list($atk, $def) = $args;
         // 相手をまひ状態にする
-        return [
-            'message' => $def->setSa('SaParalysis'),
-            'sa' => 'SaParalysis'
-        ];
+        return $def->setSa('SaParalysis');
     }
 
 }

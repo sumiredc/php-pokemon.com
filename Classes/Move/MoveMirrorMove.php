@@ -65,7 +65,7 @@ class MoveMirrorMove extends Move
     {
         $black_list = [
             // オウム返し・カウンター・わるあがき・ものまね
-            get_class(), 'MoveCounter', 'MoveStruggle', 'Mimic'
+            get_class(), 'MoveCounter', 'MoveStruggle', 'MoveMimic'
         ];
         // 相手が最後に使用した技を取得
         $move_class = $battle_state->getLastMove($def->getPosition());

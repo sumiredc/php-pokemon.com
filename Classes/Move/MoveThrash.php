@@ -34,7 +34,7 @@ class MoveThrash extends Move
     * 威力
     * @var integer
     */
-    protected $power = 20;
+    protected $power = 120;
 
     /**
     * 命中率

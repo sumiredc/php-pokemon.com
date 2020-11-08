@@ -1,0 +1,21 @@
+// ランクアイコン
+i.rank-active{
+    transform: rotate(-90deg);
+}
+i.rank-negative{
+    transform: rotate(90deg);
+}
+// バトル状態テーブル
+tbody.first-border-top-none{
+    > tr:first-child{
+        th, td{
+            border-top: none;
+        }
+    }
+}
+// イメージボタン
+.action-img-btn{
+    &:focus {
+        outline: 0;
+    }
+}

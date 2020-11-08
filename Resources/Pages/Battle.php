@@ -20,13 +20,13 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
     <main>
         <div class="container">
             <section>
-                <div class="row mt-3 mb-5">
+                <div class="row mt-3 mb-5 py-3">
                     <?php # 敵ポケモン詳細 ?>
                     <div class="col-6">
                         <p>
                             <span class="mr-2"><?=$before_enemy->getName()?></span>
                             <span class="mr-2">Lv:<?=$before_enemy->getLevel()?></span>
-                            <span class="mr-2 badge badge-<?=$before_enemy->getSaColor()?>" id="sa-enemy">
+                            <span class="mr-2 badge badge-<?=$before_enemy->getSaColor(false)?>" id="sa-enemy">
                                 <?=$before_enemy->getSaName(false)?>
                             </span>
                         </p>
@@ -43,13 +43,25 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         </div>
                     </div>
                     <div class="col-6 text-center">
-                        <img src="/Assets/img/pokemon/dots/front/<?=get_class($before_enemy)?>.gif" alt="<?=$before_enemy->getName()?>">
+                        <input type="image"
+                        id="enemy-pokemon-image"
+                        class="action-img-btn"
+                        src="/Assets/img/pokemon/dots/front/<?=get_class($before_enemy)?>.gif"
+                        alt="<?=$before_enemy->getName()?>"
+                        data-toggle="modal"
+                        data-target="#enemy-battle-state-modal" />
                     </div>
                 </div>
-                <div class="row mb-3">
+                <div class="row mb-3 py-3">
                     <?php # 自ポケモン詳細 ?>
                     <div class="col-6 text-center">
-                        <img src="/Assets/img/pokemon/dots/back/<?=get_class($before_pokemon)?>.gif" alt="<?=$before_pokemon->getName()?>">
+                        <input type="image"
+                        id="friend-pokemon-image"
+                        class="action-img-btn"
+                        src="/Assets/img/pokemon/dots/back/<?=get_class($before_pokemon)?>.gif"
+                        alt="<?=$before_pokemon->getName()?>"
+                        data-toggle="modal"
+                        data-target="#friend-battle-state-modal" />
                     </div>
                     <div class="col-6">
                         <p>
@@ -150,6 +162,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
     foreach($modals as $modal){
         include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php');
     }
+    include($root_path.'/Resources/Partials/Battle/Modals/battle-states.php');
     include($root_path.'/Resources/Partials/Battle/Modals/move.php');
     include($root_path.'/Resources/Partials/Battle/Modals/item.php');
     include($root_path.'/Resources/Partials/Battle/Modals/party.php');

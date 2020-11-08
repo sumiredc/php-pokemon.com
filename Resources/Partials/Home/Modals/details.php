@@ -22,7 +22,7 @@
                     <a class="btn btn-outline-secondary nav-item nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats" aria-selected="true">ステータス</a>
                     <a class="btn btn-outline-secondary nav-item nav-link" id="move-tab" data-toggle="tab" href="#move" role="tab" aria-controls="move" aria-selected="true">使える技</a>
                 </nav>
-                <div class="tab-content" id="pokemon-details-tabContent">
+                <div class="tab-content" id="pokemon-details-tab-content">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <?php # 詳細 ?>
                         <table class="table table-bordered table-sm table-hover">

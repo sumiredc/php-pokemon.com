@@ -21,6 +21,16 @@ abstract class Field
     }
 
     /**
+    * 名称の取得
+    *
+    * @return string
+    */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
     * フィールドセット時のメッセージ
     *
     * @param string $target

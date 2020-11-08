@@ -61,6 +61,10 @@ abstract class Controller
     */
     protected function redirect()
     {
+        // 初期画面への移管ではなければパーティーを再セット
+        if($_SESSION['__route'] !== 'initial'){
+            $_SESSION['__data']['party'] = serializeObject($this->party);
+        }
         // セッションを保存
         session_write_close();
         // リダイレクト

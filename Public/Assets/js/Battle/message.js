@@ -386,7 +386,7 @@ var doLastMsg = function(){
     // スクロールアイコンを非表示
     $('.message-scroll-icon').hide();
     // 操作ボタンの無効化解除
-    $('.action-btn').prop('disabled', false);
+    $('.action-btn, .action-img-btn').prop('disabled', false);
     // ボタンに色付け
     $('.action-btn').each(function(){
         $(this).removeClass('btn-outline-light');
@@ -402,7 +402,7 @@ var doNotLastMsg = function(){
     // スクロールアイコンを非表示
     $('.message-scroll-icon').show();
     // 操作ボタンの無効化
-    $('.action-btn').prop('disabled', true);
+    $('.action-btn, .action-img-btn').prop('disabled', true);
     // ボタンの色消し
     $('.action-btn').each(function(){
         $(this).removeClass('btn-outline-success');

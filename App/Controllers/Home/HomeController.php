@@ -28,6 +28,17 @@ class HomeController extends Controller
     }
 
     /**
+    * @return void
+    */
+    public function __destruct()
+    {
+        // 次画面へ送るデータ
+        $_SESSION['__data']['party'] = serializeObject($this->party);
+        // 親デストラクタの呼び出し
+        parent::__destruct();
+    }
+
+    /**
     * アクションに合わせた分岐
     * @return void
     */
