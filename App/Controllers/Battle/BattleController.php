@@ -76,7 +76,7 @@ class BattleController extends Controller
     public function __destruct()
     {
         // 次画面へ送るデータ
-        $_SESSION['__data']['party'] = serializeObject($this->party);
+        // $_SESSION['__data']['party'] = serializeObject($this->party);
         $_SESSION['__data']['enemy'] = serializeObject($this->enemy);
         $_SESSION['__data']['battle_state'] = serializeObject($this->battle_state);
         $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
@@ -197,7 +197,7 @@ class BattleController extends Controller
         // パーティーのランク補正・状態変化を解除
         array_map(function($partner){
             $partner->releaseBattleStatsAll();
-        }, $this->party);        
+        }, $this->party);
         // セッション破棄
         $keys = [
             'pokemon', 'enemy', 'order', 'battle_state',

@@ -5,8 +5,4 @@ $controller = new HomeController();
 $responses = $global_responses->getResponses();
 $modals = $global_responses->getModals();
 $messages = $global_responses->getMessages();
-// // ポケモン
-// $pokemon = $controller->getPokemon();
-// セッション
-// $_SESSION['__data']['party'] = $controller->serializeObject($controller->getParty());
-// $_SESSION['__data']['pokemon'] = $controller->serializeObject($pokemon); # 自ポケモンの情報をセッションに格納
+$player = $controller->getPlayer();

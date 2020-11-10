@@ -118,14 +118,6 @@ trait BattleControllerTrait
     */
     protected function inheritance()
     {
-        // // にげるの実行回数を引き継ぎ
-        // if(isset($_SESSION['__data']['run'])){
-        //     $this->run = $_SESSION['__data']['run'];
-        // }
-        // // フィールド状態を引き継ぎ
-        // if(isset($_SESSION['__data']['field'])){
-        //     $this->field = $_SESSION['__data']['field'];
-        // }
         // バトル状態の引き継ぎ
         if(isset($_SESSION['__data']['battle_state'])){
             $this->battle_state = unserializeObject($_SESSION['__data']['battle_state']);
@@ -137,8 +129,8 @@ trait BattleControllerTrait
         }
         // ポケモン番号の引き継ぎ
         $this->order = $_SESSION['__data']['order'];
-        // パーティーの引き継ぎ
-        $this->party = unserializeObject($_SESSION['__data']['party']);
+        // // パーティーの引き継ぎ
+        // $this->party = unserializeObject($_SESSION['__data']['party']);
         // 敵ポケモンの引き継ぎ
         if(isset($_SESSION['__data']['enemy'])){
             $this->enemy = unserializeObject($_SESSION['__data']['enemy']);

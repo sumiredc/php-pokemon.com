@@ -19,8 +19,6 @@ class HomeController extends Controller
     {
         // 親コンストラクタの呼び出し
         parent::__construct();
-        // 引き継ぎ
-        $this->takeOver();
         // 分岐処理
         $this->branch();
         // 親デストラクタの呼び出し
@@ -33,7 +31,7 @@ class HomeController extends Controller
     public function __destruct()
     {
         // 次画面へ送るデータ
-        $_SESSION['__data']['party'] = serializeObject($this->party);
+        // $_SESSION['__data']['party'] = serializeObject($this->party);
         // 親デストラクタの呼び出し
         parent::__destruct();
     }

@@ -22,6 +22,14 @@ function transJp($str)
         'status' => '変化',
         'friend' => '味方',
         'enemy' => '相手',
+        'takeshi' => 'タケシ',
+        'kasumi' => 'カスミ',
+        'machisu' => 'マチス',
+        'erika' => 'エリカ',
+        'kyou' => 'キョウ',
+        'natsume' => 'ナツメ',
+        'katsura' => 'カツラ',
+        'sakaki' => 'サカキ',
     ];
     // 小文字変換して配列から取得、存在しなければそのまま返却
     return $array[mb_strtolower($str)] ?? $str;

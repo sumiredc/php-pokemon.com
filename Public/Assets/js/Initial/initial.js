@@ -7,12 +7,10 @@
 * @function click
 * @return void
 **/
-var clickMoveInit = function(){
-    $('.move-table-row').on('click', function(){
-        // 技をフォームへセット
-        $('#fight-form-param').val($(this).data('key'));
-        // サブミット実行
-        $('#fight-form').submit();
+var submitInit = function(){
+    $('form').submit(function(){
+        var name = $('#player-name').val();
+        $(this).find('[name="name"]').val(name);
     });
 }
 
@@ -25,5 +23,5 @@ var clickMoveInit = function(){
 // 初期化
 ----------------------------------------------------------*/
 jQuery(function($){
-    clickMoveInit();
+    submitInit();
 });

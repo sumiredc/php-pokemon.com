@@ -28,7 +28,7 @@ class EvolveController extends Controller
         // 親コンストラクタの呼び出し
         parent::__construct();
         // 引き継ぎ
-        $this->takeOver();
+        $this->inheritance();
         // 分岐処理
         $this->branch();
         // 親デストラクタの呼び出し
@@ -41,7 +41,7 @@ class EvolveController extends Controller
     public function __destruct()
     {
         // 次画面へ送るデータ
-        $_SESSION['__data']['party'] = serializeObject($this->party);
+        // $_SESSION['__data']['party'] = serializeObject($this->party);
         $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
         $_SESSION['__data']['before_modals'] = serializeObject(getModals());
         $_SESSION['__data']['before_messages'] = getMessages();

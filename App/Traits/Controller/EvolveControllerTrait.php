@@ -9,9 +9,9 @@ trait EvolveControllerTrait
     * 引き継ぎ処理
     * @return void
     */
-    protected function takeOver()
+    protected function inheritance()
     {
-        $this->party = unserializeObject($_SESSION['__data']['party']);
+        // $this->party = unserializeObject($_SESSION['__data']['party']);
         $this->order = $this->selectEvolveTarget();
     }
 

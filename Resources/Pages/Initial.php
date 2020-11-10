@@ -20,7 +20,23 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/initial.php');
     <main>
         <div class="container">
             <section>
-                <h3 class="mb-3">一緒に旅をするポケモンを選んでください</h3>
+                <div class="row">
+                    <div class="col-4 text-center">
+                        <img src="/Assets/img/player/red/large/front.gif" alt="トレーナー">
+                    </div>
+                    <div class="col-8">
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="name-addon">名前</span>
+                            </div>
+                            <input type="text" id="player-name" class="form-control" aria-label="名前" placeholder="５文字以内" aria-describedby="name-addon" value="レッド">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <hr>
+            <section>
+                <h3 class="mb-3 h5">一緒に旅をするポケモンを選んでください</h3>
                 <div class="row">
                     <?php foreach($controller->getPokemonList() as $key => $name): ?>
                         <div class="col-6 col-sm-3">
@@ -54,5 +70,6 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/initial.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
+    <script src="/Assets/js/Initial/initial.js" type="text/javascript" defer></script>
 </body>
 </html>

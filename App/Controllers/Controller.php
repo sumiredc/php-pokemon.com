@@ -3,17 +3,22 @@ global $test_message;
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/AutoLoader.php');
 require_once($root_path.'/Classes/Sanitize.php');
+require_once($root_path.'/Classes/Player.php');
 // トレイト
-// require_once($root_path.'/App/Traits/ResponseTrait.php');
 require_once($root_path.'/App/Traits/InstanceTrait.php');
 require_once($root_path.'/App/Traits/SerializeTrait.php');
 
 // コントローラー
 abstract class Controller
 {
-    // use ResponseTrait;
     use InstanceTrait;
     use SerializeTrait;
+
+    /**
+    * プレイヤー
+    * @var object::Player
+    */
+    protected $player;
 
     /**
     * パーティー
@@ -37,6 +42,33 @@ abstract class Controller
         // サニタイズ
         $sanitize = new Sanitize;
         $this->post = $sanitize->getPost();
+        // コンストラクタで実行させる処理
+        $this->callConstruct();
+    }
+
+    /**
+    * @return void
+    */
+    public function __destruct()
+    {
+        $this->callDestruct();
+    }
+
+    /**
+    * コンストラクタで呼び出す初期処理
+    * @return void
+    */
+    private function callConstruct()
+    {
+        if(
+            !isset($_SESSION['__route']) ||
+            $_SESSION['__route'] !== 'initial'
+        ){
+            // トレーナーの引き継ぎ
+            $this->player = unserializeObject($_SESSION['__data']['player']);
+            // パーティーの引き継ぎ
+            $this->party = unserializeObject($_SESSION['__data']['party']);
+        }
         // メッセージIDの重複回避
         if(
             isset($_SESSION['__data']['before_reponses']) ||
@@ -48,11 +80,20 @@ abstract class Controller
     }
 
     /**
+    * デストラクタとリダイレクトで呼び出す画面移管直前の処理
     * @return void
     */
-    public function __destruct()
+    private function callDestruct()
     {
         $_POST = [];
+        // 初期画面への移管ではなければパーティーとトレーナーをシリアライズ化
+        if(
+            !isset($_SESSION['__route']) ||
+            $_SESSION['__route'] !== 'initial'
+        ){
+            $_SESSION['__data']['party'] = serializeObject($this->party);
+            $_SESSION['__data']['player'] = serializeObject($this->player);
+        }
     }
 
     /**
@@ -61,10 +102,7 @@ abstract class Controller
     */
     protected function redirect()
     {
-        // 初期画面への移管ではなければパーティーを再セット
-        if($_SESSION['__route'] !== 'initial'){
-            $_SESSION['__data']['party'] = serializeObject($this->party);
-        }
+        $this->callDestruct();
         // セッションを保存
         session_write_close();
         // リダイレクト
@@ -114,6 +152,16 @@ abstract class Controller
         }
         // 重複回避用のメッセージIDに格納
         setUsedMessageId($results);
+    }
+
+    /**
+    * トレーナーの取得
+    *
+    * @return array
+    */
+    public function getPlayer()
+    {
+        return $this->player;
     }
 
     /**
