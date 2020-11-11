@@ -23,10 +23,22 @@ class BattleState
     private $turn_damages;
 
     /**
+    * へんしん情報
+    * @var array
+    */
+    private $transforms;
+
+    /**
     * 最後に使用した技
     * @var array
     */
     private $last_moves;
+
+    /**
+    * 散らばったお金
+    * @var array
+    */
+    private $money = [];
 
     /**
     * @return void
@@ -49,6 +61,7 @@ class BattleState
         $this->run = 0;
         $this->dafaultFields();
         $this->dafaultTurnDamages();
+        $this->dafaultTransforms();
         $this->dafaultLastMoves();
     }
 
@@ -86,6 +99,18 @@ class BattleState
     public function dafaultFields() :void
     {
         $this->fields = [
+            'friend' => [],
+            'enemy' => [],
+        ];
+    }
+
+    /**
+    * へんしん状態の初期値
+    * @return void
+    */
+    public function dafaultTransforms() :void
+    {
+        $this->transforms = [
             'friend' => [],
             'enemy' => [],
         ];
@@ -247,6 +272,34 @@ class BattleState
     }
 
     /**==================================================================
+    * へんしん状態
+    ==================================================================**/
+
+    /**
+    * へんしん状態の格納
+    * @param pokemon:object::Pokemon
+    * @param enemy:object::Pokemon
+    * @return object::Pokemon
+    */
+    public function setTransform(object $pokemon, object $enemy): object
+    {
+        $class = get_class($enemy);
+        $this->transforms[$pokemon->getPosition()] = new $class($pokemon, $enemy);
+        // へんしん後のポケモンインスタンスを返却
+        return $this->transforms[$pokemon->getPosition()];
+    }
+
+    /**
+    * へんしん状態の取得
+    * @param position:string::friend|enemy
+    * @return mixed
+    */
+    public function getTransform(string $position)
+    {
+        return $this->transforms[$position];
+    }
+
+    /**==================================================================
     * 最後に使用した技
     ==================================================================**/
 
@@ -262,8 +315,8 @@ class BattleState
 
     /**
     * 最後に使用した技(クラス)の格納
-    * @param move:object|string::Move
     * @param position:string::friend|enemy
+    * @param move:object|string::Move
     * @return void
     */
     public function setLastMove(string $position, $move)
@@ -278,4 +331,36 @@ class BattleState
         $this->last_moves['all'] = $class;
     }
 
+    /**==================================================================
+    * お金（ネコにこばん）
+    ==================================================================**/
+
+    /**
+    * 散らばったお金の取得
+    * @return integer
+    */
+    public function getMoney(): int
+    {
+        return array_sum($this->money);
+    }
+
+    /**
+    * お金のセット
+    * @param integer
+    * @return void
+    */
+    public function setMoney($money): void
+    {
+        $this->money[] = $money;
+    }
+
+    /**
+    * お金の初期化
+    * @param integer
+    * @return void
+    */
+    public function initMoney(): void
+    {
+        $this->money[] = [];
+    }
 }
