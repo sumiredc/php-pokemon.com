@@ -8,6 +8,7 @@ require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonDefaultTrait.php'
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCheckTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonReleaseTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonTransformTrait.php');
 
 // ポケモン
 abstract class Pokemon
@@ -19,6 +20,13 @@ abstract class Pokemon
     use ClassPokemonCheckTrait;
     use ClassPokemonCalculationTrait;
     use ClassPokemonReleaseTrait;
+    use ClassPokemonTransformTrait;
+
+    /**
+    * ID（friendセット時に一意の値をセット）
+    * @var string
+    */
+    protected $id;
 
     /**
     * ニックネーム
@@ -104,14 +112,26 @@ abstract class Pokemon
     protected $evolve_flg = false;
 
     /**
+    * へんしんフラグ
+    * @var boolean
+    */
+    protected $transform_flg = false;
+
+    /**
     * インスタンス作成時に実行される処理
-    *
     * @param param:mixed
+    * @param transform:object|null::Pokemon
     * @return void
     */
-    public function __construct($param=null)
+    public function __construct($param=null, $transform=null)
     {
-        $this->init($param);
+        if(is_object($transform)){
+            // へんしん用処理
+            $this->transform($param, $transform);
+        }else{
+            // 初期化
+            $this->init($param);
+        }
     }
 
     /**
@@ -138,13 +158,6 @@ abstract class Pokemon
             $this->setIv();
             $this->calRemainingHp('reset');
             break;
-            // /**
-            // * 前の画面からの引き継ぎ
-            // * @var array
-            // */
-            // case 'array':
-            // $this->takeOverAbility($param);
-            // break;
             /**
             * 進化した際の処理
             * @var object
@@ -155,6 +168,22 @@ abstract class Pokemon
                 $this->takeOverAbility($param->export());
             }
             break;
+        }
+    }
+
+    /**
+    * IDの生成（setPositionで呼び出し）
+    * @return void
+    */
+    protected function generateId()
+    {
+        if(!$this->id){
+            $id = substr(bin2hex(random_bytes(16)), 0, 16);
+            while(in_array($id, $_SESSION['__pokemon_ids'], true)){
+                $id = substr(bin2hex(random_bytes(16)), 0, 16);
+            }
+            $this->id = $id;
+            $_SESSION['__pokemon_ids'][] = $id;
         }
     }
 
@@ -222,6 +251,7 @@ abstract class Pokemon
     {
         if(empty($param)){
             return [
+                'id' => $this->id,                      # ID
                 'class_name' => get_class($this),       # クラス名
                 'nickname' => $this->nickname,          # ニックネーム
                 'level' => $this->level,                # レベル

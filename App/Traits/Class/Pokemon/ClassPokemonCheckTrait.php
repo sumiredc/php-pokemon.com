@@ -36,6 +36,7 @@ trait ClassPokemonCheckTrait
     /**
     * 現在のレベルで覚えられる技があるか確認する処理
     *
+    * @param order:integer
     * @return void
     */
     public function checkLevelMove()
@@ -78,7 +79,8 @@ trait ClassPokemonCheckTrait
                     setModal([
                         'id' => $msg_id,
                         'modal' => 'selectmove',
-                        'new_move' => $move
+                        'new_move' => $move,
+                        'pokemon_id' => $this->id
                     ]);
                     // 諦めメッセージを事前に用意しておく
                     setMessage($this->getNickName().'は'.$move->getName().'を覚えるのを諦めた');

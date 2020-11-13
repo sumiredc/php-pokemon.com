@@ -45,11 +45,11 @@ class Mew extends Pokemon
         // [1, 'MoveFissure'],        # じわれ
         // [1, 'MoveHighJumpKick'],        # とびひざげり
         // [8, 'MoveHyperBeam'],           # はかいこうせん
-        // [1, 'MovePsychic'],           # サイコキネシス
-        // [8, 'MoveEarthquake'],       # じしん
-        // [6, 'MoveThrash'],     # あばれる
+        [1, 'MovePsychic'],           # サイコキネシス
+        [6, 'MoveEarthquake'],       # じしん
+        [6, 'MoveThrash'],     # あばれる
         [1, 'MoveMist'],           # しろいきり
-        [1, 'MoveReflect'],           # リフレクター
+        // [1, 'MoveReflect'],           # リフレクター
         // [1, 'MovePoisonPowder'],   # どくのこな
         // [1, 'MoveSleepPowder'],    # ねむりごな
         // [1, 'MoveThunderWave'],     # でんじは
@@ -60,14 +60,17 @@ class Mew extends Pokemon
         // [13, 'MoveFly'],                 # そらをとぶ
         // [14, 'MoveDig'],                 # あなをほる
         // [1, 'MoveLeechSeed'],           # やどりぎのたね
-        [1, 'MoveConfuseRay'],          # あやしいひかり
+        // [1, 'MoveConfuseRay'],          # あやしいひかり
         // [1, 'MoveSeismicToss'],         # ちきゅうなげ
         // [1, 'MovePsywave'],             # サイコウェーブ
         // [1, 'MoveCounter'],             # カウンター
         // [1, 'MoveRage'],                # いかり
         // [1, 'MoveMirrorMove'],             # オウムがえし
         [1, 'MoveMetronome'],             # ゆびをふる
+        // [1, 'MoveTransform'],             # へんしん
         // [1, 'MoveCometPunch'],            # れんぞくパンチ
+        // [1, 'MoveGrowth'],            # せいちょう
+        [1, 'MovePayDay'],            # ネコにこばん
     ];
 
     /**

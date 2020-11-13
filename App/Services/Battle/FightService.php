@@ -15,6 +15,7 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
  */
 class FightService extends Service
 {
+
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
@@ -32,10 +33,10 @@ class FightService extends Service
     */
     protected $enemy;
 
-    /**
-    * @var object::BattleState
-    */
-    protected $battle_state;
+    // /**
+    // * @var object::BattleState
+    // */
+    // protected $battle_state;
 
     /**
     * @var integer
@@ -54,12 +55,12 @@ class FightService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $move_number, $battle_state)
+    public function __construct($pokemon, $enemy, $move_number)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
         $this->move_number = $move_number;
-        $this->battle_state = $battle_state;
+        $this->battle_state = getBattleState();
     }
 
     /**
@@ -133,6 +134,12 @@ class FightService extends Service
         foreach($orders as list($atk, $def, $move)){
             // 攻撃ポケモンの怒り解除
             $atk->releaseSc('ScRage');
+            // 先手が「へんしん」を使って成功した場合のオブジェクト置き換え処理
+            if(!$def->getTransformFlg() && $def->checkSc('ScTransform')){
+                // 防御ポケモンのへんしんフラグがfalse且つ、状態変化で「へんしん」がセットされている場合
+                $def = $this->battle_state
+                ->getTransform($def->getPosition());
+            }
             // 攻撃(返り値に使用した技を受け取る)
             $attack_move = $this->attack($atk, $def, $move);
             // 最後に使用した技を格納

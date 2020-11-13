@@ -3,11 +3,12 @@ $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
 // トレイト
-// require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorTrait.php');
+require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
+require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
 
 /**
  * にげる
@@ -15,11 +16,12 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorT
 class RunService extends Service
 {
 
-    // use CommonFieldTrait;
     use ServiceBattleAttackTrait;
     use ServiceBattleCheckTrait;
     use ServiceBattleEnemyAiTrait;
     use ServiceBattleOrderGenelatorTrait;
+    use ServiceBattleExTrait;
+    use ServiceBattleCalTrait;
 
     /**
     * @var object::Pokemon
@@ -59,13 +61,14 @@ class RunService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $battle_state)
+    public function __construct($pokemon, $enemy)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
         // $this->count = $count;
         // $this->field = $field;
-        $this->battle_state = $battle_state;
+        // $this->battle_state = $battle_state;
+        $this->battle_state = getBattleState();
     }
 
     /**

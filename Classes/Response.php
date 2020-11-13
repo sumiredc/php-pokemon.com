@@ -95,8 +95,15 @@ class Response
             return;
         }
         if(is_array($msg)){
+            $messages = array_map(function($message){
+                // 要素が配列でなければ、メッセージ用配列形式に変換して返却
+                if(!is_array($message)){
+                    $message = [$message, '', ''];
+                }
+                return $message;
+            }, $msg);
             // 一括登録
-            $this->messages = array_merge($this->messages, $msg);
+            $this->messages = array_merge($this->messages, $messages);
         }else{
             // 単発登録
             $this->messages[] = [$msg, $param, ''];

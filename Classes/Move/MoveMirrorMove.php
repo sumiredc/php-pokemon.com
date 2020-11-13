@@ -64,8 +64,8 @@ class MoveMirrorMove extends Move
     public function exMirrorMove($def, $battle_state)
     {
         $black_list = [
-            // オウム返し・カウンター・わるあがき・ものまね
-            get_class(), 'MoveCounter', 'MoveStruggle', 'MoveMimic'
+            // オウム返し・カウンター・わるあがき・ものまね・へんしん
+            get_class(), 'MoveCounter', 'MoveStruggle', 'MoveMimic', 'MoveTransform'
         ];
         // 相手が最後に使用した技を取得
         $move_class = $battle_state->getLastMove($def->getPosition());

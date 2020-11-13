@@ -44,6 +44,56 @@ trait ServiceBattleExTrait
     }
 
     /**
+    * ネコにこばんの特別処理
+    *
+    * @param atk:object::Pokemon
+    * @param move:object::Move
+    * @return void
+    */
+    protected function exPayDay(object $atk, object $move): void
+    {
+        $move->exPayDay($atk, $this->battle_state);
+        setMessage('辺りにお金が散らばった');
+    }
+
+    /**
+    * へんしんの特別処理
+    *
+    * @param atk:object::Pokemon
+    * @param def:object::Pokemon
+    * @param move:object::Move
+    * @return void
+    */
+    protected function exTransform(object $atk, object $def, object $move): void
+    {
+        // へんしんの特別処理を呼び出し
+        $result = $move->exTransform($atk, $def, $this->battle_state);
+        if($result){
+            // へんしん
+            setResponse([
+                'param' => get_class($def),
+                'action' => 'transform',
+                'target' => $atk->getPosition(),
+            ], $this->atk_msg_id);
+            // 成功
+            setMessage($atk->getPrefixName().'は'.$def->getName().'にへんしんした');
+            // プロパティの書き換え
+            if($atk->getPosition() === 'friend'){
+                // 味方
+                $this->pokemon = $this->battle_state
+                ->getTransform('friend');
+            }else{
+                // 相手
+                $this->enemy = $this->battle_state
+                ->getTransform('enemy');
+            }
+        }else{
+            // 失敗
+            setMessage('しかし上手く決まらなかった');
+        }
+    }
+
+    /**
     * 特別処理時の待機技（チャージorあばれる）の取得
     *
     * @param atk:object::Pokemon

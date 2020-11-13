@@ -420,7 +420,7 @@ trait ServiceBattleCheckTrait
                 setResponse([
                     'param' => $damage,
                     'action' => 'hpbar',
-                    'target' => $enemy_pokemon->getPosition(),
+                    'target' => $sicked_pokemon->getPosition(),
                 ], $b_msg_id);
                 // メッセージ
                 setAutoMessage($b_msg_id);

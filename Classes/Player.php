@@ -61,7 +61,7 @@ class Player
     * @param money:integer
     * @return void
     */
-    public function addMoney($money): boid
+    public function addMoney($money): void
     {
         $this->money += $money;
     }

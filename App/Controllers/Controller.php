@@ -61,7 +61,7 @@ abstract class Controller
     private function callConstruct()
     {
         if(
-            !isset($_SESSION['__route']) ||
+            isset($_SESSION['__route']) &&
             $_SESSION['__route'] !== 'initial'
         ){
             // トレーナーの引き継ぎ
@@ -172,6 +172,27 @@ abstract class Controller
     public function getParty()
     {
         return $this->party;
+    }
+
+    /**
+    * パーティーから指定したポケモンを取得
+    *
+    * @param param:mixed
+    * @param judge:string::order|id
+    * @return object::Pokemon
+    */
+    public function getPartner($param, $judge='order')
+    {
+        if($judge === 'id'){
+            // IDによる検索
+            $pokemon = array_filter($this->party, function($pokemon) use($param){
+                return $pokemon->getId() === $param;
+            });
+            return $pokemon[0];
+        }else{
+            // オーダー番号による検索
+            return $this->party[$param];
+        }
     }
 
     /**

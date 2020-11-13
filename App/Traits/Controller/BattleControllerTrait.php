@@ -27,16 +27,6 @@ trait BattleControllerTrait
     }
 
     /**
-    * バトル状態の取得
-    *
-    * @return object::BattleState
-    */
-    public function getBattleState()
-    {
-        return $this->battle_state;
-    }
-
-    /**
     * 行動不可（チャージ中）の判定
     *
     * @return boolean (true:行動不可, false:行動可)
@@ -54,14 +44,52 @@ trait BattleControllerTrait
     }
 
     /**
-    * 前のターンの残りHPを取得（HPバー用）
+    * ターン開始時のポケモン状態の取得
     *
-    * @param Pokemon:object $pokemon
-    * @return numeric
+    * @param pokemon:object::Pokemon
+    * @return object
     */
-    public function getBefore($pokemon)
+    public function getBefore(object $pokemon)
     {
         return $this->before[$pokemon->getPosition()];
+    }
+
+    /**
+    * 引き継ぎ処理
+    * @return void
+    */
+    protected function inheritance()
+    {
+        // バトル状態の引き継ぎ
+        if(isset($_SESSION['__data']['battle_state'])){
+            $battle_state = unserializeObject($_SESSION['__data']['battle_state']);
+            // ターン最初の状態へ初期化
+            $battle_state
+            ->turnInit();
+            // グローバルにセット
+            setBattleState($battle_state);
+        }else{
+            // バトル状態の初期化
+            initBattleState();
+        }
+        // ポケモン番号の引き継ぎ
+        $this->order = $_SESSION['__data']['order'];
+        // 敵ポケモンの引き継ぎ
+        if(isset($_SESSION['__data']['enemy'])){
+            $this->enemy = unserializeObject($_SESSION['__data']['enemy']);
+            // 前ターンの状態をプロパティに格納
+            $this->before['enemy'] = clone $this->enemy;
+        }
+        // 戦闘中のポケモンをプロパティにセット
+        $transform = getBattleState()->getTransform('friend');
+        if($transform){
+            // へんしん状態の場合はBattleStateからポケモン情報を取得
+            $this->pokemon = $transform;
+        }else{
+            $this->pokemon = $this->party[$this->order];
+        }
+        // 前ターンの状態をプロパティに格納
+        $this->before['friend'] = clone $this->pokemon;
     }
 
     /**
@@ -79,11 +107,23 @@ trait BattleControllerTrait
             // 経験値の計算
             $exp = $this->calExp($this->pokemon, $this->enemy);
             // 経験値をポケモンにセット
-            $this->pokemon
+            $this->party[$this->order]
             ->setExp($exp);
             // 努力値を獲得
-            $this->pokemon
+            $this->party[$this->order]
             ->setEv($this->enemy->getRewardEv());
+            // もしポケモンが「へんしん状態」であれば変更後の状態を引き継ぎ
+            if($this->pokemon->checkSc('ScTransform')){
+                $this->pokemon
+                ->judgmentTransform($this->party[$this->order]);
+            }
+        }
+        // 散らばったお金の取得
+        $money = getBattleState()->getMoney();
+        if($money){
+            setMessage($this->player->getName().'は、'.$money.'円拾った');
+            $this->player
+            ->addMoney($money);
         }
         // バトル終了判定用メッセージの格納
         setEmptyMessage('battle-end');
@@ -113,37 +153,6 @@ trait BattleControllerTrait
     }
 
     /**
-    * 引き継ぎ処理
-    * @return void
-    */
-    protected function inheritance()
-    {
-        // バトル状態の引き継ぎ
-        if(isset($_SESSION['__data']['battle_state'])){
-            $this->battle_state = unserializeObject($_SESSION['__data']['battle_state']);
-            // ターン最初の状態へ初期化
-            $this->battle_state
-            ->turnInit();
-        }else{
-            $this->battle_state = new BattleState;
-        }
-        // ポケモン番号の引き継ぎ
-        $this->order = $_SESSION['__data']['order'];
-        // // パーティーの引き継ぎ
-        // $this->party = unserializeObject($_SESSION['__data']['party']);
-        // 敵ポケモンの引き継ぎ
-        if(isset($_SESSION['__data']['enemy'])){
-            $this->enemy = unserializeObject($_SESSION['__data']['enemy']);
-            // 前ターンの状態をプロパティに格納
-            $this->before['enemy'] = clone $this->enemy;
-        }
-        // 戦闘中のポケモンをプロパティにセット
-        $this->pokemon = $this->party[$this->order];
-        // 前ターンの状態をプロパティに格納
-        $this->before['friend'] = clone $this->pokemon;
-    }
-
-    /**
     * 次のターンへの判定処理
     *
     * @return boolean
@@ -166,6 +175,20 @@ trait BattleControllerTrait
         }else{
             setMessage('行動を選択してください');
             return false;
+        }
+    }
+
+    /**
+    * デストラクタ直前の処理
+    * @return void
+    */
+    private function checkBeforeDestruct()
+    {
+        $transform = getBattleState()->getTransform('friend');
+        // もし「へんしん状態」であれば、残HPと状態異常を元ポケモンに反映
+        if($transform){
+            $this->party[$this->order]
+            ->mirroringTransform($transform);
         }
     }
 

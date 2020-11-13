@@ -98,6 +98,15 @@ var actionMsgBox = function(now){
                 );
                 break;
                 // ==============================================
+                // 状態異常処理 =================================
+                //
+                case 'transform':
+                await doAnimateTransform(
+                    now.data('target'),
+                    now.data('param')
+                );
+                break;
+                // ==============================================
             }
             // 次のメッセージへ
             await nextMsg(now);
@@ -330,6 +339,26 @@ var doAnimateSa = function (target, param){
         badge.removeClass("badge-");
         badge.addClass("badge-" + param.color);
         badge.text(param.name);
+        resolve();
+    });
+}
+
+// ==============================================
+// へんしん処理 =================================
+//
+/**
+* @param json
+* @return Promise
+**/
+var doAnimateTransform = function (target, param){
+    return new Promise ((resolve, reject) => {
+        // 対象のポケモン画像を指定
+        var img = $('#' + target + '-pokemon-image');
+        // へんしん前のポケモンクラスを取得
+        var before = img.data('pokemon');
+        // srcを書き換える
+        var src = img.attr('src').replace(before, param);
+        img.attr('src', src);
         resolve();
     });
 }

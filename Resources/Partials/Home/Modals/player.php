@@ -24,7 +24,7 @@
                                 <?=transJp($leader)?>
                             </h6>
                             <figure class="text-center">
-                                <?php if(!$player->isBadge($badge)): ?>
+                                <?php if($player->isBadge($badge)): ?>
                                     <img src="/Assets/img/badge/<?=$badge?>.png" alt="<?=$badge?>">
                                 <?php else: ?>
                                     <i class="fas fa-minus text-secondary"></i>

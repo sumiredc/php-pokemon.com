@@ -8,6 +8,7 @@ ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 50);
 session_start();
 session_regenerate_id(true);
+
 /**
 * ルーティング
 */
@@ -27,6 +28,10 @@ require_once(__DIR__.'/App/Globals/SerializeGlobal.php');
 require_once(__DIR__.'/App/Globals/FormGlobal.php');
 require_once(__DIR__.'/App/Globals/TranslationGlobal.php');
 require_once(__DIR__.'/App/Globals/ConfigGlobal.php');
+// バトル画面専用のグローバル関数
+if($_SESSION['__route'] ?? '' === 'battle'){
+    require_once(__DIR__.'/App/Globals/BattleStateGlobal.php');
+}
 
 /**
 * ページテンプレートの読み込み

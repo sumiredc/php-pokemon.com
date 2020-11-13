@@ -44,6 +44,7 @@ class Route
             // デフォルト（初期設定）
             default:
             $path = '/Resources/Pages/Initial.php';
+            $_SESSION['__pokemon_ids'] = [];
             break;
         }
         // テンプレートパスを返却

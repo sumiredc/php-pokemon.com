@@ -83,7 +83,13 @@ class LearnMoveService extends Service
     */
     private function createTmpPokemon()
     {
-        $pokemon = clone $this->pokemon;
+        // へんしん状態の場合は返信オブジェクトを取得
+        $transform = getBattleState()->getTransform('friend');
+        if($transform){
+            $pokemon = clone $transform;
+        }else{
+            $pokemon = clone $this->pokemon;
+        }
         // クローンオブジェクトにレベルと残HPをセット
         $pokemon->setLevel($this->request['level']);
         $pokemon->setRemainingHp($this->request['hp']);

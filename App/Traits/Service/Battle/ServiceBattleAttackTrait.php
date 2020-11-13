@@ -83,6 +83,11 @@ trait ServiceBattleAttackTrait
             $atk_pokemon->getPrefixName().'は'.$move->getName().'を使った！',
             $this->atk_msg_id
         );
+        // 「へんしん」の特別処理
+        if(get_class($move) === 'MoveTransform'){
+            $this->exTransform($atk_pokemon, $def_pokemon, $move);
+            return $move;
+        }
         // タイプ相性チェック
         $this->type_comp_msg = $this->checkTypeCompatibility(
             $move->getType(),
@@ -92,7 +97,7 @@ trait ServiceBattleAttackTrait
         if(
             !is_null($move->getAccuracy()) &&
             !is_null($move->getPower()) &&
-            ($this->m === 0)
+            $this->m === 0
         ){
             // こうかがない
             setMessage($def_pokemon->getPrefixName().'には効果が無いみたいだ');
@@ -133,7 +138,7 @@ trait ServiceBattleAttackTrait
         }
         // 連続技はヒット回数のメッセージを返却
         if($times > 1){
-             setMessage($times.'回当たった');
+            setMessage($times.'回当たった');
         }
         // 技オブジェクトを返却
         return $move;
@@ -223,12 +228,17 @@ trait ServiceBattleAttackTrait
             setMessage($recoil['message'], $recoil_id);
             setResponse($recoil['response'], $recoil_id);
         }
+        // ネコにこばんの特別処理(相手のHPに関係無く発動)
+        if(get_class($move) === 'MovePayDay'){
+            $this->exPayDay($atk_pokemon, $move);
+        }
         // 追加効果(相手にHPが残っていれば)
         if($def_pokemon->getRemainingHp()){
             // 追加効果
             $effects = $this->effectMove($atk_pokemon, $def_pokemon, $move);
             // バトル終了
             if(isset($effects['end'])){
+                // 終了判定
                 setMessage($effects['message']);
                 setEmptyMessage('battle-end');
                 setResponse(true, 'end');
@@ -424,7 +434,7 @@ trait ServiceBattleAttackTrait
             // メッセージのみ返却
             setMessage($effects['message']);
         }
-        // バトル終了
+        // バトル終了（ふきとばし・ほえる等）
         if(isset($effects['end'])){
             setEmptyMessage('battle-end');
             setResponse(true, 'end');

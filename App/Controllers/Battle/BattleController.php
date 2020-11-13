@@ -10,13 +10,12 @@ require_once($root_path.'/App/Services/Battle/LearnMoveService.php');
 // require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
 // クラス
-require_once($root_path.'/Classes/BattleState.php');
+// require_once($root_path.'/Classes/BattleState.php');
 
 // バトル用コントローラー
 class BattleController extends Controller
 {
 
-    // use CommonFieldTrait;
     use BattleControllerTrait;
 
     /**
@@ -75,10 +74,11 @@ class BattleController extends Controller
     */
     public function __destruct()
     {
+        // デストラクタ直前のチェック処理
+        $this->checkBeforeDestruct();
         // 次画面へ送るデータ
-        // $_SESSION['__data']['party'] = serializeObject($this->party);
         $_SESSION['__data']['enemy'] = serializeObject($this->enemy);
-        $_SESSION['__data']['battle_state'] = serializeObject($this->battle_state);
+        $_SESSION['__data']['battle_state'] = serializeObject(getBattleState());
         $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
         $_SESSION['__data']['before_modals'] = serializeObject(getModals());
         $_SESSION['__data']['before_messages'] = getMessages();
@@ -116,32 +116,28 @@ class BattleController extends Controller
                     $this->pokemon,
                     $this->enemy,
                     $this->request('param'),
-                    $this->battle_state
                 );
                 $service->execute();
-                // 実行結果
+                // 実行結果(「へんしん」を考慮してプロパティを置き換える)
+                $this->pokemon = $service->getProperty('pokemon');
+                $this->enemy = $service->getProperty('enemy');
                 $this->fainting = $service->getProperty('fainting');
                 break;
                 /******************************************
                 * にげる
                 */
                 case 'run':
-                // 回数をプラス
-                // $this->run++;
                 // サービス実行
                 $service = new RunService(
                     $this->pokemon,
                     $this->enemy,
-                    $this->battle_state
-                    // $this->run,
-                    // $this->field
                 );
                 $service->execute();
                 // 実行結果
                 if(!getResponse('result')){
-                    // 失敗
+                    // 失敗(「へんしん」を考慮して敵プロパティを置き換える)
+                    $this->enemy = $service->getProperty('enemy');
                     $this->fainting = $service->getProperty('fainting');
-                    // $this->field = $service->getProperty('field');
                 }
                 break;
                 /******************************************
@@ -150,7 +146,7 @@ class BattleController extends Controller
                 case 'learn_move':
                 // サービス実行
                 $service = new LearnMoveService(
-                    $this->pokemon,
+                    $this->party[$this->order], # へんしんで置き換わっている可能性があるため
                     $_SESSION['__data']['before_responses'],
                     $_SESSION['__data']['before_messages'],
                     $_SESSION['__data']['before_modals'],

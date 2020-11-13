@@ -24,7 +24,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                     <?php # 敵ポケモン詳細 ?>
                     <div class="col-6">
                         <p>
-                            <span class="mr-2"><?=$before_enemy->getName()?></span>
+                            <span class="mr-2"><?=$before_enemy->getNickName()?></span>
                             <span class="mr-2">Lv:<?=$before_enemy->getLevel()?></span>
                             <span class="mr-2 badge badge-<?=$before_enemy->getSaColor(false)?>" id="sa-enemy">
                                 <?=$before_enemy->getSaName(false)?>
@@ -48,6 +48,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         class="action-img-btn"
                         src="/Assets/img/pokemon/dots/front/<?=get_class($before_enemy)?>.gif"
                         alt="<?=$before_enemy->getName()?>"
+                        data-pokemon="<?=get_class($before_enemy)?>"
                         data-toggle="modal"
                         data-target="#enemy-battle-state-modal" />
                     </div>
@@ -60,6 +61,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                         class="action-img-btn"
                         src="/Assets/img/pokemon/dots/back/<?=get_class($before_pokemon)?>.gif"
                         alt="<?=$before_pokemon->getName()?>"
+                        data-pokemon="<?=get_class($before_pokemon)?>"
                         data-toggle="modal"
                         data-target="#friend-battle-state-modal" />
                     </div>

@@ -18,6 +18,15 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * IDを取得する
+    * @return string|null
+    */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
     * 正式名称を取得する
     * @return string
     */
@@ -116,6 +125,15 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * へんしんフラグを取得する
+    * @return boolean
+    */
+    public function getTransformFlg()
+    {
+        return $this->transform_flg;
+    }
+
+    /**
     * 現在のレベルを取得する
     * @return integer
     */
@@ -143,12 +161,30 @@ trait ClassPokemonGetTrait
     }
 
     /**
-    * 獲得努力値を取得する
+    * 努力値を取得する
     * @return array
     */
     public function getEv()
     {
         return $this->ev;
+    }
+
+    /**
+    * 個体値を取得する
+    * @return array
+    */
+    public function getIv()
+    {
+        return $this->iv;
+    }
+
+    /**
+    * 種族値を取得する
+    * @return array
+    */
+    public function getBaseStats()
+    {
+        return $this->base_stats;
     }
 
     /**
@@ -192,11 +228,16 @@ trait ClassPokemonGetTrait
 
     /**
     * 現在の状態異常を取得する
-    * @param string (class|turn)
-    * @return string
+    * @param string::class|turn|all
+    * @return mixed
     */
     public function getSa($param='class')
     {
+        // そのまま返却
+        if($param === 'all'){
+            return $this->sa;
+        }
+        // 空の場合は空文字列を返却
         if(empty($this->sa)){
             return '';
         }

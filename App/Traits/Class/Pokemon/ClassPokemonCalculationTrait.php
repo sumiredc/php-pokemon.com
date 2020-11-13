@@ -28,7 +28,7 @@ trait ClassPokemonCalculationTrait
         if($this->rank[$param] > 6){
             $this->rank[$param] = 6;
         }
-        return $this->getPrefixName().'の'.transJp($param).'が'.$msg[$val] ?? $msg[3];
+        return $this->getPrefixName().'の'.transJp($param).'が'.($msg[$val] ?? $msg[3]);
     }
 
     /**
@@ -109,9 +109,9 @@ trait ClassPokemonCalculationTrait
     /**
     * 残りPPの計算
     *
-    * @param string $param
-    * @param integer $val (default:0)
-    * @param integer $num (default:null)
+    * @param param:string::reset|sub|add
+    * @param val:integer
+    * @param num:integer
     * @return integer
     */
     public function calRemainingPp(string $param, int $val=0, $num=null)

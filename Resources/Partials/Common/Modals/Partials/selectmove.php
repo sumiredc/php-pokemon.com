@@ -1,4 +1,5 @@
 <!-- Modal -->
+<?php $selectmove_pokemon = $controller->getPartner($modal['pokemon_id'], 'id'); ?>
 <div class="modal fade" id="<?=$modal['id']?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$modal['id']?>-modal-title" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -16,7 +17,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($pokemon->getMove() as $key => $move): ?>
+                        <?php foreach($selectmove_pokemon->getMove() as $key => $move): ?>
                             <tr class="move-detail-link forget-selectmove <?php if($key === 4) echo 'active new-move'; ?>"
                                 data-modal="#<?=$modal['id']?>-modal"
                                 data-target="#<?=$modal['id']?>_<?=get_class($move['class'])?>-content"
@@ -41,7 +42,7 @@
                 </table>
                 <?php # 技説明 ?>
                 <div class="overflow-auto p-3 border" style="height:160px;">
-                    <?php foreach($pokemon->getMove() as $key => $move): ?>
+                    <?php foreach($selectmove_pokemon->getMove() as $key => $move): ?>
                         <div class="move-detail-content" id="<?=$modal['id']?>_<?=get_class($move['class'])?>-content">
                             <h6><?=$move['class']->getName()?></h6>
                             <hr>

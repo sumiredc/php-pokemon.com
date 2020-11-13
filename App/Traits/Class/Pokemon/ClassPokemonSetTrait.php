@@ -36,14 +36,18 @@ trait ClassPokemonSetTrait
 
     /**
     * ポケモンの立場をセットする
-    * @param string (friend|enemy)
+    * @param position:string::friend|enemy
     * @return void
     */
-    public function setPosition($param='friend')
+    public function setPosition($position='friend')
     {
         // 入力制限
-        if(in_array($param, ['enemy', 'friend'], true)){
-            $this->position = $param;
+        if(in_array($position, ['enemy', 'friend'], true)){
+            $this->position = $position;
+            // 味方の場合はIDを生成
+            if($position === 'friend'){
+                $this->generateId();
+            }
         }
     }
 
@@ -130,16 +134,11 @@ trait ClassPokemonSetTrait
 
     /**
     * 経験値をセット（取得）する
-    * @param integer $exp
+    * @param exp:integer
     * @return void
     */
-    public function setExp($exp)
+    public function setExp(int $exp)
     {
-        if(!is_numeric($exp)){
-            // 入力値のチェック
-            setMessage('数値を入力してください', 'error');
-            return $this;
-        }
         // 次のレベルに必要な経験値を取得
         $next_exp = $this->getReqLevelUpExp();
         // 経験値を加算
@@ -320,15 +319,15 @@ trait ClassPokemonSetTrait
             $this->sc = $class;
             return;
         }
-        // セットできる状態変化一覧
-        $sc_list = [
-            'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil', 'ScRage', 'ScThrash',
-        ];
-        // クラスチェック
-        if(!in_array($class, $sc_list, true) || !class_exists($class)){
-            // 不正なクラス
-            return '指定された状態変化は存在しません';
-        }
+        // // セットできる状態変化一覧
+        // $sc_list = [
+        //     'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil', 'ScRage', 'ScThrash', 'ScTransform'
+        // ];
+        // // クラスチェック
+        // if(!in_array($class, $sc_list, true) || !class_exists($class)){
+        //     // 不正なクラス
+        //     return '指定された状態変化は存在しません';
+        // }
         $sc = new $class;
         // 状態変化のセット確認
         if(isset($this->sc[$class])){
