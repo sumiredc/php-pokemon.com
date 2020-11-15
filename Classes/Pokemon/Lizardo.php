@@ -31,14 +31,6 @@ class Lizardo extends Pokemon
     protected $after_class = 'Lizardon';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        16
-    ];
-
-    /**
     * 進化レベル
     * @var integer
     */

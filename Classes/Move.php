@@ -1,13 +1,8 @@
 <?php
-$root_path = __DIR__.'/..';
-require_once($root_path.'/App/Traits/InstanceTrait.php');
-// require_once($root_path.'/App/Traits/ResponseTrait.php');
 
 // 技
 abstract class Move
 {
-    use InstanceTrait;
-    // use ResponseTrait;
 
     /**
     * 攻撃失敗時のメッセージ
@@ -146,7 +141,7 @@ abstract class Move
     */
     public function getType()
     {
-        return $this->getInstance($this->type);
+        return new $this->type;
     }
 
     /**

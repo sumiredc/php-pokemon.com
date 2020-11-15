@@ -33,11 +33,6 @@ class FightService extends Service
     */
     protected $enemy;
 
-    // /**
-    // * @var object::BattleState
-    // */
-    // protected $battle_state;
-
     /**
     * @var integer
     */
@@ -55,11 +50,10 @@ class FightService extends Service
     /**
     * @return void
     */
-    public function __construct($pokemon, $enemy, $move_number)
+    public function __construct($pokemon, $enemy)
     {
         $this->pokemon = $pokemon;
         $this->enemy = $enemy;
-        $this->move_number = $move_number;
         $this->battle_state = getBattleState();
     }
 
@@ -95,13 +89,13 @@ class FightService extends Service
     private function selectMove()
     {
         // 自ポケモンの技をインスタンス化
-        if($this->move_number === ''){
+        if(request('param') === ''){
             // 技が未選択の場合は「わるあがき」を返却
             return new Struggle;
         }else{
             // 配列で取得
             $move = $this->pokemon
-            ->getMove($this->move_number, 'array');
+            ->getMove(request('param'), 'array');
             // 残PPがなければ「わるあがき」を返却
             if($move['remaining'] <= 0){
                 return new Struggle;

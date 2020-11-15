@@ -25,14 +25,6 @@ class Pikachu extends Pokemon
     protected $after_class = 'Raichu';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        5
-    ];
-
-    /**
     * 基礎経験値
     * @var integer
     */

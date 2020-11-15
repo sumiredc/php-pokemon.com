@@ -20,26 +20,19 @@ class LearnMoveService extends Service
     protected $before_responses;
 
     /**
-    * @var array
-    */
-    protected $request;
-
-    /**
     * @param parth:array
     * @param order:integer
     * @param before_response:array
     * @param before_messages:array
     * @param before_modals:array
-    * @param request:array
     * @return void
     */
-    public function __construct($party, $order, $before_responses, $before_messages, $before_modals, $request)
+    public function __construct($party, $order, $before_responses, $before_messages, $before_modals)
     {
         $this->pokemon = $party[$order];
         $this->before_responses = unserializeObject($before_responses);
         $this->before_messages = $before_messages;
         $this->before_modals = unserializeObject($before_modals);
-        $this->request = $request;
     }
 
     /**
@@ -51,15 +44,15 @@ class LearnMoveService extends Service
         $this->replaceMove();
         // レスポンスの引き継ぎ
         setResponse(
-            $this->getUntreatedResponses($this->before_responses, $this->request['id'])
+            $this->getUntreatedResponses($this->before_responses)
         );
         // メッセージの引き継ぎ
         setMessage(
-            $this->getUntreatedResponses($this->before_messages, $this->request['id'], 'message')
+            $this->getUntreatedResponses($this->before_messages, 'message')
         );
         // モーダルの引き継ぎ
         setModal(
-            $this->getUntreatedResponses($this->before_modals, $this->request['id'], 'modal'), true
+            $this->getUntreatedResponses($this->before_modals, 'modal'), true
         );
     }
 
@@ -79,12 +72,12 @@ class LearnMoveService extends Service
     {
         // 忘れる技を取得
         $forget_move = $this->pokemon
-        ->getMove($this->request['forget']);
+        ->getMove(request('param.forget'));
         // 覚えさせる技を取得
-        $new_move = new $this->before_responses[$this->request['id']]['move'];
+        $new_move = new $this->before_responses[request('param.id')]['move'];
         // 技を覚えさせる
         $this->pokemon
-        ->setMove($new_move, $this->request['forget']);
+        ->setMove($new_move, request('param.forget'));
         // メッセージの返却
         setMessage('1 2の ……ポカン！');
         setMessage($this->pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
@@ -94,11 +87,10 @@ class LearnMoveService extends Service
     /**
     * 未処理レスポンス・メッセージ・モーダルの引き継ぎ処理
     * @param response:array
-    * @param msg_id:string
     * @param param:string::response|message|modal
     * @return array
     */
-    private function getUntreatedResponses(array $responses, string $msg_id, string $param='response')
+    private function getUntreatedResponses(array $responses, string $param='response')
     {
         $cnt = 1;
         switch ($param) {
@@ -107,7 +99,7 @@ class LearnMoveService extends Service
             */
             case 'message':
             $key = array_search(
-                $msg_id,
+                request('param.id'),
                 array_column($responses, 1), # メッセージIDの位置は1番目
                 true
             );
@@ -119,7 +111,7 @@ class LearnMoveService extends Service
             */
             case 'modal':
             $key = array_search(
-                $msg_id,
+                request('param.id'),
                 array_column($responses, 0), # メッセージIDの位置は0番目
                 true
             );
@@ -130,7 +122,7 @@ class LearnMoveService extends Service
             default:
             // メッセージIDのレスポンスが入った位置を取得
             $key = array_search(
-                $msg_id,
+                request('param.id'),
                 array_keys($responses),
                 true
             );

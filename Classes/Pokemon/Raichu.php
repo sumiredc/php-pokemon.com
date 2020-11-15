@@ -25,14 +25,6 @@ class Raichu extends Pokemon
     protected $before_class = 'Pikachu';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        55, 56, 57,
-    ];
-
-    /**
     * 基礎経験値
     * @var integer
     */
@@ -47,12 +39,12 @@ class Raichu extends Pokemon
         // [1, 'MoveThunder'], # かみなり
         // [1, 'MoveTailWhip'], # しっぽをふる
         // [1, 'MoveCounter'], # カウンター
-        [1, 'MoveThrash'], # あばれる
+        // [1, 'MoveThrash'], # あばれる
 
         // 本技
-        // [1, 'MoveThunderShock'],
-        // [1, 'MoveGrowl'],
-        // [9, 'MoveThunderWave'],
+        [1, 'MoveThunderShock'],
+        [1, 'MoveGrowl'],
+        [9, 'MoveThunderWave'],
     ];
 
     /**

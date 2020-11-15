@@ -25,14 +25,6 @@ class Hitokage extends Pokemon
     protected $after_class = 'Lizardo';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        5
-    ];
-
-    /**
     * 進化レベル
     * @var integer
     */

@@ -11,7 +11,6 @@ trait EvolveControllerTrait
     */
     protected function inheritance()
     {
-        // $this->party = unserializeObject($_SESSION['__data']['party']);
         $this->order = $this->selectEvolveTarget();
     }
 
@@ -25,7 +24,7 @@ trait EvolveControllerTrait
         // 技習得処理中であればセッションの値を返却
         if(
             isset($_SESSION['__data']['order']) &&
-            ($_POST['action'] ?? '') === 'learn_move'
+            request('action') === 'learn_move'
         ){
             return $_SESSION['__data']['order'];
         }else{

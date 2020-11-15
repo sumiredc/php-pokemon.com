@@ -12,6 +12,7 @@ var nowLoadingInit = function(){
         $('.now-loading').show();
     });
 }
+
 /**
 * 技テーブルクリック時の関数
 * @function click
@@ -20,14 +21,30 @@ var nowLoadingInit = function(){
 var navMoveBoxInit = function(){
     $('.move-detail-link').on('click', function(){
         var target = $(this).data('target');
-        $('.move-detail-link').each(function(){
-            $(this).removeClass('active');
-        });
+        // 全て非表示
         $('.move-detail-content').each(function(){
             $(this).removeClass('active');
         });
-        $(this).addClass('active');
+        // 選択された詳細のみをactive化
         $(target).addClass('active');
+    });
+}
+
+/**
+* table-selectedクリック時の関数
+* @function click
+* @return void
+**/
+var selectedTableInit = function(){
+    $('table.table-selected tbody tr').on('click', function(){
+        var target = $(this).data("target");
+        // 行の色替え
+        var table = $(this).parents('table.table-selected')
+        table.find('tbody tr')
+        .each(function(){
+            $(this).removeClass('active');
+        });
+        $(this).addClass('active');
     });
 }
 
@@ -75,6 +92,7 @@ var submitRemoteInit = function() {
 jQuery(function($){
     nowLoadingInit();
     navMoveBoxInit();
+    selectedTableInit();
     dubbleModalInit();
     submitRemoteInit();
 });

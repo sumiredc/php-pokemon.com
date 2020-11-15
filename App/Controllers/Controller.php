@@ -2,17 +2,17 @@
 global $test_message;
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/AutoLoader.php');
-require_once($root_path.'/Classes/Sanitize.php');
+// require_once($root_path.'/Classes/Sanitize.php');
 require_once($root_path.'/Classes/Player.php');
 // トレイト
-require_once($root_path.'/App/Traits/InstanceTrait.php');
-require_once($root_path.'/App/Traits/SerializeTrait.php');
+// require_once($root_path.'/App/Traits/InstanceTrait.php');
+// require_once($root_path.'/App/Traits/SerializeTrait.php');
 
 // コントローラー
 abstract class Controller
 {
-    use InstanceTrait;
-    use SerializeTrait;
+    // use InstanceTrait;
+    // use SerializeTrait;
 
     /**
     * プレイヤー
@@ -39,9 +39,11 @@ abstract class Controller
     {
         // オートローダーの起動
         new AutoLoader;
+        
         // サニタイズ
-        $sanitize = new Sanitize;
-        $this->post = $sanitize->getPost();
+        // $sanitize = new Sanitize;
+        // $this->post = $sanitize->getPost();
+
         // コンストラクタで実行させる処理
         $this->callConstruct();
     }
@@ -195,19 +197,19 @@ abstract class Controller
         }
     }
 
-    /**
-    * リクエストデータの取得
-    *
-    * @param string
-    * @return mixed
-    */
-    public function request($key='')
-    {
-        if(empty($key)){
-            return $this->post;
-        }else{
-            return $this->post[$key] ?? '';
-        }
-    }
+    // /**
+    // * リクエストデータの取得
+    // *
+    // * @param string
+    // * @return mixed
+    // */
+    // public function request($key='')
+    // {
+    //     if(empty($key)){
+    //         return $this->post;
+    //     }else{
+    //         return $this->post[$key] ?? '';
+    //     }
+    // }
 
 }

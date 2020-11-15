@@ -42,7 +42,7 @@
                                     <tbody class="first-border-top-none">
                                         <?php foreach($battle_state_pokemon->getRank() as $label => $rank): ?>
                                             <tr>
-                                                <th width="28%"><?=transJp($label)?></th>
+                                                <th width="28%"><?=transJp($label, 'stats')?></th>
                                                 <?php
                                                 if($rank < 0){
                                                     $rank *= -1;

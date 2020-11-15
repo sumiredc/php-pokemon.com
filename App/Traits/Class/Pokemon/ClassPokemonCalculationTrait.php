@@ -20,7 +20,7 @@ trait ClassPokemonCalculationTrait
         ];
         // 既にランクが最大であればfalseを返却
         if($this->rank[$param] === 6){
-            return $this->getPrefixName().'の'.transJp($param).'はもう上がらない';
+            return $this->getPrefixName().'の'.transJp($param, 'stats').'はもう上がらない';
         }
         // 加算処理
         $this->rank[$param] += $val;
@@ -28,7 +28,7 @@ trait ClassPokemonCalculationTrait
         if($this->rank[$param] > 6){
             $this->rank[$param] = 6;
         }
-        return $this->getPrefixName().'の'.transJp($param).'が'.($msg[$val] ?? $msg[3]);
+        return $this->getPrefixName().'の'.transJp($param, 'stats').'が'.($msg[$val] ?? $msg[3]);
     }
 
     /**
@@ -48,7 +48,7 @@ trait ClassPokemonCalculationTrait
         ];
         // 既にランクが最低であればfalseを返却
         if($this->rank[$param] === -6){
-            return $this->getPrefixName().'の'.transJp($param).'はもう下がらない';
+            return $this->getPrefixName().'の'.transJp($param, 'stats').'はもう下がらない';
         }
         // 減算処理
         $this->rank[$param] -= $val;
@@ -56,14 +56,14 @@ trait ClassPokemonCalculationTrait
         if($this->rank[$param] < -6){
             $this->rank[$param] = -6;
         }
-        return $this->getPrefixName().'の'.transJp($param).'が'.$msg[$val] ?? $msg[3];
+        return $this->getPrefixName().'の'.transJp($param, 'stats').'が'.$msg[$val] ?? $msg[3];
     }
 
     /**
     * 残りHPの計算
     *
-    * @param string $param
-    * @param integer $val (default:0)
+    * @param param:string::reset|death|sub|add
+    * @param val:integer
     * @return integer
     */
     public function calRemainingHp($param, int $val=0)

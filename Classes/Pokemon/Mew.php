@@ -24,14 +24,6 @@ class Mew extends Pokemon
     protected $types = ['TypePsychic'];
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        5
-    ];
-
-    /**
     * 基礎経験値
     * @var integer
     */
@@ -48,7 +40,7 @@ class Mew extends Pokemon
         [1, 'MovePsychic'],           # サイコキネシス
         [6, 'MoveEarthquake'],       # じしん
         [6, 'MoveThrash'],     # あばれる
-        [1, 'MoveMist'],           # しろいきり
+        // [1, 'MoveMist'],           # しろいきり
         // [1, 'MoveReflect'],           # リフレクター
         // [1, 'MovePoisonPowder'],   # どくのこな
         // [1, 'MoveSleepPowder'],    # ねむりごな
@@ -71,6 +63,8 @@ class Mew extends Pokemon
         // [1, 'MoveCometPunch'],            # れんぞくパンチ
         // [1, 'MoveGrowth'],            # せいちょう
         [1, 'MovePayDay'],            # ネコにこばん
+        // [1, 'MoveFireSpin'],            # ほのおのうず
+        [1, 'MoveRage'],         # いかり
     ];
 
     /**

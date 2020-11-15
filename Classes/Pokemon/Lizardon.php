@@ -50,7 +50,7 @@ class Lizardon extends Pokemon
         [9, 'MoveEmber'],
         [15, 'MoveLeer'],
         [24, 'MoveRage'],
-        [36, 'MoveSlash'],
+        [36, 'MoveSlash'],          # きりさく
         [46, 'MoveFlamethrower'],
         [55, 'MoveFireSpin'],
     ];

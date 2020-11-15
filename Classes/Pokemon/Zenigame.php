@@ -49,14 +49,14 @@ class Zenigame extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'MoveTackle'],
-        [1, 'MoveTailWhip'],
-        [8, 'MoveBubble'],
-        [15, 'MoveWaterGun'],
-        [22, 'MoveBite'],
-        [28, 'MoveWithdraw'],
-        [35, 'MoveSkullBash'],
-        [42, 'MoveHydroPump'],
+        [1, 'MoveTackle'],      # たいあたり
+        [1, 'MoveTailWhip'],    # しっぽをふる
+        [8, 'MoveBubble'],      # あわ
+        [15, 'MoveWaterGun'],   # みずてっぽう
+        [22, 'MoveBite'],       # かみつく
+        [28, 'MoveWithdraw'],   # からにこもる
+        [35, 'MoveSkullBash'],  # ロケットずつき
+        [42, 'MoveHydroPump'],  # ハイドロポンプ
     ];
 
     /**

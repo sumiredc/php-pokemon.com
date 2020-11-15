@@ -41,32 +41,32 @@ class InitialController extends Controller
     */
     private function branch()
     {
-        switch ($this->request('action') ?? '') {
+        switch (request('action')) {
             /**
             * ポケモンの選択
             */
             case 'select_pokemon':
             // トレーナー名の確認
-            if(!$this->request('name')){
+            if(!request('name')){
                 setMessage('トレーナーの名前を入力してください');
                 break;
             }
-            if(mb_strlen($this->request('name') > 5)){
+            if(mb_strlen(request('name') > 5)){
                 setMessage('トレーナーの名前は５文字以内です');
                 break;
             }
             // ポケモンを生成して引き継ぎデータをセッションに格納
-            $class = $this->request('pokemon');
+            $class = request('pokemon');
             // バリデーション
             if(!isset($this->pokemon_list[$class])){
                 setMessage('選択されたポケモンは選ぶことが出来ません');
                 break;
             }
-            $pokemon = new $class(5);
+            $pokemon = new $class(15);
             $pokemon->setPosition();
             // 親クラスでリダイレクト前にサニタイズして格納させる
             $this->party[] = $pokemon;
-            $this->player = new Player($this->request('name'));
+            $this->player = new Player(request('name'));
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
             // 画面移管

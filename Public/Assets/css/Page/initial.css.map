@@ -2,8 +2,8 @@
 	"version": 3,
 	"file": "initial.css",
 	"sources": [
-		"../../scss/Page/initial.scss"
+		"../../../../Resources/Sass/Page/initial.scss"
 	],
 	"names": [],
-	"mappings": ""
+	"mappings": "AAAA,AAAA,MAAM,AAAA,cAAc,AAAA,CAChB,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,IAAI,CAKhB,AAPD,AAGI,MAHE,AAAA,cAAc,CAGd,GAAG,AAAA,CACD,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,OAAO,CAClB"
 }

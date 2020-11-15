@@ -31,14 +31,6 @@ class Kameil extends Pokemon
     protected $after_class = 'Kamex';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        16
-    ];
-
-    /**
     * 進化レベル
     * @var integer
     */

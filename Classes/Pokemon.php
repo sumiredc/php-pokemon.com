@@ -1,7 +1,6 @@
 <?php
 $root_path = __DIR__.'/..';
 // トレイト
-require_once($root_path.'/App/Traits/InstanceTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonDefaultTrait.php');
@@ -13,7 +12,6 @@ require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonTransformTrait.ph
 // ポケモン
 abstract class Pokemon
 {
-    use InstanceTrait;
     use ClassPokemonSetTrait;
     use ClassPokemonGetTrait;
     use ClassPokemonDefaultTrait;

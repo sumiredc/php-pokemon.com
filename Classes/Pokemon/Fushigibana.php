@@ -25,14 +25,6 @@ class Fushigibana extends Pokemon
     protected $before_class = 'Fushigisou';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        32
-    ];
-
-    /**
     * 基礎経験値
     * @var integer
     */

@@ -1,9 +1,17 @@
 <?php
+$root_path = __DIR__.'/..';
+// トレイト
+require_once($root_path.'/App/Traits/Class/Player/ClassPlayerItemTrait.php');
+require_once($root_path.'/App/Traits/Class/Player/ClassPlayerBadgeTrait.php');
+require_once($root_path.'/App/Traits/Class/Player/ClassPlayerMoneyTrait.php');
 /**
 * プレイヤー情報
 */
 class Player
 {
+    use ClassPlayerItemTrait;
+    use ClassPlayerBadgeTrait;
+    use ClassPlayerMoneyTrait;
 
     /**
     * 名前
@@ -33,6 +41,13 @@ class Player
     ];
 
     /**
+    * 持ち物
+    * [[class => string, count => int|null], ...]
+    * @var array
+    */
+    protected $items = [];
+
+    /**
     * @param name:string
     * @return void
     */
@@ -51,71 +66,6 @@ class Player
     public function getName(): string
     {
         return $this->name;
-    }
-
-    /**==================================================================
-    * おこづかい
-    ==================================================================**/
-    /**
-    * おこづかいの増加
-    * @param money:integer
-    * @return void
-    */
-    public function addMoney($money): void
-    {
-        $this->money += $money;
-    }
-
-    /**
-    * おこづかいの消費
-    * @param money:integer
-    * @return void
-    */
-    public function subMoney($money): void
-    {
-        $this->money -= $money;
-    }
-
-    /**
-    * おこづかいの取得
-    * @return integer
-    */
-    public function getMoney() :int
-    {
-        return $this->money;
-    }
-
-    /**==================================================================
-    * ジムバッジ
-    ==================================================================**/
-
-    /**
-    * ジムバッジの確認
-    * @param key:string
-    * @return boolean
-    */
-    public function isBadge(string $key) :bool
-    {
-        return $this->badges[$key];
-    }
-
-    /**
-    * ジムバッジの全取得
-    * @return array
-    */
-    public function getBadges() :array
-    {
-        return $this->badges;
-    }
-
-    /**
-    * ジムバッジの取得
-    * @param key:string
-    * @return void
-    */
-    public function setBadge(string $key) :void
-    {
-        $this->badges[$key] = true;
     }
 
 }

@@ -18,12 +18,12 @@
                     </div>
                 </div>
                 <nav class="nav nav-pills nav-justified btn-group mb-3" id="pokemon-details-tab">
-                    <a class="btn btn-outline-secondary nav-item nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">詳細</a>
-                    <a class="btn btn-outline-secondary nav-item nav-link" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats" aria-selected="true">ステータス</a>
-                    <a class="btn btn-outline-secondary nav-item nav-link" id="move-tab" data-toggle="tab" href="#move" role="tab" aria-controls="move" aria-selected="true">使える技</a>
+                    <a class="btn btn-outline-secondary nav-item nav-link active" id="pokemon-details-home-tab" data-toggle="tab" href="#pokemon-details-home" role="tab" aria-controls="pokemon-details-home" aria-selected="true">詳細</a>
+                    <a class="btn btn-outline-secondary nav-item nav-link" id="pokemon-details-stats-tab" data-toggle="tab" href="#pokemon-details-stats" role="tab" aria-controls="pokemon-details-stats" aria-selected="true">ステータス</a>
+                    <a class="btn btn-outline-secondary nav-item nav-link" id="pokemon-details-move-tab" data-toggle="tab" href="#pokemon-details-move" role="tab" aria-controls="pokemon-details-move" aria-selected="true">使える技</a>
                 </nav>
                 <div class="tab-content" id="pokemon-details-tab-content">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade show active" id="pokemon-details-home" role="tabpanel" aria-labelledby="pokemon-details-tab-home">
                         <?php # 詳細 ?>
                         <table class="table table-bordered table-sm table-hover">
                             <tbody>
@@ -36,22 +36,22 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade show" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                    <div class="tab-pane fade show" id="pokemon-details-stats" role="tabpanel" aria-labelledby="pokemon-details-tab-stats">
                         <?php # ステータス ?>
                         <table class="table table-bordered table-sm table-hover">
                             <tbody>
                                 <?php foreach($party->getStats() as $key => $val): ?>
                                     <tr>
-                                        <th scope="row" class="w-50"><?=transJp($key)?></th>
+                                        <th scope="row" class="w-50"><?=transJp($key, 'stats')?></th>
                                         <td><?=$val?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
-                    <div class="tab-pane fade show" id="move" role="tabpanel" aria-labelledby="move-tab">
+                    <div class="tab-pane fade show" id="pokemon-details-move" role="tabpanel" aria-labelledby="pokemon-details-tab-move">
                         <?php # 覚えている技 ?>
-                        <table class="table table-bordered table-sm table-hover">
+                        <table class="table table-bordered table-selected table-sm table-hover">
                             <thead class="thead-light">
                                 <tr>
                                     <th scope="col">覚えている技</th>
@@ -70,12 +70,12 @@
                             </tbody>
                         </table>
                         <?php # 技説明 ?>
-                        <div class="overflow-auto p-3 border" style="height:160px;">
+                        <div class="overflow-auto p-3 border" style="height:120px;">
                             <?php foreach($party->getMove() as $key => $move): ?>
                                 <div class="move-detail-content <?php if(array_key_first($party->getMove()) == $key) echo 'active'; ?>" id="move_<?=get_class($move['class'])?>-content">
                                     <h6><?=$move['class']->getName()?></h6>
                                     <hr>
-                                    <p><?=$move['class']->getDescription()?></p>
+                                    <p class="mb-0 small"><?=$move['class']->getDescription()?></p>
                                 </div>
                             <?php endforeach; ?>
                         </div>

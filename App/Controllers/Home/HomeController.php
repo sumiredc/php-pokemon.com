@@ -3,6 +3,7 @@ $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Controllers/Controller.php');
 // サービス
 require_once($root_path.'/App/Services/Home/RecoveryService.php');
+require_once($root_path.'/App/Services/Home/ShopService.php');
 // トレイト
 require_once($root_path.'/App/Traits/Controller/HomeControllerTrait.php');
 
@@ -30,8 +31,6 @@ class HomeController extends Controller
     */
     public function __destruct()
     {
-        // 次画面へ送るデータ
-        // $_SESSION['__data']['party'] = serializeObject($this->party);
         // 親デストラクタの呼び出し
         parent::__destruct();
     }
@@ -43,7 +42,7 @@ class HomeController extends Controller
     private function branch()
     {
         try {
-            switch ($_POST['action'] ?? '') {
+            switch (request('action')) {
                 /******************************************
                 * リセット
                 */
@@ -57,6 +56,13 @@ class HomeController extends Controller
                 */
                 case 'recovery':
                 $service = new RecoveryService($this->party);
+                $service->execute();
+                break;
+                /******************************************
+                * フレンドリィショップ
+                */
+                case 'shop':
+                $service = new ShopService($this->player);
                 $service->execute();
                 break;
                 /******************************************

@@ -328,6 +328,7 @@ trait ClassPokemonGetTrait
     */
     public function getSaName($fainting=true)
     {
+        // 状態異常(ひんし)ではない場合
         if(empty($this->sa)){
             return '';
         }
@@ -338,10 +339,10 @@ trait ClassPokemonGetTrait
         ){
             return '';
         }
-        $sa = $this->getInstance(array_key_first($this->sa));
-        if($sa){
-            return $sa->getName();
-        }
+        // 状態異常を取得
+        $class = array_key_first($this->sa);
+        $sa = new $class;
+        return $sa->getName();
     }
 
     /**
@@ -351,6 +352,7 @@ trait ClassPokemonGetTrait
     */
     public function getSaColor($fainting=true)
     {
+        // 状態異常(ひんし)ではない
         if(empty($this->sa)){
             return '';
         }
@@ -361,10 +363,9 @@ trait ClassPokemonGetTrait
         ){
             return '';
         }
-        $sa = $this->getInstance(array_key_first($this->sa));
-        if($sa){
-            return $sa->getColor();
-        }
+        $class = array_key_first($this->sa);
+        $sa = new $class;
+        return $sa->getColor();
     }
 
     /**
@@ -466,8 +467,11 @@ trait ClassPokemonGetTrait
         function getTypesName($obj){
             return $obj->getName();
         }
-        // array_mapで配列内のタイプクラスをインスタンス化
-        $types = array_map([$this, 'getInstance'], $this->types);
+        // array_mapで配列内のタイプをインスタンス化
+        $types = array_map(function($type){
+            return new $type;
+        }, $this->types);
+        // パラメーターに合わせた分岐
         switch ($return) {
             case 'string':
             // array_mapでタイプ名の配列にしたものを、implodeで文字列に変換

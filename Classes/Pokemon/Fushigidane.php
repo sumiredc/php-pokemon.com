@@ -25,14 +25,6 @@ class Fushigidane extends Pokemon
     protected $after_class = 'Fushigisou';
 
     /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        5
-    ];
-
-    /**
     * 進化レベル
     * @var integer
     */

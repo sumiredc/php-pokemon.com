@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body">
                 <?php # 覚えている技 ?>
-                <table class="table table-bordered table-sm table-hover">
+                <table class="table table-bordered table-selected table-sm table-hover">
                     <thead class="thead-light">
                         <tr>
                             <th scope="col">覚えている技</th>
@@ -33,7 +33,7 @@
                             data-modal="#<?=$modal['id']?>-modal"
                             data-target="#<?=$modal['id']?>_<?=get_class($modal['new_move'])?>-content"
                             data-name="<?=$modal['new_move']->getName()?>"
-                            data-num="<?=$key?>">
+                            data-num="<?=++$key?>">
                             <th scope="row" class="w-50"><?=$modal['new_move']->getName()?></th>
                             <td><?=$modal['new_move']->getType()->getName()?></td>
                             <td><?=$modal['new_move']->getPp()?>/<?=$modal['new_move']->getPp()?></td>

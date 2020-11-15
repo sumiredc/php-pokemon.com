@@ -12,24 +12,10 @@ class Metamon extends Pokemon
     protected $name = 'メタモン';
 
     /**
-    * ニックネーム
-    * @var string(min:1 max:5)
-    */
-    protected $nickname = '';
-
-    /**
     * タイプ
     * @var array
     */
     protected $types = ['TypeNormal'];
-
-    /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        5
-    ];
 
     /**
     * 基礎経験値

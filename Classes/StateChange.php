@@ -65,7 +65,7 @@ abstract class StateChange
     }
 
     /**
-    * 状態変化にかかった際のメッセージを取得
+    * ターンメッセージを取得
     *
     * @param string $pokemon
     * @return string

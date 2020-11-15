@@ -35,6 +35,8 @@ class StartService extends Service
         'Hitokage',
         'Zenigame',
         'Pikachu',
+        'Nyarth',
+        'Metamon',
     ];
 
     /**
@@ -64,7 +66,7 @@ class StartService extends Service
         if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
             // $this->enemy = new Kamex(15);
             // $this->enemy = new Raichu(5);
-            $this->enemy = new Metamon(5);
+            $this->enemy = new Fushigidane(15);
         }
         // 返却値をセット
         setMessage('野生の'.$this->enemy->getName().'が現れた！');

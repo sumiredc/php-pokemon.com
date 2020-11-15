@@ -13,7 +13,7 @@
                     <tbody>
                         <?php foreach($modal['stats'] as $key => $val): ?>
                             <tr>
-                                <th scope="row" class="w-50"><?=transJp($key)?></th>
+                                <th scope="row" class="w-50"><?=transJp($key, 'stats')?></th>
                                 <td><?=$val?></td>
                             </tr>
                         <?php endforeach; ?>

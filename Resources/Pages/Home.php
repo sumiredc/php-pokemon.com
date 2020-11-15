@@ -25,8 +25,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
                     <div class="col-12 mb-5 text-center">
                         <img src="/Assets/img/player/red/large/front.gif"
                         class="mb-5"
-                        alt="トレーナー"
-                        style="cursor:pointer;">
+                        alt="プレイヤー">
                     </div>
                 </div>
             </section>
@@ -54,7 +53,9 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     include($root_path.'/Resources/Partials/Home/Modals/party.php');
+    include($root_path.'/Resources/Partials/Home/Modals/item.php');
     include($root_path.'/Resources/Partials/Home/Modals/player.php');
+    include($root_path.'/Resources/Partials/Home/Modals/shop.php');
     # モーダルの読み込み
     foreach($controller->getParty() as $order => $party){
         include($root_path.'/Resources/Partials/Home/Modals/details.php');
@@ -63,5 +64,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
+    <script src="/Assets/js/Common/item.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Home/shop.js" type="text/javascript" defer></script>
 </body>
 </html>

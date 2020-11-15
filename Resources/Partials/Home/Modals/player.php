@@ -21,7 +21,7 @@
                         <div class="col-4 col-sm-3">
                             <h6>
                                 <span class="badge badge-orange"><?=$num+1?></span>
-                                <?=transJp($leader)?>
+                                <?=transJp($leader, 'trainer')?>
                             </h6>
                             <figure class="text-center">
                                 <?php if($player->isBadge($badge)): ?>

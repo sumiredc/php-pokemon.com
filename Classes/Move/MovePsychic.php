@@ -62,6 +62,11 @@ class MovePsychic extends Move
     */
     public function debuff(...$args)
     {
+        // 10%の確率
+        if(10 < random_int(1, 100)){
+            // random_intで11以上が生成されたら失敗
+            return;
+        }
         /**
         * @param Pokemon $atk 攻撃ポケモン
         * @param Pokemon $def 防御ポケモン

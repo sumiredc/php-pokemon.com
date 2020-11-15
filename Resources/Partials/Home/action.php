@@ -8,16 +8,20 @@
     </div>
     <div class="col text-center">
         <?php # ショップ ?>
-        <figure class="btn-action">
-            <img src="/Assets/img/building/friendly-shop.png" class="mb-2" alt="フレンドリィショップ">
+        <figure class="btn-action" style="cursor:pointer;">
+            <img src="/Assets/img/building/friendly-shop.png"
+            class="mb-2"
+            alt="フレンドリィショップ"
+            data-toggle="modal"
+            data-target="#shop-modal">
             <p><span class="badge badge-info">フレンドリィショップ</span></p>
         </figure>
     </div>
     <div class="col text-center">
         <?php # バトル ?>
         <figure class="btn-action" data-submit_remote="battle">
-            <img src="/Assets/img/icon/battle.png" class="mb-2" alt="たたかう">
-            <p><span class="badge badge-danger">たたかう</span></p>
+            <img src="/Assets/img/fields/grass.gif" class="mb-2" alt="草むら">
+            <p><span class="badge badge-success">草むら</span></p>
         </figure>
     </div>
 </div>

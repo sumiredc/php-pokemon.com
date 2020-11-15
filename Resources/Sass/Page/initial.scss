@@ -1,1 +1,8 @@
-
+figure.first-pokemon{
+    text-align: center;
+    padding: 1rem;
+    > img{
+        max-width: 40px;
+        cursor: pointer;
+    }
+}

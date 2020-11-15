@@ -63,7 +63,7 @@ class EvolveController extends Controller
             $this->goToHome();
         }
         // アクションに合わせた分岐
-        switch ($_POST['action'] ?? '') {
+        switch (request('action')) {
             /******************************************
             * 進化
             */
@@ -94,8 +94,7 @@ class EvolveController extends Controller
                 $this->order,
                 $_SESSION['__data']['before_responses'],
                 $_SESSION['__data']['before_messages'],
-                $_SESSION['__data']['before_modals'],
-                $this->request('param')
+                $_SESSION['__data']['before_modals']
             );
             $service->execute();
             break;

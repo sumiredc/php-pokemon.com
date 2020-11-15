@@ -94,7 +94,7 @@ class BattleController extends Controller
     {
         try {
             // アクション分岐
-            switch ($this->request('action')) {
+            switch (request('action')) {
                 /******************************************
                 * 開始
                 */
@@ -114,8 +114,7 @@ class BattleController extends Controller
                 // サービス実行
                 $service = new FightService(
                     $this->pokemon,
-                    $this->enemy,
-                    $this->request('param'),
+                    $this->enemy
                 );
                 $service->execute();
                 // 実行結果(「へんしん」を考慮してプロパティを置き換える)
@@ -149,8 +148,7 @@ class BattleController extends Controller
                     $this->party[$this->order], # へんしんで置き換わっている可能性があるため
                     $_SESSION['__data']['before_responses'],
                     $_SESSION['__data']['before_messages'],
-                    $_SESSION['__data']['before_modals'],
-                    $this->request('param')
+                    $_SESSION['__data']['before_modals']
                 );
                 $service->execute();
                 // 描画するポケモン情報を置き換え
