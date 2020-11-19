@@ -1,36 +1,22 @@
 <?php
-global $test_message;
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/AutoLoader.php');
-// require_once($root_path.'/Classes/Sanitize.php');
 require_once($root_path.'/Classes/Player.php');
-// トレイト
-// require_once($root_path.'/App/Traits/InstanceTrait.php');
-// require_once($root_path.'/App/Traits/SerializeTrait.php');
 
 // コントローラー
 abstract class Controller
 {
-    // use InstanceTrait;
-    // use SerializeTrait;
-
     /**
     * プレイヤー
     * @var object::Player
     */
     protected $player;
 
-    /**
-    * パーティー
-    * @var array
-    */
-    protected $party = [];
-
-    /**
-    * サニタイズ後のポストデータ格納用
-    * @var object
-    */
-    private $post;
+    // /**
+    // * サニタイズ後のポストデータ格納用
+    // * @var object
+    // */
+    // private $post;
 
     /**
     * @return void
@@ -39,11 +25,6 @@ abstract class Controller
     {
         // オートローダーの起動
         new AutoLoader;
-        
-        // サニタイズ
-        // $sanitize = new Sanitize;
-        // $this->post = $sanitize->getPost();
-
         // コンストラクタで実行させる処理
         $this->callConstruct();
     }
@@ -67,9 +48,9 @@ abstract class Controller
             $_SESSION['__route'] !== 'initial'
         ){
             // トレーナーの引き継ぎ
-            $this->player = unserializeObject($_SESSION['__data']['player']);
-            // パーティーの引き継ぎ
-            $this->party = unserializeObject($_SESSION['__data']['party']);
+            setPlayer(
+                unserializeObject($_SESSION['__data']['player'])
+            );
         }
         // メッセージIDの重複回避
         if(
@@ -88,13 +69,12 @@ abstract class Controller
     private function callDestruct()
     {
         $_POST = [];
-        // 初期画面への移管ではなければパーティーとトレーナーをシリアライズ化
+        // 初期画面への移管ではなければトレーナーをシリアライズ化
         if(
             !isset($_SESSION['__route']) ||
             $_SESSION['__route'] !== 'initial'
         ){
-            $_SESSION['__data']['party'] = serializeObject($this->party);
-            $_SESSION['__data']['player'] = serializeObject($this->player);
+            $_SESSION['__data']['player'] = serializeObject(player());
         }
     }
 
@@ -155,61 +135,5 @@ abstract class Controller
         // 重複回避用のメッセージIDに格納
         setUsedMessageId($results);
     }
-
-    /**
-    * トレーナーの取得
-    *
-    * @return array
-    */
-    public function getPlayer()
-    {
-        return $this->player;
-    }
-
-    /**
-    * パーティーの取得
-    *
-    * @return array
-    */
-    public function getParty()
-    {
-        return $this->party;
-    }
-
-    /**
-    * パーティーから指定したポケモンを取得
-    *
-    * @param param:mixed
-    * @param judge:string::order|id
-    * @return object::Pokemon
-    */
-    public function getPartner($param, $judge='order')
-    {
-        if($judge === 'id'){
-            // IDによる検索
-            $pokemon = array_filter($this->party, function($pokemon) use($param){
-                return $pokemon->getId() === $param;
-            });
-            return $pokemon[0];
-        }else{
-            // オーダー番号による検索
-            return $this->party[$param];
-        }
-    }
-
-    // /**
-    // * リクエストデータの取得
-    // *
-    // * @param string
-    // * @return mixed
-    // */
-    // public function request($key='')
-    // {
-    //     if(empty($key)){
-    //         return $this->post;
-    //     }else{
-    //         return $this->post[$key] ?? '';
-    //     }
-    // }
 
 }

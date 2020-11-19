@@ -19,7 +19,7 @@ trait ServiceBattleExTrait
         }else{
             // 「オウムがえし」の発動メッセージ
             setMessage($atk->getPrefixName().'は'.$move->getName().'を使った！');
-            return $move->exMirrorMove($def, $this->battle_state);
+            return $move->exMirrorMove($def, battle_state());
         }
     }
 
@@ -52,7 +52,7 @@ trait ServiceBattleExTrait
     */
     protected function exPayDay(object $atk, object $move): void
     {
-        $move->exPayDay($atk, $this->battle_state);
+        $move->exPayDay($atk, battle_state());
         setMessage('辺りにお金が散らばった');
     }
 
@@ -67,7 +67,7 @@ trait ServiceBattleExTrait
     protected function exTransform(object $atk, object $def, object $move): void
     {
         // へんしんの特別処理を呼び出し
-        $result = $move->exTransform($atk, $def, $this->battle_state);
+        $result = $move->exTransform($atk, $def, battle_state());
         if($result){
             // へんしん
             setResponse([
@@ -80,12 +80,18 @@ trait ServiceBattleExTrait
             // プロパティの書き換え
             if($atk->getPosition() === 'friend'){
                 // 味方
-                $this->pokemon = $this->battle_state
-                ->getTransform('friend');
-            }else{
+                battle_state()->setFriend(
+                    battle_state()->getTransform('friend')
+                );
+                // $this->pokemon = $this->battle_state
+                // ->getTransform('friend');
+            }else if('enemy'){
                 // 相手
-                $this->enemy = $this->battle_state
-                ->getTransform('enemy');
+                battle_state()->setEnemy(
+                    battle_state()->getTransform('enemy')
+                );
+                // $this->enemy = $this->battle_state
+                // ->getTransform('enemy');
             }
         }else{
             // 失敗

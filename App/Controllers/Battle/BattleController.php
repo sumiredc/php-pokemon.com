@@ -5,54 +5,16 @@ require_once($root_path.'/App/Controllers/Controller.php');
 require_once($root_path.'/App/Services/Battle/StartService.php');
 require_once($root_path.'/App/Services/Battle/RunService.php');
 require_once($root_path.'/App/Services/Battle/FightService.php');
+require_once($root_path.'/App/Services/Battle/ItemService.php');
 require_once($root_path.'/App/Services/Battle/LearnMoveService.php');
 // トレイト
-// require_once($root_path.'/App/Traits/Common/CommonFieldTrait.php');
 require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
-// クラス
-// require_once($root_path.'/Classes/BattleState.php');
 
 // バトル用コントローラー
 class BattleController extends Controller
 {
 
     use BattleControllerTrait;
-
-    /**
-    * 戦闘に参加しているポケモン番号
-    * @var integer
-    */
-    protected $order;
-
-    /**
-    * 味方ポケモン格納用
-    * @var object
-    */
-    protected $pokemon;
-
-    /**
-    * 敵ポケモン格納用
-    * @var object
-    */
-    protected $enemy;
-
-    /**
-    * ひんし状態の格納
-    * @var array
-    */
-    protected $fainting = [
-        'friend' => false,
-        'enemy' => false,
-    ];
-
-    /**
-    * 前ターンのポケモンの状態
-    * @var array
-    */
-    protected $before = [
-        'friend' => null,
-        'enemy' => null,
-    ];
 
     /**
     * @return void
@@ -77,8 +39,7 @@ class BattleController extends Controller
         // デストラクタ直前のチェック処理
         $this->checkBeforeDestruct();
         // 次画面へ送るデータ
-        $_SESSION['__data']['enemy'] = serializeObject($this->enemy);
-        $_SESSION['__data']['battle_state'] = serializeObject(getBattleState());
+        $_SESSION['__data']['battle_state'] = serializeObject(battle_state());
         $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
         $_SESSION['__data']['before_modals'] = serializeObject(getModals());
         $_SESSION['__data']['before_messages'] = getMessages();
@@ -100,44 +61,32 @@ class BattleController extends Controller
                 */
                 case 'battle':
                 // サービス実行
-                $service = new StartService($this->pokemon);
+                $service = new StartService;
                 $service->execute();
-                // 実行結果
-                $this->enemy = $service->getProperty('enemy');
-                // 前ターンの状態をプロパティに格納
-                $this->before['enemy'] = clone $this->enemy;
                 break;
                 /******************************************
                 * たたかう
                 */
                 case 'fight':
                 // サービス実行
-                $service = new FightService(
-                    $this->pokemon,
-                    $this->enemy
-                );
+                $service = new FightService;
                 $service->execute();
-                // 実行結果(「へんしん」を考慮してプロパティを置き換える)
-                $this->pokemon = $service->getProperty('pokemon');
-                $this->enemy = $service->getProperty('enemy');
-                $this->fainting = $service->getProperty('fainting');
+                break;
+                /******************************************
+                * どうぐ
+                */
+                case 'item':
+                // サービス実行
+                $service = new ItemService;
+                $service->execute();
                 break;
                 /******************************************
                 * にげる
                 */
                 case 'run':
                 // サービス実行
-                $service = new RunService(
-                    $this->pokemon,
-                    $this->enemy,
-                );
+                $service = new RunService;
                 $service->execute();
-                // 実行結果
-                if(!getResponse('result')){
-                    // 失敗(「へんしん」を考慮して敵プロパティを置き換える)
-                    $this->enemy = $service->getProperty('enemy');
-                    $this->fainting = $service->getProperty('fainting');
-                }
                 break;
                 /******************************************
                 * 技の習得
@@ -145,14 +94,11 @@ class BattleController extends Controller
                 case 'learn_move':
                 // サービス実行
                 $service = new LearnMoveService(
-                    $this->party[$this->order], # へんしんで置き換わっている可能性があるため
                     $_SESSION['__data']['before_responses'],
                     $_SESSION['__data']['before_messages'],
                     $_SESSION['__data']['before_modals']
                 );
                 $service->execute();
-                // 描画するポケモン情報を置き換え
-                $this->before['friend'] = $service->getTmpPokemon();
                 break;
                 /******************************************
                 * バトル終了
@@ -166,8 +112,7 @@ class BattleController extends Controller
                 default:
                 // もしどちらかが戦闘不能状態であればバトルを強制終了
                 if(
-                    empty($this->enemy->getRemainingHp()) ||
-                    empty($this->pokemon->getRemainingHp())
+                    battle_state()->isFainting()
                 ){
                     $this->battleEnd();
                 }
@@ -188,20 +133,21 @@ class BattleController extends Controller
     */
     private function battleEnd()
     {
+        // パーティー取得
+        $party = player()->getParty();
         // パーティーのランク補正・状態変化を解除
         array_map(function($partner){
             $partner->releaseBattleStatsAll();
-        }, $this->party);
+        }, $party);
         // セッション破棄
         $keys = [
-            'pokemon', 'enemy', 'order', 'battle_state',
-            'before_responses', 'before_messages', 'before_modals'
+            'battle_state', 'before_responses', 'before_messages', 'before_modals'
         ];
         foreach($keys as $key){
             unset($_SESSION['__data'][$key]);
         }
         // 進化フラグのチェック
-        $evolves = array_filter($this->party, function($pokemon){
+        $evolves = array_filter($party, function($pokemon){
             return $pokemon->getEvolveFlg();
         });
         if($evolves){

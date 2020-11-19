@@ -7,6 +7,12 @@ class Kamex extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 9;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -29,6 +35,18 @@ class Kamex extends Pokemon
     * @var integer
     */
     protected $base_exp = 265;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 85.5;
 
     /**
     * レベルアップで覚える技

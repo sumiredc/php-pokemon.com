@@ -7,6 +7,12 @@ class Raichu extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 26;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -31,16 +37,22 @@ class Raichu extends Pokemon
     protected $base_exp = 243;
 
     /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 75;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 30.0;
+
+    /**
     * レベルアップで覚える技
     * @var array
     */
     protected $level_move = [
-        // テスト技
-        // [1, 'MoveThunder'], # かみなり
-        // [1, 'MoveTailWhip'], # しっぽをふる
-        // [1, 'MoveCounter'], # カウンター
-        // [1, 'MoveThrash'], # あばれる
-
         // 本技
         [1, 'MoveThunderShock'],
         [1, 'MoveGrowl'],

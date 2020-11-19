@@ -15,7 +15,7 @@
                 <div class="modal-body">
                     <div class="text-center">
                         <figure class="mt-3">
-                            <img src="/Assets/img/pokemon/dots/front/<?=$key?>.gif" alt="<?=$name?>" data-toggle="modal" data-target="#<?=$key?>-modal">
+                            <img src="/Assets/img/pokemon/dots/front/<?=$key?>.gif" alt="<?=$name?>">
                         </figure>
                         <p><span class="font-weight-bolder"><?=$name?></span>を最初のパートナーとして連れていきますか？</p>
                     </div>

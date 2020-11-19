@@ -44,9 +44,9 @@ class ItemPotion extends Item
 
     /**
     * 対象
-    * @var string::pokmeon|player
+    * @var string::friend|enemy|player
     */
-    protected $target = 'pokemon';
+    protected $target = 'friend';
 
     /**
     * 使用できるタイミング
@@ -65,13 +65,16 @@ class ItemPotion extends Item
             // HP20回復
             $after = $pokemon->calRemainingHp('add', 20);
             $message = $pokemon->getPrefixName().'のHPが'.($after - $before).'回復した';
+            $result = true;
         }else{
             // 効果なし
             $message = '使っても効果がないよ';
+            $result = false;
         }
         // メッセージを返却
         return [
-            'message' => $message
+            'message' => $message,
+            'result' => $result
         ];
     }
 

@@ -27,6 +27,29 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * ナンバーを取得する
+    * @param zero_fill:boolean
+    * @return integer|string
+    */
+    public function getNumber(bool $zero_fill=false)
+    {
+        if($zero_fill){
+            // ゼロ埋め
+            $zero = '';
+            // ゼロ必要数の算出
+            $zero_count = 3 - strlen($this->number);
+            for ($i=0; $i < $zero_count; $i++) {
+                $zero = $zero.'0';
+            }
+            // ゼロ埋め返却
+            return $zero.$this->number;
+        }else{
+            // ナンバー返却
+            return $this->number;
+        }
+    }
+
+    /**
     * 正式名称を取得する
     * @return string
     */
@@ -158,6 +181,24 @@ trait ClassPokemonGetTrait
     public function getBaseExp()
     {
         return $this->base_exp;
+    }
+
+    /**
+    * 捕捉率を取得する
+    * @return integer
+    */
+    public function getCapture()
+    {
+        return $this->capture;
+    }
+
+    /**
+    * 重さを取得する
+    * @return numeric
+    */
+    public function getWeight()
+    {
+        return $this->weight;
     }
 
     /**
@@ -459,27 +500,29 @@ trait ClassPokemonGetTrait
             // 引数指定がなければそのまま返却
             return $this->types;
         }
-        /**
-        * タイプ名の取得用関数
-        * @param object
-        * @var string
-        */
-        function getTypesName($obj){
-            return $obj->getName();
-        }
         // array_mapで配列内のタイプをインスタンス化
         $types = array_map(function($type){
             return new $type;
         }, $this->types);
         // パラメーターに合わせた分岐
         switch ($return) {
+            /**
+            * 文字列
+            */
             case 'string':
             // array_mapでタイプ名の配列にしたものを、implodeで文字列に変換
-            $types = implode(',', array_map('getTypesName', $types));
+            $types = implode(',', array_map(function($type){
+                return $type->getName();
+            }, $types));
             break;
+            /**
+            * 配列
+            */
             case 'array':
             // array_mapでタイプ名の配列にして返却
-            $types = array_map('getTypesName', $types);
+            $types = array_map(function($type){
+                return $type->getName();
+            }, $types);
             break;
         }
         return $types;

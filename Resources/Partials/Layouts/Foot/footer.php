@@ -14,7 +14,7 @@
 </div>
 <?php
 # 共通モーダルの読み込み
-include($root_path.'/Resources/Partials/Common/Modals/help.php');
+include($root_path.'/Resources/Partials/Common/Modals/Help/help.php');
 # テンプレートの読み込み
 include($root_path.'/Resources/Partials//Layouts/Templates/template-common.php');
 ?>

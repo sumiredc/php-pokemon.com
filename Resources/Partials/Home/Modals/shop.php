@@ -29,12 +29,12 @@
                         <?php
                         $color = 'info';
                         $form = 'sell';
-                        $select = $player->getBag();
+                        $select = player()->getBag();
                         include($root_path.'/Resources/Partials/Home/Forms/shop.php');
                         ?>
                     </div><!-- sell -->
                 </div>
-                <input type="hidden" id="player-remaining-money" value="<?=$player->getMoney()?>">
+                <input type="hidden" id="player-remaining-money" value="<?=player()->getMoney()?>">
             </div><!-- Modal body -->
         </div><!-- Modal content -->
     </div><!-- Modal dialog -->

@@ -7,19 +7,18 @@ trait HomeControllerTrait
 {
 
     /**
-    * 戦闘に参加するポケモン番号を取得
-    *
-    * @return integer
+    * 戦闘に参加するポケモンが存在しているかの確認
+    * @return boolean
     */
-    protected function getFightPokemonOrder()
+    protected function checkBattleStart(): bool
     {
-        $orders = array_filter($this->party, function($partner){
+        $orders = array_filter(player()->getParty(), function($partner){
             return $partner->getRemainingHp() > 0;
         });
         if(empty($orders)){
-            return null;
+            return false;
         }else{
-            return array_key_first($orders);
+            return true;
         }
     }
 
@@ -39,7 +38,7 @@ trait HomeControllerTrait
             $carry[$item->getCategory()][] = [
                 'order' => array_search($class, config('shop')), # ショップ内のアイテム番号
                 'item' => $item,
-                'owned' => $this->player->getItemCount($class), # 所有数
+                'owned' => player()->getItemCount($class), # 所有数
             ];
             return $carry;
         }, $initial);

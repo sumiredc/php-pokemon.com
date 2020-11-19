@@ -41,7 +41,6 @@ class EvolveController extends Controller
     public function __destruct()
     {
         // 次画面へ送るデータ
-        // $_SESSION['__data']['party'] = serializeObject($this->party);
         $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
         $_SESSION['__data']['before_modals'] = serializeObject(getModals());
         $_SESSION['__data']['before_messages'] = getMessages();
@@ -68,10 +67,11 @@ class EvolveController extends Controller
             * 進化
             */
             case 'evolve':
-            $service = new EvolveService($this->party, $this->order);
+            $service = new EvolveService($this->order);
             $service->execute();
-            // 新しくなったパーティーをセット
-            $this->party = $service->getParty();
+            // 新しくなったパーティーをセット(不要)
+            // player()
+            // ->replaceParty($service->getParty());
             // 処理中フラグを引き継ぎ
             $this->process_flg = $service->process_flg;
             break;
@@ -79,7 +79,7 @@ class EvolveController extends Controller
             * 進化キャンセル
             */
             case 'cancel':
-            $service = new CancelService($this->party, $this->order);
+            $service = new CancelService($this->order);
             $service->execute();
             // ページをリロード
             $this->reload();
@@ -90,7 +90,6 @@ class EvolveController extends Controller
             case 'learn_move':
             // サービス実行
             $service = new LearnMoveService(
-                $this->party,
                 $this->order,
                 $_SESSION['__data']['before_responses'],
                 $_SESSION['__data']['before_messages'],
@@ -102,7 +101,7 @@ class EvolveController extends Controller
             * 進化確認画面
             */
             default:
-            $service = new DefaultService($this->party, $this->order);
+            $service = new DefaultService($this->order);
             $service->execute();
             break;
         }

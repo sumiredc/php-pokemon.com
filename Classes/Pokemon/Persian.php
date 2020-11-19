@@ -7,6 +7,12 @@ class Persian extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 53;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -29,6 +35,18 @@ class Persian extends Pokemon
     * @var integer
     */
     protected $base_exp = 154;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 90;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 32.0;
 
     /**
     * レベルアップで覚える技

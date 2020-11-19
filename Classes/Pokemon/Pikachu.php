@@ -7,6 +7,12 @@ class Pikachu extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 25;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -29,6 +35,18 @@ class Pikachu extends Pokemon
     * @var integer
     */
     protected $base_exp = 112;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 190;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 6.0;
 
     /**
     * レベルアップで覚える技

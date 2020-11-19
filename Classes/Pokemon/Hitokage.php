@@ -7,6 +7,12 @@ class Hitokage extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 4;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -35,6 +41,18 @@ class Hitokage extends Pokemon
     * @var integer
     */
     protected $base_exp = 64;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 8.5;
 
     /**
     * レベルアップで覚える技

@@ -3,7 +3,10 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="player-modal-title"><?=$player->getName()?></h5>
+                <h5 class="modal-title" id="player-modal-title">
+                    <img src="/Assets/img/player/red/mini/front.png" alt="<?=player()->getName()?>" />
+                    <?=player()->getName()?>
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,7 +15,7 @@
                 <div class="form-group row">
                     <label class="col-4 col-form-label font-weight-bolder">おこづかい</label>
                     <div class="col-8">
-                        <p class="form-control-plaintext"><?=$player->getMoney()?>円</p>
+                        <p class="form-control-plaintext"><?=player()->getMoney()?>円</p>
                     </div>
                 </div>
                 <hr>
@@ -24,10 +27,10 @@
                                 <?=transJp($leader, 'trainer')?>
                             </h6>
                             <figure class="text-center">
-                                <?php if($player->isBadge($badge)): ?>
-                                    <img src="/Assets/img/badge/<?=$badge?>.png" alt="<?=$badge?>">
+                                <?php if(player()->isBadge($badge)): ?>
+                                    <img src="/Assets/img/gym/badge/<?=$badge?>.png" alt="<?=$badge?>">
                                 <?php else: ?>
-                                    <i class="fas fa-minus text-secondary"></i>
+                                    <img src="/Assets/img/gym/leader/thumb/<?=$leader?>.png" alt="<?=$leader?>">
                                 <?php endif; ?>
                             </figure>
                         </div>

@@ -10,6 +10,13 @@ pre{
 [data-submit_remote]{
     cursor: pointer;
 }
+// hover
+.bg-hover-light{
+    cursor: pointer;
+    &:hover{
+        background-color: rgba(0,0,0,.075);
+    }
+}
 // メッセージ関係
 .message-box{
     background-color: #FFF;

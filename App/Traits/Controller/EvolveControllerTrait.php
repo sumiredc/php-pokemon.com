@@ -28,7 +28,7 @@ trait EvolveControllerTrait
         ){
             return $_SESSION['__data']['order'];
         }else{
-            $evolves = array_filter($this->party, function($pokemon){
+            $evolves = array_filter(player()->getParty(), function($pokemon){
                 return $pokemon->getEvolveFlg();
             });
             // 進化対象のポケモンがいなければ終了
@@ -47,7 +47,7 @@ trait EvolveControllerTrait
     */
     public function getPokemon()
     {
-        return $this->party[$this->order] ?? '';
+        return player()->getParty()[$this->order] ?? '';
     }
 
 }

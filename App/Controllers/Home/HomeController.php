@@ -2,6 +2,7 @@
 $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Controllers/Controller.php');
 // サービス
+require_once($root_path.'/App/Services/Home/ItemService.php');
 require_once($root_path.'/App/Services/Home/RecoveryService.php');
 require_once($root_path.'/App/Services/Home/ShopService.php');
 // トレイト
@@ -52,29 +53,35 @@ class HomeController extends Controller
                 $this->redirect();
                 break;
                 /******************************************
+                * どうぐ
+                */
+                case 'item':
+                $service = new ItemService;
+                $service->execute();
+                break;
+                /******************************************
                 * ポケモンセンター
                 */
                 case 'recovery':
-                $service = new RecoveryService($this->party);
+                $service = new RecoveryService;
                 $service->execute();
                 break;
                 /******************************************
                 * フレンドリィショップ
                 */
                 case 'shop':
-                $service = new ShopService($this->player);
+                $service = new ShopService;
                 $service->execute();
                 break;
                 /******************************************
                 * バトル
                 */
                 case 'battle':
-                $order = $this->getFightPokemonOrder();
-                if(is_null($order)){
+                // バトル開始可能な状態かを確認
+                if(!$this->checkBattleStart()){
                     setMessage('バトルに参加できるポケモンがいません');
                     break;
                 }
-                $_SESSION['__data']['order'] = $order;
                 $_SESSION['__route'] = 'battle';
                 $_SESSION['__token'] = $_POST['__token'];
                 // 画面移管

@@ -21,12 +21,13 @@ var nowLoadingInit = function(){
 var navMoveBoxInit = function(){
     $('.move-detail-link').on('click', function(){
         var target = $(this).data('target');
-        // 全て非表示
-        $('.move-detail-content').each(function(){
+        // 一旦全てのactiveを解除
+        $('.move-detail-content, .move-detail-link').each(function(){
             $(this).removeClass('active');
         });
-        // 選択された詳細のみをactive化
+        // 選択された行と詳細のみをactive化
         $(target).addClass('active');
+        $(this).addClass('active');
     });
 }
 

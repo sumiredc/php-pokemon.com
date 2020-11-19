@@ -6,6 +6,12 @@ class Mew extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 151;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -28,6 +34,18 @@ class Mew extends Pokemon
     * @var integer
     */
     protected $base_exp = 300;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 4.0;
 
     /**
     * レベルアップで覚える技
@@ -59,12 +77,13 @@ class Mew extends Pokemon
         // [1, 'MoveRage'],                # いかり
         // [1, 'MoveMirrorMove'],             # オウムがえし
         [1, 'MoveMetronome'],             # ゆびをふる
-        // [1, 'MoveTransform'],             # へんしん
+        [1, 'MoveTransform'],             # へんしん
         // [1, 'MoveCometPunch'],            # れんぞくパンチ
         // [1, 'MoveGrowth'],            # せいちょう
         [1, 'MovePayDay'],            # ネコにこばん
         // [1, 'MoveFireSpin'],            # ほのおのうず
-        [1, 'MoveRage'],         # いかり
+        // [1, 'MoveRage'],         # いかり
+        // [1, 'MoveLowKick'],         # けたぐり
     ];
 
     /**

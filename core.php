@@ -28,14 +28,15 @@ require_once(__DIR__.'/App/Globals/ResponseGlobal.php');
 require_once(__DIR__.'/App/Globals/ConfigGlobal.php');
 require_once(__DIR__.'/App/Globals/SerializeGlobal.php');
 require_once(__DIR__.'/App/Globals/FormGlobal.php');
-require_once(__DIR__.'/App/Globals/TranslationGlobal.php');
-
+require_once(__DIR__.'/App/Globals/CommonGlobal.php');
+require_once(__DIR__.'/App/Globals/PlayerGlobal.php');
 // バトル画面専用のグローバル関数
-if($_SESSION['__route'] ?? '' === 'battle'){
+if(getPageName() === 'battle'){
     require_once(__DIR__.'/App/Globals/BattleStateGlobal.php');
 }
 
 /**
 * ページテンプレートの読み込み
 */
+require_once($root_path.'/Resources/Pages/Head/'.getPageName().'.php');
 require_once(__DIR__.$route->template());

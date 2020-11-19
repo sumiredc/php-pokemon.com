@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($pokemon->getMove() as $key => $move): ?>
+                <?php foreach(friend()->getMove() as $key => $move): ?>
                     <?php if(empty($move['remaining'])):?>
                         <tr class="bg-light text-secondary"
                         style="cursor:not-allowed;">

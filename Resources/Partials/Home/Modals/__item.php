@@ -1,10 +1,13 @@
 <!-- Modal -->
-<?php $bag = $player->getBag(); ?>
+<?php $bag = player()->getBag(); ?>
 <div class="modal fade" id="item-modal" tabindex="-1" role="dialog" aria-labelledby="item-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="item-modal-title">どうぐ</h5>
+                <h5 class="modal-title" id="item-modal-title">
+                    <img src="/Assets/img/icon/bag.png" alt="どうぐ" />
+                    どうぐ
+                </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -27,7 +30,14 @@
                         <div class="tab-pane fade show <?php if(!$cnt) echo 'active'; ?>" id="item-modal-<?=$category?>" role="tabpanel" aria-labelledby="item-modal-<?=$category?>">
                             <h6 class="font-weight-bolder mb-2"><?=transJp($category, 'item');?></h6>
                             <div class="bg-light p-3 mb-2 overflow-auto" style="height:120px;">
-                                <h6 id="item-modal-<?=$category?>-name" class="font-weight-bolder"></h6>
+                                <div class="d-flex justify-content-between">
+                                    <h6 id="item-modal-<?=$category?>-name" class="font-weight-bolder mb-0 d-flex align-self-center"></h6>
+                                    <div class="item-action-button-group" data-category="<?=$category?>">
+                                        <button type="button" class="btn btn-sm btn-primary" data-button="use" data-item_target="player" data-toggle="modal" data-target="#item-use-player-modal" style="display:none">使う</button>
+                                        <button type="button" class="btn btn-sm btn-primary" data-button="use" data-item_target="pokemon" data-toggle="modal" data-target="#item-use-pokemon-modal" style="display:none">使う</button>
+                                        <button type="button" class="btn btn-sm btn-danger" data-button="trash" data-toggle="modal" data-target="#item-trash-modal" style="display:none">捨てる</button>
+                                    </div>
+                                </div>
                                 <hr>
                                 <p class="mb-0 small" id="item-modal-<?=$category?>-description"></p>
                             </div>
@@ -41,6 +51,11 @@
                                                 <tr data-description="<?=$item['item']->getDescription()?>"
                                                     data-name="<?=$item['item']->getName()?>"
                                                     data-category="<?=$category?>"
+                                                    data-target="<?=$item['item']->getTarget()?>"
+                                                    data-use="<?=var_export($item['item']->allowUsed(getPageName()), true)?>"
+                                                    data-trash="<?=var_export($item['item']->allowTrashed(), true)?>"
+                                                    data-owned="<?=$item['count']?>"
+                                                    data-order="<?=$item['order']?>"
                                                     class="item-row">
                                                     <td class="w-75">
                                                         <img src="/Assets/img/item/class/<?=get_class($item['item'])?>.png" alt="<?=$item['item']->getName()?>" class="mr-1" />

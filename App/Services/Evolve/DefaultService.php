@@ -10,21 +10,16 @@ class DefaultService extends Service
 {
 
     /**
-    * @var array
-    */
-    private $party;
-
-    /**
     * @var integer
     */
     private $order;
 
     /**
+    * @param order:integer
     * @return void
     */
-    public function __construct($party, $order)
+    public function __construct($order)
     {
-        $this->party = $party;
         $this->order = $order;
     }
 
@@ -44,7 +39,7 @@ class DefaultService extends Service
     */
     private function setEvolveMessages()
     {
-        $pokemon = $this->party[$this->order];
+        $pokemon = player()->getParty()[$this->order];
         // 確認メッセージ
         $msg_id1 = issueMsgId();
         setMessage('・・・おや！？ '.$pokemon->getNickName().'の様子が・・・！');

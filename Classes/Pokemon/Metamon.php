@@ -6,6 +6,12 @@ class Metamon extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 132;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -22,6 +28,18 @@ class Metamon extends Pokemon
     * @var integer
     */
     protected $base_exp = 101;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 35;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 4.0;
 
     /**
     * レベルアップで覚える技

@@ -5,4 +5,4 @@ $controller = new HomeController();
 $responses = $global_responses->getResponses();
 $modals = $global_responses->getModals();
 $messages = $global_responses->getMessages();
-$player = $controller->getPlayer();
+// $player = $controller->getPlayer();

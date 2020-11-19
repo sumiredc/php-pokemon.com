@@ -1,6 +1,6 @@
 <?php
 $root_path = __DIR__.'/../..';
-require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
+// require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -78,7 +78,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
-    <script src="/Assets/js/forget-move.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Common/forget-move.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Evolve/message.js" type="text/javascript" defer></script>
 </body>
 </html>

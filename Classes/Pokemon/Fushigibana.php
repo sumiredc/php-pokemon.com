@@ -7,6 +7,12 @@ class Fushigibana extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 3;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -29,6 +35,18 @@ class Fushigibana extends Pokemon
     * @var integer
     */
     protected $base_exp = 263;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 100.0;
 
     /**
     * レベルアップで覚える技

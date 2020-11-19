@@ -1,23 +1,17 @@
 <!-- Modal -->
-<div class="modal fade" id="party-modal" tabindex="-1" role="dialog" aria-labelledby="party-modal-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="item-use-pokemon-modal" tabindex="-1" role="dialog" aria-labelledby="item-use-pokemon-modal-title" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="party-modal-title">手持ちポケモン</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <p class="small mb-0">
+                    <span id="item-use-name" class="font-weight-bolder"></span>を使うポケモンを選んでください
+                </p>
             </div>
             <div class="modal-body">
-                <?php foreach($controller->getParty() as $order => $party): ?>
-                    <div class="row">
+                <?php foreach(player()->getParty() as $order => $party): ?>
+                    <div class="row bg-hover-light pokemon-row" data-pokemon="<?=$order?>">
                         <div class="col-3 text-center">
-                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif"
-                            alt="<?=$party->getName()?>"
-                            style="cursor:pointer;"
-                            data-toggle="modal"
-                            data-dubble_modal="true"
-                            data-target="#pokemon-details-modal<?=$order?>">
+                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party->getName()?>">
                         </div>
                         <div class="col-9">
                             <div class="row">
@@ -49,6 +43,16 @@
                         </div>
                     </div>
                 <?php endforeach; ?>
+            </div>
+            <div class="modal-footer">
+                <form method="post" id="item-use-pokemon-form">
+                    <?php input_token(); ?>
+                    <input type="hidden" name="action" value="item">
+                    <input type="hidden" name="do" value="use">
+                    <input type="hidden" name="order"><?php # アイテム番号 ?>
+                    <input type="hidden" name="pokemon"><?php # ポケモン番号 ?>
+                </form>
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">やめる</button>
             </div>
         </div>
     </div>

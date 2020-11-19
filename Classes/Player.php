@@ -4,6 +4,7 @@ $root_path = __DIR__.'/..';
 require_once($root_path.'/App/Traits/Class/Player/ClassPlayerItemTrait.php');
 require_once($root_path.'/App/Traits/Class/Player/ClassPlayerBadgeTrait.php');
 require_once($root_path.'/App/Traits/Class/Player/ClassPlayerMoneyTrait.php');
+require_once($root_path.'/App/Traits/Class/Player/ClassPlayerPartyTrait.php');
 /**
 * プレイヤー情報
 */
@@ -12,6 +13,7 @@ class Player
     use ClassPlayerItemTrait;
     use ClassPlayerBadgeTrait;
     use ClassPlayerMoneyTrait;
+    use ClassPlayerPartyTrait;
 
     /**
     * 名前
@@ -24,6 +26,12 @@ class Player
     * @var integer
     */
     protected $money = 2000;
+
+    /**
+    * パーティー
+    * @var array
+    */
+    protected $party = [];
 
     /**
     * ジムバッジ

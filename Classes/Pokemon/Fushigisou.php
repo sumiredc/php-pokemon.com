@@ -7,6 +7,12 @@ class Fushigisou extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 2;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -41,6 +47,18 @@ class Fushigisou extends Pokemon
     * @var integer
     */
     protected $base_exp = 142;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 13.0;
 
     /**
     * レベルアップで覚える技

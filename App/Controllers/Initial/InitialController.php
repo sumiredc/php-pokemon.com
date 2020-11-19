@@ -2,11 +2,11 @@
 $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Controllers/Controller.php');
 
-// Initial.php用コントローラー
+// 初期画面用コントローラー
 class InitialController extends Controller
 {
     /**
-    * ポケモン一覧
+    * 最初のポケモン
     * @var array
     */
     private $pokemon_list = [
@@ -62,11 +62,17 @@ class InitialController extends Controller
                 setMessage('選択されたポケモンは選ぶことが出来ません');
                 break;
             }
-            $pokemon = new $class(15);
+            // プレイヤー作成
+            // $this->player = new Player(request('name'));
+            initPlayer(request('name'));
+            // 選択されたポケモンをインスタンス化
+            $pokemon = new $class(5);
+            // ローカルのみの分岐
+            if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
+                // $pokemon = new $class(15);
+            }
             $pokemon->setPosition();
-            // 親クラスでリダイレクト前にサニタイズして格納させる
-            $this->party[] = $pokemon;
-            $this->player = new Player(request('name'));
+            player()->setParty($pokemon);
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
             // 画面移管

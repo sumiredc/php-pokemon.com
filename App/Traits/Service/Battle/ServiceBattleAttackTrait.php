@@ -158,7 +158,7 @@ trait ServiceBattleAttackTrait
             /**
             * 固定ダメージ技
             */
-            $damage = (int)$move->getFixedDamage($atk_pokemon, $def_pokemon, $this->battle_state);
+            $damage = (int)$move->getFixedDamage($atk_pokemon, $def_pokemon, battle_state());
         }else{
             /**
             * 通常技
@@ -180,8 +180,8 @@ trait ServiceBattleAttackTrait
                 $m *= $this->calRandNum();
                 // タイプ一致補正の計算
                 $this->calMatchType($move->getType(), $atk_pokemon->getTypes());
-                // 技威力の取得(威力補正込み)
-                $power = $move->getPower() * $move->powerCorrection($atk_pokemon, $def_pokemon);
+                // 補正込みの技威力を取得(けたぐり等を考慮してnullの場合は1をセット)
+                $power = ($move->getPower() ?? 1) * $move->powerCorrection($atk_pokemon, $def_pokemon);
                 // ダメージ計算
                 $damage = (int)$this->calDamage(
                     $atk_pokemon->getLevel(),   # 攻撃ポケモンのレベル
@@ -203,9 +203,7 @@ trait ServiceBattleAttackTrait
             }
         }
         // このターン受けるダメージをポケモンに格納
-        // $def_pokemon->setTurnDamage($move->getSpecies(), $damage ?? 0);
-        $this->battle_state
-        ->setTurnDamage(
+        battle_state()->setTurnDamage(
             $def_pokemon->getPosition(),
             $move->getSpecies(),
             $damage ?? 0
@@ -246,7 +244,7 @@ trait ServiceBattleAttackTrait
             }
             // 能力下降効果
             $field_mist = new FieldMist;
-            if($this->battle_state->checkField($def_pokemon->getPosition(), $field_mist)){
+            if(battle_state()->checkField($def_pokemon->getPosition(), $field_mist)){
                 // 能力下降確定技であれば失敗メッセージを出力
                 if($move->getConfirmDebuffFlg()){
                     setMessage(
@@ -263,8 +261,7 @@ trait ServiceBattleAttackTrait
             if($move->field()){
                 $field = $move->field();
                 // フィールドをセット
-                $this->battle_state
-                ->setField(
+                battle_state()->setField(
                     $atk_pokemon->getPosition(),
                     new $field['class'],
                     $field['turn']
@@ -363,7 +360,7 @@ trait ServiceBattleAttackTrait
         if(
             get_class($move) === 'MoveCounter' &&
             // empty($atk->getTurnDamage('physical'))
-            empty($this->battle_state->getTurnDamage($atk->getPosition(), 'physical'))
+            empty(battle_state()->getTurnDamage($atk->getPosition(), 'physical'))
         ){
             // 自身にこのターン物理ダメージが蓄積していなければ失敗
             setMessage(

@@ -25,11 +25,12 @@ class EvolveService extends Service
     public $process_flg = false;
 
     /**
+    * @param order:integer
     * @return void
     */
-    public function __construct($party, $order)
+    public function __construct($order)
     {
-        $this->party = $party;
+        // $this->party = $party;
         $this->order = $order;
     }
 
@@ -42,15 +43,15 @@ class EvolveService extends Service
         $this->evolve();
     }
 
-    /**
-    * パーティープロパティの取得
-    *
-    * @return array
-    */
-    public function getParty()
-    {
-        return $this->party;
-    }
+    // /**
+    // * パーティープロパティの取得
+    // *
+    // * @return array
+    // */
+    // public function getParty()
+    // {
+    //     return $this->party;
+    // }
 
     /**
     * 進化
@@ -60,7 +61,7 @@ class EvolveService extends Service
     private function evolve()
     {
         // 対象ポケモンの取得
-        $before = $this->party[$this->order];
+        $before = player()->getParty()[$this->order];
         $after_class = $before->getAfterClass();
         // 対象ポケモンが進化可能な状態か確認
         if(
@@ -77,7 +78,8 @@ class EvolveService extends Service
             }
             setMessage('おめでとう！'.$before->getNickName().'は'.$after->getName().'に進化した！');
             // 進化後のインスタンスをパーティーにセット
-            $this->party[$this->order] = $after;
+            // $this->party[$this->order] = $after;
+            player()->evolvePartner($this->order, $after);
             // 現在のレベルで習得できる技があるかチェック
             if($after->getLevelMoveCount()){
                 $after->checkLevelMove();

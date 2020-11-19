@@ -1,9 +1,10 @@
 <?php
+/**==================================================================
+* どうぐ
+==================================================================**/
 trait ClassPlayerItemTrait
 {
-    /**==================================================================
-    * どうぐ
-    ==================================================================**/
+
     /**
     * どうぐの取得
     * @return array
@@ -50,10 +51,17 @@ trait ClassPlayerItemTrait
         }, array_flip(config('item.categories')));
         // カテゴリ分けした配列を返却
         return array_reduce($this->items, function($carry, $row){
+            // アイテムをインスタンス化
             $item = new $row['class'];
+            // アイテム番号を取得
+            $order = array_search(
+                $row['class'],
+                array_column($this->items, 'class')
+            );
             $carry[$item->getCategory()][] = [
                 'item' => $item,
                 'count' => $row['count'],
+                'order' => $order,
             ];
             return $carry;
         }, $initial);
@@ -125,7 +133,7 @@ trait ClassPlayerItemTrait
             return false;
         }
         if($important_flg){
-            // 大切なものの消費
+            // 大切なものを消費
             unset($this->items[$order]);
             $this->items = array_values($this->items);
             return true;
@@ -140,7 +148,7 @@ trait ClassPlayerItemTrait
             $this->items[$order]['count'] -= $count;
             if($this->items[$order]['count'] < 1){
                 // 0個になればアイテム欄から取り除く
-                unset($this->items[$order]['count']);
+                unset($this->items[$order]);
                 $this->items = array_values($this->items);
             }
             return true;

@@ -9,17 +9,17 @@ require_once($root_path.'/App/Services/Service.php');
 class RecoveryService extends Service
 {
 
-    /**
-    * @var object Pokemon
-    */
-    private $party;
+    // /**
+    // * @var object::Player
+    // */
+    // private $player;
 
     /**
     * @return void
     */
-    public function __construct($party)
+    public function __construct()
     {
-        $this->party = $party;
+        //
     }
 
     /**
@@ -27,7 +27,7 @@ class RecoveryService extends Service
     */
     public function execute()
     {
-        foreach($this->party as $partner){
+        foreach(player()->getParty() as $partner){
             $this->recovery($partner);
         }
         setMessage([

@@ -1,6 +1,6 @@
 <?php
 $root_path = __DIR__.'/../..';
-require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
+// require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -21,7 +21,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
         <div class="container">
             <section>
                 <div class="row">
-                    <?php include($root_path.'/Resources/Partials/Common/menu.php'); #メニュー ?>
+                    <?php include($root_path.'/Resources/Partials/Common/menu.php'); # メニュー ?>
                     <div class="col-12 mb-5 text-center">
                         <img src="/Assets/img/player/red/large/front.gif"
                         class="mb-5"
@@ -52,14 +52,13 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/home.php');
     <?php
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
-    include($root_path.'/Resources/Partials/Home/Modals/party.php');
-    include($root_path.'/Resources/Partials/Home/Modals/item.php');
+    # モーダルの読み込み
+    include($root_path.'/Resources/Partials/Common/Modals/Party/party.php');
+    include($root_path.'/Resources/Partials/Common/Modals/Item/item.php');
+    include($root_path.'/Resources/Partials/Common/Modals/Item/item-trash.php');
+    include($root_path.'/Resources/Partials/Common/Modals/Item/item-use-friend.php');
     include($root_path.'/Resources/Partials/Home/Modals/player.php');
     include($root_path.'/Resources/Partials/Home/Modals/shop.php');
-    # モーダルの読み込み
-    foreach($controller->getParty() as $order => $party){
-        include($root_path.'/Resources/Partials/Home/Modals/details.php');
-    }
     include($root_path.'/Resources/Partials/Home/Modals/reset.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');

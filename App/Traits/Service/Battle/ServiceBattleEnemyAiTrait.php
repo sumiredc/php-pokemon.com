@@ -10,17 +10,14 @@ trait ServiceBattleEnemyAiTrait
     protected function aiSelectMove()
     {
         // 技の一覧を配列形式で取得
-        $move_list = $this->enemy
-        ->getMove(null, 'array');
+        $move_list = enemy()->getMove(null, 'array');
         // チャージ状態・またはあばれる状態の確認
-        if($this->enemy->checkSc('ScCharge')){
+        if(enemy()->checkSc('ScCharge')){
             // チャージ状態
-            $class = $this->enemy
-            ->getChargeMove();
-        }elseif($this->enemy->checkSc('ScThrash')){
+            $class = enemy()->getChargeMove();
+        }elseif(enemy()->checkSc('ScThrash')){
             // あばれる状態
-            $class = $this->enemy
-            ->getThrashMove();
+            $class = enemy()->getThrashMove();
         }
         // 技番号の抽出
         if(isset($class)){

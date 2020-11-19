@@ -7,6 +7,12 @@ class Zenigame extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 7;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -43,6 +49,18 @@ class Zenigame extends Pokemon
     * @var integer
     */
     protected $base_exp = 63;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 9.0;
 
     /**
     * レベルアップで覚える技

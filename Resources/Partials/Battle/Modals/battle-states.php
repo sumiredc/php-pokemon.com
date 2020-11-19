@@ -1,4 +1,4 @@
-<?php foreach([$pokemon, $enemy] as $battle_state_pokemon): ?>
+<?php foreach([friend(), enemy()] as $battle_state_pokemon): ?>
     <?php $id = $battle_state_pokemon->getPosition().'-battle-state'; ?>
     <!-- Modal -->
     <div class="modal fade" id="<?=$id?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$id?>-modal-title" aria-hidden="true">
@@ -75,7 +75,7 @@
                         <div class="tab-pane fade show" id="<?=$id?>-field" role="tabpanel" aria-labelledby="<?=$id?>-field-tab">
                             <?php # フィールド ?>
                             <div class="row">
-                                <?php foreach($battle_state->getField($battle_state_pokemon->getPosition(), true) as list($field, $turn)): ?>
+                                <?php foreach(battle_state()->getField($battle_state_pokemon->getPosition(), true) as list($field, $turn)): ?>
                                     <div class="col-6">
                                         <div class="alert alert-cyan" role="alert">
                                             <h6 class="alert-heading"><?=$field->getName()?></h6>

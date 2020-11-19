@@ -1,6 +1,6 @@
 <?php
 $root_path = __DIR__.'/../..';
-require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
+// require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -67,7 +67,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                     </div>
                     <div class="col-6">
                         <p>
-                            <span class="mr-2"><?=$pokemon->getNickName()?></span>
+                            <span class="mr-2"><?=$before_pokemon->getNickName()?></span>
                             <span class="mr-2">Lv:<span id="level"><?=$before_pokemon->getLevel()?></span></span>
                             <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor()?>" id="sa-friend">
                                 <?=$before_pokemon->getSaName(false)?>
@@ -126,7 +126,7 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                     <div class="col-12 col-sm-6">
                         <div class="row pt-3">
                             <div class="col-6 mb-2">
-                                <?php if($pokemon->checkUsedMove()): ?>
+                                <?php if(friend()->checkUsedMove()): ?>
                                     <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-move-modal" id="action-btn-fight">たたかう</button>
                                 <?php else: ?>
                                     <form method="post">
@@ -137,10 +137,10 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
                                 <?php endif; ?>
                             </div>
                             <div class="col-6 mb-2">
-                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-item-modal" id="action-btn-item">どうぐ</button>
+                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#item-modal" id="action-btn-item">どうぐ</button>
                             </div>
                             <div class="col-6">
-                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-party-modal">ポケモン</button>
+                                <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#party-modal">ポケモン</button>
                             </div>
                             <div class="col-6">
                                 <form action="" method="post">
@@ -166,12 +166,14 @@ require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
     }
     include($root_path.'/Resources/Partials/Battle/Modals/battle-states.php');
     include($root_path.'/Resources/Partials/Battle/Modals/move.php');
-    include($root_path.'/Resources/Partials/Battle/Modals/item.php');
-    include($root_path.'/Resources/Partials/Battle/Modals/party.php');
+    include($root_path.'/Resources/Partials/Common/Modals/Party/party.php');
+    include($root_path.'/Resources/Partials/Common/Modals/Item/item.php');
+    include($root_path.'/Resources/Partials/Common/Modals/Item/item-use-friend.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
-    <script src="/Assets/js/forget-move.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Common/item.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Common/forget-move.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Battle/fight.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Battle/message.js" type="text/javascript" defer></script>
 </body>

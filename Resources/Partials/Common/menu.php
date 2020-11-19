@@ -33,7 +33,7 @@
                 <button type="button"
                 class="btn btn-link btn-block text-left text-secondary font-weight-bolder px-4 text-decoration-none"
                 data-toggle="modal"
-                data-target="#player-modal"><?=$player->getName()?></button>
+                data-target="#player-modal"><?=player()->getName()?></button>
             </span>
             <span class="dropdown-item p-0">
                 <?php # レポート ?>

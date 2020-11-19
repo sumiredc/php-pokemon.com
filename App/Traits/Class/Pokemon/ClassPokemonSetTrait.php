@@ -36,7 +36,7 @@ trait ClassPokemonSetTrait
     public function setPosition($position='friend')
     {
         // 入力制限
-        if(in_array($position, ['enemy', 'friend'], true)){
+        if(in_array($position, config('pokemon.position'), true)){
             $this->position = $position;
             // 味方の場合はIDを生成
             if($position === 'friend'){

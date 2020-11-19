@@ -25,15 +25,16 @@ class LearnMoveService extends Service
     protected $before_responses;
 
     /**
-    * @param Pokemon:object
+    * @param integer
     * @param before_response:array
     * @param before_messages:array
     * @param before_modals:array
     * @return void
     */
-    public function __construct($pokemon, $before_responses, $before_messages, $before_modals)
+    public function __construct($before_responses, $before_messages, $before_modals)
     {
-        $this->pokemon = $pokemon;
+        // へんしん状態を考慮してパーティーのポケモンへフォーカス
+        $this->pokemon = player()->getPartner(battle_state()->getOrder());
         $this->before_responses = unserializeObject($before_responses);
         $this->before_messages = $before_messages;
         $this->before_modals = unserializeObject($before_modals);
@@ -45,7 +46,7 @@ class LearnMoveService extends Service
     public function execute()
     {
         // 描画用ポケモンオブジェクトの作成
-        $this->tmp_pokemon = $this->createTmpPokemon();
+        $this->createTmpPokemon();
         // 技の置き換え
         $this->replaceMove();
         // レスポンスの引き継ぎ
@@ -62,32 +63,36 @@ class LearnMoveService extends Service
         );
     }
 
-    /**
-    * @return Pokomon:object
-    */
-    public function getTmpPokemon()
-    {
-        return $this->tmp_pokemon;
-    }
+    // /**
+    // * @return Pokomon:object
+    // */
+    // public function getTmpPokemon()
+    // {
+    //     return $this->tmp_pokemon;
+    // }
 
     /**
     * 表示用のポケモンオブジェクトを生成
-    * @return Pokemon:object
+    * @return void
     */
-    private function createTmpPokemon()
+    private function createTmpPokemon(): void
     {
         // へんしん状態の場合は返信オブジェクトを取得
-        $transform = getBattleState()->getTransform('friend');
-        if($transform){
-            $pokemon = clone $transform;
-        }else{
-            $pokemon = clone $this->pokemon;
-        }
+        // $transform = battle_state()->getTransform('friend');
+        // if($transform){
+        //     $pokemon = clone $transform;
+        // }else{
+        //     $pokemon = clone $this->pokemon;
+        // }
+        // へんしん状態を想定する
+        $pokemon = clone (battle_state()->getTransform('friend') ?? $this->pokemon);
         // クローンオブジェクトにレベルと残HPをセット
         $pokemon->setLevel(request('param.level'));
         $pokemon->setRemainingHp(request('param.hp'));
         $pokemon->setDefaultExp();
-        return $pokemon;
+        // 格納(第2引数でインスタンスを指定)
+        battle_state()->setBefore('friend', $pokemon);
+        // return $pokemon;
     }
 
     /**

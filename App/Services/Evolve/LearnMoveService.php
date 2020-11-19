@@ -20,16 +20,15 @@ class LearnMoveService extends Service
     protected $before_responses;
 
     /**
-    * @param parth:array
     * @param order:integer
     * @param before_response:array
     * @param before_messages:array
     * @param before_modals:array
     * @return void
     */
-    public function __construct($party, $order, $before_responses, $before_messages, $before_modals)
+    public function __construct($order, $before_responses, $before_messages, $before_modals)
     {
-        $this->pokemon = $party[$order];
+        $this->pokemon = player()->getParty()[$order];
         $this->before_responses = unserializeObject($before_responses);
         $this->before_messages = $before_messages;
         $this->before_modals = unserializeObject($before_modals);

@@ -17,6 +17,7 @@ var selectItemInit = function(){
         var option = $(this).find('option:selected');
         // 必要値の取得
         var item = option.data('item');
+        var price = option.data('price');
         var owned = option.data('owned');
         var max = option.data('max');
         // 計算機と個数選択をリセット
@@ -36,8 +37,10 @@ var selectItemInit = function(){
             break;
         }
         // 所有数をセット
-        $('#shop-' + form + '-item-name').text(item);
         $('#shop-' + form + '-item-owned').text(owned + ' 個');
+        // アイテム名・単価をセット
+        $('#shop-' + form + '-item-name').text(item);
+        $('#shop-' + form + '-item-price').text(price + ' 円');
     });
 }
 
@@ -56,7 +59,6 @@ var selectCountInit = function(){
         // 合計金額の算出
         var total = price * count;
         // 計算機に値をセット
-        $('#shop-' + form + '-item-price').text(price + ' 円');
         $('#shop-' + form + '-item-count').text(count + ' 個');
         $('#shop-' + form + '-total-price').text(total + ' 円');
         if(money < total){

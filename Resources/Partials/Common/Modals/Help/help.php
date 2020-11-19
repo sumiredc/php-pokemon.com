@@ -3,6 +3,8 @@ $collapses = [
     'about_session',
     'lose_data',
     'howto_battle',
+    'earn_money',
+    'select_pokemon',
 ];
 ?>
 <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-title" aria-hidden="true">
@@ -20,7 +22,7 @@ $collapses = [
                 <div class="accordion mb-3" id="help-accordion">
                     <div class="card">
                         <?php foreach($collapses as $num => $collapse): ?>
-                            <?php include($root_path.'/Resources/Partials/Common/Modals/Partials/Help/'.$collapse.'.php'); ?>
+                            <?php include($root_path.'/Resources/Partials/Common/Modals/Help/Partials/'.$collapse.'.php'); ?>
                         <?php endforeach; ?>
                     </div>
                 </div><?php # アコーディオン終了 ?>

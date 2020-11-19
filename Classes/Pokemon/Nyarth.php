@@ -7,6 +7,12 @@ class Nyarth extends Pokemon
 {
 
     /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 52;
+
+    /**
     * 正式名称
     * @var string(min:1 max:5)
     */
@@ -35,6 +41,18 @@ class Nyarth extends Pokemon
     * @var integer
     */
     protected $base_exp = 58;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 255;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 4.2;
 
     /**
     * レベルアップで覚える技

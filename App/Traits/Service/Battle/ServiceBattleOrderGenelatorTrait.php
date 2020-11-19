@@ -15,7 +15,10 @@ trait ServiceBattleOrderGenelatorTrait
     protected function orderMove(...$pokemons)
     {
         $results = [];
-        foreach($pokemons as list($atk, $def, $move)){
+        foreach($pokemons as list($atk_position, $def_position, $move)){
+            // positionから該当するポケモンを呼び出し
+            $atk = $atk_position();
+            $def = $def_position();
             // 優先度のセット
             $speed = $move->getPriority() * 1000000;
             // 素早さ実数値の加算
@@ -27,7 +30,7 @@ trait ServiceBattleOrderGenelatorTrait
                 $key = $speed + random_int(0, 9);
             }
             // 配列へセット
-            $results[$key] = [$atk, $def, $move];
+            $results[$key] = [$atk_position, $def_position, $move];
         }
         // 降順（行動が早い順）に並び替え
         krsort($results);
@@ -45,7 +48,10 @@ trait ServiceBattleOrderGenelatorTrait
     protected function orderSpeed(...$pokemons)
     {
         $results = [];
-        foreach($pokemons as list($atk, $def)){
+        foreach($pokemons as list($atk_position, $def_position)){
+            // positionから該当するポケモンを呼び出し
+            $atk = $atk_position();
+            $def = $def_position();
             // 素早さ実数値の加算
             $speed = $atk->getStats('Speed', true) * 10;
             // 乱数の生成(同速判定用)
@@ -55,7 +61,7 @@ trait ServiceBattleOrderGenelatorTrait
                 $key = $speed + random_int(0, 9);
             }
             // 配列へセット
-            $results[$key] = [$atk, $def];
+            $results[$key] = [$atk_position, $def_position];
         }
         // 降順（行動が早い順）に並び替え
         krsort($results);

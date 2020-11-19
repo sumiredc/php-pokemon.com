@@ -10,21 +10,16 @@ class CancelService extends Service
 {
 
     /**
-    * @var array
-    */
-    private $party;
-
-    /**
     * @var integer
     */
     private $order;
 
     /**
+    * @param order:integer
     * @return void
     */
-    public function __construct($party, $order)
+    public function __construct($order)
     {
-        $this->party = $party;
         $this->order = $order;
     }
 
@@ -34,7 +29,7 @@ class CancelService extends Service
     public function execute()
     {
         // 進化フラグを折る
-        $this->party[$this->order]
+        player()->getParty()[$this->order]
         ->setEvolveFlgFalse();
     }
 

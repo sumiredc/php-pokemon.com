@@ -5,6 +5,11 @@ require_once($root_path.'/Classes/Pokemon.php');
 // カメール
 class Kameil extends Pokemon
 {
+    /**
+    * ポケモンナンバー
+    * @var integer
+    */
+    protected $number = 8;
 
     /**
     * 正式名称
@@ -41,6 +46,18 @@ class Kameil extends Pokemon
     * @var integer
     */
     protected $base_exp = 142;
+
+    /**
+    * 捕捉率
+    * @var integer
+    */
+    protected $capture = 45;
+
+    /**
+    * 重さ
+    * @var float
+    */
+    protected $weight = 22.5;
 
     /**
     * レベルアップで覚える技

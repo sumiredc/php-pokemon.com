@@ -1,5 +1,5 @@
 <!-- Modal -->
-<?php $selectmove_pokemon = $controller->getPartner($modal['pokemon_id'], 'id'); ?>
+<?php $selectmove_pokemon = player()->getPartner($modal['pokemon_id'], 'id'); ?>
 <div class="modal fade" id="<?=$modal['id']?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$modal['id']?>-modal-title" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
