@@ -1,6 +1,5 @@
 <?php
 $root_path = __DIR__.'/../..';
-// require_once($root_path.'/Resources/Partials/Layouts/Head/battle.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -19,7 +18,7 @@ $root_path = __DIR__.'/../..';
     ?>
     <main>
         <div class="container">
-            <section>
+            <section id="battle-field">
                 <div class="row mt-3 mb-5 py-3">
                     <?php # 敵ポケモン詳細 ?>
                     <div class="col-6">
@@ -169,6 +168,8 @@ $root_path = __DIR__.'/../..';
     include($root_path.'/Resources/Partials/Common/Modals/Party/party.php');
     include($root_path.'/Resources/Partials/Common/Modals/Item/item.php');
     include($root_path.'/Resources/Partials/Common/Modals/Item/item-use-friend.php');
+    # テンプレートの読み込み
+    include($root_path.'/Resources/Partials//Layouts/Templates/template-effects.php');
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>

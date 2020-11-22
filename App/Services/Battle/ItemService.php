@@ -45,6 +45,12 @@ class ItemService extends Service
     protected $capture_flg = false;
 
     /**
+    * アイテム使用時のメッセージID
+    * @var string
+    */
+    protected $use_msg_id;
+
+    /**
     * @return void
     */
     public function __construct()
@@ -109,7 +115,12 @@ class ItemService extends Service
     */
     private function use(): void
     {
-        setMessage(player()->getName().'は、'.$this->item->getName().'を使った');
+        // 使用時のメッセージIDを発行
+        $this->use_msg_id = issueMsgId();
+        setMessage(
+            player()->getName().'は、'.$this->item->getName().'を使った',
+            $this->use_msg_id
+        );
         // アイテムの対象による分岐
         switch ($this->item->getTarget()) {
             // 味方ポケモン
@@ -120,9 +131,9 @@ class ItemService extends Service
             case 'enemy':
             if($this->item->getCategory() === 'ball'){
                 // 捕獲処理
-                $result = $this->useItemCapture($this->item);
-                // 捕獲フラグ
-                $this->capture_flg = $result;
+                $this->capture_flg = $this->useItemCapture($this->item);
+                // アイテム処理正常終了判定
+                $result = true;
             }else{
                 $result = $this->useItemToEnemy($this->item);
             }

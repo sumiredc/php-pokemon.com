@@ -98,11 +98,18 @@ var actionMsgBox = function(now){
                 );
                 break;
                 // ==============================================
-                // 状態異常処理 =================================
+                // へんしん処理 =================================
                 //
                 case 'transform':
                 await doAnimateTransform(
                     now.data('target'),
+                    now.data('param')
+                );
+                // ==============================================
+                // 捕獲処理 =====================================
+                //
+                case 'capture':
+                await doAnimateCapture(
                     now.data('param')
                 );
                 break;
@@ -243,7 +250,6 @@ var countHp = function(start, end){
 
 // ==============================================
 // 経験値バーの処理 =============================
-//
 /**
 * 経験値バーのアニメーションを実行
 * @param mixed param
@@ -284,7 +290,6 @@ var doAnimateExpBar = function(param){
 
 // ==============================================
 // レベルアップ処理 =============================
-//
 /**
 * 経験値バーのアニメーションを実行
 * @param json
@@ -327,7 +332,6 @@ var doAnimateLevelUp = function(param){
 
 // ==============================================
 // 状態異常処理 =================================
-//
 /**
 * 状態異常をセット
 * @param json
@@ -345,7 +349,6 @@ var doAnimateSa = function (target, param){
 
 // ==============================================
 // へんしん処理 =================================
-//
 /**
 * @param json
 * @return Promise
@@ -360,6 +363,126 @@ var doAnimateTransform = function (target, param){
         var src = img.attr('src').replace(before, param);
         img.attr('src', src);
         resolve();
+    });
+}
+
+// ==============================================
+// 捕獲処理 =====================================
+/**
+* @param integer
+* @return Promise
+**/
+var doAnimateCapture = function (param){
+    return new Promise ((resolve, reject) => {
+        // ボール画像を取得
+        var ball = $($('#template-effect-ball').html());
+        ball.attr('src', param.src);
+        $('#battle-field').prepend(ball);
+        // キーフレームの用意
+        var l = 25;
+        var t = 15;
+        var keyframes  = {
+            name: 'throw-ball'
+        };
+        for (var i = 0; i <= 100; i++) {
+            var left = l + (i / 2);                          // x座標
+            var top = t + 100 ** ((100 - i + 1) / 100) / 2;  // y座標(累乗で山なりにする)
+            var rotate = 3.6 * i * 1.5 - 180;                // 回転率
+            var per = i + '%';
+            keyframes[per] = {
+                transform: 'translateY(-50%) translateX(-50%) rotate(' + rotate + 'deg)',
+                left: left + '%',
+                top: top + '%'
+            };
+            // 最後の基準Y値は、揺れ処理用に合わせて-100%にする
+            if(i === 100){
+                keyframes[per].transform = 'translateY(-100%) translateX(-50%) rotate(' + rotate + 'deg)';
+            }
+        }
+        $.keyframe.define(keyframes);
+        // ボールスローアニメーション
+        ball.show();
+        ball.playKeyframe({
+            name: 'throw-ball',
+            duration: '750ms',
+            timingFunction: 'ease',
+            delay: '0s',
+            iterationCount: 1, // 繰り返し回数
+            direction: 'normal',
+            fillMode: 'forwards',
+            complete: async function(){
+                // ボールエフェクト
+                ball.hide();
+                $('#battle-field').append(
+                    $($('#template-effect-ball-open').html())
+                );
+                await timer(500);
+                // 相手ポケモンを非表示
+                ball.show();
+                $('img.capture-ball.open').hide();
+                $('#enemy-pokemon-image').hide();
+                // 揺れ演出
+                await shakeBall(ball, param.shake);
+                if(param.shake >= 4){
+                    // 捕獲成功
+                    await timer(500);
+                    resolve();
+                }else{
+                    // 捕獲失敗
+                    // ボールエフェクト
+                    ball.remove();
+                    $('#battle-field').append(
+                        $('#template-effect-ball-open').html()
+                    );
+                    // 相手ポケモンを表示
+                    $('#enemy-pokemon-image').show();
+                    await timer(500);
+                    // 非表示
+                    $('img.capture-ball.open').hide();
+                    await timer(500);
+                    resolve();
+                }
+            }
+        });
+    });
+}
+/**
+* 揺れアニメーション
+* @param ball:element
+* @param count:integer
+* @return Promise
+**/
+var shakeBall = function(ball, count){
+    return new Promise ((resolve, reject) => {
+        $.keyframe.define({
+            name: 'shake-ball',
+            '0%': {
+                transform: 'translateY(-100%) translateX(-50%) rotate(0deg)'
+            },
+            '30%': {
+                transform: 'translateY(-100%) translateX(-50%) rotate(45deg)'
+            },
+            '60%': {
+                transform: 'translateY(-100%) translateX(-50%) rotate(-45deg)'
+            },
+            '90%': {
+                transform: 'translateY(-100%) translateX(-50%) rotate(0deg)'
+            },
+        });
+        ball.playKeyframe({
+            name: 'shake-ball',
+            duration: '500ms',
+            timingFunction: 'ease',
+            delay: '500ms',
+            iterationCount: count, // 繰り返し回数
+            direction: 'normal',
+            fillMode: 'forwards',
+            complete: function(){
+                setTimeout(function() {
+                    resolve();
+                }, 500);
+            }
+        });
     });
 }
 
@@ -436,6 +559,17 @@ var doNotLastMsg = function(){
     $('.action-btn').each(function(){
         $(this).removeClass('btn-outline-success');
         $(this).addClass('btn-outline-light');
+    });
+}
+
+/**
+* タイマー
+* @param time:integer
+* @return Promise
+**/
+var timer = function(time){
+    return new Promise( async (resolve, reject) => {
+        setTimeout(() => { resolve(); }, time);
     });
 }
 

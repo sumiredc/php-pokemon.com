@@ -18,6 +18,15 @@ trait ServiceItemCaptureTrait
     {
         // 捕獲判定
         $result = $this->capture($ball);
+        // レスポンス
+        setResponse([
+            'action' => 'capture',
+            'param' => json_encode([
+                'shake' => $this->shake,
+                'src' => '/Assets/img/item/class/'.get_class($ball).'.png'
+            ])
+        ], $this->use_msg_id);
+        // 判定
         if($result){
             // 捕獲成功
             setResponse(true, 'result');
@@ -48,12 +57,11 @@ trait ServiceItemCaptureTrait
     */
     protected function capture(object $ball): bool
     {
-        // ボールを消費
-        player()->subItem(request('order'));
         // 1揺れ辺りの成功率（G）を算出
         $g = $this->calProbability($ball);
         // 4揺れ判定(0の可能性もある)
-        while (random_int(1, 65535) <= $g) {
+        // 0000〜FFFFの乱数を取る
+        while (random_int(0, 65535) <= $g) {
             $this->shake++;
             // 揺れが4以上になれば捕獲成功
             if($this->shake >= 4){
@@ -66,7 +74,7 @@ trait ServiceItemCaptureTrait
     }
 
     /**
-    * 1揺れ辺りの成功率計算処理（B）
+    * 1揺れ辺りの成功率計算処理（G）
     * 計算式
     * B = (((最大HP×3－現在HP×2)×捕捉率×捕獲補正)÷(最大HP×3))×状態補正
     * G = 65536÷(255÷B)^0.1875

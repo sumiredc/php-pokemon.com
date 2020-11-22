@@ -1,3 +1,22 @@
+// バトルフィールド
+#battle-field{
+    position: relative;
+}
+// 捕獲時のボール
+img.capture-ball{
+    position: absolute;
+    transform: translateY(-100%) translateX(-50%);
+    left: 75%;
+    top: 25%;
+    z-index: 2;
+}
+img.capture-ball.open{
+    transform: translateY(-50%) translateX(-50%);
+    width: 80px;
+    height: 80px;
+    left: 75%;
+    top: 15%;
+}
 // ランクアイコン
 i.rank-active{
     transform: rotate(-90deg);
@@ -13,7 +32,7 @@ tbody.first-border-top-none{
         }
     }
 }
-// イメージボタン
+// ボタン
 .action-img-btn{
     &:focus {
         outline: 0;
