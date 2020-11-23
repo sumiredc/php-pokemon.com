@@ -33,7 +33,6 @@ abstract class StatusAilment
 
     /**
     * カラーの取得
-    *
     * @return string
     */
     public function getColor()
