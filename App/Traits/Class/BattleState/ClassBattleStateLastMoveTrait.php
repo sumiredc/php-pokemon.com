@@ -19,6 +19,16 @@ trait ClassBattleStateLastMoveTrait
     }
 
     /**
+    * 最後に使用した技の初期化(対象指定)
+    * @param position:string::friend|enemy
+    * @return void
+    */
+    protected function resetLastMove(string $position): void
+    {
+        $this->last_moves[$position] = '';
+    }
+
+    /**
     * 最後に使用した技(クラス)の取得
     * @param position:string::friend|enemy|all
     * @return string

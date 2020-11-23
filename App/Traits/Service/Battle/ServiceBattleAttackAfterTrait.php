@@ -26,8 +26,6 @@ trait ServiceBattleAttackAfterTrait
             }
             // 状態異常チェック
             $this->checkAfterSa($atk);
-            // // ひんし状況の格納
-            // $this->fainting[$atk->getPosition()] = $this->checkFainting($atk);
             // ひんしチェック
             if(battle_state()->isFainting($atk_position)){
                 // どちらかがひんし状態になった
@@ -35,11 +33,6 @@ trait ServiceBattleAttackAfterTrait
             }
             // 状態変化チェック
             $this->checkAfterSc($atk, $def);
-            // // ひんし状況の格納
-            // $this->fainting = [
-            //     $atk->getPosition() => $this->checkFainting($atk),
-            //     $def->getPosition() => $this->checkFainting($def),
-            // ];
         } # endforeach
     }
 

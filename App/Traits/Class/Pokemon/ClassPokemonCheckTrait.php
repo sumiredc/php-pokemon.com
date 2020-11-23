@@ -104,4 +104,17 @@ trait ClassPokemonCheckTrait
         }
         return false;
     }
+
+    /**
+    * 戦闘可能状態の確認
+    * @return boolean
+    */
+    public function isFight()
+    {
+        if($this->remaining_hp <= 0){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

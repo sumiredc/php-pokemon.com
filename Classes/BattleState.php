@@ -46,12 +46,6 @@ class BattleState
     protected $before;
 
     /**
-    * ひんし状態の格納
-    * @var array
-    */
-    protected $fainting;
-
-    /**
     * 逃走を試みた回数
     * @var integer
     */
@@ -106,7 +100,6 @@ class BattleState
     public function init() :void
     {
         $this->run = 0;
-        $this->dafaultFainting();
         $this->dafaultFields();
         $this->dafaultTurnDamages();
         $this->dafaultTransforms();
@@ -120,6 +113,21 @@ class BattleState
     public function turnInit() :void
     {
         $this->dafaultTurnDamages();
+    }
+
+    /**
+    * 交換時の初期化
+    * @param position:string::friend|enemy
+    * @return void
+    */
+    public function changeInit(string $position) :void
+    {
+        // ターンダメージ、へんしん、最後に使った技をリセット
+        if(in_array($position, config('pokemon.position'), true)){
+            $this->resetTurnDamege($position);
+            $this->resetTransform($position);
+            $this->resetLastMove($position);
+        }
     }
 
     /**==================================================================

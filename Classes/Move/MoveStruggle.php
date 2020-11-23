@@ -22,7 +22,7 @@ class MoveStruggle extends Move
     * タイプ
     * @var string
     */
-    protected $type = 'TypeTypeNull';
+    protected $type = 'TypeNone';
 
     /**
     * 分類

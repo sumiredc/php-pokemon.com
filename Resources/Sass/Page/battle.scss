@@ -10,12 +10,19 @@ img.capture-ball{
     top: 25%;
     z-index: 2;
 }
-img.capture-ball.open{
+img.capture-ball-open{
+    position: absolute;
     transform: translateY(-50%) translateX(-50%);
     width: 80px;
     height: 80px;
-    left: 75%;
-    top: 15%;
+    &.enemy{
+        left: 75%;
+        top: 15%;
+    }
+    &.friend{
+        left: 25%;
+        top: 85%;
+    }
 }
 // ランクアイコン
 i.rank-active{

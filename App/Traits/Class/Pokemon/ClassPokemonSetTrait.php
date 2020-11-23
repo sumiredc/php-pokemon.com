@@ -246,11 +246,11 @@ trait ClassPokemonSetTrait
 
     /**
     * 状態異常をセットする
-    * @param string $class
-    * @param integer $turn|0
+    * @param class:string
+    * @param turn:integer
     * @return array
     */
-    public function setSa($class, $turn=0)
+    public function setSa(string $class, int $turn=0): array
     {
         // ひんしをセット
         if($class === 'SaFainting'){
@@ -266,20 +266,10 @@ trait ClassPokemonSetTrait
                 'message' => $this->getPrefixName().'は倒れた'
             ];
         }
-        // セットできる状態異常一覧
-        $sa_list = [
-            'SaBurn', 'SaFreeze', 'SaParalysis', 'SaPoison', 'SaBadPoison', 'SaSleep',
-        ];
-        // クラスチェック
-        if(!in_array($class, $sa_list, true) || !class_exists($class)){
-            // 不正なクラス
-            return [
-                'message' => '指定された状態異常は存在しません'
-            ];
-        }
+        // インスタンス化
+        $sa = new $class;
         // 状態異常にかかっていない場合
-        if(empty($this->sa)){
-            $sa = new $class;
+        if(empty($this->sa) && is_a($sa, 'StatusAilment')){
             // 状態異常をセット
             $this->sa[$class] = $turn;
             return [
@@ -287,13 +277,13 @@ trait ClassPokemonSetTrait
                 'sa' => $class
             ];
         }
+        // 既に同じ状態異常にかかっている
         if(isset($this->sa[$class])){
-            $sa = new $class;
-            // 既に同じ状態異常にかかっている
             return [
                 'message' => $sa->getSickedAlreadyMessage($this->getPrefixName())
             ];
         }
+        // 失敗
         return [
             'message' => 'しかし上手く決まらなかった'
         ];
@@ -313,15 +303,6 @@ trait ClassPokemonSetTrait
             $this->sc = $class;
             return;
         }
-        // // セットできる状態変化一覧
-        // $sc_list = [
-        //     'ScConfusion', 'ScFlinch', 'ScLeechSeed', 'ScBind', 'ScCharge', 'ScRecoil', 'ScRage', 'ScThrash', 'ScTransform'
-        // ];
-        // // クラスチェック
-        // if(!in_array($class, $sc_list, true) || !class_exists($class)){
-        //     // 不正なクラス
-        //     return '指定された状態変化は存在しません';
-        // }
         $sc = new $class;
         // 状態変化のセット確認
         if(isset($this->sc[$class])){

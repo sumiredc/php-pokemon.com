@@ -15,7 +15,7 @@
                 <?php foreach(player()->getParty() as $order => $party): ?>
                     <?php if(getPageName() === 'battle'): ?>
                         <?php # バトル画面用 ?>
-                        <div class="row py-2 bg-hover-light table-selected-row" data-order="<?=$order?>">
+                        <div class="row py-2 bg-hover-light table-selected-row" data-order="<?=$order?>" data-fight="<?=var_export($party->isFight(), true)?>">
                         <?php else: ?>
                             <?php # バトル画面以外 ?>
                             <div class="row py-2 bg-hover-light"

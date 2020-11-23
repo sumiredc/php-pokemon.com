@@ -18,7 +18,11 @@ trait ClassPokemonTransformTrait
         $this->move = $enemy->getMove(null, 'array');       # 覚えている技
         // へんしんでコピーされないステータス
         $this->level = $pokemon->getLevel();                # レベル
-        $this->sa = $pokemon->getSa();                      # 状態異常
+        if(empty($pokemon->getSa())){                       # 状態異常
+            $this->sa = [];
+        }else{
+            $this->sa = $pokemon->getSa();
+        }
         $this->sc = $pokemon->getSc();                      # 状態変化
         $this->position = $pokemon->getPosition();          # 立場
         $this->nickname = $pokemon->getNickName();          # ニックネーム

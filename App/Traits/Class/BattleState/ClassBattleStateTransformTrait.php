@@ -18,6 +18,16 @@ trait ClassBattleStateTransformTrait
     }
 
     /**
+    * へんしん状態の初期化(対象指定)
+    * @param position:string::friend|enemy
+    * @return void
+    */
+    protected function resetTransform(string $position): void
+    {
+        $this->transforms[$position] = null;
+    }
+
+    /**
     * へんしん状態の格納
     * @param pokemon:object::Pokemon
     * @param enemy:object::Pokemon

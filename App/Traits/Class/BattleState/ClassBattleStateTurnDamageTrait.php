@@ -24,6 +24,19 @@ trait ClassBattleStateTurnDamageTrait
     }
 
     /**
+    * ターンダメージの初期化(対象指定)
+    * @param position:string::friend|enemy
+    * @return void
+    */
+    protected function resetTurnDamege(string $position): void
+    {
+        $this->turn_damages[$position] = [
+            'physical' => 0,
+            'special' => 0,
+        ];
+    }
+
+    /**
     * ターンダメージの取得
     * @param position:string::friend|enemy
     * @param species:string::physical|special

@@ -37,11 +37,22 @@ var navMoveBoxInit = function(){
 * @return void
 **/
 var selectedTableInit = function(){
-    $('table.table-selected tbody tr').on('click', function(){
+    $('table.table-selected tbody tr, .table-selected > .table-selected-row').on('click', function(){
         var target = $(this).data("target");
         // 行の色替え
-        var table = $(this).parents('table.table-selected')
-        table.find('tbody tr')
+        var children;
+        if($(this).prop("tagName") === 'TR'){
+            // テーブル要素
+            children = 'tbody tr';
+        }else if($(this).hasClass('table-selected-row')){
+            // テーブル要素以外
+            children = '.table-selected-row';
+        }
+        // 子要素が指定されていなければ処理不要
+        if(!children){
+            return;
+        }
+        $(this).closest('.table-selected').find(children)
         .each(function(){
             $(this).removeClass('active');
         });

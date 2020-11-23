@@ -21,10 +21,10 @@ $root_path = __DIR__.'/../..';
             <section id="battle-field">
                 <div class="row mt-3 mb-5 py-3">
                     <?php # 敵ポケモン詳細 ?>
-                    <div class="col-6">
+                    <div class="col-6" id="enemy-pokemon-parameter">
                         <p>
-                            <span class="mr-2"><?=$before_enemy->getNickName()?></span>
-                            <span class="mr-2">Lv:<?=$before_enemy->getLevel()?></span>
+                            <span class="mr-2" id="name-enemy"><?=$before_enemy->getNickName()?></span>
+                            <span class="mr-2">Lv:<span id="level-enemy"><?=$before_enemy->getLevel()?></span></span>
                             <span class="mr-2 badge badge-<?=$before_enemy->getSaColor(false)?>" id="sa-enemy">
                                 <?=$before_enemy->getSaName(false)?>
                             </span>
@@ -64,10 +64,10 @@ $root_path = __DIR__.'/../..';
                         data-toggle="modal"
                         data-target="#friend-battle-state-modal" />
                     </div>
-                    <div class="col-6">
+                    <div class="col-6" id="friend-pokemon-parameter">
                         <p>
-                            <span class="mr-2"><?=$before_pokemon->getNickName()?></span>
-                            <span class="mr-2">Lv:<span id="level"><?=$before_pokemon->getLevel()?></span></span>
+                            <span class="mr-2" id="name-friend"><?=$before_pokemon->getNickName()?></span>
+                            <span class="mr-2">Lv:<span id="level-friend"><?=$before_pokemon->getLevel()?></span></span>
                             <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor()?>" id="sa-friend">
                                 <?=$before_pokemon->getSaName(false)?>
                             </span>
@@ -90,7 +90,7 @@ $root_path = __DIR__.'/../..';
                             </p>
                             <?php # 経験値バー ?>
                             <div class="progress" style="height:4px;">
-                                <div id="expbar"
+                                <div id="expbar-friend"
                                 class="progress-bar bg-primary"
                                 role="progressbar"
                                 style="width:<?=$before_pokemon->getPerCompNexExp()?>%;"
@@ -177,5 +177,7 @@ $root_path = __DIR__.'/../..';
     <script src="/Assets/js/Common/forget-move.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Battle/fight.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Battle/message.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Battle/party.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Battle/library-action.js" type="text/javascript" defer></script>
 </body>
 </html>

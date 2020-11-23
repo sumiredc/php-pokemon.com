@@ -55,14 +55,14 @@ class Mew extends Pokemon
         // [1, 'MoveFissure'],        # じわれ
         // [1, 'MoveHighJumpKick'],        # とびひざげり
         // [8, 'MoveHyperBeam'],           # はかいこうせん
-        [1, 'MovePsychic'],           # サイコキネシス
-        [6, 'MoveEarthquake'],       # じしん
-        [6, 'MoveThrash'],     # あばれる
+        // [1, 'MovePsychic'],           # サイコキネシス
+        // [6, 'MoveEarthquake'],       # じしん
+        // [6, 'MoveThrash'],     # あばれる
         // [1, 'MoveMist'],           # しろいきり
         // [1, 'MoveReflect'],           # リフレクター
-        // [1, 'MovePoisonPowder'],   # どくのこな
-        // [1, 'MoveSleepPowder'],    # ねむりごな
-        // [1, 'MoveThunderWave'],     # でんじは
+        [1, 'MovePoisonPowder'],   # どくのこな
+        [1, 'MoveSleepPowder'],    # ねむりごな
+        [1, 'MoveThunderWave'],     # でんじは
         // [1, 'MoveLightScreen'],           # ひかりのかべ
         // [10, 'MoveSandAttack'],          # すなかけ
         // [11, 'MoveWhirlwind'],           # ふきとばし
@@ -76,11 +76,11 @@ class Mew extends Pokemon
         // [1, 'MoveCounter'],             # カウンター
         // [1, 'MoveRage'],                # いかり
         // [1, 'MoveMirrorMove'],             # オウムがえし
-        [1, 'MoveMetronome'],             # ゆびをふる
+        // [1, 'MoveMetronome'],             # ゆびをふる
         [1, 'MoveTransform'],             # へんしん
         // [1, 'MoveCometPunch'],            # れんぞくパンチ
         // [1, 'MoveGrowth'],            # せいちょう
-        [1, 'MovePayDay'],            # ネコにこばん
+        // [1, 'MovePayDay'],            # ネコにこばん
         // [1, 'MoveFireSpin'],            # ほのおのうず
         // [1, 'MoveRage'],         # いかり
         // [1, 'MoveLowKick'],         # けたぐり

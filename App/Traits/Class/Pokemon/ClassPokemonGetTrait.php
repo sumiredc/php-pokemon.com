@@ -387,7 +387,7 @@ trait ClassPokemonGetTrait
     }
 
     /**
-    * 現在の状態異常（Sa）の名称を取得する
+    * 現在の状態異常（Sa）の色を取得する
     * @param fainting:boolean
     * @return string
     */

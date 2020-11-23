@@ -6,6 +6,7 @@ require_once($root_path.'/App/Services/Battle/StartService.php');
 require_once($root_path.'/App/Services/Battle/RunService.php');
 require_once($root_path.'/App/Services/Battle/FightService.php');
 require_once($root_path.'/App/Services/Battle/ItemService.php');
+require_once($root_path.'/App/Services/Battle/ChangeService.php');
 require_once($root_path.'/App/Services/Battle/LearnMoveService.php');
 // トレイト
 require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
@@ -78,6 +79,14 @@ class BattleController extends Controller
                 case 'item':
                 // サービス実行
                 $service = new ItemService;
+                $service->execute();
+                break;
+                /******************************************
+                * 交代
+                */
+                case 'change':
+                // サービス実行
+                $service = new ChangeService;
                 $service->execute();
                 break;
                 /******************************************

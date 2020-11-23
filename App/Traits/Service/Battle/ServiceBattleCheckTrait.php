@@ -33,31 +33,6 @@ trait ServiceBattleCheckTrait
             $pokemon->calRemainingPp('sub', 1, $num);
         }
         return true;
-
-        //※PPチェックはサービスへ移行※
-        //
-        // // ポケモンの技一覧
-        // $move_list = $pokemon->getMove(null, 'array');
-        // // 選択された技の添番を取得
-        // $num = array_search(
-        //     $move_class,
-        //     array_column($move_list, 'class'),
-        // );
-        // // PP残数の確認
-        // if($move_list[$num]['remaining'] > 0){
-        //     // チャージターンかつあばれる状態でなければPP減少
-        //     if(
-        //         !$this->checkChargeTurn($pokemon, $move) &&
-        //         !$pokemon->checkSc('ScThrash')
-        //     ){
-        //         // 残PPをマイナス1
-        //         $pokemon->calRemainingPp('sub', 1, $num);
-        //     }
-        //     return true;
-        // }else{
-        //     // 使用不可
-        //     return false;
-        // }
     }
 
     /**
@@ -143,9 +118,14 @@ trait ServiceBattleCheckTrait
             $pokemon->goSaTurn();
             if(empty($pokemon->getSa())){
                 // ねむり解除
+                $msg_id = issueMsgId();
                 setMessage(
-                    $sleep->getRecoveryMessage($pokemon->getPrefixName())
+                    $sleep->getRecoveryMessage($pokemon->getPrefixName()), $msg_id
                 );
+                setResponse([
+                    'action' => 'sa-release',
+                    'target' => $pokemon->getPosition()
+                ], $msg_id);
             }else{
                 // 行動失敗
                 setMessage(

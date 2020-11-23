@@ -4,10 +4,9 @@ trait ServiceBattleEnemyAiTrait
 {
     /**
     * 技の選択
-    *
     * @return string
     */
-    protected function aiSelectMove()
+    protected function aiSelectMove(): string
     {
         // 技の一覧を配列形式で取得
         $move_list = enemy()->getMove(null, 'array');
@@ -26,12 +25,23 @@ trait ServiceBattleEnemyAiTrait
                 $class,
                 array_column($move_list, 'class'),
             );
+            // もし技が見つからなければわるあがきを返却（念の為）
+            if($num === false){
+                return 'MoveStruggle';
+            }
         }else{
-            // ランダムで1つ返却
-            $num = array_rand($move_list);
+            // PPが残っている技を抽出
+            $move_list = array_filter($move_list, function($move){
+                return $move['remaining'];
+            });
+            if(empty($move_list)){
+                return 'MoveStruggle';
+            }else{
+                // ランダムで1つ取得
+                $num = array_rand($move_list);
+            }
         }
-        // 技を返却
-        return $move_list[$num];
+        // 技を返却（存在しなければわるあがきを返却※念の為）
+        return $move_list[$num]['class'] ?? 'MoveStruggle';
     }
-
 }

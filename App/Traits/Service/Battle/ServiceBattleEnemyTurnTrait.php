@@ -27,9 +27,10 @@ trait ServiceBattleEnemyTurnTrait
     private function enemyAttack(): bool
     {
         // AIで技選択
-        $ai = $this->aiSelectMove();
+        $move_class = $this->aiSelectMove();
         // 敵の技をインスタンス化
-        $move = new $ai['class']($ai['remaining'], $ai['correction']);
+        // $move = new $ai['class']($ai['remaining'], $ai['correction']);
+        $move = new $move_class;
         // 敵ポケモンの攻撃
         $this->attack(enemy(), friend(), $move);
         // ひんしチェック

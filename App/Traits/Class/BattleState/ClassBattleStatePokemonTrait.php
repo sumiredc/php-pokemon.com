@@ -91,13 +91,23 @@ trait ClassBattleStatePokemonTrait
 
     /**
     * 味方を格納
-    * @param object::Pokemon
+    * @param pokemon:object::Pokemon
+    * @param order_reset:boolean
     * @return void
     */
-    public function setFriend(object $pokemon): void
+    public function setFriend(object $pokemon, bool $order_reset=false): void
     {
         if($pokemon->getPosition() === 'friend'){
             $this->friend = $pokemon;
+        }else{
+            return;
+        }
+        // もし第２引数がtrueであればオーダーを再セット
+        if($order_reset){
+            $order = array_search($pokemon, player()->getParty());
+            if($order !== false){
+                $this->order = $order;
+            }
         }
     }
 
@@ -129,19 +139,7 @@ trait ClassBattleStatePokemonTrait
     /**==================================================================
     * ひんし状態関係処理
     ==================================================================**/
-
-    /**
-    * 瀕死状態の初期値
-    * @return void
-    */
-    protected function dafaultFainting(): void
-    {
-        $this->fainting = [
-            'friend' => false,
-            'enemy' => false,
-        ];
-    }
-
+    
     /**
     * 瀕死状態の確認
     * @param position:string
