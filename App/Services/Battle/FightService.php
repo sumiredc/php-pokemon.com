@@ -71,13 +71,13 @@ class FightService extends Service
         // 自ポケモンの技をインスタンス化
         if(request('param') === ''){
             // 技が未選択の場合は「わるあがき」を返却
-            return new Struggle;
+            return new MoveStruggle;
         }else{
             // 配列で取得
             $move = friend()->getMove(request('param'), 'array');
             // 残PPがなければ「わるあがき」を返却
             if($move['remaining'] <= 0){
-                return new Struggle;
+                return new MoveStruggle;
             }
             // 技オブジェクトを返却
             return new $move['class'];

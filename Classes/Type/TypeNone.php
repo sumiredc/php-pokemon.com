@@ -3,7 +3,7 @@ $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Type.php');
 
 // タイプ無し
-class TypeNull extends Type
+class TypeNone extends Type
 {
 
     /**
