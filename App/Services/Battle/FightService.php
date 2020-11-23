@@ -44,12 +44,10 @@ class FightService extends Service
     public function execute()
     {
         // 技取得
-        $p_move = $this->selectMove();
-        $e_move = $this->selectEnemyMove();
         // 行動順の取得
         $orders = $this->orderMove(
-            ['friend', 'enemy', $p_move],
-            ['enemy', 'friend', $e_move],
+            ['friend', 'enemy', $this->selectMove()],
+            ['enemy', 'friend', $this->selectEnemyMove()],
         );
         // 攻撃処理
         if($this->actionAttack($orders)){
@@ -92,9 +90,10 @@ class FightService extends Service
     private function selectEnemyMove()
     {
         // AIで技選択
-        $ai = $this->aiSelectMove();
+        $move = $this->aiSelectMove();
         // 敵の技をインスタンス化
-        return new $ai['class']($ai['remaining'], $ai['correction']);
+        // return new $ai['class']($ai['remaining'], $ai['correction']);
+        return new $move;
     }
 
     /**
@@ -110,11 +109,6 @@ class FightService extends Service
             $def = $def_position();
             // 攻撃ポケモンの怒り解除
             $atk->releaseSc('ScRage');
-            // // 先手が「へんしん」を使って成功した場合のオブジェクト置き換え処理
-            // if(!$def->getTransformFlg() && $def->checkSc('ScTransform')){
-            //     // 防御ポケモンのへんしんフラグがfalse且つ、状態変化で「へんしん」がセットされている場合
-            //     $def = battle_state()->getTransform($def->getPosition());
-            // }
             // 攻撃(返り値に使用した技を受け取る)
             $attack_move = $this->attack($atk, $def, $move);
             // 最後に使用した技を格納
@@ -123,16 +117,6 @@ class FightService extends Service
             if(getResponse('end')){
                 break;
             }
-            // // ひんしチェック
-            // $this->fainting = [
-            //     $atk->getPosition() => $this->checkFainting($atk),
-            //     $def->getPosition() => $this->checkFainting($def),
-            // ];
-            // どちらかがひんし状態なら処理終了
-            // if($this->fainting['friend'] || $this->fainting['enemy']){
-            //     $result = false;
-            //     break;
-            // }
             // ひんしチェック
             if(battle_state()->isFainting()){
                 $result = false;
