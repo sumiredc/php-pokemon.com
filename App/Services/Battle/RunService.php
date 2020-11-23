@@ -44,16 +44,35 @@ class RunService extends Service
         battle_state()->run();
         if($this->checkRun()){
             // 逃走成功
-            // setResponse(true, 'result');
             setMessage('上手く逃げ切れた');
             // バトル終了判定用メッセージの格納
             setEmptyMessage('battle-end');
         }else{
             // 逃走失敗
-            // setResponse(false, 'result');
-            setMessage('逃げられない！');
-            //相手のターン処理
-            $this->enemyTurn();
+            $msg_id = issueMsgId();
+            setMessage('逃げられない！', $msg_id);
+            if(friend()->isFight()){
+                // 相手のターン処理
+                $this->enemyTurn();
+            }else{
+                // ひんし状態での逃走失敗
+                setResponse([
+                    'toggle' => 'modal',
+                    'target' => '#party-modal'
+                ], $msg_id);
+                setModal([
+                    'id' => $msg_id,
+                    'existing_modal' => '#party-modal' # 既存モーダルの使用
+                ]);
+                // 強制表示モーダルを待機状態にする
+                waitForceModal($msg_id);
+                // 判定不要処理
+                battle_state()->judgeFalse();
+            }
+        }
+        // バトルポケモンが瀕死状態なら、強制モーダルを初期化
+        if(!friend()->isFight()){
+            initForceModal();
         }
     }
 

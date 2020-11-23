@@ -1,5 +1,5 @@
 <?php # 遠隔操作用隠しフォーム ?>
-<form action="" method="post" id="remote-form">
+<form method="post" id="remote-form">
     <input type="hidden" name="action" id="remote-form-action">
     <?php input_token(); ?>
 </form>
@@ -13,6 +13,15 @@
     </div>
 </div>
 <?php
+# 強制モーダルの読み込み
+if(isForceModal()){
+    $modal = getForceModal();
+    // 既存モーダルを使用しない場合は読み込み
+    if(isset($modal['modal'])){
+        include($root_path.'/Resources/Partials/'.getPageName(true).'/Modals/'.$modal['modal'].'.php');
+    }
+    echo '<input type="hidden" id="force-modal" value="'.($modal['existing_modal'] ?? '#'.$modal['id'].'-modal').'">';
+}
 # 共通モーダルの読み込み
 include($root_path.'/Resources/Partials/Common/Modals/Help/help.php');
 # テンプレートの読み込み

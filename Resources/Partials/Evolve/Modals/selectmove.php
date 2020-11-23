@@ -1,1 +1,1 @@
-<?php include($root_path.'/Resources/Partials/Common/Modals/selectmove.php'); ?>
+<?php include($root_path.'/Resources/Partials/Common/Modals/Partials/selectmove.php'); ?>

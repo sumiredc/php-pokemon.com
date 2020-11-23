@@ -40,3 +40,8 @@ if(getPageName() === 'battle'){
 */
 require_once($root_path.'/Resources/Pages/Head/'.getPageName().'.php');
 require_once(__DIR__.$route->template());
+
+/**
+* ページ読み込み後に行う処理
+*/
+setWaitForceModal(); # 待機中の強制モーダルを次ページ用に格納

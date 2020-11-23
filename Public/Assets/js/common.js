@@ -82,6 +82,19 @@ var dubbleModalInit = function() {
 }
 
 /**
+ * 強制モーダルの起動
+ * @function modal
+ */
+var showForceModalInit = function(){
+    $(document).ready(function() {
+        var force_modal = $('#force-modal');
+        if(force_modal.length){
+            $(force_modal.val()).modal('show');
+        }
+    });
+}
+
+/**
  * リモートフォームへのサブミット
  *
  * @function on show modal
@@ -107,4 +120,5 @@ jQuery(function($){
     selectedTableInit();
     dubbleModalInit();
     submitRemoteInit();
+    showForceModalInit();
 });

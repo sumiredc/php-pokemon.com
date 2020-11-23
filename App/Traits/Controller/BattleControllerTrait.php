@@ -7,22 +7,6 @@ trait BattleControllerTrait
 {
 
     /**
-    * 行動不可（チャージ中）の判定
-    *
-    * @return boolean (true:行動不可, false:行動可)
-    */
-    private function chargeNow()
-    {
-        $sc = friend()->getSc();
-        // チャージ中なら行動選択不可
-        if(isset($sc['ScCharge'])){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    /**
     * 引き継ぎ処理
     * @return void
     */
@@ -41,40 +25,127 @@ trait BattleControllerTrait
             // シリアライズでリンク切れしているため、味方のオブジェクトを再セット(へんしん状態を考慮)
             $order = battle_state()->getOrder();
             battle_state()->setFriend(
-                 battle_state()->getTransform('friend') ?? player()->getPartner($order)
+                battle_state()->getTransform('friend') ?? player()->getPartner($order)
             );
         }
     }
 
     /**
-    * バトル結果判定
+    * 次のターンへの判定処理
+    * @return boolean
+    */
+    private function nextTurn()
+    {
+        // アクション未選択であれば処理を行わない
+        if(!battle_state()->isJudge()){
+            return false;
+        }
+        // ひんしポケモンがでた場合の処理
+        if(battle_state()->isFainting()){
+            $this->judgment();
+            return false;
+        }
+        // チャージ中、反動有り、あばれる状態なら再度アクション実行
+        if(
+            $this->chargeNow() ||
+            friend()->checkSc('ScRecoil') ||
+            friend()->checkSc('ScThrash')
+        ){
+            $this->branch();
+            return true;
+        }else{
+            setMessage('行動を選択してください');
+            return false;
+        }
+    }
+
+    /**
+    * 行動不可（チャージ中）の判定
     *
+    * @return boolean (true:行動不可, false:行動可)
+    */
+    private function chargeNow()
+    {
+        $sc = friend()->getSc();
+        // チャージ中なら行動選択不可
+        if(isset($sc['ScCharge'])){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+    * バトル結果判定
     * @return void
     */
-    private function judgment()
+    private function judgment(): void
     {
-        // パーティー取得
+        // 味方がひんし状態になった
+        if(battle_state()->isFainting('friend')){
+            // 戦闘可能なパーティーを確認
+            if(player()->isFightParty()){
+                // パーティーが残っている
+                if(battle_state()->isFainting('enemy')){
+                    // 相手が瀕死状態 → バトル終了
+                    $this->judgmentWin();
+                }else{
+                    // 相手が瀕死状態ではない → ポケモン交代の確認
+                    $msg_id = issueMsgId();
+                    setMessage('次のポケモンを使いますか？', $msg_id);
+                    // レスポンスデータをセット
+                    setResponse([
+                        'toggle' => 'modal',
+                        'target' => '#'.$msg_id.'-modal'
+                    ], $msg_id);
+                    // モーダル用のレスポンスをセット
+                    setModal([
+                        'id' => $msg_id,
+                        'modal' => 'change-or-run'
+                    ]);
+                    waitForceModal($msg_id);
+                }
+            }else{
+                // 全滅（負け）
+                $this->judgmentLose();
+            }
+        }else if(battle_state()->isFainting('enemy')){
+            // 相手がひんし状態になった（味方はひんし状態ではない）
+            // 勝ち
+            $this->judgmentWin();
+        }
+    }
+
+    /**
+    * バトル結果（負け）
+    * @return void
+    */
+    private function judgmentLose()
+    {
+        // 全滅
+        setMessage(player()->getName().'は、目の前が真っ暗になった');
+        // バトル終了判定用メッセージの格納
+        setEmptyMessage('battle-end');
+    }
+
+    /**
+    * バトル結果（勝ち）
+    * @return void
+    */
+    private function judgmentWin()
+    {
+        // 経験値の計算
         $party = player()->getParty();
         $order = battle_state()->getOrder();
-        // 判定
-        if(
-            // $this->fainting['friend']
-            battle_state()->isFainting('friend')
-        ){
-            // 味方がひんし状態になった
-            setMessage('目の前が真っ暗になった');
-        }else{
-            // 相手がひんし状態になった（味方はひんし状態ではない）
-            // 経験値の計算
-            $exp = $this->calExp(friend(), enemy());
-            // 経験値をポケモンにセット
-            $party[$order]->setExp($exp);
-            // 努力値を獲得
-            $party[$order]->setEv(enemy()->getRewardEv());
-            // もしポケモンが「へんしん状態」であれば変更後の状態を引き継ぎ
-            if(friend()->checkSc('ScTransform')){
-                friend()->judgmentTransform($party[$order]);
-            }
+        // パーティー取得
+        $exp = $this->calExp(friend(), enemy());
+        // 経験値をポケモンにセット
+        $party[$order]->setExp($exp);
+        // 努力値を獲得
+        $party[$order]->setEv(enemy()->getRewardEv());
+        // もしポケモンが「へんしん状態」であれば変更後の状態を引き継ぎ
+        if(friend()->checkSc('ScTransform')){
+            friend()->judgmentTransform($party[$order]);
         }
         // 散らばったお金の取得
         $money = battle_state()->getMoney();
@@ -107,32 +178,6 @@ trait BattleControllerTrait
         $lm = (2 * $lose->getLevel() + 10) / ($lose->getLevel() + $win->getLevel() + 10);
         // 経験値の計算結果を整数（切り捨て）で返却
         return (int)($exp * $lm ** 2.5 + 1);
-    }
-
-    /**
-    * 次のターンへの判定処理
-    *
-    * @return boolean
-    */
-    private function nextTurn()
-    {
-        // ひんしポケモンがでた場合の処理
-        if(battle_state()->isFainting()){
-            $this->judgment();
-            return false;
-        }
-        // チャージ中、反動有り、あばれる状態なら再度アクション実行
-        if(
-            $this->chargeNow() ||
-            friend()->checkSc('ScRecoil') ||
-            friend()->checkSc('ScThrash')
-        ){
-            $this->branch();
-            return true;
-        }else{
-            setMessage('行動を選択してください');
-            return false;
-        }
     }
 
     /**

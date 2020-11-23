@@ -18,7 +18,6 @@ function issueMsgId()
 
 /**
 * 使用中のメッセージIDを格納
-*
 * @return string
 */
 function setUsedMessageId($arg)
@@ -68,7 +67,6 @@ function setMessage($msg, $param=null)
 
 /**
 * アニメーション用の自動メッセージの格納
-*
 * @param mixed $param
 * @return void
 */
@@ -81,7 +79,6 @@ function setAutoMessage($param)
 
 /**
 * 空メッセージの格納
-*
 * @param string $param
 * @return void
 */
@@ -105,7 +102,6 @@ function resetMessage()
 
 /**
 * メッセージの最初のキーを取得
-*
 * @return mixed
 */
 function getMessageFirstKey()
@@ -117,7 +113,6 @@ function getMessageFirstKey()
 
 /**
 * メッセージの最後のキーを取得
-*
 * @return mixed
 */
 function getMessageLastKey()
@@ -132,7 +127,6 @@ function getMessageLastKey()
 ==================================================================**/
 /**
 * 指定したレスポンステータの取得
-*
 * @param string|integer
 * @return mixed
 */
@@ -145,7 +139,6 @@ function getResponse($param)
 
 /**
 * レスポンステータの全取得
-*
 * @return array
 */
 function getResponses()
@@ -157,7 +150,6 @@ function getResponses()
 
 /**
 * レスポンステータの格納
-*
 * @param mixed $response
 * @param mixed $key
 * @return array
@@ -171,7 +163,6 @@ function setResponse($response, $key=null)
 
 /**
 * レスポンステータの初期化
-*
 * @return void
 */
 function resetResponse()
@@ -186,7 +177,6 @@ function resetResponse()
 ==================================================================**/
 /**
 * モーダルテータの取得
-*
 * @return array
 */
 function getModals()
@@ -198,7 +188,6 @@ function getModals()
 
 /**
 * モーダル用テータの格納
-*
 * @param array $param
 * @param boolean $merge
 * @return array
@@ -212,7 +201,6 @@ function setModal(array $param, bool $merge=false)
 
 /**
 * モーダル情報の初期化
-*
 * @return void
 */
 function resetModal()
@@ -220,4 +208,85 @@ function resetModal()
     global $global_responses;
     $name = __FUNCTION__;
     return $global_responses->$name();
+}
+
+
+/**
+* 強制表示モーダルの初期化
+* @return void
+*/
+function initForceModal()
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name();
+}
+
+/**
+* 強制表示モーダルのセット
+* @param id:string
+* @return boolean
+*/
+function setForceModal($id)
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name($id);
+}
+
+/**
+* 強制表示モーダルを待機状態にする（更新等された際に強制表示）
+* @param id:string
+* @return void
+*/
+function waitForceModal($id)
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name($id);
+}
+
+/**
+* 強制表示モーダルを待機状態にする（更新等された際に強制表示）
+* @param id:string
+* @return boolean
+*/
+function setWaitForceModal()
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name();
+}
+
+/**
+* 強制表示モーダルの存在確認
+* @return boolean
+*/
+function isForceModal()
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name();
+}
+
+/**
+* 強制表示モーダルの取得
+* @return array
+*/
+function getForceModal()
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name();
+}
+
+/**
+* 強制モーダルの確認
+* @return boolean
+*/
+function isForceModalTarget($target)
+{
+    global $global_responses;
+    $name = __FUNCTION__;
+    return $global_responses->$name($target);
 }

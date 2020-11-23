@@ -82,6 +82,12 @@ class BattleState
     private $money = [];
 
     /**
+    * 判定有無確認用フラグ
+    * @var boolean
+    */
+    private $judgement = true;
+
+    /**
     * @return void
     */
     public function __construct()
@@ -113,6 +119,7 @@ class BattleState
     public function turnInit() :void
     {
         $this->dafaultTurnDamages();
+        $this->judgeTrue();
     }
 
     /**
@@ -150,6 +157,37 @@ class BattleState
     public function getRun() :int
     {
         return $this->run;
+    }
+
+    /**==================================================================
+    * 判定確認用フラグ
+    ==================================================================**/
+
+    /**
+    * 判定不要にする処理
+    * @return void
+    */
+    public function judgeFalse(): void
+    {
+        $this->judgement = false;
+    }
+
+    /**
+    * 要判定にする処理
+    * @return void
+    */
+    public function judgeTrue(): void
+    {
+        $this->judgement = true;
+    }
+
+    /**
+    * 判定有無の確認
+    * @return boolean
+    */
+    public function isJudge(): bool
+    {
+        return $this->judgement;
     }
 
 }

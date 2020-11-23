@@ -40,6 +40,14 @@ class ChangeService extends Service
     */
     public function execute()
     {
+        // バリデーション
+        if(!$this->validation()){
+            return;
+        }
+        // バトルポケモンが瀕死状態なら、強制モーダルを初期化
+        if(!friend()->isFight()){
+            initForceModal();
+        }
         // 交代処理
         if($this->change()){
             // 相手のターン処理
@@ -48,10 +56,10 @@ class ChangeService extends Service
     }
 
     /**
-    * 交代処理
-    * @return boolean
+    * 検証
+    * @return bool
     */
-    private function change(): bool
+    private function validation(): bool
     {
         /**
         * 現在と同じ → false
@@ -66,6 +74,16 @@ class ChangeService extends Service
         ){
             return false;
         }
+        return true;
+    }
+
+    /**
+    * 交代処理
+    * @return void
+    */
+    private function change(): void
+    {
+        $partner = player()->getPartner(request('order'));
         // 現在のバトルポケモンのバトルステータス関係を初期化
         friend()->releaseBattleStatsAll();
         battle_state()->changeInit('friend');
@@ -97,7 +115,6 @@ class ChangeService extends Service
                 'exp' => $partner->getPerCompNexExp(),
             ])
         ], $msg_id2);
-        return true;
     }
 
 }

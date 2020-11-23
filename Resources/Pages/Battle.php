@@ -68,7 +68,7 @@ $root_path = __DIR__.'/../..';
                         <p>
                             <span class="mr-2" id="name-friend"><?=$before_pokemon->getNickName()?></span>
                             <span class="mr-2">Lv:<span id="level-friend"><?=$before_pokemon->getLevel()?></span></span>
-                            <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor()?>" id="sa-friend">
+                            <span class="mr-2 badge badge-<?=$before_pokemon->getSaColor(false)?>" id="sa-friend">
                                 <?=$before_pokemon->getSaName(false)?>
                             </span>
                         </p>
@@ -104,7 +104,7 @@ $root_path = __DIR__.'/../..';
             </section>
             <section class="position-relative bg-light p-3">
                 <div class="row align-items-center">
-                    <div class="col-12 col-sm-6">
+                    <div class="col-12 col-sm-6 mb-3 mb-sm-0">
                         <div class="message-box action-message-box border p-3">
                             <?php # メッセージエリア ?>
                             <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
@@ -123,7 +123,7 @@ $root_path = __DIR__.'/../..';
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <div class="row pt-3">
+                        <div class="row">
                             <div class="col-6 mb-2">
                                 <?php if(friend()->checkUsedMove()): ?>
                                     <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#select-move-modal" id="action-btn-fight">たたかう</button>
@@ -142,13 +142,7 @@ $root_path = __DIR__.'/../..';
                                 <button type="button" class="btn btn-outline-light btn-block action-btn" data-toggle="modal" data-target="#party-modal">ポケモン</button>
                             </div>
                             <div class="col-6">
-                                <form action="" method="post">
-                                    <div class="input-group mb-3">
-                                        <input type="hidden" name="action" value="run">
-                                        <input class="btn btn-outline-light btn-block action-btn" id="action-btn-run" type="submit" value="逃げる">
-                                        <?php input_token(); ?>
-                                    </div>
-                                </form>
+                                <button type="button" name="button" class="btn btn-outline-light btn-block action-btn" data-submit_remote="run">逃げる</button>
                             </div>
                         </div>
                     </div>
@@ -161,7 +155,9 @@ $root_path = __DIR__.'/../..';
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # モーダルの読み込み
     foreach($modals as $modal){
-        include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php');
+        if(isset($modal['modal'])){
+            include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php');
+        }
     }
     include($root_path.'/Resources/Partials/Battle/Modals/battle-states.php');
     include($root_path.'/Resources/Partials/Battle/Modals/move.php');

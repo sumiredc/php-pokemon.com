@@ -119,9 +119,12 @@ class BattleController extends Controller
                 * アクション未選択 or 実装されていないアクション
                 */
                 default:
+                // 判定不要処理
+                battle_state()->judgeFalse();
                 // もしどちらかが戦闘不能状態であればバトルを強制終了
                 if(
-                    battle_state()->isFainting()
+                    battle_state()->isFainting('enemy') ||
+                    !player()->isFightParty()
                 ){
                     $this->battleEnd();
                 }
@@ -149,12 +152,13 @@ class BattleController extends Controller
             $partner->releaseBattleStatsAll();
         }, $party);
         // セッション破棄
-        $keys = [
-            'battle_state', 'before_responses', 'before_messages', 'before_modals'
-        ];
-        foreach($keys as $key){
-            unset($_SESSION['__data'][$key]);
-        }
+        $_SESSION['__data'] = [];
+        // $keys = [
+        //     'battle_state', 'before_responses', 'before_messages', 'before_modals', 'force_modal'
+        // ];
+        // foreach($keys as $key){
+        //     unset($_SESSION['__data'][$key]);
+        // }
         // 進化フラグのチェック
         $evolves = array_filter($party, function($pokemon){
             return $pokemon->getEvolveFlg();

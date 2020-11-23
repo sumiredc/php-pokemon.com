@@ -26,6 +26,12 @@ class Response
     private $modals = [];
 
     /**
+    * 待機中の強制表示モーダルID
+    * @var string
+    */
+    private $wait_force_modal = '';
+
+    /**
     * メッセージIDの発行
     *
     * @return string
@@ -253,12 +259,11 @@ class Response
 
     /**
     * モーダル用テータの格納
-    *
-    * @param array $param
-    * @param boolean $merge
-    * @return array
+    * @param param:array
+    * @param merge:boolean
+    * @return void
     */
-    public function setModal(array $param, bool $merge=false)
+    public function setModal(array $param, bool $merge=false): void
     {
         if(empty($param)){
             // 空の場合はスキップ
@@ -270,7 +275,7 @@ class Response
         }else{
             // モーダル格納
             $this->modals[] = $param;
-            // モーダル起動時用のからメッセージをセット
+            // モーダル起動時用の空メッセージをセット
             $this->messages[] = ['', '', ''];
         }
     }
@@ -283,6 +288,97 @@ class Response
     public function resetModal()
     {
         $this->modals = [];
+    }
+
+    /**
+    * 強制表示モーダルの初期化
+    * @return void
+    */
+    public function initForceModal(): void
+    {
+        unset($_SESSION['__data']['force_modal']);
+    }
+
+    /**
+    * 強制表示モーダルのセット
+    * @param id:string
+    * @return boolean
+    */
+    public function setForceModal($id): bool
+    {
+        // 強制表示させるモーダルを取得
+        $key = array_search($id, array_column($this->modals, 'id'));
+        // 見つかればセッションへ格納
+        if($key !== false){
+            $_SESSION['__data']['force_modal'] = $this->modals[$key];
+            // ID重複回避のためモーダル内から取り除く
+            unset($this->modals[$key]);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    * 強制表示モーダルを待機状態にする（更新等された際に強制表示）
+    * @param id:string
+    * @return void
+    */
+    public function waitForceModal($id): void
+    {
+        $this->wait_force_modal = $id;
+    }
+
+    /**
+    * 強制表示モーダルを待機状態にする（更新等された際に強制表示）
+    * @param id:string
+    * @return boolean
+    */
+    public function setWaitForceModal(): bool
+    {
+        // 待機中の強制表示モーダルがあれば、セッションへ格納
+        if($this->wait_force_modal){
+            $this->setForceModal($this->wait_force_modal);
+            $this->wait_force_modal = '';
+            return true;
+        }
+        // 待機中なし
+        return false;
+    }
+
+    /**
+    * 強制表示モーダルの存在確認
+    * @return boolean
+    */
+    public function isForceModal(): bool
+    {
+        if(isset($_SESSION['__data']['force_modal'])){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+    * 強制表示モーダルの取得
+    * @return array
+    */
+    public function getForceModal(): array
+    {
+        return $_SESSION['__data']['force_modal'] ?? [];
+    }
+
+    /**
+    * 強制表示モーダルの確認
+    * @return boolean
+    */
+    public function isForceModalTarget($target): bool
+    {
+        if(
+            isset($_SESSION['__data']['force_modal']['existing_modal']) &&
+            $_SESSION['__data']['force_modal']['existing_modal'] === $target
+        ){
+            return true;
+        }
+        return false;
     }
 
 }

@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="party-modal" tabindex="-1" role="dialog" aria-labelledby="party-modal-title" aria-hidden="true">
+<?php $static = isForceModalTarget('#party-modal'); ?>
+<div class="modal fade" id="party-modal" tabindex="-1" role="dialog" aria-labelledby="party-modal-title" aria-hidden="true" <?php if($static) echo 'data-keyboard="false" data-backdrop="static"'; ?>>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,9 +8,11 @@
                     <img src="/Assets/img/icon/pokemon.png" alt="ポケモン" />
                     ポケモン
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <?php if(!$static): ?>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                <?php endif; ?>
             </div>
             <div class="modal-body table-selected py-0" data-list="party">
                 <?php foreach(player()->getParty() as $order => $party): ?>

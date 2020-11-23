@@ -70,6 +70,7 @@ class InitialController extends Controller
             // ローカルのみの分岐
             if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
                 // $pokemon = new $class(15);
+                // player()->setParty(new HitokageTest(2));
             }
             $pokemon->setPosition();
             player()->setParty($pokemon);
