@@ -86,7 +86,7 @@ class HomeController extends Controller
                 */
                 case 'battle':
                 // バトル開始可能な状態かを確認
-                if(!$this->checkBattleStart()){
+                if(!player()->isFightParty()){
                     setMessage('バトルに参加できるポケモンがいません');
                     break;
                 }

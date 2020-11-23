@@ -57,6 +57,26 @@ trait ClassPlayerPartyTrait
     }
 
     /**
+    * パーティー内に戦えるポケモンがいるかを確認
+    * @param orders:array
+    * @return boolean
+    */
+    public function isFightParty(): bool
+    {
+        // 戦えるポケモンだけを抽出
+        $party = array_filter($this->party, function($partner){
+            return $partner->isFight();
+        });
+        if(empty($party)){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    // 単体
+
+    /**
     * パーティーから指定したポケモンを取得
     * @param param:mixed
     * @param judge:string::order|id

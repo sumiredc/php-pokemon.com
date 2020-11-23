@@ -6,21 +6,21 @@
 trait HomeControllerTrait
 {
 
-    /**
-    * 戦闘に参加するポケモンが存在しているかの確認
-    * @return boolean
-    */
-    protected function checkBattleStart(): bool
-    {
-        $orders = array_filter(player()->getParty(), function($partner){
-            return $partner->getRemainingHp() > 0;
-        });
-        if(empty($orders)){
-            return false;
-        }else{
-            return true;
-        }
-    }
+    // /**
+    // * 戦闘に参加するポケモンが存在しているかの確認
+    // * @return boolean
+    // */
+    // protected function checkBattleStart(): bool
+    // {
+    //     $orders = array_filter(player()->getParty(), function($partner){
+    //         return $partner->isFight();
+    //     });
+    //     if(empty($orders)){
+    //         return false;
+    //     }else{
+    //         return true;
+    //     }
+    // }
 
     /**
     * ショップ情報の取得

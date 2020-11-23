@@ -72,12 +72,12 @@ trait ClassBattleStatePokemonTrait
     public function setFightPokemonOrder(): object
     {
         $orders = array_filter(player()->getParty(), function($partner){
-            return $partner->getRemainingHp() > 0;
+            return $partner->isFight();
         });
         // プロパティへ格納
         $this->order = array_key_first($orders);
         // 選出されたポケモンを取得
-        return player()->getParty()[$this->order];
+        return player()->getPartner($this->order);
     }
 
     /**
@@ -139,7 +139,7 @@ trait ClassBattleStatePokemonTrait
     /**==================================================================
     * ひんし状態関係処理
     ==================================================================**/
-    
+
     /**
     * 瀕死状態の確認
     * @param position:string
