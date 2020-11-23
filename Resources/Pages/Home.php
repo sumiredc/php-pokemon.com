@@ -65,5 +65,6 @@ $root_path = __DIR__.'/../..';
     ?>
     <script src="/Assets/js/Common/item.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Home/shop.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Home/party.js" type="text/javascript" defer></script>
 </body>
 </html>

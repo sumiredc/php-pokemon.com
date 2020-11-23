@@ -425,7 +425,7 @@ var doAnimateCapture = function (param){
                 await shakeBall(ball, param.shake);
                 if(param.shake >= 4){
                     // 捕獲成功
-                    await timer(500);
+                    await timer(1000);
                     resolve();
                 }else{
                     // 捕獲失敗
@@ -459,19 +459,19 @@ var shakeBall = function(ball, count){
             '0%': {
                 transform: 'translateY(-100%) translateX(-50%) rotate(0deg)'
             },
-            '30%': {
+            '20%': {
                 transform: 'translateY(-100%) translateX(-50%) rotate(45deg)'
             },
-            '60%': {
+            '40%': {
                 transform: 'translateY(-100%) translateX(-50%) rotate(-45deg)'
             },
-            '90%': {
+            '60%': {
                 transform: 'translateY(-100%) translateX(-50%) rotate(0deg)'
             },
         });
         ball.playKeyframe({
             name: 'shake-ball',
-            duration: '500ms',
+            duration: '1000ms',
             timingFunction: 'ease',
             delay: '500ms',
             iterationCount: count, // 繰り返し回数

@@ -11,9 +11,19 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body table-selected py-0" data-list="party">
                 <?php foreach(player()->getParty() as $order => $party): ?>
-                    <div class="row bg-hover-light" data-toggle="modal" data-dubble_modal="true" data-target="#pokemon<?=$order?>-details-modal">
+                    <?php if(getPageName() === 'battle'): ?>
+                        <?php # バトル画面用 ?>
+                        <div class="row py-2 bg-hover-light table-selected-row" data-order="<?=$order?>">
+                        <?php else: ?>
+                            <?php # バトル画面以外 ?>
+                            <div class="row py-2 bg-hover-light"
+                            data-toggle="modal"
+                            data-dubble_modal="true"
+                            data-target="#pokemon<?=$order?>-details-modal"
+                            data-order="<?=$order?>">
+                        <?php endif; ?>
                         <div class="col-3 text-center">
                             <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party->getName()?>">
                         </div>
@@ -46,9 +56,41 @@
                             </div>
                         </div>
                     </div>
-                    <?php if(array_key_last(player()->getParty()) !== $order) echo '<hr>'; ?>
                 <?php endforeach; ?>
             </div>
+            <?php # フッター（ホーム画面のみ） ?>
+            <?php if(getPageName() === 'home'): ?>
+                <div class="modal-footer">
+                    <form id="party-order-sort-form" method="post">
+                        <input type="hidden" name="action" value="sort_party">
+                        <input type="hidden" name="orders" value=''>
+                        <?php input_token(); ?>
+                        <button type="submit" class="btn btn-sm btn-secondary" disabled>並び替え</button>
+                    </form>
+                </div>
+            <?php endif; ?>
+            <?php # フッター（バトル画面） ?>
+            <?php if(getPageName() === 'battle'): ?>
+                <div class="modal-footer">
+                    <?php foreach(player()->getParty() as $order => $party): ?>
+                        <button class="btn btn-sm btn-success"
+                        data-action="details"
+                        data-toggle="modal"
+                        data-dubble_modal="true"
+                        data-target="#pokemon<?=$order?>-details-modal"
+                        data-order="<?=$order?>"
+                        style="display:none;">
+                        様子を見る</button>
+                    <?php endforeach; ?>
+                    <button class="btn btn-sm btn-secondary" data-btn="default" data-action="details" disabled>様子を見る</button>
+                    <form id="partner-change-form" method="post">
+                        <?php input_token(); ?>
+                        <input type="hidden" name="action" value="change">
+                        <input type="hidden" name="order">
+                        <button type="submit" class="btn btn-sm btn-secondary" data-selected="<?=battle_state()->getOrder()?>" disabled>入れ替える</button>
+                    </form>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

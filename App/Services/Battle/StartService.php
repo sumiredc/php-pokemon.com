@@ -9,11 +9,6 @@ require_once($root_path.'/App/Services/Service.php');
 class StartService extends Service
 {
 
-    // /**
-    // * @var object Pokemon
-    // */
-    // protected $enemy;
-
     /**
     * @return void
     */

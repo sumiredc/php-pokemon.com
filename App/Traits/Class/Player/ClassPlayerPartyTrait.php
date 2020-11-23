@@ -35,6 +35,28 @@ trait ClassPlayerPartyTrait
     }
 
     /**
+    * パーティーの並び替え
+    * @param orders:array
+    * @return boolean
+    */
+    public function sortParty($orders): bool
+    {
+        // 並び順と現在のポケモン番号を比較
+        if(
+            array_diff(array_keys($this->party), $orders) ||   # 差分チェック
+            count($this->party) !== count($orders)              # 数チェック
+        ){
+            return false;
+        }
+        // 並び替え後のパーティーを生成
+        $this->party = array_map(function($order){
+            return $this->party[$order];
+        }, $orders);
+        // 結果を返却
+        return true;
+    }
+
+    /**
     * パーティーから指定したポケモンを取得
     * @param param:mixed
     * @param judge:string::order|id

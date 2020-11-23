@@ -5,6 +5,7 @@ require_once($root_path.'/App/Controllers/Controller.php');
 require_once($root_path.'/App/Services/Home/ItemService.php');
 require_once($root_path.'/App/Services/Home/RecoveryService.php');
 require_once($root_path.'/App/Services/Home/ShopService.php');
+require_once($root_path.'/App/Services/Home/SortPartyService.php');
 // トレイト
 require_once($root_path.'/App/Traits/Controller/HomeControllerTrait.php');
 
@@ -71,6 +72,13 @@ class HomeController extends Controller
                 */
                 case 'shop':
                 $service = new ShopService;
+                $service->execute();
+                break;
+                /******************************************
+                * ポケモンの並び替え
+                */
+                case 'sort_party':
+                $service = new SortPartyService;
                 $service->execute();
                 break;
                 /******************************************

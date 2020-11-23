@@ -89,13 +89,26 @@ pre{
     }
 }
 // テーブル関係
-table.table-selected {
+.table-selected {
     tbody{
         tr{
             cursor: pointer;
             &.active{
                 background-color: rgba(0,0,0,.075);
             }
+        }
+    }
+    > .table-selected-row{
+        &.active{
+            background-color: rgba(0,0,0,.075);
+        }
+    }
+}
+// パーティー一覧
+[data-list="party"]{
+    > .row{
+        &:not(:last-child){
+            border-bottom: 1px solid rgba(0,0,0,.075);
         }
     }
 }
