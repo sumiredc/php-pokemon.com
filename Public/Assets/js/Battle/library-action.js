@@ -325,10 +325,9 @@ window.actionLib.doAnimateCapture = function (param){
             complete: async function(){
                 // ボールエフェクト
                 ball.hide();
-                $('#battle-field').append(
-                    $($('#template-effect-ball-open').html())
-                    .addClass('enemy')
-                );
+                var ball_open = $($('#template-effect-ball-open').html());
+                ball_open.addClass('enemy');
+                $('#battle-field').append(ball_open);
                 await timer(500);
                 // 相手ポケモンを非表示
                 ball.show();
@@ -344,10 +343,9 @@ window.actionLib.doAnimateCapture = function (param){
                     // 捕獲失敗
                     // ボールエフェクト
                     ball.remove();
-                    $('#battle-field').append(
-                        $('#template-effect-ball-open').html()
-                        .addClass('enemy')
-                    );
+                    ball_open = $('#template-effect-ball-open').html();
+                    ball_open.addClass('enemy');
+                    $('#battle-field').append(ball_open);
                     // 相手ポケモンを表示
                     $('#enemy-pokemon-image').show();
                     await timer(500);

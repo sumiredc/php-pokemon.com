@@ -13,8 +13,8 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
 
 /**
- * 交代
- */
+* 交代
+*/
 class ChangeService extends Service
 {
 
@@ -44,12 +44,15 @@ class ChangeService extends Service
         if(!$this->validation()){
             return;
         }
-        // バトルポケモンが瀕死状態なら、強制モーダルを初期化
+        // 瀕死チェック後に交代処理を行う（friendのポケモンが入れ替わるため）
         if(!friend()->isFight()){
+            // 瀕死状態からの交代
+            $this->change();
+            // モーダル初期化
             initForceModal();
-        }
-        // 交代処理
-        if($this->change()){
+        }else{
+            // 通常の交代処理
+            $this->change();
             // 相手のターン処理
             $this->enemyTurn();
         }
