@@ -13,12 +13,16 @@ var selectForgetMoveInit = function(){
         // 諦めるボタンの無効化切り替え
         if($(this).hasClass('new-move')){
             $(modal).find(".btn-abandon-move")
+            .removeClass('btn-disabled')
+            .addClass('btn-secondary')
             .prop('disabled', false);
             $(modal).find('.btn-forget-move')
             .hide();
             return;
         }else{
             $(modal).find(".btn-abandon-move")
+            .removeClass('btn-secondary')
+            .addClass('btn-disabled')
             .prop('disabled', true);
         }
         // 技名を取得
@@ -43,7 +47,7 @@ var submitForgetMoveInit = function(){
         var data = {
             id: $(this).data('msg_id'),
             forget: $(modal).find('.forget-selectmove.active').data('num'),
-            level: $('#level').text(),
+            level: $('#level-friend').text(),
             hp: $('#hpbar-friend').attr('aria-valuenow')
         };
         // フォームを用意

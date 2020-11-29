@@ -37,7 +37,7 @@ var navMoveBoxInit = function(){
 * @return void
 **/
 var selectedTableInit = function(){
-    $('table.table-selected tbody tr, .table-selected > .table-selected-row').on('click', function(){
+    $('table.table-selected tbody tr, .table-selected .table-selected-row').on('click', function(){
         var target = $(this).data("target");
         // 行の色替え
         var children;
@@ -121,4 +121,6 @@ jQuery(function($){
     dubbleModalInit();
     submitRemoteInit();
     showForceModalInit();
+    // テンプレート関係の処理
+    $('[data-toggle="popover"]').popover();
 });

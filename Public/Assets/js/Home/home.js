@@ -1,19 +1,17 @@
+
 /*----------------------------------------------------------
 // 初期化する関数
 ----------------------------------------------------------*/
-
 /**
-* 技テーブルクリック時の関数
-* @function click
+* フィールド選択
+* @function submit
 * @return void
 **/
-var clickMoveInit = function(){
-    $('.move-table-row > [data-move!="details"]').on('click', function(){
-        var key = $(this).parent().data('key');
-        // 技をフォームへセット
-        $('#fight-form-param').val(key);
-        // サブミット実行
-        $('#fight-form').submit();
+var selectFieldInit = function(){
+    $('form#select-field-form [name="field"]').on('change', function(){
+        var field = $(this).val();
+        $('#select-filed-image').attr('src', '/Assets/img/fields/' + field + '.png')
+        .show();
     });
 }
 
@@ -21,9 +19,10 @@ var clickMoveInit = function(){
 // 処理内で呼び出す関数
 ----------------------------------------------------------*/
 
+
 /*----------------------------------------------------------
 // 初期化
 ----------------------------------------------------------*/
 jQuery(function($){
-    clickMoveInit();
+    selectFieldInit();
 });

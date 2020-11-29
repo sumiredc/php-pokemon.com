@@ -20,19 +20,19 @@ var selectPartnerInit = function(){
         ){
             // 入れ替えボタンを有効化してinputに番号をセット
             change_btn.prop('disabled', false)
-            .removeClass('btn-secondary')
-            .addClass('btn-primary');
+            .removeClass('btn-disabled')
+            .addClass('btn-php-dark');
             $('#partner-change-form [name="order"]').val(order);
         }else{
             // 入れ替えボタンを無効化して番号をリセット
             change_btn.prop('disabled', true)
-            .removeClass('btn-primary')
-            .addClass('btn-secondary');
+            .removeClass('btn-php-dark')
+            .addClass('btn-disabled');
             $('#partner-change-form [name="order"]').val('');
         }
         // 「様子を見る」の判定
         $('button[data-action="details"]').hide();
-        $('button[data-action="details"][data-target="#pokemon' + order + '-details-modal"]').show();
+        $('button[data-action="details"][data-order="' + order + '"]').show();
     });
 }
 
@@ -53,8 +53,8 @@ var showPartyModalInit = function(){
         .show();
         // 「入れ替える」を初期化
         $('#partner-change-form button[type="submit"]').prop('disabled', true)
-        .removeClass('btn-primary')
-        .addClass('btn-secondary');
+        .removeClass('btn-php-dark')
+        .addClass('btn-disabled');
     });
 }
 

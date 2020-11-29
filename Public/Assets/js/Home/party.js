@@ -13,8 +13,8 @@ var sortPartyInit = function(){
         update: function(){
             var submit = $('form#party-order-sort-form button[type="submit"]');
             submit.prop('disabled', false)
-            .removeClass('btn-secondary')
-            .addClass('btn-primary');
+            .removeClass('btn-disabled')
+            .addClass('btn-php-dark');
         }
     });
 }
