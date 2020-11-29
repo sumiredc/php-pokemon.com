@@ -17,7 +17,7 @@
                 <nav class="nav nav-pills nav-justified btn-group mb-3" id="item-modal-tab">
                     <?php $cnt = 0; ?>
                     <?php foreach($bag as $category => $items): ?>
-                        <a class="btn btn-outline-secondary nav-item nav-link <?php if(!$cnt) echo 'active'; ?>" id="item-modal-<?=$category?>-tab" data-toggle="tab" href="#item-modal-<?=$category?>" role="tab" aria-controls="item-modal-<?=$category?>" aria-selected="true">
+                        <a class="btn btn-outline-php-dark nav-item nav-link <?php if(!$cnt) echo 'active'; ?>" id="item-modal-<?=$category?>-tab" data-toggle="tab" href="#item-modal-<?=$category?>" role="tab" aria-controls="item-modal-<?=$category?>" aria-selected="true">
                             <img src="/Assets/img/item/category/<?=$category?>.png" alt="<?=transJp($category, 'item');?>">
                         </a>
                         <?php $cnt++; ?>
@@ -38,17 +38,17 @@
                                             <?php input_token(); ?>
                                             <input type="hidden" name="action" value="item">
                                             <input type="hidden" name="order">
-                                            <button type="submit" class="btn btn-sm btn-primary">使う</button>
+                                            <button type="submit" class="btn btn-sm btn-php-dark">使う</button>
                                         </form>
                                         <?php # 敵ポケモン対象のアイテム使用 ?>
                                         <form method="post" data-button="use" data-item_target="enemy" style="display:none">
                                             <?php input_token(); ?>
                                             <input type="hidden" name="action" value="item">
                                             <input type="hidden" name="order">
-                                            <button type="submit" class="btn btn-sm btn-primary">使う</button>
+                                            <button type="submit" class="btn btn-sm btn-php-dark">使う</button>
                                         </form>
                                         <?php # 味方ポケモン対象のアイテム使用 ?>
-                                        <button type="button" class="btn btn-sm btn-primary" data-button="use" data-item_target="friend" data-toggle="modal" data-target="#item-use-friend-modal" style="display:none">使う</button>
+                                        <button type="button" class="btn btn-sm btn-php-dark" data-button="use" data-item_target="friend" data-toggle="modal" data-target="#item-use-friend-modal" style="display:none">使う</button>
                                         <?php # 捨てる ?>
                                         <?php if(getPageName() !== 'battle'): ?>
                                             <button type="button" class="btn btn-sm btn-danger" data-button="trash" data-toggle="modal" data-target="#item-trash-modal" style="display:none">捨てる</button>

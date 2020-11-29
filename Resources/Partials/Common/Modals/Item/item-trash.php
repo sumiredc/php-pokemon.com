@@ -6,8 +6,7 @@
                 <div class="modal-body">
                     <p><span class="font-weight-bolder" id="item-trash-name"></span>をいくつ捨てますか？</p>
                     <div class="form-group">
-                        <select class="form-control" name="count">
-                        </select>
+                        <select class="form-control" name="count"></select>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -21,7 +21,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-10">
-                                    <div class="progress" style="height:4px;">
+                                    <div class="progress rounded-pill bg-gray" style="height:4px;">
                                         <div class="progress-bar bg-<?=$party->getRemainingHp('color')?>"
                                             role="progressbar"
                                             style="width:<?=$party->getRemainingHp('per')?>%;"
