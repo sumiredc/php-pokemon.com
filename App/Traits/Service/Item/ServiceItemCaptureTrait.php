@@ -19,7 +19,7 @@ trait ServiceItemCaptureTrait
         // 捕獲判定
         $result = $this->capture($ball);
         // レスポンス
-        setResponse([
+        response()->setResponse([
             'action' => 'capture',
             'param' => json_encode([
                 'shake' => $this->shake,
@@ -29,13 +29,13 @@ trait ServiceItemCaptureTrait
         // 判定
         if($result){
             // 捕獲成功
-            setResponse(true, 'result');
-            setMessage('やったー！'.enemy()->getName().'を捕まえた！');
+            response()->setResponse(true, 'result');
+            response()->setMessage('やったー！'.enemy()->getName().'を捕まえた！');
             // 捕まえたポケモンを登録
             $this->storePokemon();
         }else{
             // 捕獲失敗
-            setResponse(false, 'result');
+            response()->setResponse(false, 'result');
             // 揺れ回数に合わせてメッセージ分岐
             $msg = '残念、ポケモンがボールから出てしまった';
             if($this->shake === 2){
@@ -44,7 +44,7 @@ trait ServiceItemCaptureTrait
             if($this->shake === 3){
                 $msg = '惜しい、あとちょっとのところだったのに';
             }
-            setMessage($msg);
+            response()->setMessage($msg);
         }
         // 結果を返却
         return $result;
@@ -57,6 +57,11 @@ trait ServiceItemCaptureTrait
     */
     protected function capture(object $ball): bool
     {
+        if(get_class($ball) === 'ItemMasterBall'){
+            // マスターボール専用処理
+            $this->shake = 4;
+            return true;
+        }
         // 1揺れ辺りの成功率（G）を算出
         $g = $this->calProbability($ball);
         // 4揺れ判定(0の可能性もある)
@@ -124,10 +129,45 @@ trait ServiceItemCaptureTrait
     */
     protected function storePokemon(): void
     {
+        // 図鑑登録※立場変更前に実施
+        // (トレイト：ServiceCommonRegistPokedexTrait)
+        $this->setModalRegistPokedex(enemy());
         // 立場を変更
         enemy()->setPosition();
-        // パーティーセット
-        player()->setParty(enemy());
+        if(count(player()->getParty()) < 6){
+            // パーティーに追加
+            player()->setParty(enemy());
+        }else{
+            // ボックスへ転送
+            $this->transferPokebox();
+        }
+        // プレイヤーレベルの更新
+        if(enemy()->getLevel() > player()->getLevel()){
+            player()->levelUp();
+        }
+    }
+
+    /**
+    * ポケモンをボックスへ転送
+    * @return void
+    */
+    protected function transferPokebox()
+    {
+        // ボックス起動
+        startPokebox();
+        // 追加
+        $result = pokebox()->addPokemon(enemy());
+        if($result){
+            // 成功
+            response()->setMessage(
+                enemy()->getName().'は、ボックス'.pokebox()->getSelectedBoxNumber().'へ転送された'
+            );
+        }else{
+            // 失敗
+            response()->setMessage('ポケモンの転送に失敗しました');
+        }
+        // ボックス終了
+        shutdownPokebox();
     }
 
 }
