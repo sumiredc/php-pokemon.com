@@ -1,7 +1,7 @@
 <?php
 
 /**
-* オブジェクトのシリアライズ化
+* オブジェクトのシリアライズ(暗号化)
 * @param arg:mixed
 * @return mixed
 */
@@ -22,7 +22,7 @@ function serializeObject($arg)
 }
 
 /**
-* オブジェクトのアンシリアライズ化
+* オブジェクトのアンシリアライズ(復号化)
 * @param arg:mixed
 * @return mixed
 */

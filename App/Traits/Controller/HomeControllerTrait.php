@@ -6,22 +6,6 @@
 trait HomeControllerTrait
 {
 
-    // /**
-    // * 戦闘に参加するポケモンが存在しているかの確認
-    // * @return boolean
-    // */
-    // protected function checkBattleStart(): bool
-    // {
-    //     $orders = array_filter(player()->getParty(), function($partner){
-    //         return $partner->isFight();
-    //     });
-    //     if(empty($orders)){
-    //         return false;
-    //     }else{
-    //         return true;
-    //     }
-    // }
-
     /**
     * ショップ情報の取得
     * @return array
@@ -46,6 +30,28 @@ trait HomeControllerTrait
         return array_filter($items, function($item){
             return !empty($item);
         });
+    }
+
+    /**
+    * バトル開始の検証
+    * @return boolean
+    */
+    protected function validationBattle(): bool
+    {
+        // バトル開始可能な状態かを確認
+        if(!player()->isFightParty()){
+            response()->setMessage('バトルに参加できるポケモンがいないので、フィールドには出れません');
+            return false;
+        }
+        // フィールド情報・プレイヤーレベルの確認
+        if(
+            empty(config('field.'.request('field'))) ||
+            player()->getLevel() < config('field.'.request('field').'.level')
+        ){
+            response()->setMessage('プレイヤーレベルが足りていません');
+            return false;
+        }
+        return true;
     }
 
 }

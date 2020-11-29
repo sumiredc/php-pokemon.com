@@ -9,13 +9,7 @@ class InitialController extends Controller
     * 最初のポケモン
     * @var array
     */
-    private $pokemon_list = [
-        'Fushigidane' => 'フシギダネ',
-        'Hitokage' => 'ヒトカゲ',
-        'Zenigame' => 'ゼニガメ',
-        'Pikachu' => 'ピカチュウ',
-        'Mew' => 'ミュウ',
-    ];
+    private $pokemon_list;
 
     /**
     * @return void
@@ -24,10 +18,11 @@ class InitialController extends Controller
     {
         // 親コンストラクタの呼び出し
         parent::__construct();
+        $this->pokemon_list = config('const.first_pokemon');
         // 本番環境用の分岐
-        if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.s-yqual.com'){
+        if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
             // ミュウはローカルのみ
-            unset($this->pokemon_list['Mew']);
+            $this->pokemon_list['Mew'] = 'ミュウ';
         }
         // 分岐処理
         $this->branch();
@@ -46,13 +41,13 @@ class InitialController extends Controller
             * ポケモンの選択
             */
             case 'select_pokemon':
-            // トレーナー名の確認
+            // プレイヤー名の確認
             if(!request('name')){
-                setMessage('トレーナーの名前を入力してください');
+                setMessage('プレイヤーの名前を入力してください');
                 break;
             }
-            if(mb_strlen(request('name') > 5)){
-                setMessage('トレーナーの名前は５文字以内です');
+            if(mb_strlen(request('name')) > 5){
+                setMessage('プレイヤーの名前は５文字以内で入力してください');
                 break;
             }
             // ポケモンを生成して引き継ぎデータをセッションに格納
@@ -63,19 +58,24 @@ class InitialController extends Controller
                 break;
             }
             // プレイヤー作成
-            // $this->player = new Player(request('name'));
             initPlayer(request('name'));
-            // 選択されたポケモンをインスタンス化
-            $pokemon = new $class(5);
-            // ローカルのみの分岐
+            // 環境分岐
             if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
-                // $pokemon = new $class(15);
-                // player()->setParty(new HitokageTest(2));
+                $this->developOnly($class);
+            }else{
+                // 通常環境
+                $pokemon = new $class(5);
+                $pokemon->setPosition();
+                player()->setParty($pokemon);
+                // 初期アイテムをセット
+                player()->addItem(new ItemPotion, 5);
+                player()->addItem(new ItemPokeBall, 5);
             }
-            $pokemon->setPosition();
-            player()->setParty($pokemon);
+            // ポケモンボックスの初期化
+            initPokebox();
             // ホーム画面へ移管
             $_SESSION['__route'] = 'home';
+            $_SESSION['__start_php_pokemon'] = true;
             // 画面移管
             $this->redirect();
             break;
@@ -92,11 +92,43 @@ class InitialController extends Controller
 
     /**
     * ポケモン一覧の取得
-    *
     * @return array
     */
     public function getPokemonList()
     {
         return $this->pokemon_list;
+    }
+
+    /**
+    * 開発環境のみで行う処理
+    * @param class:string
+    * @return void
+    */
+    private function developOnly($class)
+    {
+        // // 通常処理
+        // $pokemon = new $class(5);
+        // $pokemon->setPosition();
+        // player()->setParty($pokemon);
+
+        // 全てのポケモンをパーティーにセット
+        foreach($this->pokemon_list as $class => $name){
+            $pokemon = new $class(5);
+            $pokemon->setPosition();
+            if($class === 'Mew'){
+                $pokemon->setNickname('デバッガー');
+            }
+            player()->setParty($pokemon);
+        }
+
+        // // ニャースを追加
+        // $pokemon = new Nyarth(5);
+        // $pokemon->setPosition();
+        // player()->setParty($pokemon);
+
+        // 初期アイテムをセット
+        player()->addItem(new ItemPotion, 20);
+        player()->addItem(new ItemPokeBall, 20);
+        player()->addItem(new ItemMasterBall, 50);
     }
 }

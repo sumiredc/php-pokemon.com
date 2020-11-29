@@ -25,10 +25,8 @@ class StartService extends Service
     {
         // 味方の選出
         $this->electionFriend();
-        // プレイヤーレベルを取得
-        $player_level = $this->getPlayerLevel();
         // 敵ポケモンのレベルを取得
-        $level = $this->getEnemyLevel($player_level);
+        $level = $this->getEnemyLevel();
         // 敵ポケモンを生成
         $this->callEnemy($level);
         // ローカルのみの分岐
@@ -37,10 +35,18 @@ class StartService extends Service
             //     $this->enemy = new Fushigibana(5);
             // );
         }
+        // ポケモン図鑑への登録確認（発見）
+        $this->checkPokedex();
         // 前ターン状態を格納
         battle_state()->setBefore();
         // 返却値をセット
-        setMessage('あ！野生の'.enemy()->getName().'が飛び出してきた！');
+        response()->setMessage('あ！野生の'.enemy()->getName().'が飛び出してきた！');
+        $msg_id = response()->issueMsgId();
+        response()->setMessage('ゆけっ！'.friend()->getNickName().'！', $msg_id);
+        response()->setResponse([
+            'action' => 'start',
+            'target' => 'friend'
+        ], $msg_id);
     }
 
     /**
@@ -55,33 +61,16 @@ class StartService extends Service
     }
 
     /**
-    * プレイヤーレベル（手持ちポケモンの最大レベル）を取得
-    * @return integer
-    */
-    private function getPlayerLevel(): int
-    {
-        // パーティーポケモンのレベルだけを取得
-        $levels = array_map(function($pokemon){
-            return $pokemon->getLevel();
-        }, player()->getParty());
-        // 最大値を返却
-        return max($levels);
-    }
-
-    /**
     * 敵ポケモンのレベルを取得
-    * @param player_level:integer
     * @return integer
     */
-    private function getEnemyLevel(int $player_level): int
+    private function getEnemyLevel(): int
     {
-        // 最小値(プレイヤーレベル - 3)
-        $min = $player_level - 3;
-        if($min < 1){
-            $min = 1;
-        }
-        // レベルをランダムで取得
-        return random_int($min, $player_level);
+        // 最小値〜最大値のレベルをランダムで取得
+        return random_int(
+            config('field.'.request('field').'.min'),
+            config('field.'.request('field').'.max')
+        );
     }
 
     /**
@@ -91,32 +80,46 @@ class StartService extends Service
     */
     private function callEnemy(int $level): void
     {
-        // ポケモンのレベルに合わせて野生のポケモンリストを作成
-        $pokemon_list = config('wild.early');
-        // レベル18以上
-        if($level >= 18){
-            $pokemon_list = array_merge(
-                $pokemon_list, config('wild.middle')
+        // 抽選箱の準備
+        $lottery_box = [];
+        // 保険としてtry-catchを使用
+        try {
+            foreach(config('field.'.request('field').'.pokemon') as $class){
+                // データ取得用のポケモンインスタンスを生成
+                $pokemon = new $class(null, null, true);
+                $lottery_box = array_merge(
+                    $lottery_box,
+                    array_fill(0, $pokemon->getCapture(), $class)
+                );
+            }
+            // 0番から配列要素数までの番号をランダムに取得
+            $number = random_int(0, count($lottery_box) - 1);
+            // シャッフルして配列を添字に置き換え（念の為）
+            shuffle($lottery_box);
+            // 敵ポケモンをインスタンス化して格納
+            battle_state()->setEnemy(
+                new $lottery_box[$number]($level)
             );
+        } catch (\Exception $ex) {
+            // もしポケモンが取得できなかった場合の保険処理
+            battle_state()->setEnemy(new Poppo(2));
         }
-        // レベル40以上
-        if($level >= 40){
-            $pokemon_list = array_merge(
-                $pokemon_list, config('wild.late')
-            );
+    }
+
+    /**
+    * ポケモン図鑑への登録確認
+    * @return void
+    */
+    private function checkPokedex(): void
+    {
+        if(
+            !player()->pokedex()
+            ->isRegisted(enemy()->getNumber())
+        ){
+            // 未登録→発見
+            player()->pokedex()
+            ->discovery(enemy());
         }
-        // レベル80以上
-        if($level >= 80){
-            $pokemon_list = array_merge(
-                $pokemon_list, config('wild.last')
-            );
-        }
-        // ポケモンリストからランダムに取得
-        $key = array_rand($pokemon_list);
-        // 敵ポケモンをインスタンス化して格納
-        battle_state()->setEnemy(
-            new $pokemon_list[$key]($level)
-        );
     }
 
 }

@@ -10,7 +10,7 @@ trait ServiceItemTrashTrait
     {
         // 数のチェック
         if(empty(request('count'))){
-            setMessage('個数を選択してください');
+            response()->setMessage('個数を選択してください');
             return;
         }
         // 捨てる前にプレイヤーの道具一覧を取得
@@ -21,9 +21,9 @@ trait ServiceItemTrashTrait
         if($result){
             // インスタンス化
             $item = new $items[request('order')]['class'];
-            setMessage($item->getName().'を'.request('count').'個捨てました');
+            response()->setMessage($item->getName().'を'.request('count').'個捨てました');
         }else{
-            setMessage('失敗しました');
+            response()->setMessage('失敗しました');
         }
     }
 }

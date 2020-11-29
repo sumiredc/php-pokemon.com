@@ -44,7 +44,7 @@ class RunService extends Service
         battle_state()->run();
         if($this->checkRun()){
             // 逃走成功
-            setMessage('上手く逃げ切れた');
+            setMessage('上手く逃げ切れた！');
             // バトル終了判定用メッセージの格納
             setEmptyMessage('battle-end');
         }else{

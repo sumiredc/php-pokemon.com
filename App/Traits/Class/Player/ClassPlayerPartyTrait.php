@@ -6,7 +6,7 @@ trait ClassPlayerPartyTrait
 {
 
     /**
-    * パーティーの取得
+    * パーティー情報の取得
     * @return array
     */
     public function getParty(): array
@@ -89,7 +89,8 @@ trait ClassPlayerPartyTrait
             $pokemon = array_filter($this->party, function($pokemon) use($param){
                 return $pokemon->getId() === $param;
             });
-            return $pokemon[0] ?? null;
+            // ポケモン情報を返却（空の場合はnullを返却）
+            return array_shift($pokemon);
         }else{
             // オーダー番号による検索
             return $this->party[$param] ?? null;
@@ -111,6 +112,23 @@ trait ClassPlayerPartyTrait
             ($this->party[$order]->getAfterClass() === get_class($evolve))
         ){
             $this->party[$order] = $evolve;
+        }
+    }
+
+    /**
+    * パーティー内のポケモンを削除する
+    * @param id:string
+    * @return void
+    */
+    public function releasePartner($id): void
+    {
+        // ポケモンIDを使って取得
+        $partner = array_filter($this->party, function($partner) use($id){
+            return $partner->getId() === $id;
+        });
+        // ポケモンが見つかれば削除
+        if($partner){
+            unset($this->party[array_key_first($partner)]);
         }
     }
 

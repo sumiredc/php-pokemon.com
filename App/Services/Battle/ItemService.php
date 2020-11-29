@@ -13,6 +13,7 @@ require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
 require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
 require_once($root_path.'/App/Traits/Service/Item/ServiceItemUseTrait.php');
 require_once($root_path.'/App/Traits/Service/Item/ServiceItemCaptureTrait.php');
+require_once($root_path.'/App/Traits/Service/Common/ServiceCommonRegistPokedexTrait.php');
 
 /**
 * どうぐの使用
@@ -31,6 +32,8 @@ class ItemService extends Service
     // アイテムで使用するトレイト
     use ServiceItemUseTrait;
     use ServiceItemCaptureTrait;
+    // 図鑑登録
+    use ServiceCommonRegistPokedexTrait;
 
     /**
     * 使用されたアイテム

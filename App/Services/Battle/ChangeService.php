@@ -50,6 +50,8 @@ class ChangeService extends Service
             $this->change();
             // モーダル初期化
             initForceModal();
+            // 判定不要処理
+            battle_state()->judgeFalse();
         }else{
             // 通常の交代処理
             $this->change();
@@ -90,13 +92,15 @@ class ChangeService extends Service
         // 現在のバトルポケモンのバトルステータス関係を初期化
         friend()->releaseBattleStatsAll();
         battle_state()->changeInit('friend');
-        // ポケモンを戻す演出処理
-        $msg_id1 = issueMsgId();
-        setMessage(friend()->getNickname().'、戻れ！', $msg_id1);
-        setResponse([
-            'action' => 'change-in',
-            'target' => 'friend'
-        ], $msg_id1);
+        // ポケモンを戻す演出処理(味方が戦闘不能状態でなければ)
+        if(friend()->isFight()){
+            $msg_id1 = issueMsgId();
+            setMessage(friend()->getNickname().'、戻れ！', $msg_id1);
+            setResponse([
+                'action' => 'change-in',
+                'target' => 'friend'
+            ], $msg_id1);
+        }
         // バトル中のポケモンを交代してポケモン番号を変更
         battle_state()->setFriend($partner, true);
         // 交代後のポケモンを繰り出す演出処理

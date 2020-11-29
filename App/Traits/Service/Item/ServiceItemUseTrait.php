@@ -14,14 +14,25 @@ trait ServiceItemUseTrait
         $party = player()->getParty();
         // パーティーに指定されたポケモンが存在しているかどうか確認
         if(!isset($party[request('pokemon')])){
-            setMessage('使っても効果がないよ');
+            response()->setMessage('使っても効果がないよ');
             return false;
         }
         // アイテム効果を使用
         $result = $item->effects($party[request('pokemon')]);
         // メッセージが返ってきていればセット
         if(isset($result['message'])){
-            setMessage($result['message']);
+            response()->setMessage($result['message']);
+        }
+        // 描画処理(バトルポケモンへのアイテム使用であれば)
+        if((int)request('pokemon') === battle_state()->getOrder()){
+            // HPバーの変動処理
+            if(isset($result['hpbar'])){
+                response()->setResponse([
+                    'param' => $result['hpbar'],
+                    'action' => 'hpbar',
+                    'target' => 'friend',
+                ], $this->use_msg_id);
+            }
         }
         return $result['result'];
     }

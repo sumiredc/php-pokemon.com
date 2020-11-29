@@ -34,10 +34,11 @@ trait BattleControllerTrait
     * 次のターンへの判定処理
     * @return boolean
     */
-    private function nextTurn()
+    private function nextTurn(): bool
     {
         // アクション未選択であれば処理を行わない
         if(!battle_state()->isJudge()){
+            response()->setEmptyMessage();
             return false;
         }
         // ひんしポケモンがでた場合の処理
@@ -54,7 +55,8 @@ trait BattleControllerTrait
             $this->branch();
             return true;
         }else{
-            setMessage('行動を選択してください');
+            // 行動選択へ
+            response()->setEmptyMessage();
             return false;
         }
     }
@@ -92,9 +94,9 @@ trait BattleControllerTrait
                 }else{
                     // 相手が瀕死状態ではない → ポケモン交代の確認
                     $msg_id = issueMsgId();
-                    setMessage('次のポケモンを使いますか？', $msg_id);
+                    response()->setMessage('次のポケモンを使いますか？', $msg_id);
                     // レスポンスデータをセット
-                    setResponse([
+                    response()->setResponse([
                         'toggle' => 'modal',
                         'target' => '#'.$msg_id.'-modal'
                     ], $msg_id);
@@ -123,7 +125,7 @@ trait BattleControllerTrait
     private function judgmentLose()
     {
         // 全滅
-        setMessage(player()->getName().'は、目の前が真っ暗になった');
+        response()->setMessage(player()->getName().'は、目の前が真っ暗になった...');
         // バトル終了判定用メッセージの格納
         setEmptyMessage('battle-end');
     }
@@ -150,7 +152,7 @@ trait BattleControllerTrait
         // 散らばったお金の取得
         $money = battle_state()->getMoney();
         if($money){
-            setMessage(player()->getName().'は、'.$money.'円拾った');
+            response()->setMessage(player()->getName().'は、'.$money.'円拾った！');
             player()->addMoney($money);
         }
         // バトル終了判定用メッセージの格納

@@ -6,17 +6,11 @@ require_once($root_path.'/Classes/Player.php');
 // コントローラー
 abstract class Controller
 {
-    /**
-    * プレイヤー
-    * @var object::Player
-    */
-    protected $player;
-
     // /**
-    // * サニタイズ後のポストデータ格納用
-    // * @var object
+    // * プレイヤー
+    // * @var object::Player
     // */
-    // private $post;
+    // protected $player;
 
     /**
     * @return void

@@ -64,6 +64,7 @@ class BattleController extends Controller
                 // サービス実行
                 $service = new StartService;
                 $service->execute();
+                response()->setResponse(true, 'battle-start');
                 break;
                 /******************************************
                 * たたかう
@@ -153,12 +154,6 @@ class BattleController extends Controller
         }, $party);
         // セッション破棄
         $_SESSION['__data'] = [];
-        // $keys = [
-        //     'battle_state', 'before_responses', 'before_messages', 'before_modals', 'force_modal'
-        // ];
-        // foreach($keys as $key){
-        //     unset($_SESSION['__data'][$key]);
-        // }
         // 進化フラグのチェック
         $evolves = array_filter($party, function($pokemon){
             return $pokemon->getEvolveFlg();

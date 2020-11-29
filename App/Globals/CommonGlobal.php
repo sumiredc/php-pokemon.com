@@ -28,3 +28,34 @@ function getPageName(bool $prefix=false)
     // ページ名を返却
     return $page;
 }
+
+/**
+* ゼロ埋め処理
+* @param number:integer
+* @param length:integer
+* @return string
+*/
+function fillZero($number, $length=3)
+{
+    // ゼロ埋め
+    $zero = '';
+    // ゼロ必要数の算出
+    $zero_count = $length - strlen($number);
+    for ($i=0; $i < $zero_count; $i++) {
+        $zero = $zero.'0';
+    }
+    // ゼロ埋め返却
+    return $zero.$number;
+}
+
+/**
+* デバック用
+* @param arg:mixed
+* @return void
+*/
+function dd($arg)
+{
+    echo '<pre>';
+    var_export($arg);
+    echo '</pre>';
+}

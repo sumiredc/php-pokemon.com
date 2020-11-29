@@ -4,15 +4,10 @@ $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Services/Service.php');
 
 /**
- * 全回復（ポケモンセンター）
+ * 全回復
  */
 class RecoveryService extends Service
 {
-
-    // /**
-    // * @var object::Player
-    // */
-    // private $player;
 
     /**
     * @return void
@@ -27,28 +22,14 @@ class RecoveryService extends Service
     */
     public function execute()
     {
+        // 全回復
         foreach(player()->getParty() as $partner){
-            $this->recovery($partner);
+            $partner->recovery();
         }
         setMessage([
             ['お預かりしたポケモンたちは、皆元気になりましたよ'],
             ['またのご利用お待ちしております']
         ]);
-    }
-
-    /**
-    * 全回復
-    *
-    * @return void
-    */
-    private function recovery($partner)
-    {
-        // HP回復
-        $partner->calRemainingHp('reset');
-        // 状態異常解除
-        $partner->releaseSa();
-        // PP回復
-        $partner->calRemainingPp('reset');
     }
 
 }

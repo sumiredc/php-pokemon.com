@@ -2,12 +2,16 @@
 $root_path = __DIR__.'/../../..';
 // 親クラス
 require_once($root_path.'/App/Services/Service.php');
+// トレイト
+require_once($root_path.'/App/Traits/Service/Common/ServiceCommonRegistPokedexTrait.php');
 
 /**
  * 進化用サービス
  */
 class EvolveService extends Service
 {
+
+    use ServiceCommonRegistPokedexTrait;
 
     /**
     * @var array
@@ -30,7 +34,6 @@ class EvolveService extends Service
     */
     public function __construct($order)
     {
-        // $this->party = $party;
         $this->order = $order;
     }
 
@@ -42,16 +45,6 @@ class EvolveService extends Service
         // 進化処理
         $this->evolve();
     }
-
-    // /**
-    // * パーティープロパティの取得
-    // *
-    // * @return array
-    // */
-    // public function getParty()
-    // {
-    //     return $this->party;
-    // }
 
     /**
     * 進化
@@ -76,9 +69,10 @@ class EvolveService extends Service
             if(!isset($after->sa['SaFainting'])){
                 $after->calRemainingHp('add', $after->getStats('HP') - $before_hp);
             }
-            setMessage('おめでとう！'.$before->getNickName().'は'.$after->getName().'に進化した！');
+            response()->setMessage('おめでとう！'.$before->getNickName().'は'.$after->getName().'に進化した！');
+            // 図鑑登録(トレイト：ServiceCommonRegistPokedexTrait)
+            $this->setModalRegistPokedex($after);
             // 進化後のインスタンスをパーティーにセット
-            // $this->party[$this->order] = $after;
             player()->evolvePartner($this->order, $after);
             // 現在のレベルで習得できる技があるかチェック
             if($after->getLevelMoveCount()){
@@ -86,9 +80,9 @@ class EvolveService extends Service
                 $this->process_flg = true;
             }
             // 空メッセージのセット
-            setEmptyMessage();
+            response()->setEmptyMessage();
         }else{
-            setMessage('このポケモンは進化できません');
+            response()->setMessage('このポケモンは進化できません');
         }
     }
 

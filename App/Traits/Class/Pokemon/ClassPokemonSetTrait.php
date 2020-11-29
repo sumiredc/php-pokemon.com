@@ -5,16 +5,18 @@ trait ClassPokemonSetTrait
     /**
     * ニックネームを付ける
     * @param string
-    * @return void
+    * @return boolean
     */
-    public function setNickname($nickname)
+    public function setNickname($nickname): bool
     {
         if(empty($nickname) || mb_strlen($nickname, 'UTF-8') > 5){
-            setMessage('ニックネームは１〜５文字で入力してください');
-            return;
+            response()->setMessage('ニックネームは１〜５文字で入力してください');
+            return false;
+        }else{
+            $this->nickname = $nickname;
+            response()->setMessage('ニックネームを変更しました');
+            return true;
         }
-        $this->nickname = $nickname;
-        setMessage('ニックネームを変更しました');
     }
 
     /**
@@ -38,9 +40,13 @@ trait ClassPokemonSetTrait
         // 入力制限
         if(in_array($position, config('pokemon.position'), true)){
             $this->position = $position;
-            // 味方の場合はIDを生成
+            // 味方の場合はID生成・図鑑登録
             if($position === 'friend'){
+                // ID生成
                 $this->generateId();
+                // 図鑑登録
+                player()->pokedex()
+                ->regist($this);
             }
         }
     }
@@ -139,7 +145,7 @@ trait ClassPokemonSetTrait
         $this->exp += (int)$exp;
         // メッセージIDを生成
         $msg_id = issueMsgId();
-        setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
+        response()->setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
         // レベル上限の確認
         if($this->level >= 100){
             return $this;

@@ -3,7 +3,17 @@
 $root_path = __DIR__.'/../..';
 // クラス読み込み
 require_once($root_path.'/Classes/Response.php');
-$global_responses = new Response;
+$global_response = new Response;
+
+/**
+* レスポンスクラスの取得
+* @return object::Response
+*/
+function response()
+{
+    global $global_response;
+    return $global_response;
+}
 
 /**
 * メッセージIDの発行
@@ -11,9 +21,9 @@ $global_responses = new Response;
 */
 function issueMsgId()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -22,9 +32,9 @@ function issueMsgId()
 */
 function setUsedMessageId($arg)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($arg);
+    return $global_response->$name($arg);
 }
 
 /**
@@ -33,9 +43,9 @@ function setUsedMessageId($arg)
 */
 function resetResponsesAll()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    $global_responses->$name();
+    $global_response->$name();
 }
 
 /**==================================================================
@@ -47,9 +57,9 @@ function resetResponsesAll()
 */
 function getMessages()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -60,9 +70,9 @@ function getMessages()
 */
 function setMessage($msg, $param=null)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    $global_responses->$name($msg, $param);
+    $global_response->$name($msg, $param);
 }
 
 /**
@@ -72,9 +82,9 @@ function setMessage($msg, $param=null)
 */
 function setAutoMessage($param)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    $global_responses->$name($param);
+    $global_response->$name($param);
 }
 
 /**
@@ -84,9 +94,9 @@ function setAutoMessage($param)
 */
 function setEmptyMessage(string $param='')
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    $global_responses->$name($param);
+    $global_response->$name($param);
 }
 
 /**
@@ -95,9 +105,9 @@ function setEmptyMessage(string $param='')
 */
 function resetMessage()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    $global_responses->$name();
+    $global_response->$name();
 }
 
 /**
@@ -106,9 +116,9 @@ function resetMessage()
 */
 function getMessageFirstKey()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -117,9 +127,9 @@ function getMessageFirstKey()
 */
 function getMessageLastKey()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**==================================================================
@@ -132,9 +142,9 @@ function getMessageLastKey()
 */
 function getResponse($param)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($param);
+    return $global_response->$name($param);
 }
 
 /**
@@ -143,9 +153,9 @@ function getResponse($param)
 */
 function getResponses()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -156,9 +166,9 @@ function getResponses()
 */
 function setResponse($response, $key=null)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($response, $key);
+    return $global_response->$name($response, $key);
 }
 
 /**
@@ -167,9 +177,9 @@ function setResponse($response, $key=null)
 */
 function resetResponse()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**==================================================================
@@ -181,9 +191,9 @@ function resetResponse()
 */
 function getModals()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -194,9 +204,9 @@ function getModals()
 */
 function setModal(array $param, bool $merge=false)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($param, $merge);
+    return $global_response->$name($param, $merge);
 }
 
 /**
@@ -205,9 +215,9 @@ function setModal(array $param, bool $merge=false)
 */
 function resetModal()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 
@@ -217,9 +227,9 @@ function resetModal()
 */
 function initForceModal()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -229,9 +239,9 @@ function initForceModal()
 */
 function setForceModal($id)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($id);
+    return $global_response->$name($id);
 }
 
 /**
@@ -241,9 +251,9 @@ function setForceModal($id)
 */
 function waitForceModal($id)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($id);
+    return $global_response->$name($id);
 }
 
 /**
@@ -253,9 +263,9 @@ function waitForceModal($id)
 */
 function setWaitForceModal()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -264,9 +274,9 @@ function setWaitForceModal()
 */
 function isForceModal()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -275,9 +285,9 @@ function isForceModal()
 */
 function getForceModal()
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name();
+    return $global_response->$name();
 }
 
 /**
@@ -286,7 +296,7 @@ function getForceModal()
 */
 function isForceModalTarget($target)
 {
-    global $global_responses;
+    global $global_response;
     $name = __FUNCTION__;
-    return $global_responses->$name($target);
+    return $global_response->$name($target);
 }

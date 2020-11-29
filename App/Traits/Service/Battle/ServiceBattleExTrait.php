@@ -18,7 +18,7 @@ trait ServiceBattleExTrait
             return $wait_move;
         }else{
             // 「オウムがえし」の発動メッセージ
-            setMessage($atk->getPrefixName().'は'.$move->getName().'を使った！');
+            response()->setMessage($atk->getPrefixName().'は'.$move->getName().'を使った！');
             return $move->exMirrorMove($def, battle_state());
         }
     }
@@ -38,7 +38,7 @@ trait ServiceBattleExTrait
             return $wait_move;
         }else{
             // 「ゆびをふる」の発動メッセージ
-            setMessage($atk->getPrefixName().'は'.$move->getName().'を使った！');
+            response()->setMessage($atk->getPrefixName().'は'.$move->getName().'を使った！');
             return $move->exMetronome();
         }
     }
@@ -53,7 +53,7 @@ trait ServiceBattleExTrait
     protected function exPayDay(object $atk, object $move): void
     {
         $move->exPayDay($atk, battle_state());
-        setMessage('辺りにお金が散らばった');
+        response()->setMessage('辺りにお金が散らばった');
     }
 
     /**
@@ -70,13 +70,13 @@ trait ServiceBattleExTrait
         $result = $move->exTransform($atk, $def, battle_state());
         if($result){
             // へんしん
-            setResponse([
+            response()->setResponse([
                 'param' => get_class($def),
                 'action' => 'transform',
                 'target' => $atk->getPosition(),
             ], $this->atk_msg_id);
             // 成功
-            setMessage($atk->getPrefixName().'は'.$def->getName().'にへんしんした');
+            response()->setMessage($atk->getPrefixName().'は'.$def->getName().'にへんしんした');
             // プロパティの書き換え
             if($atk->getPosition() === 'friend'){
                 // 味方
@@ -95,7 +95,7 @@ trait ServiceBattleExTrait
             }
         }else{
             // 失敗
-            setMessage('しかし上手く決まらなかった');
+            response()->setMessage('しかし上手く決まらなかった');
         }
     }
 

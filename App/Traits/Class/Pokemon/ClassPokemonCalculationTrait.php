@@ -99,8 +99,14 @@ trait ClassPokemonCalculationTrait
         if($this->remaining_hp <= 0){
             // 状態異常をひんしに書き換え
             $result = $this->setSa('SaFainting');
-            setMessage($result['message']);
             $this->remaining_hp = 0;
+            // ひんしメッセージとレスポンスを格納
+            $msg_id = response()->issueMsgId();
+            response()->setMessage($result['message'], $msg_id);
+            response()->setResponse([
+                'action' => 'fainting',
+                'target' => $this->position,
+            ], $msg_id);
         }
         // 残りHPを返却
         return $this->remaining_hp;

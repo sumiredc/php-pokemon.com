@@ -61,11 +61,19 @@ class HomeController extends Controller
                 $service->execute();
                 break;
                 /******************************************
-                * ポケモンセンター
+                * 回復
                 */
                 case 'recovery':
                 $service = new RecoveryService;
                 $service->execute();
+                break;
+                /******************************************
+                * ポケモンボックス
+                */
+                case 'pokebox':
+                $_SESSION['__route'] = 'pokebox';
+                // 画面移管
+                $this->redirect();
                 break;
                 /******************************************
                 * フレンドリィショップ
@@ -82,23 +90,27 @@ class HomeController extends Controller
                 $service->execute();
                 break;
                 /******************************************
-                * バトル
+                * フィールドへ
                 */
                 case 'battle':
                 // バトル開始可能な状態かを確認
-                if(!player()->isFightParty()){
-                    setMessage('バトルに参加できるポケモンがいません');
-                    break;
+                if($this->validationBattle()){
+                    $_SESSION['__route'] = 'battle';
+                    // バトルコントローラーへaction値をpostするためにトークンをセット
+                    $_SESSION['__token'] = $_POST['__token'];
+                    // 画面移管
+                    $this->redirect();
                 }
-                $_SESSION['__route'] = 'battle';
-                $_SESSION['__token'] = $_POST['__token'];
-                // 画面移管
-                $this->redirect();
                 break;
                 /******************************************
                 * アクション未選択 or 実装されていないアクション
                 */
                 default:
+                // ゲーム開始時のメッセージをセット
+                if(isset($_SESSION['__start_php_pokemon'])){
+                    response()->setMessage('ようこそ！PHPポケモンの世界へ');
+                    unset($_SESSION['__start_php_pokemon']);
+                }
                 break;
             }
         } catch (\Exception $ex) {
