@@ -55,7 +55,7 @@ class PokemonStub extends Pokemon
 
     /**
     * 重さ
-    * @var numeric
+    * @var float
     */
     protected $weight = 0.0;
 
