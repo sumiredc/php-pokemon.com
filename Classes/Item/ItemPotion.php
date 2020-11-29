@@ -64,7 +64,8 @@ class ItemPotion extends Item
         if($before < $pokemon->getStats('HP')){
             // HP20回復
             $after = $pokemon->calRemainingHp('add', 20);
-            $message = $pokemon->getPrefixName().'のHPが'.($after - $before).'回復した';
+            $heal = $after - $before;
+            $message = $pokemon->getPrefixName().'のHPが'.$heal.'回復した';
             $result = true;
         }else{
             // 効果なし
@@ -74,7 +75,8 @@ class ItemPotion extends Item
         // メッセージを返却
         return [
             'message' => $message,
-            'result' => $result
+            'result' => $result,
+            'hpbar' => $heal * -1, # 回復のためマイナス値をセット
         ];
     }
 
