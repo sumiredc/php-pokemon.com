@@ -4,7 +4,7 @@
 </div>
 <div id="help-accordion-<?=$num?>-content" class="collapse" aria-labelledby="help-accordion-<?=$num?>-head" data-parent="#help-accordion">
     <div class="card-body">
-        <h5 class="card-title text-danger">よく考えて選びましょう</h5>
+        <h5 class="card-title text-php-head">よく考えて選びましょう</h5>
         <p class="card-text">
             最初のポケモンとして４匹の中から選ぶことができますが、慎重に選ぶことをオススメします。
         </p>

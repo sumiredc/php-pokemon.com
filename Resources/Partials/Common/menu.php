@@ -1,11 +1,11 @@
-<div class="col-12 bg-light py-2 mb-5">
+<div class="col-12 py-3 mb-5">
     <div class="btn-group float-right">
         <button type="button"
-        class="btn btn-secondary dropdown-toggle"
+        class="btn btn-php-dark btn-sm dropdown-toggle menu"
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false">
-        メニュー</button>
+        <i class="fas fa-bars mr-2"></i>メニュー</button>
         <div class="dropdown-menu dropdown-menu-right">
             <span class="dropdown-item p-0">
                 <?php # ずかん ?>
@@ -40,21 +40,23 @@
                 <button type="button"
                 class="btn btn-link btn-block text-left text-secondary font-weight-bolder px-4 text-decoration-none"
                 data-toggle="modal"
-                data-target="#report-modal">レポート</button>
+                data-target="#report-modal"
+                title="未実装の機能です" disabled>レポート</button>
             </span>
             <span class="dropdown-item p-0">
                 <?php # せってい ?>
                 <button type="button"
                 class="btn btn-link btn-block text-left text-secondary font-weight-bolder px-4 text-decoration-none"
                 data-toggle="modal"
-                data-target="#setting-modal">せってい</button>
+                data-target="#setting-modal"
+                title="未実装の機能です" disabled>せってい</button>
             </span>
             <div class="dropdown-divider"></div>
             <span class="dropdown-item p-0">
                 <?php # リセット ?>
                 <button class="btn btn-link text-danger btn-block text-left font-weight-bolder px-4 text-decoration-none"
                 data-toggle="modal"
-                data-target="#reset-modal">リセット</button>
+                data-target="#reset-modal"><i class="fas fa-exclamation-triangle mr-2"></i>リセット</button>
             </span>
         </div>
     </div>

@@ -24,7 +24,7 @@
                             <div class="row py-2 bg-hover-light"
                             data-toggle="modal"
                             data-dubble_modal="true"
-                            data-target="#pokemon<?=$order?>-details-modal"
+                            data-target="#pokemon<?=$party->getId()?>-details-modal"
                             data-order="<?=$order?>">
                         <?php endif; ?>
                         <div class="col-3 text-center">
@@ -38,7 +38,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-10">
-                                    <div class="progress" style="height:4px;">
+                                    <div class="progress rounded-pill bg-gray" style="height:4px;">
                                         <div class="progress-bar bg-<?=$party->getRemainingHp('color')?>"
                                             role="progressbar"
                                             style="width:<?=$party->getRemainingHp('per')?>%;"
@@ -68,7 +68,7 @@
                         <input type="hidden" name="action" value="sort_party">
                         <input type="hidden" name="orders" value=''>
                         <?php input_token(); ?>
-                        <button type="submit" class="btn btn-sm btn-secondary" disabled>並び替え</button>
+                        <button type="submit" class="btn btn-sm btn-disabled" disabled>並び替え</button>
                     </form>
                 </div>
             <?php endif; ?>
@@ -76,21 +76,21 @@
             <?php if(getPageName() === 'battle'): ?>
                 <div class="modal-footer">
                     <?php foreach(player()->getParty() as $order => $party): ?>
-                        <button class="btn btn-sm btn-success"
+                        <button class="btn btn-sm btn-php-dark"
                         data-action="details"
                         data-toggle="modal"
                         data-dubble_modal="true"
-                        data-target="#pokemon<?=$order?>-details-modal"
+                        data-target="#pokemon<?=$party->getId()?>-details-modal"
                         data-order="<?=$order?>"
                         style="display:none;">
                         様子を見る</button>
                     <?php endforeach; ?>
-                    <button class="btn btn-sm btn-secondary" data-btn="default" data-action="details" disabled>様子を見る</button>
+                    <button class="btn btn-sm btn-disabled" data-btn="default" data-action="details" disabled>様子を見る</button>
                     <form id="partner-change-form" method="post">
                         <?php input_token(); ?>
                         <input type="hidden" name="action" value="change">
                         <input type="hidden" name="order">
-                        <button type="submit" class="btn btn-sm btn-secondary" data-selected="<?=battle_state()->getOrder()?>" disabled>入れ替える</button>
+                        <button type="submit" class="btn btn-sm btn-disabled" data-selected="<?=battle_state()->getOrder()?>" disabled>入れ替える</button>
                     </form>
                 </div>
             <?php endif; ?>
@@ -99,7 +99,7 @@
 </div>
 <?php
 // 詳細モーダル
-foreach(player()->getParty() as $order => $party){
-    include($root_path.'/Resources/Partials/Common/Modals/Party/details.php');
+foreach(player()->getParty() as $pokemon){
+    include($root_path.'/Resources/Partials/Common/Modals/pokemon-details.php');
 }
 ?>

@@ -6,8 +6,8 @@
                 <p class="mb-0">次のポケモンを選びますか？</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#party-modal">ポケモンを選ぶ</button>
-                <button type="button" class="btn btn-sm btn-danger" data-submit_remote="run">逃げる</button>
+                <button type="button" class="btn btn-sm btn-php-dark" data-toggle="modal" data-target="#party-modal">ポケモンを選ぶ</button>
+                <button type="button" class="btn btn-sm btn-php-dark" data-submit_remote="run">逃げる</button>
             </div>
         </div>
     </div>

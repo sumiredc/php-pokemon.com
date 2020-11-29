@@ -18,35 +18,35 @@ $root_path = __DIR__.'/../..';
     include($root_path.'/Resources/Partials/Layouts/Head/header.php');
     ?>
     <main>
-        <div class="container">
+        <div class="container-fluid bg-php-back section">
             <section>
                 <div class="row">
-                    <div class="col-12 text-center mb-5">
+                    <div class="col-12 text-center my-5">
                         <figure class="position-relative text-center d-inline-block area-evolve">
                             <img
                             src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif"
                             alt="<?=$pokemon->getName()?>"
-                            class="bg-white p-5"
+                            class="bg-php-back p-5"
                             >
                             <?php if($pokemon->getAfterClass()): ?>
                                 <img
                                 id="pokemon-after"
                                 src="/Assets/img/pokemon/dots/front/<?=$pokemon->getAfterClass()?>.gif"
                                 alt="進化先"
-                                class="bg-white p-5">
+                                class="bg-php-back p-5">
                             <?php endif; ?>
                         </figure>
                     </div>
                 </div>
             </section>
-            <section class="bg-light p-3">
+            <section class="p-3">
                 <div class="row">
                     <div class="col-12">
-                        <div class="message-box action-message-box border p-3">
+                        <div class="message-box border p-3" data-controls="message-box">
                             <?php # メッセージエリア ?>
                             <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
-                                <?php $class = $key === $global_responses->getMessageFirstKey() ? 'active' : ''; ?>
-                                <?php $last_class = $key === $global_responses->getMessageLastKey() ? 'last-message' : ''; ?>
+                                <?php $class = $key === response()->getMessageFirstKey() ? 'active' : ''; ?>
+                                <?php $last_class = $key === response()->getMessageLastKey() ? 'last-message' : ''; ?>
                                 <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"
                                     data-action='<?=$responses[$status]['action'] ?? ''?>'
                                     data-target='<?=$responses[$status]['target'] ?? ''?>'
@@ -56,16 +56,12 @@ $root_path = __DIR__.'/../..';
                                     <?=$msg?>
                                 </p>
                             <?php endforeach; ?>
-                            <span class="message-scroll-icon small">【CLICK】</span>
-                            <button type="button" id="cancel-evolve" class="btn btn-danger" style="display:none;">進化させない</button>
+                            <i class="fas fa-hand-point-up fa-2x message-scroll-icon text-php-dark m-1"></i>
+                            <button type="button" id="cancel-evolve" class="btn btn-sm btn-danger" style="display:none;">進化させない</button>
                         </div>
                     </div>
                 </div>
             </section>
-            <?php
-            # お知らせ
-            include($root_path.'/Resources/Partials/Common/notice.php');
-            ?>
         </div>
     </main>
     <?php

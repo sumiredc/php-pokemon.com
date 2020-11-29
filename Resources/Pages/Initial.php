@@ -1,6 +1,5 @@
 <?php
 $root_path = __DIR__.'/../..';
-// require_once($root_path.'/Resources/Partials/Layouts/Head/initial.php');
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -18,13 +17,13 @@ $root_path = __DIR__.'/../..';
     include($root_path.'/Resources/Partials/Layouts/Head/header.php');
     ?>
     <main>
-        <div class="container">
-            <section>
-                <div class="row">
-                    <div class="col-4 text-center">
+        <div class="container-fluid bg-php-back section">
+            <section class="py-3">
+                <div class="row justify-content-center">
+                    <div class="col-12 text-center mb-5">
                         <img src="/Assets/img/player/red/large/front.gif" alt="トレーナー">
                     </div>
-                    <div class="col-8">
+                    <div class="col-8 col-md-4">
                         <div class="input-group input-group-sm mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="name-addon">名前</span>
@@ -36,31 +35,33 @@ $root_path = __DIR__.'/../..';
             </section>
             <hr>
             <section>
-                <h3 class="mb-3 h5">一緒に旅をするポケモンを選んでください</h3>
-                <div class="row">
+                <h3 class="mb-3 h5 text-center font-weight-bolder text-php-head">一緒に旅をするポケモンを選んでください</h3>
+                <div class="row justify-content-center">
                     <?php foreach($controller->getPokemonList() as $key => $name): ?>
-                        <div class="col-6 col-sm-3">
+                        <div class="col-3 col-sm-2">
                             <figure class="first-pokemon">
                                 <img src="/Assets/img/ball/monster_ball.png" alt="<?=$name?>" data-toggle="modal" data-target="#<?=$key?>-modal">
                             </figure>
                         </div>
                     <?php endforeach; ?>
                 </div>
-                <?php if($messages): ?>
-                    <div class="row">
-                        <?php foreach($messages as list($message)): ?>
-                            <div class="col-12">
-                                <p class="text-danger"><?=$message?></p>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
             </section>
-            <?php
-            # お知らせ
-            include($root_path.'/Resources/Partials/Common/notice.php');
-            ?>
+            <section class="p-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="message-box border p-3">
+                            <?php foreach($messages as list($message)): ?>
+                                <p class="mb-0 text-danger"><?=$message?></p>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
+        <?php
+        # お知らせ
+        include($root_path.'/Resources/Partials/Common/notice.php');
+        ?>
     </main>
     <?php
     # footerの読み込み

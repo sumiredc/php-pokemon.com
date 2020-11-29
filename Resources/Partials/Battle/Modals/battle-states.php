@@ -12,21 +12,21 @@
                 </div>
                 <div class="modal-body overflow-auto my-2" style="height:360px;">
                     <nav class="nav nav-pills nav-justified btn-group mb-3" id="<?=$id?>-tab">
-                        <a class="btn btn-outline-secondary nav-item nav-link active"
+                        <a class="btn btn-outline-php-dark nav-item nav-link active"
                         id="<?=$id?>-rank-tab"
                         data-toggle="tab"
                         href="#<?=$id?>-rank"
                         role="tab"
                         aria-controls="<?=$id?>-rank"
                         aria-selected="true">ランク補正</a>
-                        <a class="btn btn-outline-secondary nav-item nav-link"
+                        <a class="btn btn-outline-php-dark nav-item nav-link"
                         id="<?=$id?>-sc-tab"
                         data-toggle="tab"
                         href="#<?=$id?>-sc"
                         role="tab"
                         aria-controls="<?=$id?>-sc"
                         aria-selected="true">状態変化</a>
-                        <a class="btn btn-outline-secondary nav-item nav-link"
+                        <a class="btn btn-outline-php-dark nav-item nav-link"
                         id="<?=$id?>-field-tab"
                         data-toggle="tab"
                         href="#<?=$id?>-field"
@@ -42,7 +42,14 @@
                                     <tbody class="first-border-top-none">
                                         <?php foreach($battle_state_pokemon->getRank() as $label => $rank): ?>
                                             <tr>
-                                                <th width="28%"><?=transJp($label, 'stats')?></th>
+                                                <th width="20%"><?=transJp($label, 'stats')?></th>
+                                                <td width="20%">
+                                                    <?php if($rank < 0): ?>
+                                                        <span class="text-primary"><?=$rank?></span>
+                                                    <?php elseif($rank > 0): ?>
+                                                        <span class="text-danger"><?=$rank?></span>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <?php
                                                 if($rank < 0){
                                                     $rank *= -1;
@@ -52,7 +59,7 @@
                                                 }
                                                 ?>
                                                 <?php for($i=0; $i < 6; $i++):?>
-                                                    <td width="12%" class="h4"><?php if($i < $rank) echo $icon; ?></td>
+                                                    <td width="10%" class="h4"><?php if($i < $rank) echo $icon; ?></td>
                                                 <?php endfor; ?>
                                             </tr>
                                         <?php endforeach; ?>
@@ -65,7 +72,7 @@
                             <div class="row">
                                 <?php foreach($battle_state_pokemon->getScObject() as $sc): ?>
                                     <div class="col-6">
-                                        <div class="alert alert-teal" role="alert">
+                                        <div class="alert alert-php-info" role="alert">
                                             <h6 class="alert-heading mb-0"><?=$sc->getName()?>状態</h6>
                                         </div>
                                     </div>

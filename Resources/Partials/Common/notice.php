@@ -1,28 +1,35 @@
-<?php
-$notices = [
-    ['2020/11/16', '出現する野生ポケモンをレベルに合わせて変わるようにしました'],
-    ['2020/11/15', 'フレンドリィショップを開設しました'],
-    ['2020/11/14', 'プレイヤーシステムを導入しました'],
-    ['2020/10/29', '進化演出を導入しました'],
-    ['2020/10/28', 'システム改修のため近日中に全セーブデータのリセットを行います'],
-    ['2020/10/19', 'ヘルプページを増設しました'],
-    ['2020/10/19', 'システム修正の関係で全セーブデータのリセットを実行しました'],
-    ['2020/10/17', '技習得時のバグを修正しました'],
-    ['2020/10/16', '経験値取得時のアニメーションを追加しました'],
-    ['2020/10/12', 'PHPポケモン（α）を公開しました'],
-];
-?>
-<section class="bg-light p-3">
-    <div class="row">
-        <div class="col-12">
-            <h2 class="mb-3">お知らせ</h2>
-            <ul class="list-group list-group-flush mb-3 overflow-auto border border-dark" style="height: 160px;">
-                <?php foreach($notices as list($date, $text)): ?>
-                <li class="list-group-item">
-                    <span class="badge badge-info mr-2"><?=$date?></span><?=$text?>
-                 </li>
-             <?php endforeach; ?>
-            </ul>
+<div class="container-fluid bg-php-back section">
+    <section class="bg-php-back p-3">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-3 h3 font-weight-bolder text-php-head">お知らせ</h2>
+                <ul class="nav nav-tabs" id="notice-tab" role="tablist">
+                    <?php foreach(config('notice') as $key => $notice): ?>
+                        <li class="nav-item">
+                            <a class="nav-link bg-php border-php text-white p-2 mr-1 <?php if($key === 'update') echo 'active'; ?>" id="<?=$key?>-notice-tab" data-toggle="tab" href="#<?=$key?>-notice-tab-content" role="tab" aria-controls="<?=$key?>-notice-tab-content" aria-selected="true">
+                                <?php if(in_array($key, ['update', 'field'], true)): ?>
+                                    <?=$notice['title']?>
+                                <?php else: ?>
+                                    <img src="/Assets/img/icon/<?=$key?>.png" alt="<?=$notice['title']?>" style="max-height: 16px;" />
+                                <?php endif; ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <div class="tab-content " id="notice-tab-content">
+                    <?php foreach(config('notice') as $key => $notice): ?>
+                        <div class="tab-pane fade show <?php if($key === 'update') echo 'active'; ?>" id="<?=$key?>-notice-tab-content" role="tabpanel" aria-labelledby="<?=$key?>-notice-tab">
+                            <ul class="list-group list-group-flush mb-3 overflow-auto border bg-white" style="height: 160px;">
+                                <?php foreach($notice['info'] as list($date, $text)): ?>
+                                    <li class="list-group-item">
+                                        <span class="badge badge-php-info p-1 mr-2"><?=$date?></span><?=$text?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+</div>

@@ -3,21 +3,12 @@
     <div class="modal fade" id="<?=$key?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$key?>-modal-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="<?=$key?>-modal-title">
-                        <img src="/Assets/img/pokemon/dots/mini/<?=$key?>.gif" class="mb-2" alt="<?=$name?>アイコン">
-                        <?=$name?>
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <figure class="mt-3">
-                            <img src="/Assets/img/pokemon/dots/front/<?=$key?>.gif" alt="<?=$name?>">
+                        <figure class="my-3">
+                            <img src="/Assets/img/pokemon/dots/front/<?=$key?>.gif" alt="<?=$name?>" class="mb-4">
+                            <p class="mb-0"><span class="font-weight-bolder"><?=$name?></span>を最初のパートナーとして連れていきますか？</p>
                         </figure>
-                        <p><span class="font-weight-bolder"><?=$name?></span>を最初のパートナーとして連れていきますか？</p>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
@@ -27,10 +18,10 @@
                         <input type="hidden" name="name">
                         <div class="row">
                             <div class="col-6">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">もう少し考える</button>
+                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">もう少し考える</button>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-success" data-form="#<?=$key?>-form">キミに決めた！</button>
+                                <button type="submit" class="btn btn-sm btn-php-dark" data-form="#<?=$key?>-form">キミに決めた！</button>
                             </div>
                         </div>
                         <?php input_token(); ?>

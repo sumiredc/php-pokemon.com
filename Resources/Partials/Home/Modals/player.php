@@ -7,15 +7,14 @@
                     <img src="/Assets/img/player/red/mini/front.png" alt="<?=player()->getName()?>" />
                     <?=player()->getName()?>
                 </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
-                <div class="form-group row">
-                    <label class="col-4 col-form-label font-weight-bolder">おこづかい</label>
-                    <div class="col-8">
-                        <p class="form-control-plaintext"><?=player()->getMoney()?>円</p>
+                <div class="row">
+                    <div class="col-6">
+                        <label class="font-weight-bold mb-0">おこづかい</label>：<?=player()->getMoney()?>円
+                    </div>
+                    <div class="col-6">
+                        <label class="font-weight-bold mb-0">プレイヤーレベル</label>：<?=player()->getLevel()?>
                     </div>
                 </div>
                 <hr>
@@ -23,7 +22,7 @@
                     <?php foreach(config('gym') as $num => list($gym, $badge, $leader)): ?>
                         <div class="col-4 col-sm-3">
                             <h6>
-                                <span class="badge badge-orange"><?=$num+1?></span>
+                                <span class="badge badge-php-dark"><?=$num+1?></span>
                                 <?=transJp($leader, 'trainer')?>
                             </h6>
                             <figure class="text-center">
