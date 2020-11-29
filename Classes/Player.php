@@ -1,6 +1,7 @@
 <?php
 $root_path = __DIR__.'/..';
 // トレイト
+require_once($root_path.'/Classes/Pokedex.php');
 require_once($root_path.'/App/Traits/Class/Player/ClassPlayerItemTrait.php');
 require_once($root_path.'/App/Traits/Class/Player/ClassPlayerBadgeTrait.php');
 require_once($root_path.'/App/Traits/Class/Player/ClassPlayerMoneyTrait.php');
@@ -22,6 +23,12 @@ class Player
     protected $name = '';
 
     /**
+    * プレイヤーレベル
+    * @var integer
+    */
+    protected $level = 1;
+
+    /**
     * おこづかい
     * @var integer
     */
@@ -34,19 +41,16 @@ class Player
     protected $party = [];
 
     /**
-    * ジムバッジ
-    * @var integer
+    * ポケモン図鑑
+    * @var object::Pokedex
     */
-    protected $badges = [
-        'Boulder' => false,  # グレーバッジ
-        'Cascade' => false,  # ブルーバッジ
-        'Thunder' => false,  # オレンジバッジ
-        'Rainbow' => false,  # レインボーバッジ
-        'Soul' => false,     # ピンクバッジ
-        'Marsh' => false,    # ゴールドバッジ
-        'Volcano' => false,  # クリムゾンバッジ
-        'Earth' => false,    # グリーンバッジ
-    ];
+    protected $pokedex;
+
+    /**
+    * ジムバッジ
+    * @var array
+    */
+    protected $badges;
 
     /**
     * 持ち物
@@ -62,6 +66,8 @@ class Player
     public function __construct($name)
     {
         $this->name = $name;
+        $this->pokedex = new Pokedex;
+        $this->setDefaultBadges();
     }
 
     /**==================================================================
@@ -74,6 +80,49 @@ class Player
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+    * プレイヤーレベルの取得
+    * @return integer
+    */
+    public function getLevel(): int
+    {
+        return $this->level;
+    }
+
+    /**
+    * プレイヤーレベルを1上昇させる
+    * @return void
+    */
+    public function levelUp(): void
+    {
+        $this->level++;
+    }
+
+    /**
+    * バッジを初期状態にする
+    * @return void
+    */
+    private function setDefaultBadges(): void
+    {
+        // configからバッジを取得
+        $badges = array_map(function($gym){
+            return $gym[1];
+        }, config('gym'));
+        // 値とキーを入れ替えて、全てにfalseをセット
+        $this->badges = array_map(function($badge){
+            return false;
+        }, array_flip($badges));
+    }
+
+    /**
+    * 図鑑の取得
+    * @return object::Pokedex
+    */
+    public function pokedex()
+    {
+        return $this->pokedex;
     }
 
 }
