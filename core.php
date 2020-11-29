@@ -30,6 +30,7 @@ require_once(__DIR__.'/App/Globals/SerializeGlobal.php');
 require_once(__DIR__.'/App/Globals/FormGlobal.php');
 require_once(__DIR__.'/App/Globals/CommonGlobal.php');
 require_once(__DIR__.'/App/Globals/PlayerGlobal.php');
+require_once(__DIR__.'/App/Globals/PokeboxGlobal.php');
 // バトル画面専用のグローバル関数
 if(getPageName() === 'battle'){
     require_once(__DIR__.'/App/Globals/BattleStateGlobal.php');

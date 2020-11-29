@@ -1,0 +1,10 @@
+{
+	"version": 3,
+	"file": "pokebox.css",
+	"sources": [
+		"../../../../Resources/Sass/Page/pokebox.scss",
+		"../../../../Resources/Sass/config.scss"
+	],
+	"names": [],
+	"mappings": "CAEA,AAAA,AAAA,SAAC,CAAU,SAAS,AAAnB,EAAqB,mBAAmB,AAAA,OAAO,AAAA,CAC5C,KAAK,CAAE,IAAI,CAAA,UAAU,CACrB,gBAAgB,CAAE,OAAO,CAAA,UAAU,CACtC,AACD,AAAA,oBAAoB,AAAA,CAChB,MAAM,CAAE,KAAK,CAChB,AACD,AAAA,qBAAqB,AAAA,CACjB,MAAM,CAAE,KAAK,CAIhB,ACQA,MAAM,EAAE,SAAS,EAAE,KAAK,EDbzB,AAAA,qBAAqB,AAAA,CAGb,MAAM,CAAE,IAAI,CAEnB"
+}

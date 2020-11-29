@@ -1,0 +1,15 @@
+@import '../config';
+// ポケモンの選択
+[data-list="pokemon"] .table-selected-row.active{
+    color: #FFF!important;
+    background-color: #4F5B93!important;
+}
+#pokebox-tab-content{
+    height: 300px;
+}
+#pokebox-tab-controls{
+    height: 300px;
+    @include sm {
+        height: 80px;
+    }
+}
