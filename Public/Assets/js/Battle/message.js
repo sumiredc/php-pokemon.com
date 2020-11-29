@@ -29,7 +29,7 @@ var clickMsgBoxInit = function(){
     var click = true;
     // 変数をリセット
     auto_msg = false;
-    $('.action-message-box').on('click', async function(){
+    $('[data-controls="message-box"]').on('click', async function(){
         if(click === false) return;
         $(".message-scroll-icon").hide();
         // メッセージボックスを処理終了まで無効化
@@ -63,6 +63,12 @@ var actionMsgBox = function(now){
         }else{
             // メッセージにアクションがセットされていれば実行
             switch (now.data('action')){
+                // ==============================================
+                // バトル開始演出 ===============================
+                case 'start':
+                await window.actionLib
+                .doAnimateStart(now.data('target'));
+                break;
                 // ==============================================
                 // HPバーの処理 =================================
                 case 'hpbar':
@@ -116,6 +122,12 @@ var actionMsgBox = function(now){
                 case 'capture':
                 await window.actionLib
                 .doAnimateCapture(now.data('param'));
+                break;
+                // ==============================================
+                // 瀕死処理 =====================================
+                case 'fainting':
+                await window.actionLib
+                .doAnimateFainting(now.data('target'));
                 break;
             }
             // 次のメッセージへ
@@ -174,12 +186,12 @@ var nextMsg = function(now){
 var doLastMsg = function(){
     // スクロールアイコンを非表示
     $('.message-scroll-icon').hide();
-    // 操作ボタンの無効化解除
+    // 操作ボタンの有効化
     $('.action-btn, .action-img-btn').prop('disabled', false);
     // ボタンに色付け
     $('.action-btn').each(function(){
-        $(this).removeClass('btn-outline-light');
-        $(this).addClass('btn-outline-success');
+        $(this).removeClass('btn-disabled')
+        .addClass('btn-php-dark');
     });
 }
 
@@ -194,8 +206,8 @@ var doNotLastMsg = function(){
     $('.action-btn, .action-img-btn').prop('disabled', true);
     // ボタンの色消し
     $('.action-btn').each(function(){
-        $(this).removeClass('btn-outline-success');
-        $(this).addClass('btn-outline-light');
+        $(this).removeClass('btn-php-dark')
+        .addClass('btn-disabled');
     });
 }
 

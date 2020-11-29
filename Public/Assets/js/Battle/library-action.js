@@ -6,6 +6,29 @@ window.actionLib = {};
 ----------------------------------------------------------*/
 
 /**
+* バトル開始
+* @param target:string
+* @return Promise
+*/
+window.actionLib.doAnimateStart = function (target){
+    return new Promise ( async (resolve, reject) => {
+        // ボールが開くエフェクト
+        $('#battle-field').append(
+            $($('#template-effect-ball-open').html())
+            .addClass('friend')
+        );
+        await timer(500);
+        // ボールエフェクトを非表示
+        $('img.capture-ball-open').hide();
+        // 画像とパラメーターを表示
+        $('#' + target + '-pokemon-image').removeClass('opacity-0');
+        $('#' + target + '-pokemon-parameter').removeClass('opacity-0');
+        await timer(1000);
+        resolve();
+    });
+}
+
+/**
 * HPバーのアニメーションを実行
 * @param string target
 * @param mixed param
@@ -140,8 +163,8 @@ window.actionLib.doAnimateTransform = function (target, param){
 window.actionLib.doAnimateChangeIn = function (target){
     return new Promise ((resolve, reject) => {
         // 対象のポケモン画像とパラメーターを非表示
-        $('#' + target + '-pokemon-image').hide();
-        $('#' + target + '-pokemon-parameter').css('opacity', 0);
+        $('#' + target + '-pokemon-image').addClass('opacity-0');
+        $('#' + target + '-pokemon-parameter').addClass('opacity-0');
         resolve();
     });
 }
@@ -195,8 +218,8 @@ window.actionLib.doAnimateChangeOut = function (target, param){
         // ボールエフェクトを非表示
         $('img.capture-ball-open').hide();
         // 画像とパラメーターを表示
-        img.show();
-        $('#' + target + '-pokemon-parameter').css('opacity', 100);
+        img.removeClass('opacity-0');
+        $('#' + target + '-pokemon-parameter').removeClass('opacity-0');
         await timer(1000);
         resolve();
     });
@@ -292,7 +315,7 @@ window.actionLib.doAnimateCapture = function (param){
         $('#battle-field').prepend(ball);
         // キーフレームの用意
         var l = 25;
-        var t = 15;
+        var t = 25;
         var keyframes  = {
             name: 'throw-ball'
         };
@@ -325,6 +348,7 @@ window.actionLib.doAnimateCapture = function (param){
             complete: async function(){
                 // ボールエフェクト
                 ball.hide();
+                ball.css('top', '35%'); // ボールの位置を少し下げる
                 var ball_open = $($('#template-effect-ball-open').html());
                 ball_open.addClass('enemy');
                 $('#battle-field').append(ball_open);
@@ -332,22 +356,26 @@ window.actionLib.doAnimateCapture = function (param){
                 // 相手ポケモンを非表示
                 ball.show();
                 $('img.capture-ball-open').hide();
-                $('#enemy-pokemon-image').hide();
+                $('#enemy-pokemon-image').addClass('opacity-0');
                 // 揺れ演出
                 await shakeBall(ball, param.shake);
                 if(param.shake >= 4){
                     // 捕獲成功
-                    await timer(1000);
+                    // 捕獲時のボールアニメーション
+                    var ball_get = $($('#template-effect-ball-get').html());
+                    $('#battle-field').append(ball_get);
+                    await timer(500);
+                    $('img.capture-ball-get').hide();
                     resolve();
                 }else{
                     // 捕獲失敗
                     // ボールエフェクト
                     ball.remove();
-                    ball_open = $('#template-effect-ball-open').html();
+                    ball_open = $($('#template-effect-ball-open').html());
                     ball_open.addClass('enemy');
                     $('#battle-field').append(ball_open);
                     // 相手ポケモンを表示
-                    $('#enemy-pokemon-image').show();
+                    $('#enemy-pokemon-image').removeClass('opacity-0');
                     await timer(500);
                     // 非表示
                     $('img.capture-ball-open').hide();
@@ -356,6 +384,20 @@ window.actionLib.doAnimateCapture = function (param){
                 }
             }
         });
+    });
+}
+
+/**
+* 瀕死処理
+* @param target:string
+* @return Promise
+*/
+window.actionLib.doAnimateFainting = function (target){
+    return new Promise ( async (resolve, reject) => {
+        $('#' + target + '-pokemon-parameter').addClass('opacity-0');
+        $('#' + target + '-pokemon-image').addClass('opacity-0');
+        await timer(500);
+        resolve();
     });
 }
 
@@ -411,6 +453,16 @@ var countHp = function(start, end){
 */
 var shakeBall = function(ball, count){
     return new Promise ((resolve, reject) => {
+        // 揺れ回数0
+        if(!count){
+            resolve();
+            return;
+        }
+        // 回数分のpromiseを作成
+        var jobs = [];
+        for (var i = 0; i < count; i++) {
+             jobs.push($.Deferred());
+        }
         $.keyframe.define({
             name: 'shake-ball',
             '0%': {
@@ -426,6 +478,7 @@ var shakeBall = function(ball, count){
                 transform: 'translateY(-100%) translateX(-50%) rotate(0deg)'
             },
         });
+        var shake = 0;
         ball.playKeyframe({
             name: 'shake-ball',
             duration: '1000ms',
@@ -436,10 +489,14 @@ var shakeBall = function(ball, count){
             fillMode: 'forwards',
             complete: function(){
                 setTimeout(function() {
-                    resolve();
+                    jobs[shake].resolve();
+                    shake++;
                 }, 500);
             }
         });
+        // 揺れ回数分の処理が完了
+        Promise.all(jobs)
+        .then(() => { resolve(); });
     });
 }
 
