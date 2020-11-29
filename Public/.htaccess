@@ -7,3 +7,5 @@ Header set X-Content-Type-Options nosniff
 <Files ~ "\.(log|ini)$">
     Deny from all
 </Files>
+
+ErrorDocument 404 /
