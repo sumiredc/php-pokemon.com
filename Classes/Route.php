@@ -28,6 +28,9 @@ class Route
     */
     public function template():string
     {
+        if(http_response_code() === 404){
+            return '/Resources/Pages/404.php';
+        }
         switch ($this->name) {
             // ホーム画面
             case 'home':
@@ -40,6 +43,10 @@ class Route
             // 進化画面
             case 'evolve':
             $path = '/Resources/Pages/Evolve.php';
+            break;
+            // ポケモンボックス画面
+            case 'pokebox':
+            $path = '/Resources/Pages/Pokebox.php';
             break;
             // デフォルト（初期設定）
             default:

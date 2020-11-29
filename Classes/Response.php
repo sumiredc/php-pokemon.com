@@ -33,7 +33,6 @@ class Response
 
     /**
     * メッセージIDの発行
-    *
     * @return string
     */
     public function issueMsgId()
@@ -50,7 +49,6 @@ class Response
 
     /**
     * 使用中のメッセージIDを格納
-    *
     * @return string
     */
     public function setUsedMessageId($arg)
@@ -64,7 +62,6 @@ class Response
 
     /**
     * 全リセット
-    *
     * @return void
     */
     public function resetResponsesAll()
@@ -72,6 +69,37 @@ class Response
         $this->messages = [];
         $this->responses = [];
         $this->modals = [];
+    }
+
+    /**==================================================================
+    * ヘルパーメソッド
+    ==================================================================**/
+
+    /**
+    * レスポンスの取得
+    * @return array
+    */
+    public function responses(): array
+    {
+        return $this->responses;
+    }
+
+    /**
+    * メッセージの取得
+    * @return array
+    */
+    public function messages(): array
+    {
+        return $this->messages;
+    }
+
+    /**
+    * モーダルの取得
+    * @return array
+    */
+    public function modals(): array
+    {
+        return $this->modals;
     }
 
     /**==================================================================

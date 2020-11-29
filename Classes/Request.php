@@ -48,7 +48,11 @@ class Request
         $keys = explode('.', $dot_key);
         $values = $this->post;
         foreach($keys ?? [] as $key){
-            $values = $values[$key] ?? '';
+            $values = $values[$key] ?? null;
+            // valuesが配列でなくなれば処理終了
+            if(!is_array($values)){
+                break;
+            }
         }
         return $values;
     }

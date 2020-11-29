@@ -7,6 +7,7 @@ require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonDefaultTrait.php'
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCheckTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonReleaseTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGoTurnTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonTransformTrait.php');
 
 // ポケモン
@@ -18,6 +19,7 @@ abstract class Pokemon
     use ClassPokemonCheckTrait;
     use ClassPokemonCalculationTrait;
     use ClassPokemonReleaseTrait;
+    use ClassPokemonGoTurnTrait;
     use ClassPokemonTransformTrait;
 
     /**
@@ -119,10 +121,15 @@ abstract class Pokemon
     * インスタンス作成時に実行される処理
     * @param param:mixed
     * @param transform:object|null::Pokemon
+    * @param empty:boolean
     * @return void
     */
-    public function __construct($param=null, $transform=null)
+    public function __construct($param=null, $transform=null, $empty=false)
     {
+        if($empty){
+            // 情報取得用の空オブジェクトを要求
+            return;
+        }
         if(is_object($transform)){
             // へんしん用処理
             $this->transform($param, $transform);
@@ -237,6 +244,10 @@ abstract class Pokemon
         ]);
         // 現在のレベルで習得できる技があるか確認
         $this->checkLevelMove();
+        // プレイヤーレベルの更新
+        if($this->level > player()->getLevel()){
+            player()->levelUp();
+        }
     }
 
     /**
@@ -286,61 +297,17 @@ abstract class Pokemon
     }
 
     /**
-    * ターンカウントをすすめる（状態異常）
-    *
-    * @param release:boolean
+    * 全回復
     * @return void
     */
-    public function goSaTurn(bool $release=true)
+    public function recovery()
     {
-        // 状態異常クラスを取得
-        $sa = $this->getSa();
-        switch ($sa) {
-            /**
-            * ねむり
-            */
-            case 'SaSleep':
-            // 残ターン数を1マイナス
-            $this->sa[$sa]--;
-            // $releaseがtrueなら解除判定
-            if($release && ($this->sa[$sa] <= 0)){
-                $this->sa = [];
-            }
-            break;
-            /**
-            * もうどく
-            */
-            case 'SaBadPoison':
-            // 経過ターン数を1プラス（最大15）
-            if($this->sa[$sa] <= 14){
-                $this->sa[$sa]++;
-            }else{
-                $this->sa[$sa] = 15;
-            }
-            break;
-        }
-    }
-
-    /**
-    * ターンカウントをすすめる（状態変化）
-    *
-    * @param class:string
-    * @param release:boolean
-    * @return void
-    */
-    public function goScTurn(string $class, bool $release=true)
-    {
-        // 状態変化を取得
-        $sc = $this->getSc();
-        if(isset($sc[$class])){
-            // 残ターン数を1マイナス
-            $this->sc[$class]['turn']--;
-            // $releaseがtrueなら解除チェック
-            if($release && ($this->sc[$class]['turn'] <= 0)){
-                // 指定された状態変化の解除
-                unset($this->sc[$class]);
-            }
-        }
+        // HP回復
+        $this->calRemainingHp('reset');
+        // 状態異常解除
+        $this->releaseSa();
+        // PP回復
+        $this->calRemainingPp('reset');
     }
 
 }
