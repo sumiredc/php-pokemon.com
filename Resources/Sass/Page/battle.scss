@@ -1,3 +1,4 @@
+@import '../config';
 // バトルフィールド
 #battle-field{
     position: relative;
@@ -17,12 +18,18 @@ img.capture-ball-open{
     height: 80px;
     &.enemy{
         left: 75%;
-        top: 15%;
+        top: 25%;
     }
     &.friend{
         left: 25%;
-        top: 85%;
+        top: 75%;
     }
+}
+img.capture-ball-get{
+    position: absolute;
+    transform: translateY(-100%) translateX(-50%);
+    left: 75%;
+    top: 30%;
 }
 // ランクアイコン
 i.rank-active{

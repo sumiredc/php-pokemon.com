@@ -2,8 +2,9 @@
 	"version": 3,
 	"file": "initial.css",
 	"sources": [
-		"../../../../Resources/Sass/Page/initial.scss"
+		"../../../../Resources/Sass/Page/initial.scss",
+		"../../../../Resources/Sass/config.scss"
 	],
 	"names": [],
-	"mappings": "AAAA,AAAA,MAAM,AAAA,cAAc,AAAA,CAChB,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,IAAI,CAKhB,AAPD,AAGI,MAHE,AAAA,cAAc,CAGd,GAAG,AAAA,CACD,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,OAAO,CAClB"
+	"mappings": "AACA,AAAA,MAAM,AAAA,cAAc,AAAA,CAChB,UAAU,CAAE,MAAM,CAClB,OAAO,CAAE,IAAI,CAKhB,AAPD,AAGI,MAHE,AAAA,cAAc,CAGd,GAAG,AAAA,CACD,SAAS,CAAE,IAAI,CACf,MAAM,CAAE,OAAO,CAClB"
 }

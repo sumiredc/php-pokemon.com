@@ -1,0 +1,36 @@
+/* ========================
+// ブレイクポイント
+==========================*/
+$break-points: (
+lg: 1199px,
+md: 991px,
+sm: 767px,
+xs: 575px,
+xss: 374px,
+);
+
+@mixin lg {
+	@media (max-width: (map_get($break-points, lg))) {
+		@content;
+	}
+}
+@mixin md {
+	@media (max-width: (map_get($break-points, md))) {
+		@content;
+	}
+}
+@mixin sm {
+	@media (max-width: (map_get($break-points, sm))) {
+		@content;
+	}
+}
+@mixin xs {
+	@media (max-width: (map_get($break-points, xs))) {
+		@content;
+	}
+}
+@mixin xss {
+	@media (max-width: (map_get($break-points, xss))) {
+		@content;
+	}
+}
