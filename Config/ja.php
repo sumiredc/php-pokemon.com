@@ -8,9 +8,7 @@ return [
         'level' => 'レベル',
         'exp' => '経験値',
         'nextlevel' => '次のレベルまで',
-        'physical' => '物理',
-        'special' => '特殊',
-        'status' => '変化',
+
         'friend' => '味方',
         'enemy' => '相手',
     ],
@@ -43,5 +41,11 @@ return [
         'ball' => 'ボール',
         'important' => '大切なもの',
         'machine' => 'わざマシン'
+    ],
+    // 技
+    'move' => [
+        'physical' => '物理',
+        'special' => '特殊',
+        'status' => '変化',
     ],
 ];

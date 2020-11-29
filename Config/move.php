@@ -1,9 +1,7 @@
 <?php
 return [
-    // 種類
+    // 分類
     'species' => [
-        'physical',
-        'special',
-        'status'
+        'physical', 'special', 'status'
     ]
 ];
