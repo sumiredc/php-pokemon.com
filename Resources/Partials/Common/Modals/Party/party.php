@@ -63,7 +63,8 @@
             </div>
             <?php # フッター（ホーム画面のみ） ?>
             <?php if(getPageName() === 'home'): ?>
-                <div class="modal-footer">
+                <div class="modal-footer justify-content-between">
+                    <p class="mb-0 small text-white">ドラッグで並び替えができます</p>
                     <form id="party-order-sort-form" method="post">
                         <input type="hidden" name="action" value="sort_party">
                         <input type="hidden" name="orders" value=''>
