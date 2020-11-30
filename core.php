@@ -10,6 +10,15 @@ session_start();
 session_regenerate_id(true);
 
 /**
+* 環境変数
+*/
+$env = include(__DIR__.'/env.php');
+if($env['maintenance']){
+    echo '只今メンテナンス中です';
+    exit;
+}
+
+/**
 * ルーティング
 */
 require_once(__DIR__.'/Classes/Route.php');

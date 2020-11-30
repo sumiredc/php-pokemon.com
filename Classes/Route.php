@@ -16,7 +16,7 @@ class Route
         $this->name = $name;
         if(
             !isset($_POST['__token']) ||
-            ($_POST['__token'] !== $token)
+            $_POST['__token'] !== $token
         ){
             $_POST = [];
         }
@@ -26,11 +26,13 @@ class Route
     * テンプレートパス取得
     * @return string
     */
-    public function template():string
+    public function template(): string
     {
+        // 404ページへのリダイレクト
         if(http_response_code() === 404){
             return '/Resources/Pages/404.php';
         }
+        // ページ分岐
         switch ($this->name) {
             // ホーム画面
             case 'home':

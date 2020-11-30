@@ -6,11 +6,6 @@ require_once($root_path.'/Classes/Player.php');
 // コントローラー
 abstract class Controller
 {
-    // /**
-    // * プレイヤー
-    // * @var object::Player
-    // */
-    // protected $player;
 
     /**
     * @return void

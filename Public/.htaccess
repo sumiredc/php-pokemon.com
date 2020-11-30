@@ -5,7 +5,7 @@ Header set X-Frame-Options DENY
 Header set X-Content-Type-Options nosniff
 
 <Files ~ "\.(log|ini)$">
-    Deny from all
+Deny from all
 </Files>
 
-ErrorDocument 404 /
+ErrorDocument 404 /404.php
