@@ -22,7 +22,8 @@
                             <ul class="list-group list-group-flush mb-3 overflow-auto border bg-white" style="height: 160px;">
                                 <?php foreach($notice['info'] as list($date, $text)): ?>
                                     <li class="list-group-item">
-                                        <span class="badge badge-php-info p-1 mr-2"><?=$date?></span><?=$text?>
+                                        <span class="badge badge-php-info p-1 mr-2"><?=$date?></span>
+                                        <span class="d-block d-md-inline mt-2"><?=$text?></span>
                                     </li>
                                 <?php endforeach; ?>
                             </ul>
