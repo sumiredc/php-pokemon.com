@@ -16,7 +16,7 @@ var sortPartyInit = function(){
             .removeClass('btn-disabled')
             .addClass('btn-php-dark');
         }
-    });
+    }).draggable(); // スマホ対応用
 }
 
 /**
