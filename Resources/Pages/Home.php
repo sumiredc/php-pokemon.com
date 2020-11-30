@@ -25,7 +25,7 @@ $root_path = __DIR__.'/../..';
                     include($root_path.'/Resources/Partials/Common/menu.php');
                     ?>
                     <div class="col-12 mb-5 text-center">
-                        <img src="/Assets/img/player/red/large/front.gif" class="mb-3" alt="プレイヤー">
+                        <img src="/Assets/img/player/red/large/front.gif" alt="プレイヤー">
                     </div>
                 </div>
             </section>

@@ -16,7 +16,7 @@
     <div class="col text-center">
         <?php # フィールド ?>
         <figure class="btn-action" data-toggle="modal" data-target="#field-modal">
-            <img src="/Assets/img/fields/grass.gif" class="mb-2" alt="フィールド" />
+            <img src="/Assets/img/fields/grass.gif" class="mb-2 rounded-sm" alt="フィールド" />
             <p><span class="badge badge-success">フィールド</span></p>
         </figure>
     </div>
