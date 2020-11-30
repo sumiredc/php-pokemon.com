@@ -52,3 +52,9 @@ tbody.first-border-top-none{
         outline: 0;
     }
 }
+// ポケモン画像
+#enemy-pokemon-image, #friend-pokemon-image{
+    &:not(.opacity-0):disabled{
+        opacity: 1;
+    }
+}
