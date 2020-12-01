@@ -15,10 +15,14 @@ function transJp($str, $key=0)
 /**
 * 現在のページ名プレフィックスを取得
 * @param prefix:bool
-* @return string
+* @return string|integer
 */
 function getPageName(bool $prefix=false)
 {
+    // 404ページ
+    if(http_response_code() === 404){
+        return 404;
+    }
     // ページ名を全て小文字に変換
     $page = strtolower($_SESSION['__route'] ?? 'initial');
     // 最初の文字を大文字に変換
