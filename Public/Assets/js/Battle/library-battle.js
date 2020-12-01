@@ -1,5 +1,5 @@
 // グローバル関数をオブジェクト化
-window.actionLib = {};
+window.battleLib = {};
 
 /*----------------------------------------------------------
 // グローバル化する関数
@@ -10,7 +10,7 @@ window.actionLib = {};
 * @param target:string
 * @return Promise
 */
-window.actionLib.doAnimateStart = function (target){
+window.battleLib.doAnimateStart = function (target){
     return new Promise ( async (resolve, reject) => {
         // ボールが開くエフェクト
         $('#battle-field').append(
@@ -35,7 +35,7 @@ window.actionLib.doAnimateStart = function (target){
 * @param now element
 * @return Promise
 */
-window.actionLib.doAnimateHpBar = function(target, param){
+window.battleLib.doAnimateHpBar = function(target, param){
     return new Promise((resolve, reject) => {
         // 対象のHPバーを取得
         var hpbar = $('#hpbar-' + target);
@@ -115,7 +115,7 @@ window.actionLib.doAnimateHpBar = function(target, param){
 * @param json
 * @return Promise
 */
-window.actionLib.doAnimateSa = function (target, param){
+window.battleLib.doAnimateSa = function (target, param){
     return new Promise ((resolve, reject) => {
         var badge = $('#sa-' + target);
         badge.removeClass("badge-");
@@ -130,7 +130,7 @@ window.actionLib.doAnimateSa = function (target, param){
 * @param
 * @return Promise
 */
-window.actionLib.doAnimateSaRelease = function (target){
+window.battleLib.doAnimateSaRelease = function (target){
     return new Promise ((resolve, reject) => {
         $('#sa-' + target).remove();
         resolve();
@@ -142,7 +142,7 @@ window.actionLib.doAnimateSaRelease = function (target){
 * @param json
 * @return Promise
 */
-window.actionLib.doAnimateTransform = function (target, param){
+window.battleLib.doAnimateTransform = function (target, param){
     return new Promise ((resolve, reject) => {
         // 対象のポケモン画像を指定
         var img = $('#' + target + '-pokemon-image');
@@ -160,7 +160,7 @@ window.actionLib.doAnimateTransform = function (target, param){
 * @param json
 * @return Promise
 */
-window.actionLib.doAnimateChangeIn = function (target){
+window.battleLib.doAnimateChangeIn = function (target){
     return new Promise ((resolve, reject) => {
         // 対象のポケモン画像とパラメーターを非表示
         $('#' + target + '-pokemon-image').addClass('opacity-0');
@@ -174,7 +174,7 @@ window.actionLib.doAnimateChangeIn = function (target){
 * @param json
 * @return Promise
 */
-window.actionLib.doAnimateChangeOut = function (target, param){
+window.battleLib.doAnimateChangeOut = function (target, param){
     return new Promise ( async (resolve, reject) => {
         // 交代後のポケモンの画像を生成
         var img = $('#' + target + '-pokemon-image');
@@ -230,7 +230,7 @@ window.actionLib.doAnimateChangeOut = function (target, param){
 * @param mixed param
 * @return Promise
 */
-window.actionLib.doAnimateExpBar = function(param){
+window.battleLib.doAnimateExpBar = function(param){
     return new Promise ((resolve, reject) => {
         var expbar = $("#expbar-friend");
         // EXPの現在の値を変更
@@ -268,7 +268,7 @@ window.actionLib.doAnimateExpBar = function(param){
 * @param json
 * @return Promise
 */
-window.actionLib.doAnimateLevelUp = function(param){
+window.battleLib.doAnimateLevelUp = function(param){
     return new Promise ((resolve, reject) => {
         var expbar = $("#expbar-friend");
         // アニメーションをリセット
@@ -307,7 +307,7 @@ window.actionLib.doAnimateLevelUp = function(param){
 * @param integer
 * @return Promise
 */
-window.actionLib.doAnimateCapture = function (param){
+window.battleLib.doAnimateCapture = function (param){
     return new Promise ((resolve, reject) => {
         // ボール画像を取得
         var ball = $($('#template-effect-ball').html());
@@ -392,7 +392,7 @@ window.actionLib.doAnimateCapture = function (param){
 * @param target:string
 * @return Promise
 */
-window.actionLib.doAnimateFainting = function (target){
+window.battleLib.doAnimateFainting = function (target){
     return new Promise ( async (resolve, reject) => {
         $('#' + target + '-pokemon-parameter').addClass('opacity-0');
         $('#' + target + '-pokemon-image').addClass('opacity-0');

@@ -1,3 +1,7 @@
+<?php
+$before_friend = battle_state()->getBefore('friend');
+$before_enemy = battle_state()->getBefore('enemy');
+?>
 <section id="battle-field" class="p-1 p-sm-3 border-bottom">
     <div class="row mb-3 mb-sm-5 py-3 py-sm-4">
         <?php # 敵ポケモン詳細 ?>

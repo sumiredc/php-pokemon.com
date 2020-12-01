@@ -150,7 +150,7 @@ class Response
     * @param mixed $param
     * @return array
     */
-    public function setAutoMessage($param)
+    public function setAutoMessage($param='')
     {
         $this->messages[] = ['', $param, 'auto'];
     }
@@ -303,8 +303,8 @@ class Response
         }else{
             // モーダル格納
             $this->modals[] = $param;
-            // モーダル起動時用の空メッセージをセット
-            $this->messages[] = ['', '', ''];
+            // モーダルが最終になる場合を想定した空の自動メッセージをセット
+            $this->setAutoMessage();
         }
     }
 

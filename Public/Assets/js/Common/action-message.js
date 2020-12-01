@@ -4,6 +4,10 @@
 var supportedFlag = $.keyframe.isSupported();
 // 自動メッセージ判定用
 var auto_msg;
+// メッセージボックスのクリック判定用
+var click_flg = true;
+// ページ判別用ID
+var page_id = $('meta[name="page-id"]').attr('content');
 
 /**
 * 画面読み込み時の関数
@@ -26,14 +30,23 @@ var startInit = function(){
 * @return void
 */
 var clickMsgBoxInit = function(){
-    var click = true;
     // 変数をリセット
     auto_msg = false;
     $('[data-controls="message-box"]').on('click', async function(){
-        if(click === false) return;
+        if(
+            // 連続クリック防止
+            click_flg === false ||
+            (
+                // モーダルの消失回避
+                $('.result-message.active').data('toggle') === 'modal' &&
+                $(this).data('dismiss') !== 'modal'
+            )
+        ){
+            return;
+        }
         $(".message-scroll-icon").hide();
         // メッセージボックスを処理終了まで無効化
-        click = false;
+        click_flg = false;
         // 現在のメッセージ
         var now = $('.result-message.active');
         await actionMsgBox(now);
@@ -43,7 +56,27 @@ var clickMsgBoxInit = function(){
             await actionMsgBox(now);
         }
         // メッセージボックスを有効可
-        click = true;
+        click_flg = true;
+    });
+}
+
+/**
+* メッセージボックス内の進化キャンセルボタン
+* @function click
+* @return void
+**/
+var clickCancelEvolveInit = function(){
+    $('#cancel-evolve').on('click', async function(){
+        // 自身のボタンを非表示化
+        $(this).hide()
+        // アニメーションの強制終了(コールバックを無効化)
+        $('#pokemon-after').resetKeyframe(function(){});
+        $('#pokemon-after').css('opacity', 0);
+        await nextMsg($('.result-message.active'));
+        // cancelボタンで発火しないように１秒後にメッセージボックスを有効可
+        setTimeout(function() {
+            click_flg = true;
+        }, 1000);
     });
 }
 
@@ -62,72 +95,85 @@ var actionMsgBox = function(now){
             await doLastMsg();
         }else{
             // メッセージにアクションがセットされていれば実行
-            switch (now.data('action')){
+            switch (page_id + '-' + now.data('action')){
                 // ==============================================
                 // バトル開始演出 ===============================
-                case 'start':
-                await window.actionLib
+                case 'battle-start':
+                await window.battleLib
                 .doAnimateStart(now.data('target'));
                 break;
                 // ==============================================
                 // HPバーの処理 =================================
-                case 'hpbar':
-                await window.actionLib
+                case 'battle-hpbar':
+                await window.battleLib
                 .doAnimateHpBar(now.data('target'), now.data('param'));
                 break;
                 // ==============================================
                 // 状態異常処理 =================================
-                case 'sa':
-                await window.actionLib
+                case 'battle-sa':
+                await window.battleLib
                 .doAnimateSa(now.data('target'), now.data('param'));
                 break;
                 // ==============================================
                 // 状態異常解除 =================================
-                case 'sa-release':
-                await window.actionLib
+                case 'battle-sa-release':
+                await window.battleLib
                 .doAnimateSaRelease(now.data('target'));
                 break;
                 // ==============================================
                 // へんしん処理 =================================
-                case 'transform':
-                await window.actionLib
+                case 'battle-transform':
+                await window.battleLib
                 .doAnimateTransform(now.data('target'), now.data('param'));
                 break;
                 // ==============================================
                 // 交代処理（戻す） =============================
-                case 'change-in':
-                await window.actionLib
+                case 'battle-change-in':
+                await window.battleLib
                 .doAnimateChangeIn(now.data('target'));
                 break;
                 // ==============================================
                 // 交代処理（登場） =============================
-                case 'change-out':
-                await window.actionLib
+                case 'battle-change-out':
+                await window.battleLib
                 .doAnimateChangeOut(now.data('target'), now.data('param'));
                 break;
                 // ==============================================
                 // 経験値バーの処理 =============================
-                case 'expbar':
-                await window.actionLib
+                case 'battle-expbar':
+                await window.battleLib
                 .doAnimateExpBar(now.data('param'));
                 break;
                 // ==============================================
                 // レベルアップ処理 =============================
-                case 'levelup':
-                await window.actionLib
+                case 'battle-levelup':
+                await window.battleLib
                 .doAnimateLevelUp(now.data('param'));
                 break;
                 // ==============================================
                 // 捕獲処理 =====================================
-                case 'capture':
-                await window.actionLib
+                case 'battle-capture':
+                await window.battleLib
                 .doAnimateCapture(now.data('param'));
                 break;
                 // ==============================================
                 // 瀕死処理 =====================================
-                case 'fainting':
-                await window.actionLib
+                case 'battle-fainting':
+                await window.battleLib
                 .doAnimateFainting(now.data('target'));
+                break;
+                // ==============================================
+                // 進化アニメーション ===========================
+                case 'evolve-evolve':
+                $('#cancel-evolve').show()
+                await window.evolveLib
+                .doAnimateEvolve();
+                break;
+                // ==============================================
+                // 進化キャンセル ===============================
+                case 'evolve-cancel':
+                $('#remote-form-action').val('cancel');
+                $('#remote-form').submit();
                 break;
             }
             // 次のメッセージへ
@@ -184,14 +230,33 @@ var nextMsg = function(now){
 * @return void
 */
 var doLastMsg = function(){
-    // スクロールアイコンを非表示
-    $('.message-scroll-icon').hide();
-    // 操作ボタンの有効化
-    $('.action-btn, .action-img-btn').prop('disabled', false);
-    // ボタンに色付け
-    $('.action-btn').each(function(){
-        $(this).removeClass('btn-disabled')
-        .addClass('btn-php-dark');
+    return new Promise ((resolve, reject) => {
+        // スクロールアイコンを非表示
+        $('.message-scroll-icon').hide();
+        // =====================================================
+        // 進化画面用の処理 ====================================
+        //
+        if(page_id === 'evolve'){
+            // 終了
+            $('#remote-form-action').val('');
+            setTimeout(function() {
+                // 5秒後画面移管のためリモートフォームを空送信
+                $('#remote-form').submit();
+            }, 500);
+        }
+        // =====================================================
+        // バトル画面用の処理 ==================================
+        //
+        if(page_id === 'battle'){
+            // 操作ボタンの有効化
+            $('.action-btn, .action-img-btn').prop('disabled', false);
+            // ボタンに色付け
+            $('.action-btn').each(function(){
+                $(this).removeClass('btn-disabled')
+                .addClass('btn-php-dark');
+            });
+        }
+        resolve();
     });
 }
 
@@ -202,13 +267,18 @@ var doLastMsg = function(){
 var doNotLastMsg = function(){
     // スクロールアイコンを非表示
     $('.message-scroll-icon').show();
-    // 操作ボタンの無効化
-    $('.action-btn, .action-img-btn').prop('disabled', true);
-    // ボタンの色消し
-    $('.action-btn').each(function(){
-        $(this).removeClass('btn-php-dark')
-        .addClass('btn-disabled');
-    });
+    // =====================================================
+    // バトル画面用の処理 ==================================
+    //
+    if(page_id === 'battle'){
+        // 操作ボタンの無効化
+        $('.action-btn, .action-img-btn').prop('disabled', true);
+        // ボタンの色消し
+        $('.action-btn').each(function(){
+            $(this).removeClass('btn-php-dark')
+            .addClass('btn-disabled');
+        });
+    }
 }
 
 /*----------------------------------------------------------
@@ -217,4 +287,5 @@ var doNotLastMsg = function(){
 jQuery(function($){
     startInit();
     clickMsgBoxInit();
+    clickCancelEvolveInit();
 });

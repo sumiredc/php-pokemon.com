@@ -32,7 +32,7 @@ $root_path = __DIR__.'/../..';
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # モーダルの読み込み
-    foreach($modals as $modal){
+    foreach(response()->modals() as $modal){
         if(isset($modal['modal'])){
             include($root_path.'/Resources/Partials/Battle/Modals/'.$modal['modal'].'.php');
         }
@@ -49,9 +49,9 @@ $root_path = __DIR__.'/../..';
     ?>
     <script src="/Assets/js/Common/item.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Common/forget-move.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Common/action-message.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Battle/fight.js" type="text/javascript" defer></script>
-    <script src="/Assets/js/Battle/message.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Battle/party.js" type="text/javascript" defer></script>
-    <script src="/Assets/js/Battle/library-action.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Battle/library-battle.js" type="text/javascript" defer></script>
 </body>
 </html>

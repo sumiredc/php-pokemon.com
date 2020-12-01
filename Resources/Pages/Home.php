@@ -37,7 +37,7 @@ $root_path = __DIR__.'/../..';
                 <div class="row">
                     <div class="col-12">
                         <div class="message-box border p-3">
-                            <?php foreach($messages as list($message)): ?>
+                            <?php foreach(response()->messages() as list($message)): ?>
                                 <p class="mb-0"><?=$message?></p>
                             <?php endforeach; ?>
                         </div>

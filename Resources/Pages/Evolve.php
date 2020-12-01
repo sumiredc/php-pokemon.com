@@ -1,6 +1,6 @@
 <?php
 $root_path = __DIR__.'/../..';
-// require_once($root_path.'/Resources/Partials/Layouts/Head/evolve.php');
+$pokemon = $controller->getPokemon();
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -44,14 +44,14 @@ $root_path = __DIR__.'/../..';
                     <div class="col-12">
                         <div class="message-box border p-3" data-controls="message-box">
                             <?php # メッセージエリア ?>
-                            <?php foreach($messages as $key => list($msg, $status, $auto)): ?>
+                            <?php foreach(response()->messages() as $key => list($msg, $status, $auto)): ?>
                                 <?php $class = $key === response()->getMessageFirstKey() ? 'active' : ''; ?>
                                 <?php $last_class = $key === response()->getMessageLastKey() ? 'last-message' : ''; ?>
                                 <p class="result-message <?=$class?> <?=$last_class?> <?=$status ?? ''?>"
-                                    data-action='<?=$responses[$status]['action'] ?? ''?>'
-                                    data-target='<?=$responses[$status]['target'] ?? ''?>'
-                                    data-param='<?=$responses[$status]['param'] ?? ''?>'
-                                    data-toggle='<?=$responses[$status]['toggle'] ?? ''?>'
+                                    data-action='<?=response()->responses()[$status]['action'] ?? ''?>'
+                                    data-target='<?=response()->responses()[$status]['target'] ?? ''?>'
+                                    data-param='<?=response()->responses()[$status]['param'] ?? ''?>'
+                                    data-toggle='<?=response()->responses()[$status]['toggle'] ?? ''?>'
                                     data-auto='<?=$auto ?? ''?>'>
                                     <?=$msg?>
                                 </p>
@@ -68,13 +68,14 @@ $root_path = __DIR__.'/../..';
     # footerの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
     # モーダルの読み込み
-    foreach($modals as $modal){
+    foreach(response()->modals() as $modal){
         include($root_path.'/Resources/Partials/Evolve/Modals/'.$modal['modal'].'.php');
     }
     # JSの読み込み
     include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
     ?>
     <script src="/Assets/js/Common/forget-move.js" type="text/javascript" defer></script>
-    <script src="/Assets/js/Evolve/message.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Common/action-message.js" type="text/javascript" defer></script>
+    <script src="/Assets/js/Evolve/library-evolve.js" type="text/javascript" defer></script>
 </body>
 </html>
