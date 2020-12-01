@@ -5,7 +5,6 @@ $collapses = [
     'howto_battle',
     'earn_money',
     'select_pokemon',
-    'exp_sysmte',
 ];
 ?>
 <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-modal-title" aria-hidden="true">

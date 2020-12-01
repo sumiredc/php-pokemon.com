@@ -113,7 +113,7 @@ class InitialController extends Controller
 
         // 全てのポケモンをパーティーにセット
         foreach($this->pokemon_list as $class => $name){
-            $pokemon = new $class(5);
+            $pokemon = new $class(15);
             $pokemon->setPosition();
             if($class === 'Mew'){
                 $pokemon->setNickname('デバッガー');

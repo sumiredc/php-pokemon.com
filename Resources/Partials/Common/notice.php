@@ -1,8 +1,8 @@
 <div class="container-fluid bg-php-back section">
-    <section class="bg-php-back p-3">
+    <section class="bg-php-back px-3 py-4">
         <div class="row">
             <div class="col-12">
-                <h2 class="mb-3 h3 font-weight-bolder text-php-head">お知らせ</h2>
+                <h2 class="mb-3 h3 font-weight-bolder text-php-head"><i class="fas fa-info-circle mr-2"></i>お知らせ</h2>
                 <ul class="nav nav-tabs" id="notice-tab" role="tablist">
                     <?php foreach(config('notice') as $key => $notice): ?>
                         <li class="nav-item">
@@ -19,7 +19,7 @@
                 <div class="tab-content " id="notice-tab-content">
                     <?php foreach(config('notice') as $key => $notice): ?>
                         <div class="tab-pane fade show <?php if($key === 'update') echo 'active'; ?>" id="<?=$key?>-notice-tab-content" role="tabpanel" aria-labelledby="<?=$key?>-notice-tab">
-                            <ul class="list-group list-group-flush mb-3 overflow-auto border bg-white" style="height: 160px;">
+                            <ul class="list-group list-group-flush overflow-auto border bg-white" style="height: 160px;">
                                 <?php foreach($notice['info'] as list($date, $text)): ?>
                                     <li class="list-group-item">
                                         <span class="badge badge-php-info p-1 mr-2"><?=$date?></span>
