@@ -10,15 +10,6 @@ session_start();
 session_regenerate_id(true);
 
 /**
-* 環境変数
-*/
-$env = include(__DIR__.'/env.php');
-if($env['maintenance']){
-    echo '只今メンテナンス中です';
-    exit;
-}
-
-/**
 * ルーティング
 */
 require_once(__DIR__.'/Classes/Route.php');
@@ -46,9 +37,25 @@ if(getPageName() === 'battle'){
 }
 
 /**
-* ページテンプレートの読み込み
+* 環境変数
 */
-require_once($root_path.'/Resources/Pages/Head/'.getPageName().'.php');
+$env = include(__DIR__.'/env.php');
+// メンテナンスモード
+if($env[503]){
+    include(__DIR__.'/Public/503.php');
+    exit;
+}
+
+/**
+* コントローラの読み込み
+*/
+$controller_class = $route->controller('class');
+require_once(__DIR__.$route->controller('path'));
+$controller = new $controller_class;
+
+/**
+* テンプレートの読み込み
+*/
 require_once(__DIR__.$route->template());
 
 /**

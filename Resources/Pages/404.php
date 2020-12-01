@@ -1,10 +1,5 @@
 <?php
 $root_path = __DIR__.'/../..';
-if(player()){
-    // コイキング用の処理
-    if(random_int(0, 8192)) $image = '404';
-    player()->pokedex()->discovery(new Koiking(null, null, true));
-}
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -25,9 +20,9 @@ if(player()){
         <div class="container-fluid section bg-php-back">
             <section class="px-3 py-4">
                 <h2 class="text-php-head font-weight-bold mb-4">ページが見つかりませんでした...</h2>
-                <?php if(player()): ?>
+                <?php if($controller->isPlayer()): ?>
                     <figure class="p-5 text-center">
-                        <img src="/Assets/img/<?=$image ?? '404gold'?>.gif" alt="コイキング" />
+                        <img src="/Assets/img/pokemon/3d/<?=$controller->koiking()?>.gif" alt="コイキング" />
                     </figure>
                 <?php endif; ?>
                 <div class="text-center">
@@ -38,10 +33,12 @@ if(player()){
                 <div class="row">
                     <div class="col-12">
                         <div class="message-box border p-3">
-                            <?php if(player()): ?>
+                            <?php if($controller->isPlayer()): ?>
                                 <p class="mb-0">あっ！コイキングを見つけた！</p>
                             <?php else: ?>
-                                <p class="text-danger">申し訳ございません、要求されたページは存在していません。「ゲーム画面へ戻る」を押してください。</p>
+                                <p class="text-danger">
+                                    申し訳ございません、要求されたページは存在していません。「ゲーム画面へ戻る」を押してください。
+                                </p>
                             <?php endif; ?>
                         </div>
                     </div>
