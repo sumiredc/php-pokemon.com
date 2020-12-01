@@ -82,6 +82,12 @@ class BattleState
     private $money = [];
 
     /**
+    * 戦闘に参加したポケモン番号
+    * @var array
+    */
+    private $fought_orders = [];
+
+    /**
     * 判定有無確認用フラグ
     * @var boolean
     */

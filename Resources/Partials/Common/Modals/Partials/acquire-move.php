@@ -3,6 +3,12 @@
 <div class="modal fade" id="<?=$modal['id']?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$modal['id']?>-modal-title" aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="<?=$modal['id']?>-modal-title">
+                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>">
+                    <?=$pokemon->getNickname()?>
+                </h5>
+            </div>
             <div class="modal-body">
                 <?php # 覚えている技 ?>
                 <table class="table table-bordered table-selected table-sm table-hover">

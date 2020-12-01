@@ -57,12 +57,37 @@ trait ClassBattleStatePokemonTrait
     ==================================================================**/
 
     /**
-    * 現在のポケモン番号を取得
+    * 現在バトルに参加しているポケモン番号を取得
     * @return integer
     */
     public function getOrder(): int
     {
         return $this->order;
+    }
+
+    /**
+    * 現在バトルに参加しているポケモンIDを取得
+    * @return integer
+    */
+    public function getPokemonId(): string
+    {
+        return player()->getPartner($this->order)
+        ->getId();
+    }
+
+    /**
+    * 戦闘に参加しているポケモン番号の格納(private)
+    * @param order:integer
+    * @return void
+    */
+    private function setOrder(int $order): void
+    {
+        // 番号をプロパティへ格納
+        $this->order = $order;
+        // 戦闘に参加したポケモンリストに格納
+        if(!in_array($order, $this->fought_orders, true)){
+            $this->fought_orders[] = $order;
+        }
     }
 
     /**
@@ -74,8 +99,8 @@ trait ClassBattleStatePokemonTrait
         $orders = array_filter(player()->getParty(), function($partner){
             return $partner->isFight();
         });
-        // プロパティへ格納
-        $this->order = array_key_first($orders);
+        // 番号をプロパティへ格納
+        $this->setOrder(array_key_first($orders));
         // 選出されたポケモンを取得
         return player()->getPartner($this->order);
     }
@@ -106,9 +131,31 @@ trait ClassBattleStatePokemonTrait
         if($order_reset){
             $order = array_search($pokemon, player()->getParty());
             if($order !== false){
-                $this->order = $order;
+                $this->setOrder($order);
             }
         }
+    }
+
+    /**
+    * 経験値を貰える権利があるポケモン番号の取得
+    * @return array
+    */
+    public function getEntitledExpOrders(): array
+    {
+        /**
+        * 現在戦闘中のポケモンを先頭にする
+        */
+        // 現在戦闘中のポケモン番号を削除(次のarray_unshiftが破壊的な関数のため変数へ格納)
+        $fought_orders = array_diff($this->fought_orders, [$this->order]);
+        // 先頭に現在のポケモン番号を追加
+        array_unshift($fought_orders,  $this->order);
+        // 戦闘可能状態でフィルターにかけて返却
+        return array_filter(
+            $fought_orders,
+            function($order){
+                return player()->getPartner($order)->isFight();
+            }
+        );
     }
 
     /**==================================================================
@@ -149,21 +196,20 @@ trait ClassBattleStatePokemonTrait
     {
         if(in_array($position, config('pokemon.position'), true)){
             // どちらか指定
-            if(empty($this->$position->getRemainingHp())){
-                // 瀕死状態
-                $result = true;
-            }
+            return !$this->$position->isFight();
         }else{
             // 両方チェック
             if(
-                empty($this->enemy->getRemainingHp()) ||
-                empty($this->friend->getRemainingHp())
+                !$this->enemy->isFight() ||
+                !$this->friend->isFight()
             ){
-                // 瀕死有り
-                $result = true;
+                // 瀕死状態
+                return true;
+            }else{
+                // 瀕死状態ではない
+                return false;
             }
         }
-        return $result ?? false;
     }
 
 }

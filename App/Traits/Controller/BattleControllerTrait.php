@@ -136,18 +136,22 @@ trait BattleControllerTrait
     */
     private function judgmentWin()
     {
-        // 経験値の計算
         $party = player()->getParty();
-        $order = battle_state()->getOrder();
-        // パーティー取得
-        $exp = $this->calExp(friend(), enemy());
-        // 経験値をポケモンにセット
-        $party[$order]->setExp($exp);
-        // 努力値を獲得
-        $party[$order]->setEv(enemy()->getRewardEv());
+        // 経験値がもらえるポケモンに経験値を割り振り
+        $orders = battle_state()->getEntitledExpOrders();
+        foreach($orders as $order){
+            // 経験値の計算
+            $exp = $this->calExp(friend(), enemy(), count($orders));
+            // 経験値をポケモンにセット
+            $party[$order]->setExp($exp);
+            // 努力値を獲得
+            $party[$order]->setEv(enemy()->getRewardEv());
+        }
         // もしポケモンが「へんしん状態」であれば変更後の状態を引き継ぎ
         if(friend()->checkSc('ScTransform')){
-            friend()->judgmentTransform($party[$order]);
+            friend()->judgmentTransform(
+                $party[battle_state()->getOrder()]
+            );
         }
         // 散らばったお金の取得
         $money = battle_state()->getMoney();
@@ -161,25 +165,33 @@ trait BattleControllerTrait
 
     /**
     * 経験値の計算
-    * (EXP × LM^2.5 + 1)
-    *
+    * (EXP / count × LM^2.5 + 1)
     * @var EXP 倒されたポケモンのレベル × 倒されたポケモンの基礎経験値 ÷ 5
+    * @var count 戦闘に参加したポケモンの数
     * @var LM レベル補正 (2L + 10) / (L + Lp + 10)
     * @var L 倒されたポケモン($lose)のレベル
     * @var Lp 倒したポケモン($win)のレベル
     *
-    * @param Pokemon:object $win
-    * @param Pokeomo:object $lose
+    * @param win:object::Pokemon
+    * @param lose:object::Pokeomo
+    * @param count:integer
     * @return integer
     */
-    protected function calExp($win, $lose)
+    protected function calExp(object $win, object $lose, int $count): int
     {
         // EXP
         $exp = $lose->getLevel() * $lose->getBaseExp() / 5;
         // レベル補正
         $lm = (2 * $lose->getLevel() + 10) / ($lose->getLevel() + $win->getLevel() + 10);
-        // 経験値の計算結果を整数（切り捨て）で返却
-        return (int)($exp * $lm ** 2.5 + 1);
+        // 返り値の型指定を使って、経験値の計算結果を整数（切り捨て）で返却
+        return $exp / $count * $lm ** 2.5 + 1;
+
+        // // EXP
+        // $exp = $lose->getLevel() * $lose->getBaseExp() / 5;
+        // // レベル補正
+        // $lm = (2 * $lose->getLevel() + 10) / ($lose->getLevel() + $win->getLevel() + 10);
+        // // 経験値の計算結果を整数（切り捨て）で返却
+        // return (int)($exp * $lm ** 2.5 + 1);
     }
 
     /**
@@ -191,8 +203,7 @@ trait BattleControllerTrait
         $transform = battle_state()->getTransform('friend');
         // もし「へんしん状態」であれば、残HPと状態異常を元ポケモンに反映
         if($transform){
-            $order = battle_state()->getOrder();
-            player()->getParty()[$order]
+            player()->getPartner(battle_state()->getOrder())
             ->mirroringTransform($transform);
         }
     }

@@ -73,7 +73,8 @@ trait ClassPokemonCheckTrait
                     response()->setResponse([
                         'toggle' => 'modal',
                         'target' => '#'.$msg_id.'-modal',
-                        'move' => $move_class
+                        'move' => $move_class,
+                        'pokemon_id' => $this->id
                     ], $msg_id);
                     // モーダル用のレスポンスをセット
                     response()->setModal([

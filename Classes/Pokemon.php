@@ -200,9 +200,12 @@ abstract class Pokemon
     */
     protected function actionLevelUp($msg_id=null)
     {
-        // メッセージIDの指定があれば、経験値バーのアニメーション用レスポンスをセット
-        if(!is_null($msg_id)){
-            setResponse([
+        // メッセージIDの指定があれば、経験値バーのアニメーション用レスポンスをセット(戦闘ポケモンのみ)
+        if(
+            !is_null($msg_id) &&
+            battle_state()->getPokemonId() === $this->id
+        ){
+            response()->setResponse([
                 'param' => 100, # %
                 'action' => 'expbar',
             ], $msg_id);
@@ -216,31 +219,34 @@ abstract class Pokemon
             $this->calRemainingHp('add', $this->getStats('HP') - $before_hp);
         }
         // メッセージIDを生成
-        $msg_id1 = issueMsgId();
-        $msg_id2 = issueMsgId();
-        // レベルアップアニメーション用レスポンス
-        setResponse([
-            'param' => json_encode([
-                'level' => $this->level,
-                'remaining_hp' => $this->getRemainingHp(),
-                'remaining_hp_per' => $this->getRemainingHp('per'),
-                'max_hp' => $this->getStats('HP'),
-            ]),
-            'action' => 'levelup',
-        ], $msg_id1);
-        setAutoMessage($msg_id1);
+        $msg_id1 = response()->issueMsgId();
+        $msg_id2 = response()->issueMsgId();
+        // レベルアップアニメーション用レスポンス(戦闘ポケモンのみ)
+        if(battle_state()->getPokemonId() === $this->id){
+            response()->setResponse([
+                'param' => json_encode([
+                    'level' => $this->level,
+                    'remaining_hp' => $this->getRemainingHp(),
+                    'remaining_hp_per' => $this->getRemainingHp('per'),
+                    'max_hp' => $this->getStats('HP'),
+                ]),
+                'action' => 'levelup',
+            ], $msg_id1);
+            response()->setAutoMessage($msg_id1);
+        }
         // レベルアップメッセージ
-        setMessage($this->getNickName().'のレベルは'.$this->level.'になった！', $msg_id2);
+        response()->setMessage($this->getNickName().'のレベルは'.$this->level.'になった！', $msg_id2);
         // レスポンスデータをセット
-        setResponse([
+        response()->setResponse([
             'toggle' => 'modal',
             'target' => '#'.$msg_id2.'-modal',
         ], $msg_id2);
         // モーダル用のレスポンスをセット
-        setModal([
+        response()->setModal([
             'id' => $msg_id2,
             'modal' => 'levelup',
-            'stats' => $this->getStats(),
+            'stats' => $this->getStats(), # 連続レベルアップ時に書き換わるため現在の値をセット
+            'pokemon' => $this
         ]);
         // 現在のレベルで習得できる技があるか確認
         $this->checkLevelMove();

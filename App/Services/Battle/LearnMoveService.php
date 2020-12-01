@@ -12,11 +12,6 @@ class LearnMoveService extends Service
     /**
     * @var Pokemon:object
     */
-    protected $pokemon;
-
-    /**
-    * @var Pokemon:object
-    */
     protected $tmp_pokemon;
 
     /**
@@ -33,8 +28,6 @@ class LearnMoveService extends Service
     */
     public function __construct($before_responses, $before_messages, $before_modals)
     {
-        // へんしん状態を考慮してパーティーのポケモンへフォーカス
-        $this->pokemon = player()->getPartner(battle_state()->getOrder());
         $this->before_responses = unserializeObject($before_responses);
         $this->before_messages = $before_messages;
         $this->before_modals = unserializeObject($before_modals);
@@ -71,8 +64,11 @@ class LearnMoveService extends Service
     */
     private function createTmpPokemon(): void
     {
-        // へんしん状態を想定する
-        $pokemon = clone (battle_state()->getTransform('friend') ?? $this->pokemon);
+        // へんしん状態を想定して描画用のポケモンを生成
+        $pokemon = clone (
+            battle_state()->getTransform('friend') ??
+            player()->getPartner(battle_state()->getOrder())
+        );
         // クローンオブジェクトにレベルと残HPをセット
         $pokemon->setLevel(request('param.level'));
         $pokemon->setRemainingHp(request('param.hp'));
@@ -87,18 +83,22 @@ class LearnMoveService extends Service
     */
     private function replaceMove()
     {
+        // 技を習得する対象のポケモンのIDを旧レスポンスから取得(交代したポケモンを想定)
+        $pokemon = player()->getPartner(
+            $this->before_responses[request('param.id')]['pokemon_id'], 'id'
+        );
         // 忘れる技を取得
-        $forget_move = $this->pokemon
+        $forget_move = $pokemon
         ->getMove(request('param.forget'));
-        // 覚えさせる技を取得
+        // 覚えさせる技を旧レスポンスから取得
         $new_move = new $this->before_responses[request('param.id')]['move'];
         // 技を覚えさせる
-        $this->pokemon
+        $pokemon
         ->setMove($new_move, request('param.forget'));
         // メッセージの返却
         response()->setMessage('1 2の ……ポカン！');
-        response()->setMessage($this->pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
-        response()->setMessage($this->pokemon->getNickname().'は新しく、'.$new_move->getName().'を覚えた！');
+        response()->setMessage($pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
+        response()->setMessage($pokemon->getNickname().'は新しく、'.$new_move->getName().'を覚えた！');
     }
 
     /**

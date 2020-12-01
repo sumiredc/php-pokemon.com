@@ -142,7 +142,7 @@ trait ClassPokemonSetTrait
         // 次のレベルに必要な経験値を取得
         $next_exp = $this->getReqLevelUpExp();
         // 経験値を加算
-        $this->exp += (int)$exp;
+        $this->exp += $exp;
         // メッセージIDを生成
         $msg_id = issueMsgId();
         response()->setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
@@ -165,15 +165,19 @@ trait ClassPokemonSetTrait
                 // レベルアップ処理
                 $this->actionLevelUp($msg_id);
             }
-            // 全レベルアップ処理終了後、メッセージIDを再生成
-            $msg_id = issueMsgId();
-            setAutoMessage($msg_id);
+            // 全レベルアップ処理終了後、メッセージIDを再生成(戦闘ポケモンのみ)
+            if(battle_state()->getPokemonId() === $this->id){
+                $msg_id = issueMsgId();
+                setAutoMessage($msg_id);
+            }
         }
-        // 経験値バーの最終アニメーション用レスポンス
-        setResponse([
-            'param' => $this->getPerCompNexExp(),
-            'action' => 'expbar',
-        ], $msg_id);
+        // 経験値バーの最終アニメーション用レスポンス(戦闘ポケモンのみ)
+        if(battle_state()->getPokemonId() === $this->id){
+            setResponse([
+                'param' => $this->getPerCompNexExp(),
+                'action' => 'expbar',
+            ], $msg_id);
+        }
         // 進化判定
         if(
             isset($levelup) &&
