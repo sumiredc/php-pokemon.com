@@ -1,5 +1,8 @@
 <?php
+/**
+* 環境変数
+*/
 return [
     // メンテナンスモード
-    'maintenance' => false
+    503 => false,
 ];
