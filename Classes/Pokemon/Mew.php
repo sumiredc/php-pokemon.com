@@ -51,13 +51,14 @@ class Mew extends Pokemon
         [20, 'MoveWingAttack'],            # メガトンパンチ
         [30, 'MoveMetronome'],             # ゆびをふる
         [40, 'MovePsychic'],               # サイコキネシス
-        // [1, 'MoveFissure'],        # じわれ
+
+        // [6, 'MoveMist'],           # しろいきり
         // [1, 'MoveHighJumpKick'],        # とびひざげり
-        // [8, 'MoveHyperBeam'],           # はかいこうせん
+        // [1, 'MoveReflect'],           # リフレクター
+        // [1, 'MoveHyperBeam'],           # はかいこうせん
         // [6, 'MoveEarthquake'],       # じしん
         // [6, 'MoveThrash'],     # あばれる
-        // [1, 'MoveMist'],           # しろいきり
-        // [1, 'MoveReflect'],           # リフレクター
+        // [1, 'MoveFissure'],        # じわれ
         // [1, 'MovePoisonPowder'],   # どくのこな
         // [1, 'MoveSleepPowder'],    # ねむりごな
         // [1, 'MoveThunderWave'],     # でんじは

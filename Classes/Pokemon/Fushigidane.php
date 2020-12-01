@@ -59,15 +59,15 @@ class Fushigidane extends Pokemon
     * @var array
     */
     protected $level_move = [
-        [1, 'MoveTackle'],
-        [1, 'MoveGrowl'],
-        [7, 'MoveLeechSeed'],
-        [13, 'MoveVineWhip'],
-        [20, 'MovePoisonPowder'],
-        [27, 'MoveRazorLeaf'],
-        [34, 'MoveGrowth'],
-        [41, 'MoveSleepPowder'],
-        [48, 'MoveSolarBeam'],
+        [1, 'MoveTackle'],          # たいあたり
+        [1, 'MoveGrowl'],           # なきごえ
+        [7, 'MoveLeechSeed'],       # やどりぎのタネ
+        [13, 'MoveVineWhip'],       # つるのムチ
+        [20, 'MovePoisonPowder'],   # どくのこな
+        [27, 'MoveRazorLeaf'],      # はっぱカッター
+        [34, 'MoveGrowth'],         # せいちょう
+        [41, 'MoveSleepPowder'],    # ねむりごな
+        [48, 'MoveSolarBeam'],      # ソーラービーム
     ];
 
     /**

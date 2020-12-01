@@ -71,8 +71,8 @@ class Kameil extends Pokemon
         [15, 'MoveWaterGun'],
         [24, 'MoveBite'],
         [31, 'MoveWithdraw'],
-        [39, 'MoveSkullBash'],
-        [47, 'MoveHydroPump'],
+        [39, 'MoveSkullBash'],  # ロケットずつき
+        [47, 'MoveHydroPump'],  # ハイドロポンプ
     ];
 
     /**
