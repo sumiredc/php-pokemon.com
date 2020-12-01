@@ -5,10 +5,19 @@ return [
         'name' => '1番道路',
         'level' => 1, # プレイヤーレベル
         'pokemon' => [
-            'Nyarth', 'Poppo', 'Pikachu'
+            'Nyarth', 'Poppo'
         ],
         'min' => 2,   # 出現する最小レベル
-        'max' => 8,   # 出現する最大レベル
+        'max' => 5,   # 出現する最大レベル
+    ],
+    'route_2' => [
+        'name' => '2番道路',
+        'level' => 4,
+        'pokemon' => [
+            'Nyarth', 'Poppo', 'Pikachu'
+        ],
+        'min' => 3,
+        'max' => 7,
     ],
     'viridian_forest' => [
         'name' => 'トキワの森',
@@ -17,7 +26,7 @@ return [
             'Pikachu', 'Poppo', 'Fushigidane', 'Hitokage', 'Zenigame', 'Nyarth'
         ],
         'min' => 7,
-        'max' => 15,
+        'max' => 13,
     ],
     'rock_tunnel' => [
         'name' => 'イワヤマトンネル',
@@ -25,7 +34,7 @@ return [
         'pokemon' => [
             'Fushigisou', 'Lizardo', 'Kameil', 'Metamon', 'Pigeon', 'Persian', 'Pikachu', 'Nyarth'
         ],
-        'min' => 15,
+        'min' => 13,
         'max' => 28,
     ],
     'victory_road' => [
