@@ -26,7 +26,7 @@ class RecoveryService extends Service
         foreach(player()->getParty() as $partner){
             $partner->recovery();
         }
-        setMessage([
+        response()->setMessage([
             ['お預かりしたポケモンたちは、皆元気になりましたよ'],
             ['またのご利用お待ちしております']
         ]);

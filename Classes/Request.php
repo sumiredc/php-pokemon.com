@@ -19,7 +19,7 @@ class Request
     /**
     * @return array
     */
-    public function sanitize($array)
+    private function sanitize($array): array
     {
         $post = [];
         foreach($array ?? [] as $key => $data){
@@ -33,7 +33,6 @@ class Request
             }else{
                 $post[htmlspecialchars($key)] = htmlspecialchars($data);
             }
-
         }
         return $post;
     }

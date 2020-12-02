@@ -38,9 +38,9 @@ class SortPartyService extends Service
         );
         // 並び替えの実行
         if(player()->sortParty($orders)){
-            setMessage('ポケモンの並び替えをしました');
+            response()->setMessage('ポケモンの並び替えをしました');
         }else{
-            setMessage('並び替えに失敗しました');
+            response()->setMessage('並び替えに失敗しました');
         }
     }
 

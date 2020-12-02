@@ -18,10 +18,9 @@ trait HomeControllerTrait
         }, array_flip(config('item.categories')));
         // カテゴリ分け
         $items = array_reduce(config('shop'), function($carry, $class){
-            $item = new $class;
-            $carry[$item->getCategory()][] = [
+            $carry[$class::CATEGORY][] = [
                 'order' => array_search($class, config('shop')), # ショップ内のアイテム番号
-                'item' => $item,
+                'class' => $class,
                 'owned' => player()->getItemCount($class), # 所有数
             ];
             return $carry;

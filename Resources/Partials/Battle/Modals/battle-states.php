@@ -70,10 +70,10 @@
                         <div class="tab-pane fade show" id="<?=$id?>-sc" role="tabpanel" aria-labelledby="<?=$id?>-sc-tab">
                             <?php # 状態変化 ?>
                             <div class="row">
-                                <?php foreach($pokemon->getScObject() as $sc): ?>
+                                <?php foreach($pokemon->getSc() as $class => $param): ?>
                                     <div class="col-6">
                                         <div class="alert alert-php-info" role="alert">
-                                            <h6 class="alert-heading mb-0"><?=$sc->getName()?>状態</h6>
+                                            <h6 class="alert-heading mb-0"><?=$class::NAME?>状態</h6>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -82,10 +82,10 @@
                         <div class="tab-pane fade show" id="<?=$id?>-field" role="tabpanel" aria-labelledby="<?=$id?>-field-tab">
                             <?php # フィールド ?>
                             <div class="row">
-                                <?php foreach(battle_state()->getField($pokemon->getPosition(), true) as list($field, $turn)): ?>
+                                <?php foreach(battle_state()->getFields($pokemon->getPosition(), true) as list($field, $turn)): ?>
                                     <div class="col-6">
                                         <div class="alert alert-cyan" role="alert">
-                                            <h6 class="alert-heading"><?=$field->getName()?></h6>
+                                            <h6 class="alert-heading"><?=$field::NAME?></h6>
                                             <p class="font-weight-bolder mb-0">残り<?=$turn?>ターン</p>
                                         </div>
                                     </div>

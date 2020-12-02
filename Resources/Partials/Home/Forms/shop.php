@@ -11,15 +11,15 @@
                         <?php # optionの生成 ?>
                         <?php foreach($items as $item): ?>
                             <?php # 取得する価格の分岐 ?>
-                            <?php if($form === 'buy') $price = $item['item']->getBidPrice(); ?>
-                            <?php if($form === 'sell') $price = $item['item']->getSellPrice(); ?>
+                            <?php if($form === 'buy') $price = $item['class']::BID_PRICE; ?>
+                            <?php if($form === 'sell') $price = $item['class']::SELL_PRICE; ?>
                             <?php if(is_null($price)) continue; ?>
                             <option value="<?=$item['order']?>"
                                 data-price="<?=$price?>"
-                                data-item="<?=$item['item']->getName()?>"
-                                data-max="<?=$item['item']->getMax()?>"
+                                data-item="<?=$item['class']::NAME?>"
+                                data-max="<?=$item['class']::MAX?>"
                                 data-owned="<?=$item['owned'] ?? $item['count']?>">
-                                <?=$item['item']->getName()?>（<?=$price?>円）
+                                <?=$item['class']::NAME?>（<?=$price?>円）
                             </option>
                         <?php endforeach; ?>
                     </optgroup>

@@ -94,9 +94,9 @@ class ChangeService extends Service
         battle_state()->changeInit('friend');
         // ポケモンを戻す演出処理(味方が戦闘不能状態でなければ)
         if(friend()->isFight()){
-            $msg_id1 = issueMsgId();
-            setMessage(friend()->getNickname().'、戻れ！', $msg_id1);
-            setResponse([
+            $msg_id1 = response()->issueMsgId();
+            response()->setMessage(friend()->getNickname().'、戻れ！', $msg_id1);
+            response()->setResponse([
                 'action' => 'change-in',
                 'target' => 'friend'
             ], $msg_id1);
@@ -104,9 +104,9 @@ class ChangeService extends Service
         // バトル中のポケモンを交代してポケモン番号を変更
         battle_state()->setFriend($partner, true);
         // 交代後のポケモンを繰り出す演出処理
-        $msg_id2 = issueMsgId();
-        setMessage('ゆけっ！'.friend()->getNickname().'！', $msg_id2);
-        setResponse([
+        $msg_id2 = response()->issueMsgId();
+        response()->setMessage('ゆけっ！'.friend()->getNickname().'！', $msg_id2);
+        response()->setResponse([
             'action' => 'change-out',
             'target' => 'friend',
             'param' => json_encode([

@@ -68,8 +68,8 @@ class InitialController extends Controller
                 $pokemon->setPosition();
                 player()->setParty($pokemon);
                 // 初期アイテムをセット
-                player()->addItem(new ItemPotion, 5);
-                player()->addItem(new ItemPokeBall, 5);
+                player()->addItem('ItemPotion', 5);
+                player()->addItem('ItemPokeBall', 5);
             }
             // ポケモンボックスの初期化
             initPokebox();
@@ -127,8 +127,8 @@ class InitialController extends Controller
         // player()->setParty($pokemon);
 
         // 初期アイテムをセット
-        player()->addItem(new ItemPotion, 20);
-        player()->addItem(new ItemPokeBall, 20);
-        player()->addItem(new ItemMasterBall, 50);
+        player()->addItem('ItemPotion', 20);
+        player()->addItem('ItemPokeBall', 20);
+        player()->addItem('ItemMasterBall', 50);
     }
 }

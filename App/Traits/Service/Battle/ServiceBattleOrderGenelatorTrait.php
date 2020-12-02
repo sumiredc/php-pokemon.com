@@ -1,5 +1,7 @@
 <?php
-// 行動順の配列生成用トレイト
+/**
+* 行動順の配列生成用トレイト
+*/
 trait ServiceBattleOrderGenelatorTrait
 {
 

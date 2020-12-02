@@ -46,6 +46,12 @@ abstract class Move
     protected const ONE_HIT_KNOCKOUT_FAILED_MSG = '::pokemonには全然効いていない！';
 
     /**
+    * フィールド効果
+    * @var array
+    */
+    public static $field = [];
+
+    /**
     * タイプ名の取得
     * @return string
     */
@@ -54,7 +60,6 @@ abstract class Move
         $type = static::TYPE;
         return $type::NAME;
     }
-
 
     /**
     * チャージ効果
@@ -84,14 +89,7 @@ abstract class Move
         return 1;
     }
 
-    /**
-    * フィールド効果
-    * @return array
-    */
-    public static function field(): array
-    {
-        return [];
-    }
+
 
     /**
     * 反動

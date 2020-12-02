@@ -41,20 +41,20 @@ class DefaultService extends Service
     {
         $pokemon = player()->getParty()[$this->order];
         // 確認メッセージ
-        $msg_id1 = issueMsgId();
-        setMessage('・・・おや！？ '.$pokemon->getNickName().'の様子が・・・！');
-        setAutoMessage($msg_id1);
-        setResponse([
+        $msg_id1 = response()->issueMsgId();
+        response()->setMessage('・・・おや！？ '.$pokemon->getNickName().'の様子が・・・！');
+        response()->setAutoMessage($msg_id1);
+        response()->setResponse([
             'action' => 'evolve'
         ], $msg_id1);
         // 終了メッセージ
-        $msg_id2 = issueMsgId();
-        setMessage('あれ・・・？ '.$pokemon->getNickName().'の変化が止まった！', $msg_id2);
-        setResponse([
+        $msg_id2 = response()->issueMsgId();
+        response()->setMessage('あれ・・・？ '.$pokemon->getNickName().'の変化が止まった！', $msg_id2);
+        response()->setResponse([
             'action' => 'cancel'
         ], $msg_id2);
         // 空メッセージのセット
-        setEmptyMessage();
+        response()->setEmptyMessage();
     }
 
 }

@@ -32,7 +32,7 @@ class EvolveService extends Service
     * @param order:integer
     * @return void
     */
-    public function __construct($order)
+    public function __construct(int $order)
     {
         $this->order = $order;
     }
@@ -66,7 +66,7 @@ class EvolveService extends Service
             // 進化ポケモンのインスタンスを生成
             $after = new $after_class($before);
             // HPの上昇値分だけ残りHPを加算(ひんし状態を除く)
-            if(!isset($after->sa['SaFainting'])){
+            if($after->isFight()){
                 $after->calRemainingHp('add', $after->getStats('HP') - $before_hp);
             }
             response()->setMessage('おめでとう！'.$before->getNickName().'は'.$after->getName().'に進化した！');
