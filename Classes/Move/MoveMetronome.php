@@ -10,55 +10,55 @@ class MoveMetronome extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'ゆびをふる';
+    public const NAME = 'ゆびをふる';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = 'わざのどれかをランダムで繰り出す。';
+    public const DESCTIPTION = 'わざのどれかをランダムで繰り出す。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer|null
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = null;
+    public const ACCURACY = null;
 
     /**
     * 使用回数
     * @var integer|null
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'friend';
+    public const TARGET = 'friend';
 
     /**
     * ゆびをふる 特殊効果
     * @return object::Move
     */
-    public function exMetronome() :object
+    public static function exMetronome() :object
     {
         // ブラックリスト
         $black_list = [

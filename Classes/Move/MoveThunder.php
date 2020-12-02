@@ -10,49 +10,49 @@ class MoveThunder extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'かみなり';
+    public const NAME = 'かみなり';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '30％の確立で相手をまひ状態にする。';
+    public const DESCTIPTION = '30％の確立で相手をまひ状態にする。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeElectric';
+    public const TYPE = 'TypeElectric';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 110;
+    public const POWER = 110;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 70;
+    public const ACCURACY = 70;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 威力補正値の取得
@@ -60,7 +60,7 @@ class MoveThunder extends Move
     * @param mixed
     * @return integer
     */
-    public function powerCorrection(...$args)
+    public static function powerCorrection(...$args)
     {
         /**
         * @param Pokemon:object $atk 攻撃ポケモン
@@ -81,7 +81,7 @@ class MoveThunder extends Move
     * @param array $args
     * @return mixed
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

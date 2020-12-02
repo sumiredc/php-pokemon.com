@@ -10,49 +10,49 @@ class MoveRage extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'いかり';
+    public const NAME = 'いかり';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = 'いかり状態になり、ダメージを受けるたびにこうげきが1段階上がる。';
+    public const DESCTIPTION = 'いかり状態になり、ダメージを受けるたびにこうげきが1段階上がる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 20;
+    public const POWER = 20;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveRage extends Move
     * @param array $args
     * @return void
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

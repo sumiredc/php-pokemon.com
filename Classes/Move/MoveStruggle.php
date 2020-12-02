@@ -10,49 +10,49 @@ class MoveStruggle extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'わるあがき';
+    public const NAME = 'わるあがき';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '使用するたびに反動ダメージを受ける。';
+    public const DESCTIPTION = '使用するたびに反動ダメージを受ける。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNone';
+    public const TYPE = 'TypeNone';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 50;
+    public const POWER = 50;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = null;
+    public const ACCURACY = null;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = null;
+    public const PP = null;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 反動
@@ -60,7 +60,7 @@ class MoveStruggle extends Move
     * @param array $args
     * @return array
     */
-    public function recoil(...$args)
+    public static function recoil(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

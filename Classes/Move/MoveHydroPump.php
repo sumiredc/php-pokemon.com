@@ -10,48 +10,48 @@ class MoveHydroPump extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'ハイドロポンプ';
+    public const NAME = 'ハイドロポンプ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '通常攻撃';
+    public const DESCTIPTION = '通常攻撃';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeWater';
+    public const TYPE = 'TypeWater';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 110;
+    public const POWER = 110;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 80;
+    public const ACCURACY = 80;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 5;
+    public const PP = 5;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
 }

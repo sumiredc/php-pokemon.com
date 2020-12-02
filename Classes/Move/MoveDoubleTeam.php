@@ -10,49 +10,49 @@ class MoveDoubleTeam extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'かげぶんしん';
+    public const NAME = 'かげぶんしん';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '自分の回避率を1段階上げる。';
+    public const DESCTIPTION = '自分の回避率を1段階上げる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = null;
+    public const ACCURACY = null;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 15;
+    public const PP = 15;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'friend';
+    public const TARGET = 'friend';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveDoubleTeam extends Move
     * @param array $args
     * @return void
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

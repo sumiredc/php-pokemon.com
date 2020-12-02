@@ -10,49 +10,49 @@ class MoveTransform extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'へんしん';
+    public const NAME = 'へんしん';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '相手のポケモンに変身する。';
+    public const DESCTIPTION = '相手のポケモンに変身する。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer|null
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer|null
     */
-    protected $accuracy = null;
+    public const ACCURACY = null;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * へんしんの専用効果
@@ -61,7 +61,7 @@ class MoveTransform extends Move
     * @param battle_state:object::BattleState バトル状態
     * @return void
     */
-    public function exTransform(object $atk, object $def, object $battle_state)
+    public static function exTransform(object $atk, object $def, object $battle_state)
     {
         if(!$atk->checkSc('ScTransform')){
             // 現在へんしん状態でなければ実行

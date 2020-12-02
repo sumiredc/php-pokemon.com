@@ -10,54 +10,54 @@ class MoveFissure extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'じわれ';
+    public const NAME = 'じわれ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '一撃必殺技';
+    public const DESCTIPTION = '一撃必殺技';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeGround';
+    public const TYPE = 'TypeGround';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 30;
+    public const ACCURACY = 30;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 5;
+    public const PP = 5;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 一撃必殺技確認用フラグ
     * @var boolean
     */
-    protected $one_hit_knockout_flg = true;
+    public const ONE_HIT_KNOCKOUT_FLG = true;
 
 }

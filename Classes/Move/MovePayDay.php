@@ -10,49 +10,49 @@ class MovePayDay extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'ネコにこばん';
+    public const NAME = 'ネコにこばん';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '戦いが終わったらお金を拾える。';
+    public const DESCTIPTION = '戦いが終わったらお金を拾える。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 40;
+    public const POWER = 40;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * ネコにこばんの特別処理
@@ -60,7 +60,7 @@ class MovePayDay extends Move
     * @param battle_state:object::BattleState
     * @return void
     */
-    public function exPayDay($atk, $battle_state)
+    public static function exPayDay($atk, $battle_state)
     {
         // レベル x 5円をセット
         $battle_state->setMoney(

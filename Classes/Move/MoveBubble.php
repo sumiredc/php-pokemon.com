@@ -10,49 +10,49 @@ class MoveBubble extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'あわ';
+    public const NAME = 'あわ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '10%の確率ですばやさを1段階下げる。';
+    public const DESCTIPTION = '10%の確率ですばやさを1段階下げる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeWater';
+    public const TYPE = 'TypeWater';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 40;
+    public const POWER = 40;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 30;
+    public const PP = 30;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 能力下降効果
@@ -60,7 +60,7 @@ class MoveBubble extends Move
     * @param args:array
     * @return array
     */
-    public function debuff(...$args)
+    public static function debuff(...$args)
     {
         // 10%の確率
         if(10 < random_int(1, 100)){

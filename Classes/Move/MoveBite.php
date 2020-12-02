@@ -10,49 +10,49 @@ class MoveBite extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'かみつく';
+    public const NAME = 'かみつく';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '30％の確率で敵をひるませる。';
+    public const DESCTIPTION = '30％の確率で敵をひるませる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeDark';
+    public const TYPE = 'TypeDark';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 60;
+    public const POWER = 60;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY= 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 25;
+    public const PP = 25;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveBite extends Move
     * @param array $args
     * @return mixed
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         // 30%の確率
         if(30 < random_int(1, 100)){

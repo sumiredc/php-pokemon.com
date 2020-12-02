@@ -10,49 +10,49 @@ class MoveThunderWave extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'でんじは';
+    public const NAME = 'でんじは';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '相手をまひ状態にする。';
+    public const DESCTIPTION = '相手をまひ状態にする。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeElectric';
+    public const TYPE = 'TypeElectric';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 90;
+    public const ACCURACY = 90;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 30;
+    public const PP = 30;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveThunderWave extends Move
     * @param array $args
     * @return array
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

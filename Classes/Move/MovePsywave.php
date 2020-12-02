@@ -10,55 +10,55 @@ class MovePsywave extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'サイコウェーブ';
+    public const NAME = 'サイコウェーブ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '相手にランダムに決まった値を固定ダメージとして与える。';
+    public const DESCTIPTION = '相手にランダムに決まった値を固定ダメージとして与える。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypePsychic';
+    public const TYPE = 'TypePsychic';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 15;
+    public const PP = 15;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 固定ダメージフラグ
     * @var boolean
     */
-    protected $fixed_damage_flg = true;
+    public const FIXED_DAMAGE_FLG = true;
 
     /**
     * 固定ダメージ量の取得
@@ -66,7 +66,7 @@ class MovePsywave extends Move
     * @param args:array
     * @return integer
     */
-    public function getFixedDamage(...$args)
+    public static function getFixedDamage(...$args)
     {
         /**
         * @param atk:object::Pokemon 攻撃ポケモン

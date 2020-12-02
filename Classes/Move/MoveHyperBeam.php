@@ -10,49 +10,49 @@ class MoveHyperBeam extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'はかいこうせん';
+    public const NAME = 'はかいこうせん';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '使ったポケモンは次のターン、反動で動けない。';
+    public const DESCTIPTION = '使ったポケモンは次のターン、反動で動けない。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 150;
+    public const POWER = 150;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 90;
+    public const ACCURACY = 90;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 5;
+    public const PP = 5;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveHyperBeam extends Move
     * @param array $args
     * @return void
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

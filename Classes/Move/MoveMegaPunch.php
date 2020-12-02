@@ -10,48 +10,48 @@ class MoveMegaPunch extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'メガトンパンチ';
+    public const NAME = 'メガトンパンチ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '通常攻撃。';
+    public const DESCTIPTION = '通常攻撃。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 80;
+    public const POWER = 80;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 85;
+    public const ACCURACY = 85;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
 }

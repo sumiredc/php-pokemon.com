@@ -10,49 +10,49 @@ class MoveSplash extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'はねる';
+    public const NAME = 'はねる';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '効果なし。';
+    public const DESCTIPTION = '効果なし。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = null;
+    public const ACCURACY = null;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 40;
+    public const PP = 40;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'friend';
+    public const TARGET = 'friend';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveSplash extends Move
     * @param array $args
     * @return void
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         response()->setMessage('しかし、何も起こらない！');
     }

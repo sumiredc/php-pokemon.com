@@ -10,54 +10,54 @@ class MoveRazorLeaf extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'はっぱカッター';
+    public const NAME = 'はっぱカッター';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '急所に当たりやすい。';
+    public const DESCTIPTION = '急所に当たりやすい。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeGrass';
+    public const TYPE = 'TypeGrass';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 55;
+    public const POWER = 55;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 95;
+    public const ACCURACY = 95;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 25;
+    public const PP = 25;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 急所ランク
     * @var integer
     */
-    protected $critical = 1;
+    public const CRITICAL = 1;
 
 }

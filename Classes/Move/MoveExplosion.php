@@ -10,56 +10,56 @@ class MoveExplosion extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'だいばくはつ';
+    public const NAME = 'だいばくはつ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '使ったポケモンはひんしになる。';
+    public const DESCTIPTION = '使ったポケモンはひんしになる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 250;
+    public const POWER = 250;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 5;
+    public const PP = 5;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 技の使用コスト(技の成功・失敗に問わず発生)
     * @param arg:array
     * @return void
     */
-    public function cost(...$args)
+    public static function cost(...$args)
     {
         /**
         * @param atk:object::Pokemon 攻撃ポケモン

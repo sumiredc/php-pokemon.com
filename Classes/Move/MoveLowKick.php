@@ -10,49 +10,49 @@ class MoveLowKick extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'けたぐり';
+    public const NAME = 'けたぐり';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '相手の重さによって威力が変わる。';
+    public const DESCTIPTION = '相手の重さによって威力が変わる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeFighting';
+    public const TYPE = 'TypeFighting';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer|null
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 威力補正値の取得
@@ -60,7 +60,7 @@ class MoveLowKick extends Move
     * @param mixed
     * @return integer
     */
-    public function powerCorrection(...$args)
+    public static function powerCorrection(...$args)
     {
         /**
         * @param Pokemon:object $atk 攻撃ポケモン

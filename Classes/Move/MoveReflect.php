@@ -10,56 +10,56 @@ class MoveReflect extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'リフレクター';
+    public const NAME = 'リフレクター';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '5ターンの間、相手の物理技のダメージが半分になる。';
+    public const DESCTIPTION = '5ターンの間、相手の物理技のダメージが半分になる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypePsychic';
+    public const TYPE = 'TypePsychic';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = null;
+    public const ACCURACY = null;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'friend';
+    public const TARGET = 'friend';
 
     /**
     * フィールド効果
     *
     * @return array
     */
-    public function field()
+    public static function field()
     {
         return [
             'class' => 'FieldReflect',

@@ -10,49 +10,49 @@ class MoveHighJumpKick extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'とびひざげり';
+    public const NAME = 'とびひざげり';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '攻撃がはずれると自分最大HPの半分のダメージを受ける。';
+    public const DESCTIPTION = '攻撃がはずれると自分最大HPの半分のダメージを受ける。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeFighting';
+    public const TYPE = 'TypeFighting';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 130;
+    public const POWER = 130;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 90;
+    public const ACCURACY = 90;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 技の失敗
@@ -60,7 +60,7 @@ class MoveHighJumpKick extends Move
     * @param object Pokemon $atk
     * @return array
     */
-    public function failed($atk)
+    public static function failed($atk)
     {
         // 最大HPの1/2ダメージを受ける
         $damage = $atk->getStats('HP') / 2;

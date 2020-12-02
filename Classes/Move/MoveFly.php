@@ -10,61 +10,61 @@ class MoveFly extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'そらをとぶ';
+    public const NAME = 'そらをとぶ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '1ターン目で空に舞い上がり、2ターン目に攻撃する。空を飛んでいる間はほとんどの技を受けない。';
+    public const DESCTIPTION = '1ターン目で空に舞い上がり、2ターン目に攻撃する。空を飛んでいる間はほとんどの技を受けない。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeFlying';
+    public const TYPE = 'TypeFlying';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 90;
+    public const POWER = 90;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 95;
+    public const ACCURACY = 95;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 15;
+    public const PP = 15;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * チャージ技
     * @var boolean
     */
-    protected $charge_flg = true;
+    public const CHARGE_FLG = true;
 
     /**
     * チャージ中に回避できない技
     * @var array
     */
-    protected $cant_escape_move = ['MoveThunder', 'MoveGust'];
+    public const CANT_ESCAPE_MOVE = ['MoveThunder', 'MoveGust'];
 
     /**
     * チャージ
@@ -72,7 +72,7 @@ class MoveFly extends Move
     * @param object $atk
     * @return mixed (array:準備ターン, false:攻撃ターン)
     */
-    public function charge($atk)
+    public static function charge($atk)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

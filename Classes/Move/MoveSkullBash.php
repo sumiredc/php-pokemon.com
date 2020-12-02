@@ -10,55 +10,55 @@ class MoveSkullBash extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'ロケットずつき';
+    public const NAME = 'ロケットずつき';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '1ターン目は準備し、2ターン目に攻撃する。準備ターンに自分の防御が1段階上がる。';
+    public const DESCTIPTION = '1ターン目は準備し、2ターン目に攻撃する。準備ターンに自分の防御が1段階上がる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 130;
+    public const POWER = 130;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * チャージ技
     * @var boolean
     */
-    protected $charge_flg = true;
+    public const CHARGE_FLG = true;
 
     /**
     * チャージ
@@ -66,7 +66,7 @@ class MoveSkullBash extends Move
     * @param object $atk
     * @return mixed (array:準備ターン, false:攻撃ターン)
     */
-    public function charge($atk)
+    public static function charge($atk)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

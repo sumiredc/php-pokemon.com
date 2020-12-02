@@ -10,55 +10,55 @@ class MoveSolarBeam extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'ソーラービーム';
+    public const NAME = 'ソーラービーム';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '1ターン目に溜め、2ターン目で攻撃する。';
+    public const DESCTIPTION = '1ターン目に溜め、2ターン目で攻撃する。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeGrass';
+    public const TYPE = 'TypeGrass';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 120;
+    public const POWER = 120;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * チャージ技
     * @var boolean
     */
-    protected $charge_flg = true;
+    public const CHARGE_FLG = true;
 
     /**
     * チャージ
@@ -66,7 +66,7 @@ class MoveSolarBeam extends Move
     * @param object $atk
     * @return mixed (array:準備ターン, false:攻撃ターン)
     */
-    public function charge($atk)
+    public static function charge($atk)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

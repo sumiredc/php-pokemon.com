@@ -10,61 +10,61 @@ class MoveDig extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'あなをほる';
+    public const NAME = 'あなをほる';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '1ターン目で地中に潜り、2ターン目に攻撃する。地中に潜っている間はほとんどの技を受けない。';
+    public const DESCTIPTION = '1ターン目で地中に潜り、2ターン目に攻撃する。地中に潜っている間はほとんどの技を受けない。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeGround';
+    public const TYPE = 'TypeGround';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 80;
+    public const POWER = 80;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * チャージ技
     * @var boolean
     */
-    protected $charge_flg = true;
+    public const CHARGE_FLG = true;
 
     /**
     * チャージ中に回避できない技
     * @var array
     */
-    protected $cant_escape_move = ['MoveEarthquake'];
+    public const CANT_ESCAPE_MOVE = ['MoveEarthquake'];
 
     /**
     * チャージ
@@ -72,7 +72,7 @@ class MoveDig extends Move
     * @param object $atk
     * @return mixed (string:準備ターン, false:攻撃ターン)
     */
-    public function charge($atk)
+    public static function charge($atk)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

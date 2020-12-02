@@ -10,49 +10,49 @@ class MoveEarthquake extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'じしん';
+    public const NAME = 'じしん';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = 'あなをほる状態のポケモンにも命中し、2倍のダメージを与えられる。';
+    public const DESCTIPTION = 'あなをほる状態のポケモンにも命中し、2倍のダメージを与えられる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeGround';
+    public const TYPE = 'TypeGround';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 100;
+    public const POWER = 100;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 威力補正値の取得
@@ -60,7 +60,7 @@ class MoveEarthquake extends Move
     * @param mixed
     * @return integer
     */
-    public function powerCorrection(...$args)
+    public static function powerCorrection(...$args)
     {
         /**
         * @param Pokemon:object $atk 攻撃ポケモン

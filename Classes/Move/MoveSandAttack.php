@@ -10,55 +10,55 @@ class MoveSandAttack extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'すなかけ';
+    public const NAME = 'すなかけ';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '相手の命中率を1段階下げる。';
+    public const DESCTIPTION = '相手の命中率を1段階下げる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeGround';
+    public const TYPE = 'TypeGround';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'status';
+    public const SPECIES = 'status';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 15;
+    public const PP = 15;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 能力下降確定技フラグ
     * @var boolean
     */
-    protected $confirm_debuff_flg = true;
+    public const CONFIRM_DEBUFF_FLG = true;
 
     /**
     * 能力下降効果
@@ -66,7 +66,7 @@ class MoveSandAttack extends Move
     * @param array $args
     * @return array
     */
-    public function debuff(...$args)
+    public static function debuff(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

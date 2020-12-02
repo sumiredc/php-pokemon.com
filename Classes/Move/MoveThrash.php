@@ -10,49 +10,49 @@ class MoveThrash extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'あばれる';
+    public const NAME = 'あばれる';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '2〜3ターンの間あばれる状態になり、その間攻撃し続ける。攻撃終了後、自分がこんらん状態になる。';
+    public const DESCTIPTION = '2〜3ターンの間あばれる状態になり、その間攻撃し続ける。攻撃終了後、自分がこんらん状態になる。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 120;
+    public const POWER = 120;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveThrash extends Move
     * @param array $args
     * @return array
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

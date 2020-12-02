@@ -10,54 +10,54 @@ class MoveSlash extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'きりさく';
+    public const NAME = 'きりさく';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '急所に当たりやすい。';
+    public const DESCTIPTION = '急所に当たりやすい。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 70;
+    public const POWER = 70;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 急所ランク
     * @var integer
     */
-    protected $critical = 1;
+    public const CRITICAL = 1;
 
 }

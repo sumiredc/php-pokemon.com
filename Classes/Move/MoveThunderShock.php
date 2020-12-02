@@ -10,49 +10,49 @@ class MoveThunderShock extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'でんきショック';
+    public const NAME = 'でんきショック';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '10%の確率で相手をまひ状態にする。';
+    public const DESCTIPTION = '10%の確率で相手をまひ状態にする。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeElectric';
+    public const TYPE = 'TypeElectric';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'special';
+    public const SPECIES = 'special';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 40;
+    public const POWER = 40;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 30;
+    public const PP = 30;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveThunderShock extends Move
     * @param array $args
     * @return mixed
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン

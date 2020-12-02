@@ -10,54 +10,54 @@ class MoveQuickAttack extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'でんこうせっか';
+    public const NAME = 'でんこうせっか';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '先制攻撃。';
+    public const DESCTIPTION = '先制攻撃。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeNormal';
+    public const TYPE = 'TypeNormal';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 40;
+    public const POWER = 40;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 30;
+    public const PP = 30;
 
     /**
     * 優先度
     * @var integer
     */
-    protected $priority = 1;
+    public const PRIORITY = 1;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
 }

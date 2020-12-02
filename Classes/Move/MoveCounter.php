@@ -10,61 +10,61 @@ class MoveCounter extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'カウンター';
+    public const NAME = 'カウンター';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '相手から受けた物理攻撃のダメージを2倍にして与える。';
+    public const DESCTIPTION = '相手から受けた物理攻撃のダメージを2倍にして与える。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeFighting';
+    public const TYPE = 'TypeFighting';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = null;
+    public const POWER = null;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 20;
+    public const PP = 20;
 
     /**
     * 優先度
     * @var integer
     */
-    protected $priority = -5;
+    public const PRIORITY = -5;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 固定ダメージフラグ
     * @var boolean
     */
-    protected $fixed_damage_flg = true;
+    public const FIXED_DAMAGE_FLG = true;
 
     /**
     * 固定ダメージ量の取得
@@ -72,7 +72,7 @@ class MoveCounter extends Move
     * @param args:array
     * @return integer
     */
-    public function getFixedDamage(...$args)
+    public static function getFixedDamage(...$args)
     {
         /**
         * @param atk:object::Pokemon 攻撃ポケモン

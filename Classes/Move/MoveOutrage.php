@@ -10,49 +10,49 @@ class MoveOutrage extends Move
     * 正式名称
     * @var string
     */
-    protected $name = 'げきりん';
+    public const NAME = 'げきりん';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '使ったポケモンは次のターン、反動で動けない。';
+    public const DESCTIPTION = '使ったポケモンは次のターン、反動で動けない。';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = 'TypeDragon';
+    public const TYPE = 'TypeDragon';
 
     /**
     * 分類
     * @var string(physical:物理|special:特殊|status:変化)
     */
-    protected $species = 'physical';
+    public const SPECIES = 'physical';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = 120;
+    public const POWER = 120;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = 100;
+    public const ACCURACY = 100;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = 10;
+    public const PP = 10;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = 'enemy';
+    public const TARGET = 'enemy';
 
     /**
     * 追加効果
@@ -60,7 +60,7 @@ class MoveOutrage extends Move
     * @param array $args
     * @return mixed
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param Pokemon $atk 攻撃ポケモン
