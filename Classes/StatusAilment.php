@@ -1,98 +1,65 @@
 <?php
-
-// 状態異常
+/**
+* 状態異常
+*/
 abstract class StatusAilment
 {
 
-    // プロパティの初期値
-    protected $sicked_msg = '';
-    protected $sicked_already_msg = '';
-    protected $turn_msg = '';
-    protected $failed_msg = '';
-    protected $recovery_msg = '';
-
-    /**
-    * インスタンス作成時に実行される処理
-    *
-    * @return void
-    */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-    * 名称の取得
-    *
-    * @return string
-    */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-    * カラーの取得
-    * @return string
-    */
-    public function getColor()
-    {
-        return $this->color;
-    }
+    // メッセージの初期値
+    public const SICKED_MSG = '';
+    public const SICKED_ALREADY_MSG = '';
+    public const TURN_MSG = '';
+    public const FAILED_MSG = '';
+    public const RECOVERY_MSG = '';
 
     /**
     * 状態異常にかかった際のメッセージを取得
-    *
-    * @param string $pokemon
+    * @param pokemon:string
     * @return string
     */
-    public function getSickedMessage($pokemon)
+    public static function getSickedMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, $this->sicked_msg);
+        return str_replace('::pokemon', $pokemon, static::SICKED_MSG);
     }
 
     /**
     * 既に状態異常にかかっている際のメッセージを取得
-    *
-    * @param string $pokemon
+    * @param pokemon:string
     * @return string
     */
-    public function getSickedAlreadyMessage($pokemon)
+    public static function getSickedAlreadyMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, $this->sicked_already_msg);
+        return str_replace('::pokemon', $pokemon, static::SICKED_ALEREADY_MSG);
     }
 
     /**
     * ターンチェック時のメッセージを取得
-    *
-    * @param string $pokemon
+    * @param pokemon:string
     * @return string
     */
-    public function getTurnMessage($pokemon)
+    public static function getTurnMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, $this->turn_msg);
+        return str_replace('::pokemon', $pokemon, static::TURN_MSG);
     }
 
     /**
     * 行動失敗時のメッセージを取得
-    *
-    * @param string $pokemon
+    * @param pokemon:string
     * @return string
     */
-    public function getFailedMessage($pokemon)
+    public static function getFailedMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, $this->failed_msg);
+        return str_replace('::pokemon', $pokemon, static::FAILED_MSG);
     }
 
     /**
     * 回復時のメッセージを取得
-    *
-    * @param string $pokemon
+    * @param pokemon:string
     * @return string
     */
-    public function getRecoveryMessage($pokemon)
+    public static function getRecoveryMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, $this->recovery_msg);
+        return str_replace('::pokemon', $pokemon, static::RECOVERY_MSG);
     }
 
 }

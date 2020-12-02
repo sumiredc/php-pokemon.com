@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StatusAilment.php');
 
-// ひんし
+/**
+* ひんし
+*/
 class SaFainting extends StatusAilment
 {
 
@@ -10,12 +12,12 @@ class SaFainting extends StatusAilment
     * 正式名称
     * @var string
     */
-    protected $name = 'ひんし';
+    public const NAME = 'ひんし';
 
     /**
     * 色
     * @var string
     */
-    protected $color = 'secondary';
+    public const COLOR = 'secondary';
 
 }

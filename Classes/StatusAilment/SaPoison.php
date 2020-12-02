@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StatusAilment.php');
 
-// どく
+/**
+* どく
+*/
 class SaPoison extends StatusAilment
 {
 
@@ -10,36 +12,36 @@ class SaPoison extends StatusAilment
     * 正式名称
     * @var string
     */
-    protected $name = 'どく';
+    public const NAME = 'どく';
 
     /**
     * 色
     * @var string
     */
-    protected $color = 'purple';
+    public const COLOR = 'purple';
 
     /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = '::pokemonは、毒を浴びた';
+    public const SICKED_MSG = '::pokemonは、毒を浴びた';
 
     /**
     * すでにこの状態異常にかかっている際のメッセージ
     * @var string
     */
-    protected $sicked_already_msg = '::pokemonは、既に毒に侵されている';
+    public const SICKED_ALREADY_MSG = '::pokemonは、既に毒に侵されている';
 
     /**
     * ターンチェック時に表示されるメッセージ
     * @var string
     */
-    protected $turn_msg = '::pokemonは、毒のダメージを受けている';
+    public const TURN_MSG = '::pokemonは、毒のダメージを受けている';
 
     /**
     * 回復時に表示されるメッセージ
     * @var string
     */
-    protected $recovery_msg = '::pokemonの毒は綺麗サッパリ無くなった';
+    public const RECOVERY_MSG = '::pokemonの毒は綺麗サッパリ無くなった';
 
 }

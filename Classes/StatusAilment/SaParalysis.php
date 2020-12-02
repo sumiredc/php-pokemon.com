@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StatusAilment.php');
 
-// まひ
+/**
+* まひ
+*/
 class SaParalysis extends StatusAilment
 {
 
@@ -10,36 +12,36 @@ class SaParalysis extends StatusAilment
     * 正式名称
     * @var string
     */
-    protected $name = 'まひ';
+    public const NAME = 'まひ';
 
     /**
     * 色
     * @var string
     */
-    protected $color = 'warning';
+    public const COLOR = 'warning';
 
     /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = '::pokemonは、まひして技が出にくくなった';
+    public const SICKED_MSG = '::pokemonは、まひして技が出にくくなった';
 
     /**
     * すでにこの状態異常にかかっている際のメッセージ
     * @var string
     */
-    protected $sicked_already_msg = '::pokemonは、既に麻痺している';
+    public const SICKED_ALREADY_MSG = '::pokemonは、既に麻痺している';
 
     /**
     * 行動失敗時のメッセージ
     * @var string
     */
-    protected $failed_msg = '::pokemonは、体が痺れて動けない';
+    public const FAILED_MSG = '::pokemonは、体が痺れて動けない';
 
     /**
     * 回復時に表示されるメッセージ
     * @var string
     */
-    protected $recovery_msg = '::pokemonの体の痺れがとれた';
+    public const RECOVERY_MSG = '::pokemonの体の痺れがとれた';
 
 }

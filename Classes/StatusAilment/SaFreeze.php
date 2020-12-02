@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StatusAilment.php');
 
-// こおり
+/**
+* こおり
+*/
 class SaFreeze extends StatusAilment
 {
 
@@ -10,36 +12,36 @@ class SaFreeze extends StatusAilment
     * 正式名称
     * @var string
     */
-    protected $name = 'こおり';
+    public const NAME = 'こおり';
 
     /**
     * 色
     * @var string
     */
-    protected $color = 'primary';
+    public const COLOR = 'primary';
 
     /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = '::pokemonは、氷漬けになった';
+    public const SICKED_MSG = '::pokemonは、氷漬けになった';
 
     /**
     * すでにこの状態異常にかかっている際のメッセージ
     * @var string
     */
-    protected $sicked_already_msg = '::pokemonは、既に凍っている';
+    public const SICKED_ALREADY_MSG = '::pokemonは、既に凍っている';
 
     /**
     * 行動失敗時に表示されるメッセージ
     * @var string
     */
-    protected $failed_msg = '::pokemonは、凍ってしまって動けない';
+    public const FAILED_MSG = '::pokemonは、凍ってしまって動けない';
 
     /**
     * 回復時に表示されるメッセージ
     * @var string
     */
-    protected $recovery_msg = '::pokemonの氷が溶けた';
+    public const RECOVERY_MSG = '::pokemonの氷が溶けた';
 
 }
