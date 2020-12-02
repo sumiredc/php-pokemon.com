@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Item.php');
 
-// キズぐすり
+/**
+* キズぐすり
+*/
 class ItemPotion extends Item
 {
 
@@ -10,55 +12,55 @@ class ItemPotion extends Item
     * 正式名称
     * @var string
     */
-    protected $name = 'キズぐすり';
+    public const NAME = 'キズぐすり';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = 'スプレー式のキズぐすり。ポケモン1匹のHPを20だけ回復する。';
+    public const DESCRIPTION = 'スプレー式のキズぐすり。ポケモン1匹のHPを20だけ回復する。';
 
     /**
     * カテゴリ
     * @var string::general|health|ball|important|machine
     */
-    protected $category = 'health';
+    public const CATEGORY = 'health';
 
     /**
     * 最大所有数
     * @var integer
     */
-    protected $max = 99;
+    public const MAX = 99;
 
     /**
     * 買値
     * @var integer
     */
-    protected $bid_price = 200;
+    public const BID_PRICE = 200;
 
     /**
     * 売値
     * @var integer
     */
-    protected $sell_price = 100;
+    public const SELL_PRICE = 100;
 
     /**
     * 対象
     * @var string::friend|enemy|player
     */
-    protected $target = 'friend';
+    public const TARGET = 'friend';
 
     /**
     * 使用できるタイミング
     * @var array
     */
-    protected $timing = ['battle', 'home'];
+    public const TIMING = ['battle', 'home'];
 
     /**
     * 効果
     * @return array
     */
-    public function effects($pokemon)
+    public static function effects($pokemon)
     {
         $before = $pokemon->getRemainingHp();
         if($before < $pokemon->getStats('HP')){
