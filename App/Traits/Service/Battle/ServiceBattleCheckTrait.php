@@ -4,25 +4,21 @@ trait ServiceBattleCheckTrait
 {
 
     /**
-    * 技の使用可不可判定
-    *
-    * @param move:object::Move
+    * 技の使用可否判定
+    * @param move:string
     * @param pokemon:object::Pokemon
-    * @return boolean (true: 使用可, false:使用不可(わるあがき))
+    * @return boolean::true::使用可能|false:使用不可(わるあがき)
     */
-    protected function checkEnabledMove(object $move, object $pokemon)
+    protected function checkEnabledMove(string $move, object $pokemon)
     {
-        $move_class = get_class($move);
-        if($move_class === 'MoveStruggle'){
+        if($move === 'MoveStruggle'){
             // わるあがき
             return false;
         }
-        // ポケモンの技一覧
-        $move_list = $pokemon->getMove(null, 'array');
-        // 選択された技の添番を取得
-        $num = array_search(
-            $move_class,
-            array_column($move_list, 'class'),
+        // 選択された技番頭を取得
+        $order = array_search(
+            $move,
+            array_column($pokemon->getMove(), 'class'),
         );
         // チャージターンかつあばれる状態でなければPP減少
         if(
@@ -30,22 +26,21 @@ trait ServiceBattleCheckTrait
             !$pokemon->checkSc('ScThrash')
         ){
             // 残PPをマイナス1
-            $pokemon->calRemainingPp('sub', 1, $num);
+            $pokemon->calRemainingPp('sub', 1, $order);
         }
         return true;
     }
 
     /**
     * チャージターンかどうかの確認
-    *
-    * @param object $pokemon
-    * @param object $move
+    * @param pokemon:object::Pokemon
+    * @param move:string
     * @return boolean
     */
-    protected function checkChargeTurn($pokemon, $move)
+    protected function checkChargeTurn(object $pokemon, string $move): bool
     {
         // チャージ技ではない
-        if(!$move->getChargeFlg()){
+        if(!$move::CHARGE_FLG){
             return false;
         }
         // 現在未チャージ状態
@@ -64,11 +59,10 @@ trait ServiceBattleCheckTrait
 
     /**
     * アタック前の状態異常チェック
-    *
-    * @param object Pokemon
+    * @param pokemon:object::Pokemon
     * @return boolean
     */
-    protected function checkBeforeSa($pokemon)
+    protected function checkBeforeSa(object $pokemon): bool
     {
         if(empty($pokemon->getSa())){
             // 状態異常にかかっていない

@@ -26,8 +26,7 @@
                         class="btn btn-disabled btn-block action-btn"
                         data-toggle="modal"
                         data-target="#select-move-modal"
-                        id="action-btn-fight">
-                            たたかう
+                        id="action-btn-fight">たたかう
                         </button>
                     <?php else: ?>
                         <form method="post">

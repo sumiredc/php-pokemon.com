@@ -1,11 +1,11 @@
-<?php foreach([friend(), enemy()] as $battle_state_pokemon): ?>
-    <?php $id = $battle_state_pokemon->getPosition().'-battle-state'; ?>
+<?php foreach([friend(), enemy()] as $pokemon): ?>
+    <?php $id = $pokemon->getPosition().'-battle-state'; ?>
     <!-- Modal -->
     <div class="modal fade" id="<?=$id?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$id?>-modal-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="<?=$id?>-modal-title"><?=transJp($battle_state_pokemon->getPosition())?>の状態</h5>
+                    <h5 class="modal-title" id="<?=$id?>-modal-title"><?=transJp($pokemon->getPosition())?>の状態</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -40,7 +40,7 @@
                             <div class="p-2 bg-light">
                                 <table class="table table-sm mb-0">
                                     <tbody class="first-border-top-none">
-                                        <?php foreach($battle_state_pokemon->getRank() as $label => $rank): ?>
+                                        <?php foreach($pokemon->getRank() as $label => $rank): ?>
                                             <tr>
                                                 <th width="20%"><?=transJp($label, 'stats')?></th>
                                                 <td width="20%">
@@ -70,7 +70,7 @@
                         <div class="tab-pane fade show" id="<?=$id?>-sc" role="tabpanel" aria-labelledby="<?=$id?>-sc-tab">
                             <?php # 状態変化 ?>
                             <div class="row">
-                                <?php foreach($battle_state_pokemon->getScObject() as $sc): ?>
+                                <?php foreach($pokemon->getScObject() as $sc): ?>
                                     <div class="col-6">
                                         <div class="alert alert-php-info" role="alert">
                                             <h6 class="alert-heading mb-0"><?=$sc->getName()?>状態</h6>
@@ -82,7 +82,7 @@
                         <div class="tab-pane fade show" id="<?=$id?>-field" role="tabpanel" aria-labelledby="<?=$id?>-field-tab">
                             <?php # フィールド ?>
                             <div class="row">
-                                <?php foreach(battle_state()->getField($battle_state_pokemon->getPosition(), true) as list($field, $turn)): ?>
+                                <?php foreach(battle_state()->getField($pokemon->getPosition(), true) as list($field, $turn)): ?>
                                     <div class="col-6">
                                         <div class="alert alert-cyan" role="alert">
                                             <h6 class="alert-heading"><?=$field->getName()?></h6>

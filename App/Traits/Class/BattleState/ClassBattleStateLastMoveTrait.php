@@ -39,21 +39,17 @@ trait ClassBattleStateLastMoveTrait
     }
 
     /**
-    * 最後に使用した技(クラス)の格納
+    * 最後に使用した技の格納
     * @param position:string::friend|enemy
-    * @param move:object|string::Move
+    * @param move:string
     * @return void
     */
-    public function setLastMove(string $position, $move)
+    public function setLastMove(string $position, string $move): void
     {
-        // オブジェクト・文字列（クラス名）両方を許可
-        if(is_object($move)){
-            $class = get_class($move);
-        }else{
-            $class = $move;
+        if(class_exists($move)){
+            $this->last_moves[$position] = $move;
+            $this->last_moves['all'] = $move;
         }
-        $this->last_moves[$position] = $class;
-        $this->last_moves['all'] = $class;
     }
 
 }

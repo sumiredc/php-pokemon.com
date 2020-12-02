@@ -4,7 +4,6 @@ trait ServiceBattleAttackAfterTrait
 {
     /**
     * 行動後のチェック処理
-    *
     * @return void
     */
     private function afterCheck()

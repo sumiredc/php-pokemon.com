@@ -16,7 +16,6 @@ trait EvolveControllerTrait
 
     /**
     * 進化ポケモンの選出
-    *
     * @return object
     */
     protected function selectEvolveTarget()
@@ -42,7 +41,6 @@ trait EvolveControllerTrait
 
     /**
     * 味方ポケモン情報の取得
-    *
     * @return object
     */
     public function getPokemon()

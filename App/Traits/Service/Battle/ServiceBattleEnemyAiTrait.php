@@ -9,7 +9,7 @@ trait ServiceBattleEnemyAiTrait
     protected function aiSelectMove(): string
     {
         // 技の一覧を配列形式で取得
-        $move_list = enemy()->getMove(null, 'array');
+        $move_list = enemy()->getMove();
         // チャージ状態・またはあばれる状態の確認
         if(enemy()->checkSc('ScCharge')){
             // チャージ状態
@@ -21,12 +21,12 @@ trait ServiceBattleEnemyAiTrait
         // 技番号の抽出
         if(isset($class)){
             // 選択された技の添番を取得
-            $num = array_search(
+            $order = array_search(
                 $class,
                 array_column($move_list, 'class'),
             );
             // もし技が見つからなければわるあがきを返却（念の為）
-            if($num === false){
+            if($order === false){
                 return 'MoveStruggle';
             }
         }else{
@@ -34,14 +34,15 @@ trait ServiceBattleEnemyAiTrait
             $move_list = array_filter($move_list, function($move){
                 return $move['remaining'];
             });
+            // 残PPが全て0の場合は「わるあがき」
             if(empty($move_list)){
                 return 'MoveStruggle';
             }else{
                 // ランダムで1つ取得
-                $num = array_rand($move_list);
+                $order = array_rand($move_list);
             }
         }
         // 技を返却（存在しなければわるあがきを返却※念の為）
-        return $move_list[$num]['class'] ?? 'MoveStruggle';
+        return $move_list[$order]['class'] ?? 'MoveStruggle';
     }
 }

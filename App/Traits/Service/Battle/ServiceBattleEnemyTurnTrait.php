@@ -7,7 +7,7 @@ trait ServiceBattleEnemyTurnTrait
     * 相手のみのターン処理
     * @return void
     */
-    protected function enemyTurn()
+    protected function enemyTurn(): void
     {
         // 相手ポケモンの怒り解除
         enemy()->releaseSc('ScRage');
@@ -26,13 +26,8 @@ trait ServiceBattleEnemyTurnTrait
     */
     private function enemyAttack(): bool
     {
-        // AIで技選択
-        $move_class = $this->aiSelectMove();
-        // 敵の技をインスタンス化
-        // $move = new $ai['class']($ai['remaining'], $ai['correction']);
-        $move = new $move_class;
         // 敵ポケモンの攻撃
-        $this->attack(enemy(), friend(), $move);
+        $this->attack(enemy(), friend(), $this->aiSelectMove());
         // ひんしチェック
         if(battle_state()->isFainting()){
             return false;

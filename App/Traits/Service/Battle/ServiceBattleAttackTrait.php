@@ -35,10 +35,10 @@ trait ServiceBattleAttackTrait
     * 攻撃
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param move:object::Move
-    * @return object::Move
+    * @param move:string::Move
+    * @return string::Move
     */
-    protected function attack(object $atk, object $def, object $move) :object
+    protected function attack(object $atk, object $def, string $move) :string
     {
         /**
         * ■ 第1ステップ（技の発動）
@@ -57,12 +57,12 @@ trait ServiceBattleAttackTrait
         /**
         * ■ 第3ステップ（特別技による技の書き換え）
         */
-        if(in_array(get_class($move), ['MoveMirrorMove', 'MoveMetronome'], true)){
+        if(in_array($move, ['MoveMirrorMove', 'MoveMetronome'], true)){
             // 書き換え技に該当
-            $result = $this->attackRewriteMove($atk, $def, $move);
-            if(is_a($result, 'Move')){
+            $rewrite = $this->attackRewriteMove($atk, $def, $move);
+            if($rewrite){
                 // 成功（技の書き換え）
-                $move = $result;
+                $move = $rewrite;
             }else{
                 // 失敗
                 return $move;
@@ -71,7 +71,7 @@ trait ServiceBattleAttackTrait
         /**
         * ■ 第4ステップ（チャージ技の確認）
         */
-        $charge = $move->charge($atk);
+        $charge = $move::charge($atk);
         if($charge){
             // チャージターンなら行動終了
             response()->setMessage($charge);
@@ -84,7 +84,7 @@ trait ServiceBattleAttackTrait
         /**
         * ■ 第6ステップ（技コストの支払い※命中関係なし）
         */
-        $move->cost($atk, $def);
+        $move::cost($atk, $def);
         // サービス本体へ技オブジェクトを返却
         return $move;
     }
@@ -119,13 +119,13 @@ trait ServiceBattleAttackTrait
     * 特別技による技の書き換え確認
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param move:object::Move
+    * @param move:string::Move
     * @return mixed
     */
-    private function attackRewriteMove(object $atk, object $def, object $move)
+    private function attackRewriteMove(object $atk, object $def, string $move)
     {
         // 「オウムがえし」の特別処理
-        if(get_class($move) === 'MoveMirrorMove'){
+        if($move === 'MoveMirrorMove'){
             $mirror = $this->exMirrorMove($atk, $def, $move);
             if(!$mirror){
                 // 技失敗
@@ -137,7 +137,7 @@ trait ServiceBattleAttackTrait
             }
         }
         // 「ゆびをふる」の特別処理
-        if(get_class($move) === 'MoveMetronome'){
+        if($move === 'MoveMetronome'){
             return $this->exMetronome($atk, $move);
         }
     }
@@ -147,33 +147,33 @@ trait ServiceBattleAttackTrait
     * 発動する技の確定 → 発動からグローバルの補正値計算
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param move:object::Move
+    * @param move:string::Move
     * @param void
     */
-    private function attackConfirmMove(object $atk, object $def, object $move): void
+    private function attackConfirmMove(object $atk, object $def, string $move): void
     {
         // 補正値(プロパティ)の初期化
         $this->m = 1;
         // プロパティに攻撃メッセージIDをセット
         $this->atk_msg_id = response()->issueMsgId();
         response()->setMessage(
-            $atk->getPrefixName().'は、'.$move->getName().'を使った！',
+            $atk->getPrefixName().'は、'.$move::NAME.'を使った！',
             $this->atk_msg_id
         );
         // 「へんしん」の特別処理
-        if(get_class($move) === 'MoveTransform'){
+        if($move === 'MoveTransform'){
             $this->exTransform($atk, $def, $move);
             return; # 処理終了
         }
         // タイプ相性チェック
         $this->type_comp_msg = $this->checkTypeCompatibility(
-            $move->getType(),
+            $move::TYPE,
             $def->getTypes()
         );
         // 「こうかがない」の判定（命中率と威力がnullではなく、タイプ相性補正が０の場合）
         if(
-            !is_null($move->getAccuracy()) &&
-            !is_null($move->getPower()) &&
+            !is_null($move::ACCURACY) &&
+            !is_null($move::POWER) &&
             $this->m === 0
         ){
             // こうかがない
@@ -189,7 +189,7 @@ trait ServiceBattleAttackTrait
             return; # 処理終了
         }
         // 一撃必殺
-        if($move->getOneHitKnockoutFlg()){
+        if($move::ONE_HIT_KNOCKOUT_FLG){
             $def->calRemainingHp('death');
             // HPバーのアニメーション用レスポンス
             response()->setResponse([
@@ -203,7 +203,7 @@ trait ServiceBattleAttackTrait
         // 壁補正
         $this->checkWall($move, $def);
         // 技を回数分実行
-        $times = $move->times();
+        $times = $move::times();
         for($i = 0; $i < $times; $i++){
             // もし2回目以降（連続技）ならメッセージIDとオートメッセージを生成
             if($i > 0){
@@ -227,16 +227,16 @@ trait ServiceBattleAttackTrait
     * 攻撃判定成功時の処理
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param move:object::Move
+    * @param move:string::Move
     * @return void
     */
     private function attackSuccess($atk, $def, $move)
     {
-        if($move->getFixedDamageFlg()){
+        if($move::FIXED_DAMAGE_FLG){
             /**
             * 固定ダメージ技
             */
-            $damage = (int)$move->getFixedDamage($atk, $def, battle_state());
+            $damage = $move::getFixedDamage($atk, $def, battle_state());
         }else{
             /**
             * 通常技
@@ -244,11 +244,11 @@ trait ServiceBattleAttackTrait
             // ローカル変数として補正値を準備
             $m = 1;
             // 必要ステータスの取得
-            $stats = $this->getStats($move->getSpecies(), $atk, $def);
+            $stats = $this->getStats($move::SPECIES, $atk, $def);
             // ダメージ計算（物理,特殊技）
-            if($move->getSpecies() !== 'status'){
+            if($move::SPECIES !== 'status'){
                 // 急所判定
-                $critical = $this->calCritical($move->getCritical());
+                $critical = $this->calCritical($move::CRITICAL);
                 if($critical){
                     // 補正値を乗算
                     $m *= $critical;
@@ -257,9 +257,9 @@ trait ServiceBattleAttackTrait
                 // 乱数補正値の計算
                 $m *= $this->calRandNum();
                 // タイプ一致補正の計算
-                $this->calMatchType($move->getType(), $atk->getTypes());
+                $this->calMatchType($move::TYPE, $atk->getTypes());
                 // 補正込みの技威力を取得(けたぐり等を考慮してnullの場合は1をセット)
-                $power = ($move->getPower() ?? 1) * $move->powerCorrection($atk, $def);
+                $power = ($move::POWER ?? 1) * $move::powerCorrection($atk, $def);
                 // ダメージ計算
                 $damage = (int)$this->calDamage(
                     $atk->getLevel(),   # 攻撃ポケモンのレベル
@@ -270,7 +270,7 @@ trait ServiceBattleAttackTrait
                 );
                 // やけど補正
                 if(
-                    $move->getSpecies() === 'physical' &&
+                    $move::SPECIES === 'physical' &&
                     $atk->getSa() === 'SaBurn'
                 ){
                     // 物理且つやけど状態ならダメージを半減
@@ -282,7 +282,7 @@ trait ServiceBattleAttackTrait
         }
         // このターン受けるダメージをポケモンに格納
         battle_state()->setTurnDamage(
-            $def->getPosition(), $move->getSpecies(), $damage ?? 0
+            $def->getPosition(), $move::SPECIES, $damage ?? 0
         );
         // ダメージ計算
         $def->calRemainingHp('sub', $damage ?? 0);
@@ -295,7 +295,7 @@ trait ServiceBattleAttackTrait
             ], $this->atk_msg_id);
         }
         // 反動処理
-        $recoil = $move->recoil($atk, $def);
+        $recoil = $move::recoil($atk, $def);
         if($recoil){
             // HPバーのアニメーション用レスポンス
             $recoil_id = response()->issueMsgId();
@@ -303,7 +303,7 @@ trait ServiceBattleAttackTrait
             response()->setResponse($recoil['response'], $recoil_id);
         }
         // ネコにこばんの特別処理(相手のHPに関係無く発動)
-        if(get_class($move) === 'MovePayDay'){
+        if($move === 'MovePayDay'){
             $this->exPayDay($atk, $move);
         }
         // 追加効果(相手にHPが残っていれば)
@@ -322,20 +322,20 @@ trait ServiceBattleAttackTrait
             $field_mist = new FieldMist;
             if(battle_state()->checkField($def->getPosition(), $field_mist)){
                 // 能力下降確定技であれば失敗メッセージを出力
-                if($move->getConfirmDebuffFlg()){
+                if($move::CONFIRM_DEBUFF_FLG){
                     response()->setMessage(
                         $field_mist->getFailedMessage($def->getPrefixName())
                     );
                 }
             }else{
-                $debuff = $move->debuff($atk, $def);
+                $debuff = $move::debuff($atk, $def);
                 if(isset($debuff['message'])){
                     response()->setMessage($debuff['message']);
                 }
             }
             // フィールド効果
-            if($move->field()){
-                $field = $move->field();
+            if($move::field()){
+                $field = $move::field();
                 // フィールドをセット
                 battle_state()->setField(
                     $atk->getPosition(), new $field['class'], $field['turn']
@@ -360,44 +360,43 @@ trait ServiceBattleAttackTrait
     * 命中判定
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param move:object::Move
+    * @param move:string::Move
     * @return boolean
     */
-    private function checkHit(object $atk, object $def, object $move): bool
+    private function checkHit(object $atk, object $def, string $move): bool
     {
         // ふきとばし・ほえるのチェック
-        if(in_array(get_class($move), ['MoveWhirlwind', 'MoveRoar'], true)){
+        if(in_array($move, ['MoveWhirlwind', 'MoveRoar'], true)){
             if($atk->getLevel() < $def->getLevel()){
                 response()->setMessage($def->getPrefixName().'は、平気な顔をしている');
                 return false;
             }
         }
         // 相手のチャージ状態による判定チェック
-        $charge_move_class = $def->getChargeMove();
-        if(in_array($charge_move_class, ['MoveFly', 'MoveDig'], true)){
-            $charge_move = new $charge_move_class;
+        $charge_move = $def->getChargeMove();
+        if(in_array($charge_move, ['MoveFly', 'MoveDig'], true)){
             // 攻撃技が回避できない技リストになければ失敗
-            if(!in_array(get_class($move), $charge_move->getCantEscapeMove(), true)){
+            if(!in_array($move, $charge_move::CANT_ESCAPE_MOVE, true)){
                 response()->setMessage(
-                    $move->getFailedMessage($atk->getPrefixName())
+                    $move::getFailedMessage($atk->getPrefixName())
                 );
                 return false;
             }
         }
         // 一撃必殺技のチェック
-        if($move->getOneHitKnockoutFlg()){
+        if($move::ONE_HIT_KNOCKOUT_FLG){
             if($atk->getLevel() < $def->getLevel()){
                 // 相手の方がレベルが高ければ無効
                 response()->setMessage(
-                    $move->getOneHitKnockoutFailedMessage($def->getPrefixName())
+                    $move::getOneHitKnockoutFailedMessage($def->getPrefixName())
                 );
                 return false;
             }
             // レベル差計算を含めた命中率を取得
-            $accuracy = $move->getOneHitKnockoutAccuracy($atk, $def);
+            $accuracy = $move::getOneHitKnockoutAccuracy($atk, $def);
         }else{
             // 命中率取得
-            $accuracy = $move->getAccuracy();
+            $accuracy = $move::ACCURACY;
             // nullの場合は命中率関係無し
             if(is_null($accuracy)){
                 return true;
@@ -427,12 +426,12 @@ trait ServiceBattleAttackTrait
         }
         // カウンターの失敗判定
         if(
-            get_class($move) === 'MoveCounter' &&
+            $move === 'MoveCounter' &&
             empty(battle_state()->getTurnDamage($atk->getPosition(), 'physical'))
         ){
             // 自身にこのターン物理ダメージが蓄積していなければ失敗
             response()->setMessage(
-                $move->getFailedMessage($atk->getPrefixName())
+                $move::getFailedMessage($atk->getPrefixName())
             );
             return false;
         }
@@ -446,7 +445,7 @@ trait ServiceBattleAttackTrait
         }
         // 攻撃失敗
         response()->setMessage(
-            $move->getFailedMessage($atk->getPrefixName())
+            $move::getFailedMessage($atk->getPrefixName())
         );
         return false;
     }
@@ -454,13 +453,13 @@ trait ServiceBattleAttackTrait
     /**
     * ステータス（攻撃値、防御値）の取得
     * @param atk:object::Pokemon
-    * @param move:object::Move
+    * @param move:string::Move
     * @return void
     */
-    private function failedMove(object $atk, object $move)
+    private function failedMove(object $atk, string $move)
     {
         $failed_id = response()->issueMsgId();
-        $failed = $move->failed($atk);
+        $failed = $move::failed($atk);
         if(isset($failed['message'])){
             response()->setMessage($failed['message'], $failed_id);
         }
@@ -473,12 +472,12 @@ trait ServiceBattleAttackTrait
     * 追加効果の処理
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param move:object::Move
+    * @param move:string::Move
     * @return array
     */
-    private function effectMove(object $atk, object $def, object $move)
+    private function effectMove(object $atk, object $def, string $move)
     {
-        $effects = $move->effects($atk, $def);
+        $effects = $move::effects($atk, $def);
         // メッセージが取得できたらセット
         if(isset($effects['message']) && isset($effects['sa'])){
             // 状態異常有り

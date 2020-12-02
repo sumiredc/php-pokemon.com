@@ -28,15 +28,15 @@
                                         <?php else: ?>
                                             <tr class="move-table-row" data-key="<?=$key?>">
                                             <?php endif; ?>
-                                            <th scope="row" data-move="name"><?=$move['class']->getName()?></th>
-                                            <td data-move="type"><?=$move['class']->getType()->getName()?></td>
+                                            <th scope="row" data-move="name"><?=$move['class']::NAME?></th>
+                                            <td data-move="type"><?=$move['class']::getTypeName()?></td>
                                             <td data-move="pp">
                                                 <?php if(empty($move['remaining'])):?>
                                                     <span class="text-danger"><?=$move['remaining']?></span>
                                                 <?php else: ?>
                                                     <?=$move['remaining']?>
                                                 <?php endif; ?>
-                                                /<?=$move['class']->getPp($move['correction'])?>
+                                                /<?=$move['class']::getPp($move['correction'])?>
                                             </td>
                                             <td tabIndex="0"
                                             class="text-center"
@@ -44,11 +44,11 @@
                                             data-toggle="popover"
                                             data-trigger="focus"
                                             data-html="true"
-                                            data-content="<?=$move['class']->getDescription()?>"
+                                            data-content="<?=$move['class']::DESCRIPTION?>"
                                             title='<small>
-                                                命中：<?=$move['class']->getAccuracy() ?? '-'?>　
-                                                威力：<?=$move['class']->getPower() ?? '-'?>　
-                                                分類：<?=transJp($move['class']->getSpecies(), 'move')?>
+                                                命中：<?=$move['class']::ACCURACY ?? '-'?>　
+                                                威力：<?=$move['class']::POWER ?? '-'?>　
+                                                分類：<?=transJp($move['class']::SPECIES, 'move')?>
                                             </small>'><i class="fas fa-info-circle text-php-dark"></i></td>
                                         </tr>
                                     <?php endforeach; ?>

@@ -1,20 +1,31 @@
 <?php
 trait ClassPokemonGetTrait
 {
+    // /**
+    // * 詳細を取得する
+    // * @return integer
+    // */
+    // public function getDetails()
+    // {
+    //     return [
+    //         'Name' => $this->getName(),
+    //         'Nickname' => $this->getNickName(),
+    //         'Type' => $this->getTypes('string'),
+    //         'Level' => $this->getLevel(),
+    //         'Exp' => $this->getExp(),
+    //         'NextLevel' => $this->getReqLevelUpExp(),
+    //     ];
+    // }
+
     /**
-    * 詳細を取得する
-    * @return integer
+    * タイプ名の取得
+    * @return array
     */
-    public function getDetails()
+    public function getTypeNames()
     {
-        return [
-            'Name' => $this->getName(),
-            'Nickname' => $this->getNickName(),
-            'Type' => $this->getTypes('string'),
-            'Level' => $this->getLevel(),
-            'Exp' => $this->getExp(),
-            'NextLevel' => $this->getReqLevelUpExp(),
-        ];
+        return array_map(function($type){
+            return $type::NAME;
+        }, $this->types);
     }
 
     /**
@@ -102,39 +113,18 @@ trait ClassPokemonGetTrait
     }
 
     /**
-    * 覚えている技の一覧を取得する
-    * @param integer $num
-    * @param string
+    * 覚えている技を取得する
+    * @param order:integer
     * @return array
     */
-    public function getMove($num=null, $param='')
+    public function getMove($order=null)
     {
-        if(is_null($num)){
+        if(is_null($order)){
             // 全返却
-            if($param === 'array'){
-                // 配列（加工不要）で返却
-                return $this->move;
-            }else{
-                // array_mapで配列内の技クラスをオブジェクト化して返却
-                return array_map(function($move){
-                    // 無名関数
-                    return [
-                        'class' => new $move['class'],
-                        'remaining' => $move['remaining'],
-                        'correction' => $move['correction'],
-                    ];
-                }, $this->move);
-            }
+            return $this->move;
         }else{
             // 番号指定で返却
-            $move = $this->move[$num] ?? $this->move[0];
-            if($param === 'array'){
-                // 配列（加工不要）で返却
-                return $move;
-            }else{
-                // オブジェクトにして返却
-                return new $move['class'];
-            }
+            return $this->move[$order] ?? $this->move[0];
         }
     }
 
@@ -490,42 +480,42 @@ trait ClassPokemonGetTrait
 
     /**
     * タイプの取得
-    *
-    * @param string|array|object|null $return
+    * @param return:string|array|object|null
     * @var mixed
     */
-    public function getTypes($return=null)
+    public function getTypes()
     {
-        if(is_null($return)){
-            // 引数指定がなければそのまま返却
-            return $this->types;
-        }
-        // array_mapで配列内のタイプをインスタンス化
-        $types = array_map(function($type){
-            return new $type;
-        }, $this->types);
-        // パラメーターに合わせた分岐
-        switch ($return) {
-            /**
-            * 文字列
-            */
-            case 'string':
-            // array_mapでタイプ名の配列にしたものを、implodeで文字列に変換
-            $types = implode(',', array_map(function($type){
-                return $type->getName();
-            }, $types));
-            break;
-            /**
-            * 配列
-            */
-            case 'array':
-            // array_mapでタイプ名の配列にして返却
-            $types = array_map(function($type){
-                return $type->getName();
-            }, $types);
-            break;
-        }
-        return $types;
+        return $this->types;
+        // if(is_null($return)){
+        //     // 引数指定がなければそのまま返却
+        //     return $this->types;
+        // }
+        // // array_mapで配列内のタイプをインスタンス化
+        // $types = array_map(function($type){
+        //     return new $type;
+        // }, $this->types);
+        // // パラメーターに合わせた分岐
+        // switch ($return) {
+        //     /**
+        //     * 文字列
+        //     */
+        //     case 'string':
+        //     // array_mapでタイプ名の配列にしたものを、implodeで文字列に変換
+        //     $types = implode(',', array_map(function($type){
+        //         return $type->getName();
+        //     }, $types));
+        //     break;
+        //     /**
+        //     * 配列
+        //     */
+        //     case 'array':
+        //     // array_mapでタイプ名の配列にして返却
+        //     $types = array_map(function($type){
+        //         return $type->getName();
+        //     }, $types);
+        //     break;
+        // }
+        // return $types;
     }
 
     /**

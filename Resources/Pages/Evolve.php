@@ -24,14 +24,13 @@ $pokemon = $controller->getPokemon();
                 <div class="row">
                     <div class="col-12 text-center my-5">
                         <figure class="position-relative text-center d-inline-block area-evolve">
-                            <img
+                            <img id="pokemon-before"
                             src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif"
                             alt="<?=$pokemon->getName()?>"
                             class="bg-php-back p-5"
                             >
                             <?php if($pokemon->getAfterClass()): ?>
-                                <img
-                                id="pokemon-after"
+                                <img id="pokemon-after"
                                 src="/Assets/img/pokemon/dots/front/<?=$pokemon->getAfterClass()?>.gif"
                                 alt="進化先"
                                 class="bg-php-back p-5">
@@ -58,7 +57,7 @@ $pokemon = $controller->getPokemon();
                                 </p>
                             <?php endforeach; ?>
                             <i class="fas fa-hand-point-up fa-2x message-scroll-icon text-php-dark m-1"></i>
-                            <button type="button" id="cancel-evolve" class="btn btn-sm btn-danger" style="display:none;">進化させない</button>
+                            <button type="button" id="cancel-evolve" class="btn btn-sm btn-danger d-soft-none">進化させない</button>
                         </div>
                     </div>
                 </div>

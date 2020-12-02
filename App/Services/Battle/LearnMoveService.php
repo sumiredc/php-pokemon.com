@@ -10,7 +10,7 @@ class LearnMoveService extends Service
 {
 
     /**
-    * @var Pokemon:object
+    * @var object::Pokemon
     */
     protected $tmp_pokemon;
 
@@ -18,6 +18,8 @@ class LearnMoveService extends Service
     * @var array
     */
     protected $before_responses;
+    protected $before_messages;
+    protected $before_modals;
 
     /**
     * @param integer
@@ -88,17 +90,15 @@ class LearnMoveService extends Service
             $this->before_responses[request('param.id')]['pokemon_id'], 'id'
         );
         // 忘れる技を取得
-        $forget_move = $pokemon
-        ->getMove(request('param.forget'));
+        $forget_move = $pokemon->getMove(request('param.forget'))['class'];
         // 覚えさせる技を旧レスポンスから取得
-        $new_move = new $this->before_responses[request('param.id')]['move'];
+        $new_move = $this->before_responses[request('param.id')]['move'];
         // 技を覚えさせる
-        $pokemon
-        ->setMove($new_move, request('param.forget'));
+        $pokemon->setMove($new_move, request('param.forget'));
         // メッセージの返却
         response()->setMessage('1 2の ……ポカン！');
-        response()->setMessage($pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
-        response()->setMessage($pokemon->getNickname().'は新しく、'.$new_move->getName().'を覚えた！');
+        response()->setMessage($pokemon->getNickname().'は、'.$forget_move::NAME.'の使い方をキレイに忘れた！そして......');
+        response()->setMessage($pokemon->getNickname().'は新しく、'.$new_move::NAME.'を覚えた！');
     }
 
     /**
@@ -107,7 +107,7 @@ class LearnMoveService extends Service
     * @param param:string::response|message|modal
     * @return array
     */
-    private function getUntreatedResponses(array $responses, string $param='response')
+    private function getUntreatedResponses(array $responses, string $param='response'): array
     {
         $cnt = 1;
         switch ($param) {

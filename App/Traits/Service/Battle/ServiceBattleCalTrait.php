@@ -6,15 +6,14 @@ trait ServiceBattleCalTrait
     /**
     * ダメージ計算（カッコ毎に小数点の切り捨てをする）
     * floor(floor(floor(レベル×2/5+2)×威力×A/D)/50+2)*M
-    *
-    * @param integer $l     レベル
-    * @param integer $a     攻撃値
-    * @param integer $d     防御値
-    * @param integer $p     威力
-    * @param integer $m     補正値
+    * @param l:integer レベル
+    * @param a:integer 攻撃値
+    * @param d:integer 防御値
+    * @param p:integer 威力
+    * @param m:float   補正値
     * @return integer
     */
-    private function calDamage(int $l, int $a, int $d, int $p, $m)
+    private function calDamage(int $l, int $a, int $d, int $p, float $m): int
     {
         // 計算式を当てはめる
         $result = floor(floor(floor($l * 2 / 5 + 2) * $p * $a / $d) / 50 + 2) * $m;
@@ -31,33 +30,32 @@ trait ServiceBattleCalTrait
 
     /**
     * タイプ相性チェック
-    *
-    * @param Type:object $atk_type
-    * @param array $def_types
+    * @param atk_type:string
+    * @param def_type::array
     * @return string
     */
-    private function checkTypeCompatibility(object $atk_type, array $def_types)
+    private function checkTypeCompatibility(string $atk_type, array $def_types): string
     {
         // ダメージ補正(初期値は等倍)
         $m = 1;
         // 補正判定
         foreach($def_types as $def_type){
             // 「こうかがない」かチェック(わるあがきは除く)
-            if(in_array($def_type, $atk_type->getAtkDoesntAffectTypes(), true)){
+            if(in_array($def_type, $atk_type::DOESNT_AFFECT, true)){
                 // ダメージ無し
                 $m = 0;
                 // ループ終了
                 break;
             }
             // 「こうかばつぐん」かチェック
-            if(in_array($def_type, $atk_type->getAtkExcellentTypes(), true)){
+            if(in_array($def_type, $atk_type::EXCELLENT, true)){
                 // 2倍
                 $m *= 2;
                 // 次の処理へスキップ
                 continue;
             }
             // 「こうかいまひとつ」かチェック
-            if(in_array($def_type, $atk_type->getAtkNotVeryTypes(), true)){
+            if(in_array($def_type, $atk_type::NOT_VERY, true)){
                 // 半減
                 $m /= 2;
             }
@@ -80,16 +78,16 @@ trait ServiceBattleCalTrait
     /**
     * 壁補正判定
     *
-    * @param Move:object $move
-    * @param Pokemon:object $def
-    * @return string
+    * @param move:string
+    * @param def:object::Pokemon
+    * @return void
     */
-    private function checkWall(object $move, object $def)
+    private function checkWall(string $move, object $def): void
     {
         // ダメージ補正(初期値は等倍)
         $m = 1;
         // 技種類での分岐
-        switch ($move->getSpecies()) {
+        switch ($move::SPECIES) {
             // 物理
             case 'physical':
             // 相手がリフレクター状態であれば半減
@@ -115,9 +113,8 @@ trait ServiceBattleCalTrait
 
     /**
     * 急所判定
-    *
-    * @param Move:object $move
-    * @return mixed (numeric|boolean)
+    * @param rank::array
+    * @return mixed::float:boolean
     */
     private function calCritical(...$rank)
     {
@@ -153,10 +150,9 @@ trait ServiceBattleCalTrait
 
     /**
     * 乱数補正値の計算
-    *
     * @return float
     */
-    private function calRandNum()
+    private function calRandNum(): float
     {
         // 85〜100の乱数をかけ、その後100で割る
         return random_int(85, 100) / 100;
@@ -164,12 +160,11 @@ trait ServiceBattleCalTrait
 
     /**
     * タイプ一致補正値の計算（一致→1.5倍）
-    *
-    * @param string $move_type 技タイプ
-    * @param array $pokemon_types 攻撃ポケモンのタイプ
-    * @return mixed (numeric|boolean)
+    * @param move_type:string
+    * @param pokemon_types:array
+    * @return mixed::float:boolean
     */
-    private function calMatchType($move_type, $pokemon_types)
+    private function calMatchType(string $move_type, array $pokemon_types)
     {
         if(in_array($move_type, $pokemon_types, true)){
             // 攻撃ポケモンのタイプと技タイプが一致

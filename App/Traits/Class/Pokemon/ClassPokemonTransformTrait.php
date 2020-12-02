@@ -15,7 +15,7 @@ trait ClassPokemonTransformTrait
         $this->rank = $enemy->getRank();                    # ランク
         $this->iv = $enemy->getIv();                        # 個体値
         $this->ev = $enemy->getEv();                        # 努力値
-        $this->move = $enemy->getMove(null, 'array');       # 覚えている技
+        $this->move = $enemy->getMove();                    # 覚えている技
         // へんしんでコピーされないステータス
         $this->level = $pokemon->getLevel();                # レベル
         if(empty($pokemon->getSa())){                       # 状態異常

@@ -12,7 +12,7 @@ trait ServiceBattleOrderGenelatorTrait
     * @param array [攻撃ポケモン, 防御ポケモン, 攻撃ポケモンの技]
     * @return array [行動順判定用数値 => [攻撃ポケモン, 防御ポケモン, 技],...]
     */
-    protected function orderMove(...$pokemons)
+    protected function orderMove(...$pokemons): array
     {
         $results = [];
         foreach($pokemons as list($atk_position, $def_position, $move)){
@@ -20,7 +20,7 @@ trait ServiceBattleOrderGenelatorTrait
             $atk = $atk_position();
             $def = $def_position();
             // 優先度のセット
-            $speed = $move->getPriority() * 1000000;
+            $speed = $move::PRIORITY * 1000000;
             // 素早さ実数値の加算
             $speed += $atk->getStats('Speed', true) * 10;
             // 乱数の生成(同速判定用)
@@ -45,7 +45,7 @@ trait ServiceBattleOrderGenelatorTrait
     * @param array [攻撃ポケモン, 防御ポケモン]
     * @return array [行動順判定用数値 => [攻撃ポケモン, 防御ポケモン],...]
     */
-    protected function orderSpeed(...$pokemons)
+    protected function orderSpeed(...$pokemons): array
     {
         $results = [];
         foreach($pokemons as list($atk_position, $def_position)){

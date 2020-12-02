@@ -118,28 +118,27 @@ trait ClassPokemonCalculationTrait
     * 残りPPの計算
     * @param param:string::reset|sub|add
     * @param val:integer
-    * @param num:integer
+    * @param order:integer # 技番号
     * @return integer
     */
-    public function calRemainingPp(string $param, int $val=0, $num=null): void
+    public function calRemainingPp(string $param, int $val=0, $order=null): void
     {
         switch ($param) {
             // リセット処理
             case 'reset':
-            if(is_null($num)){
+            if(is_null($order)){
                 // すべてのPPを全回復
                 foreach($this->getMove() as $key => $move){
-                    $this->move[$key]['remaining'] = $move['class']->getPp($move['correction']);
+                    $this->move[$key]['remaining'] = $move['class']::getPp($move['correction']);
                 }
             }else{
                 // 指定された技PPを全回復
-                $this->move[$num]['remaining'] = $this->move[$num]
-                ->getPp($this->move[$num]['correction']);
+                $this->move[$order]['remaining'] = $this->move[$order]::getPp($this->move[$order]['correction']);
             }
             break;
             // 減算処理
             case 'sub':
-            if(is_null($num)){
+            if(is_null($order)){
                 // すべてのPPに減算処理
                 foreach($this->move as $key => $move){
                     $this->move[$key]['remaining'] -= $val;
@@ -150,31 +149,31 @@ trait ClassPokemonCalculationTrait
                 }
             }else{
                 // 指定された技PPに減算処理
-                $this->move[$num]['remaining'] -= $val;
-                if($this->move[$num]['remaining'] < 0){
+                $this->move[$order]['remaining'] -= $val;
+                if($this->move[$order]['remaining'] < 0){
                     // 最小値の処理
-                    $this->move[$num]['remaining'] = 0;
+                    $this->move[$order]['remaining'] = 0;
                 }
             }
             break;
             // 加算処理
             case 'add':
-            if(is_null($num)){
+            if(is_null($order)){
                 // すべてのPPに加算処理
                 foreach($this->getMove() as $key => $move){
                     $this->move[$key]['remaining'] += $val;
-                    if($this->move[$key]['remaining'] > $move['class']->getPp($move['correction'])){
+                    if($this->move[$key]['remaining'] > $move['class']::getPp($move['correction'])){
                         // 最大値の処理
-                        $this->move[$key]['remaining'] = $move['class']->getPp($move['correction']);
+                        $this->move[$key]['remaining'] = $move['class']::getPp($move['correction']);
                     }
                 }
             }else{
-                // 技をインスタンス化
-                $move = new $this->move[$num];
-                $this->move[$num]['remaining'] += $val;
-                if($this->move[$num]['remaining'] > $move->getPp($this->move[$num]['correction'])){
+                // 指定されたPPに加算処理
+                $move = $this->move[$order]; # 対象技クラスを取得
+                $this->move[$order]['remaining'] += $val;
+                if($this->move[$order]['remaining'] > $move::getPp($this->move[$order]['correction'])){
                     // 最大値の処理
-                    $this->move[$num]['remaining'] = $move->getPp($this->move[$num]['correction']);
+                    $this->move[$order]['remaining'] = $move::getPp($this->move[$order]['correction']);
                 }
             }
             break;

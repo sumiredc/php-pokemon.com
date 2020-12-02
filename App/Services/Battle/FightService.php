@@ -26,11 +26,6 @@ class FightService extends Service
     use ServiceBattleCalTrait;
 
     /**
-    * @var integer
-    */
-    protected $move_number;
-
-    /**
     * @return void
     */
     public function __construct()
@@ -47,7 +42,7 @@ class FightService extends Service
         // 行動順の取得
         $orders = $this->orderMove(
             ['friend', 'enemy', $this->selectMove()],
-            ['enemy', 'friend', $this->selectEnemyMove()],
+            ['enemy', 'friend', $this->aiSelectMove()],
         );
         // 攻撃処理
         if($this->actionAttack($orders)){
@@ -56,7 +51,6 @@ class FightService extends Service
         }
         // フィールドのカウントを進める
         battle_state()->goTurnFields();
-
     }
 
     /**
@@ -69,39 +63,24 @@ class FightService extends Service
         // 自ポケモンの技をインスタンス化
         if(request('param') === ''){
             // 技が未選択の場合は「わるあがき」を返却
-            return new MoveStruggle;
+            return 'MoveStruggle';
         }else{
             // 配列で取得
-            $move = friend()->getMove(request('param'), 'array');
+            $move = friend()->getMove(request('param'));
             // 残PPがなければ「わるあがき」を返却
             if($move['remaining'] <= 0){
-                return new MoveStruggle;
+                return 'MoveStruggle';
             }
-            // 技オブジェクトを返却
-            return new $move['class'];
+            // 技クラスを返却
+            return $move['class'];
         }
     }
 
     /**
-    * 相手ポケモンの技選択
-    *
-    * @return object Move
-    */
-    private function selectEnemyMove()
-    {
-        // AIで技選択
-        $move = $this->aiSelectMove();
-        // 敵の技をインスタンス化
-        // return new $ai['class']($ai['remaining'], $ai['correction']);
-        return new $move;
-    }
-
-    /**
     * 行動順に攻撃処理
-    *
-    * @return boolean (false: ひんしポケモン有り)
+    * @return boolean::false:ひんしポケモン有り
     */
-    private function actionAttack($orders)
+    private function actionAttack($orders): bool
     {
         foreach($orders as list($atk_position, $def_position, $move)){
             // positionから該当するポケモンを呼び出し

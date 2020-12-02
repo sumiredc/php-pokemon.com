@@ -64,47 +64,52 @@ trait ClassPokemonSetTrait
     * 初期技をセットする
     * @return void
     */
-    protected function setDefaultMove()
+    protected function setDefaultMove(): void
     {
-        // レベル順に並び替えて取得
+        // レベル順に並び替えて取得(array_multisortが破壊的な関数のため)
         $move_list = $this->level_move;
         $keys = array_column($move_list, 0);
         array_multisort($keys, SORT_ASC, $move_list);
         // 低レベルから順番に技を取得
         foreach($move_list as list($level, $move)){
-            if($level <= $this->level){
-                // 現在レベル以下の技であれば習得
-                $this->setMove(new $move);
-            }else{
+            if($level > $this->level){
                 // 現在レベルを超えていれば処理終了
                 break;
             }
+            // 技をセット
+            $this->setMove($move);
         }
     }
 
     /**
     * 技を覚える
-    * @param move:Move:object
-    * @param num:integer
-    * @return object Move
+    * @param move:string
+    * @param order:integer
+    * @return boolean
     */
-    public function setMove($move, int $num=0)
+    public function setMove(string $move, int $order=0): bool
     {
+        // 技クラスの存在チェック
+        if(!class_exists($move)){
+            return false;
+        }
+        // 技を追加
         $this->move[] = [
-            'class' => get_class($move),
-            'remaining' => $move->getPp(),
+            'class' => $move,
+            'remaining' => $move::PP,
             'correction' => 0,
         ];
         if(count($this->move) > 4){
             // 技が4つを超過していれば、選択された番号の技を忘れさせる
-            if(!isset($this->move[$num])){
-                // もし指定番号に技がなければ一番上を忘れさせる
-                $num = 0;
+            if(!isset($this->move[$order])){
+                // もし指定番号に技がなければ0番目を削除
+                $order = 0;
             }
-            unset($this->move[$num]);
+            unset($this->move[$order]);
             // 技の添字を採番する
             $this->move = array_values($this->move);
         }
+        return true;
     }
 
     /**
