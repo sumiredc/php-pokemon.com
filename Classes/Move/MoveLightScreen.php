@@ -56,14 +56,11 @@ class MoveLightScreen extends Move
 
     /**
     * フィールド効果
-    * @return array
+    * @var array
     */
-    public static function field()
-    {
-        return [
-            'class' => 'FieldLightScreen',
-            'turn' => 5,
-        ];
-    }
+    public static $field = [
+        'class' => 'FieldLightScreen',
+        'turn' => 5,
+    ];
 
 }

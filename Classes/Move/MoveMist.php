@@ -56,15 +56,11 @@ class MoveMist extends Move
 
     /**
     * フィールド効果
-    *
-    * @return array
+    * @var array
     */
-    public static function field()
-    {
-        return [
-            'class' => 'FieldMist',
-            'turn' => 5,
-        ];
-    }
+    public static $field = [
+        'class' => 'FieldMist',
+        'turn' => 5,
+    ];
 
 }

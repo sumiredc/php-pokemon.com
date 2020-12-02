@@ -56,15 +56,11 @@ class MoveReflect extends Move
 
     /**
     * フィールド効果
-    *
-    * @return array
+    * @var array
     */
-    public static function field()
-    {
-        return [
-            'class' => 'FieldReflect',
-            'turn' => 5,
-        ];
-    }
+    public static $field = [
+        'class' => 'FieldReflect',
+        'turn' => 5,
+    ];
 
 }
