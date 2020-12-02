@@ -72,11 +72,20 @@ abstract class Move
 
     /**
     * 反動
-    *
     * @param mixed
     * @return boolean
     */
     public function recoil(...$args)
+    {
+        return false;
+    }
+
+    /**
+    * コスト（技の失敗時も含む）
+    * @param mixed
+    * @return boolean
+    */
+    public function cost(...$args)
     {
         return false;
     }

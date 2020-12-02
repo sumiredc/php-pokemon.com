@@ -1,15 +1,16 @@
 <?php
+/**
+* ポケモンクラス 計算関係のトレイト
+*/
 trait ClassPokemonCalculationTrait
 {
-
     /**
     * ランクの加算
-    *
-    * @param string $param
-    * @param integer $val (min:1, max:12)
+    * @param param:string
+    * @param val:integer::min:1|max:12
     * @return string
     */
-    public function addRank($param, $val)
+    public function addRank(string $param, int $val): string
     {
         // 変化ランクに合わせたメッセージ
         $msg = [
@@ -33,12 +34,11 @@ trait ClassPokemonCalculationTrait
 
     /**
     * ランクの減算
-    *
-    * @param string $param
-    * @param integer $val (min:1, max:3)
+    * @param param:string
+    * @param val:integer::min:1|max:3
     * @return string
     */
-    public function subRank($param, $val)
+    public function subRank(string $param, int $val): string
     {
         // 変化ランクに合わせたメッセージ
         $msg = [
@@ -61,12 +61,11 @@ trait ClassPokemonCalculationTrait
 
     /**
     * 残りHPの計算
-    *
     * @param param:string::reset|death|sub|add
     * @param val:integer
     * @return integer
     */
-    public function calRemainingHp($param, int $val=0)
+    public function calRemainingHp($param, int $val=0): int
     {
         switch ($param) {
             // リセット処理
@@ -92,7 +91,10 @@ trait ClassPokemonCalculationTrait
             break;
         }
         // 復活処理（ひんしからの回復）
-        if(isset($this->sa['SaFainting']) && ($this->remaining_hp > 0)){
+        if(
+            isset($this->sa['SaFainting']) &&
+            $this->remaining_hp > 0
+        ){
             unset($this->sa['SaFainting']);
         }
         // HPが0以下になった場合の処理
@@ -114,13 +116,12 @@ trait ClassPokemonCalculationTrait
 
     /**
     * 残りPPの計算
-    *
     * @param param:string::reset|sub|add
     * @param val:integer
     * @param num:integer
     * @return integer
     */
-    public function calRemainingPp(string $param, int $val=0, $num=null)
+    public function calRemainingPp(string $param, int $val=0, $num=null): void
     {
         switch ($param) {
             // リセット処理

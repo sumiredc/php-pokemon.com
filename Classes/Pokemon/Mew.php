@@ -9,49 +9,50 @@ class Mew extends Pokemon
     * ポケモンナンバー
     * @var integer
     */
-    protected $number = 151;
+     protected $number = 151;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ミュウ';
+     protected $name = 'ミュウ';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypePsychic'];
+     protected $types = ['TypePsychic'];
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 300;
+     protected $base_exp = 300;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+     protected $capture = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 4.0;
+     protected $weight = 4.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+     protected $level_move = [
         [1, 'MovePound'],                  # はたく
         [10, 'MoveTransform'],             # へんしん
         [20, 'MoveWingAttack'],            # メガトンパンチ
         [30, 'MoveMetronome'],             # ゆびをふる
         [40, 'MovePsychic'],               # サイコキネシス
 
+        [1, 'MoveExplosion'],              # だいばくはつ
         // [6, 'MoveMist'],           # しろいきり
         // [1, 'MoveHighJumpKick'],        # とびひざげり
         // [1, 'MoveReflect'],           # リフレクター
