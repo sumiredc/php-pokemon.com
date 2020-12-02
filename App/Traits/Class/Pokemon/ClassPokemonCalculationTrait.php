@@ -92,7 +92,7 @@ trait ClassPokemonCalculationTrait
         }
         // 復活処理（ひんしからの回復）
         if(
-            isset($this->sa['SaFainting']) &&
+            !$this->isFight() &&
             $this->remaining_hp > 0
         ){
             unset($this->sa['SaFainting']);

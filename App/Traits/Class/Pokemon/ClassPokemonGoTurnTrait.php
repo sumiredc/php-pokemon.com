@@ -3,11 +3,10 @@ trait ClassPokemonGoTurnTrait
 {
     /**
     * ターンカウントをすすめる（状態異常）
-    *
     * @param release:boolean
     * @return void
     */
-    public function goSaTurn(bool $release=true)
+    public function goSaTurn(bool $release=true): void
     {
         // 状態異常クラスを取得
         $sa = $this->getSa();
@@ -52,7 +51,10 @@ trait ClassPokemonGoTurnTrait
             // 残ターン数を1マイナス
             $this->sc[$class]['turn']--;
             // $releaseがtrueなら解除チェック
-            if($release && ($this->sc[$class]['turn'] <= 0)){
+            if(
+                $release &&
+                $this->sc[$class]['turn'] <= 0
+            ){
                 // 指定された状態変化の解除
                 unset($this->sc[$class]);
             }

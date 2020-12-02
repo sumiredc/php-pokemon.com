@@ -1,21 +1,6 @@
 <?php
 trait ClassPokemonGetTrait
 {
-    // /**
-    // * 詳細を取得する
-    // * @return integer
-    // */
-    // public function getDetails()
-    // {
-    //     return [
-    //         'Name' => $this->getName(),
-    //         'Nickname' => $this->getNickName(),
-    //         'Type' => $this->getTypes('string'),
-    //         'Level' => $this->getLevel(),
-    //         'Exp' => $this->getExp(),
-    //         'NextLevel' => $this->getReqLevelUpExp(),
-    //     ];
-    // }
 
     /**
     * タイプ名の取得
@@ -309,16 +294,16 @@ trait ClassPokemonGetTrait
         }
     }
 
-    /**
-    * 現在の状態変化をインスタンス化して配列で取得する
-    * @return array
-    */
-    public function getScObject()
-    {
-        return array_map(function($class){
-            return new $class;
-        }, array_keys($this->sc));
-    }
+    // /**
+    // * 現在の状態変化をインスタンス化して配列で取得する
+    // * @return array
+    // */
+    // public function getScObject()
+    // {
+    //     return array_map(function($class){
+    //         return new $class;
+    //     }, array_keys($this->sc));
+    // }
 
     /**
     * 残りHPを取得
@@ -357,7 +342,7 @@ trait ClassPokemonGetTrait
     * @param fainting:boolean
     * @return string
     */
-    public function getSaName($fainting=true)
+    public function getSaName($fainting=true): string
     {
         // 状態異常(ひんし)ではない場合
         if(empty($this->sa)){
@@ -372,8 +357,7 @@ trait ClassPokemonGetTrait
         }
         // 状態異常を取得
         $class = array_key_first($this->sa);
-        $sa = new $class;
-        return $sa->getName();
+        return $class::NAME;
     }
 
     /**
@@ -381,7 +365,7 @@ trait ClassPokemonGetTrait
     * @param fainting:boolean
     * @return string
     */
-    public function getSaColor($fainting=true)
+    public function getSaColor($fainting=true): string
     {
         // 状態異常(ひんし)ではない
         if(empty($this->sa)){
@@ -395,8 +379,7 @@ trait ClassPokemonGetTrait
             return '';
         }
         $class = array_key_first($this->sa);
-        $sa = new $class;
-        return $sa->getColor();
+        return $class::COLOR;
     }
 
     /**
@@ -480,42 +463,11 @@ trait ClassPokemonGetTrait
 
     /**
     * タイプの取得
-    * @param return:string|array|object|null
-    * @var mixed
+    * @var array
     */
-    public function getTypes()
+    public function getTypes(): array
     {
         return $this->types;
-        // if(is_null($return)){
-        //     // 引数指定がなければそのまま返却
-        //     return $this->types;
-        // }
-        // // array_mapで配列内のタイプをインスタンス化
-        // $types = array_map(function($type){
-        //     return new $type;
-        // }, $this->types);
-        // // パラメーターに合わせた分岐
-        // switch ($return) {
-        //     /**
-        //     * 文字列
-        //     */
-        //     case 'string':
-        //     // array_mapでタイプ名の配列にしたものを、implodeで文字列に変換
-        //     $types = implode(',', array_map(function($type){
-        //         return $type->getName();
-        //     }, $types));
-        //     break;
-        //     /**
-        //     * 配列
-        //     */
-        //     case 'array':
-        //     // array_mapでタイプ名の配列にして返却
-        //     $types = array_map(function($type){
-        //         return $type->getName();
-        //     }, $types);
-        //     break;
-        // }
-        // return $types;
     }
 
     /**

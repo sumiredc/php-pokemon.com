@@ -42,7 +42,7 @@ trait ClassBattleStateTurnDamageTrait
     * @param species:string::physical|special
     * @return integer
     */
-    public function getTurnDamage(string $position, string $species) :int
+    public function getTurnDamage(string $position, string $species): int
     {
         return $this->turn_damages[$position][$species];
     }
@@ -54,7 +54,7 @@ trait ClassBattleStateTurnDamageTrait
     * @param damage:integer
     * @return void
     */
-    public function setTurnDamage(string $position, string $species, int $damage) :void
+    public function setTurnDamage(string $position, string $species, int $damage): void
     {
         $this->turn_damages[$position][$species] = $damage;
     }

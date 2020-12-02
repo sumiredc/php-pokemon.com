@@ -21,6 +21,12 @@ class SaFreeze extends StatusAilment
     public const COLOR = 'primary';
 
     /**
+    * 捕獲時の補正値
+    * @var float
+    */
+    public const CAPTURE = 2.5;
+
+    /**
     * 状態異常にかかった際のメッセージ
     * @var string
     */

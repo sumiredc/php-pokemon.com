@@ -91,14 +91,14 @@ trait ServiceBattleCalTrait
             // 物理
             case 'physical':
             // 相手がリフレクター状態であれば半減
-            if(battle_state()->checkField($def->getPosition(), new FieldReflect)){
+            if(battle_state()->checkField($def->getPosition(), 'FieldReflect')){
                 $m = 0.5;
             }
             break;
             // 特殊
             case 'special':
             // 相手がひかりのかべ状態であれば半減
-            if(battle_state()->checkField($def->getPosition(), new FieldLightScreen)){
+            if(battle_state()->checkField($def->getPosition(), 'FieldLightScreen')){
                 $m = 0.5;
             }
             break;

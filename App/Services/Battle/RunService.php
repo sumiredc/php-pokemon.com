@@ -44,23 +44,23 @@ class RunService extends Service
         battle_state()->run();
         if($this->checkRun()){
             // 逃走成功
-            setMessage('上手く逃げ切れた！');
+            response()->setMessage('上手く逃げ切れた！');
             // バトル終了判定用メッセージの格納
-            setEmptyMessage('battle-end');
+            response()->setEmptyMessage('battle-end');
         }else{
             // 逃走失敗
-            $msg_id = issueMsgId();
-            setMessage('逃げられない！', $msg_id);
+            $msg_id = response()->issueMsgId();
+            response()->setMessage('逃げられない！', $msg_id);
             if(friend()->isFight()){
                 // 相手のターン処理
                 $this->enemyTurn();
             }else{
                 // ひんし状態での逃走失敗
-                setResponse([
+                response()->setResponse([
                     'toggle' => 'modal',
                     'target' => '#party-modal'
                 ], $msg_id);
-                setModal([
+                response()->setModal([
                     'id' => $msg_id,
                     'existing_modal' => '#party-modal' # 既存モーダルの使用
                 ]);

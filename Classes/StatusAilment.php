@@ -5,6 +5,12 @@
 abstract class StatusAilment
 {
 
+    /**
+    * 捕獲時の補正値(初期値)
+    * @var float
+    */
+    public const CAPTURE = 1.5;
+
     // メッセージの初期値
     public const SICKED_MSG = '';
     public const SICKED_ALREADY_MSG = '';

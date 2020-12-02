@@ -319,12 +319,11 @@ trait ServiceBattleAttackTrait
                 return;
             }
             // 能力下降効果
-            $field_mist = new FieldMist;
-            if(battle_state()->checkField($def->getPosition(), $field_mist)){
+            if(battle_state()->checkField($def->getPosition(), 'FieldMist')){
                 // 能力下降確定技であれば失敗メッセージを出力
                 if($move::CONFIRM_DEBUFF_FLG){
                     response()->setMessage(
-                        $field_mist->getFailedMessage($def->getPrefixName())
+                        FieldMist::getFailedMessage($def->getPrefixName())
                     );
                 }
             }else{
@@ -334,11 +333,10 @@ trait ServiceBattleAttackTrait
                 }
             }
             // フィールド効果
-            if($move::field()){
-                $field = $move::field();
+            if($move::$field){
                 // フィールドをセット
                 battle_state()->setField(
-                    $atk->getPosition(), new $field['class'], $field['turn']
+                    $atk->getPosition(), $move::$field['class'], $move::$field['turn']
                 );
             }
             // いかり判定
@@ -346,9 +344,8 @@ trait ServiceBattleAttackTrait
                 $def->checkSc('ScRage') &&
                 !empty($damage ?? 0)
             ){
-                $rage = new ScRage;
                 // いかり発動メッセージをセット
-                response()->setMessage($rage->getActiveMessage($def->getPrefixName()));
+                response()->setMessage(ScRage::getActiveMessage($def->getPrefixName()));
                 // こうげきランクを１段階上昇
                 response()->setMessage($def->addRank('Attack', 1));
             }
@@ -473,7 +470,7 @@ trait ServiceBattleAttackTrait
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
     * @param move:string::Move
-    * @return array
+    * @return array|null
     */
     private function effectMove(object $atk, object $def, string $move)
     {
@@ -482,12 +479,11 @@ trait ServiceBattleAttackTrait
         if(isset($effects['message']) && isset($effects['sa'])){
             // 状態異常有り
             $effect_id = response()->issueMsgId();
-            $sa = new $effects['sa'];
             response()->setMessage($effects['message'], $effect_id);
             response()->setResponse([
                 'param' => json_encode([
-                    'name' => $sa->getName(),
-                    'color' => $sa->getColor()
+                    'name' => $effects['sa']::NAME,
+                    'color' => $effects['sa']::COLOR
                 ]),
                 'action' => 'sa',
                 'target' => $def->getPosition()

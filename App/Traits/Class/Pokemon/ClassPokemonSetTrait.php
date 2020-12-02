@@ -237,7 +237,7 @@ trait ClassPokemonSetTrait
     * @param array|string $rank
     * @return void
     */
-    public function setRank($rank)
+    public function setRank($rank): void
     {
         // 初期化
         if($rank === 'reset'){
@@ -260,7 +260,7 @@ trait ClassPokemonSetTrait
     }
 
     /**
-    * 状態異常をセットする
+    * 状態異常の格納
     * @param class:string
     * @param turn:integer
     * @return array
@@ -281,21 +281,22 @@ trait ClassPokemonSetTrait
                 'message' => $this->getPrefixName().'は倒れた'
             ];
         }
-        // インスタンス化
-        $sa = new $class;
         // 状態異常にかかっていない場合
-        if(empty($this->sa) && is_a($sa, 'StatusAilment')){
+        if(
+            empty($this->sa) &&
+            class_exists($class)
+        ){
             // 状態異常をセット
             $this->sa[$class] = $turn;
             return [
-                'message' => $sa->getSickedMessage($this->getPrefixName()),
+                'message' => $class::getSickedMessage($this->getPrefixName()),
                 'sa' => $class
             ];
         }
         // 既に同じ状態異常にかかっている
         if(isset($this->sa[$class])){
             return [
-                'message' => $sa->getSickedAlreadyMessage($this->getPrefixName())
+                'message' => $class::getSickedAlreadyMessage($this->getPrefixName())
             ];
         }
         // 失敗
@@ -306,30 +307,24 @@ trait ClassPokemonSetTrait
 
     /**
     * 状態変化をセットする
-    * @param string|array $class
-    * @param integer $turn
-    * @param string $param
+    * @param class:string
+    * @param turn:integer
+    * @param param:string
     * @return string
     */
-    public function setSc($class, $turn=0, $param='Standard')
+    public function setSc(string $class, $turn=0, $param='Standard'): string
     {
-        // 状態変化の引き継ぎ処理
-        if(is_array($class)){
-            $this->sc = $class;
-            return;
-        }
-        $sc = new $class;
         // 状態変化のセット確認
         if(isset($this->sc[$class])){
             // 既に同じ状態変化にかかっている
-            return $sc->getSickedAlreadyMessage($this->getPrefixName(), $param);
+            return $class::getSickedAlreadyMessage($this->getPrefixName(), $param);
         }else{
             // 状態変化をセット
             $this->sc[$class] = [
                 'turn' => $turn,
                 'param' => $param,
             ];
-            return $sc->getSickedMessage($this->getPrefixName(), $param);
+            return $class::getSickedMessage($this->getPrefixName(), $param);
         }
     }
 

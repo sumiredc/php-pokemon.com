@@ -20,4 +20,10 @@ class SaFainting extends StatusAilment
     */
     public const COLOR = 'secondary';
 
+    /**
+    * 捕獲時の補正値
+    * @var float
+    */
+    public const CAPTURE = 0;
+
 }

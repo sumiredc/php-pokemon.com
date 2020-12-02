@@ -30,7 +30,7 @@ trait ServiceBattleExTrait
     * @param move:string
     * @return string
     */
-    protected function exMetronome(object $atk, string $move) :object
+    protected function exMetronome(object $atk, string $move): object
     {
         // チャージ・あばれる技の確認
         $wait_move = $this->exGetWaitingMove($atk);
