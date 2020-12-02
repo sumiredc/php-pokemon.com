@@ -34,7 +34,7 @@ class MoveQuickAttack extends Move
     * 威力
     * @var integer
     */
-    protected $power = null;
+    protected $power = 40;
 
     /**
     * 命中率
