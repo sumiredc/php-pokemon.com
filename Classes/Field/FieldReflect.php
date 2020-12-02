@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Field.php');
 
-// リフレクター
+/**
+* リフレクター
+*/
 class FieldReflect extends Field
 {
 
@@ -10,24 +12,24 @@ class FieldReflect extends Field
     * 正式名称
     * @var string
     */
-    protected $name = 'リフレクター';
+    public const NAME = 'リフレクター';
 
     /**
     * フィールドセット時のメッセージ
     * @var string
     */
-    protected $set_msg = '::prefixはリフレクターで物理に強くなった';
+    public const SET_MSG = '::prefixはリフレクターで物理に強くなった';
 
     /**
     * 既にフィールドセットされている状態のメッセージ
     * @var string
     */
-    protected $already_msg = 'しかし上手く決まらなかった';
+    public const ALREADY_MSG = 'しかし上手く決まらなかった';
 
     /**
     * フィールド解除時のメッセージ
     * @var string
     */
-    protected $release_msg = '::prefixのリフレクターが無くなった';
+    public const RELEASE_MSG = '::prefixのリフレクターが無くなった';
 
 }

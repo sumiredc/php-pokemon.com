@@ -1,89 +1,67 @@
 <?php
 
-// フィールド状態
+/**
+* フィールド
+*/
 abstract class Field
 {
 
-    // プロパティの初期値
-    protected $set_msg = '';
-    protected $already_msg = '';
-    protected $release_msg = '';
-    protected $failed_msg = '';
-
-    /**
-    * インスタンス作成時に実行される処理
-    *
-    * @return void
-    */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-    * 名称の取得
-    *
-    * @return string
-    */
-    public function getName()
-    {
-        return $this->name;
-    }
+    // メッセージの初期値
+    public const set_MSG = '';
+    public const ALREADY_MSG = '';
+    public const RELEASE_MSG = '';
+    public const FAILED_MSG = '';
 
     /**
     * フィールドセット時のメッセージ
-    *
-    * @param string $target
+    * @param target:string
     * @return string
     */
-    public function getSetMessage($target)
+    public static function getSetMessage(string $target): string
     {
         $prefix = '味方';
         if($target === 'enemy'){
             $prefix = '相手';
         }
-        return str_replace('::prefix', $prefix, $this->set_msg);
+        return str_replace('::prefix', $prefix, static::set_MSG);
     }
 
     /**
     * 既にフィールドがセットされている時のメッセージ
-    *
-    * @param string $target
+    * @param target:string
     * @return string
     */
-    public function getAlreadyMessage($target)
+    public static function getAlreadyMessage(string $target): string
     {
         $prefix = '味方';
         if($target === 'enemy'){
             $prefix = '相手';
         }
-        return str_replace('::prefix', $prefix, $this->already_msg);
+        return str_replace('::prefix', $prefix, static::ALREADY_MSG);
     }
 
     /**
     * フィールド解除時のメッセージ
-    *
-    * @param string $target
+    * @param target:string
     * @return string
     */
-    public function getReleaseMessage($target)
+    public static function getReleaseMessage(string $target): string
     {
         $prefix = '味方';
         if($target === 'enemy'){
             $prefix = '相手';
         }
-        return str_replace('::prefix', $prefix, $this->release_msg);
+        return str_replace('::prefix', $prefix, static::RELEASE_MSG);
     }
 
     /**
     * 状態異常にかかった際のメッセージを取得
-    *
-    * @param string $pokemon
+    * @param pokemon:string
     * @return string
     */
-    public function getFailedMessage($pokemon)
+    public static function getFailedMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, $this->failed_msg);
+        return str_replace('::pokemon', $pokemon, static::FAILED_MSG);
     }
 
 }
