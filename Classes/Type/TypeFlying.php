@@ -10,7 +10,7 @@ class TypeFlying extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'ひこう';
+    public const NAME = 'ひこう';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeFlying extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeGrass', 'TypeFighting', 'TypeBug'];
+    public const EXCELLENT = ['TypeGrass', 'TypeFighting', 'TypeBug'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeElectric', 'TypeRock', 'Typesteel'];
+    public const NOT_VERY = ['TypeElectric', 'TypeRock', 'Typesteel'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

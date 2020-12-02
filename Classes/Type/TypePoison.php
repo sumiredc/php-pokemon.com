@@ -10,7 +10,7 @@ class TypePoison extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'どく';
+    public const NAME = 'どく';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypePoison extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeGrass', 'TypeFairy'];
+    public const EXCELLENT = ['TypeGrass', 'TypeFairy'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypePoison', 'TypeGround', 'TypeRock', 'TypeGhost'];
+    public const NOT_VERY = ['TypePoison', 'TypeGround', 'TypeRock', 'TypeGhost'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['TypeSteel'];
+    public const DOESNT_AFFECT = ['TypeSteel'];
 
 }

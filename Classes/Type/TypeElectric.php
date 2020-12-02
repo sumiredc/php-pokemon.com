@@ -10,7 +10,7 @@ class TypeElectric extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'でんき';
+    public const NAME = 'でんき';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeElectric extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeWater', 'TypeFlying'];
+    public const EXCELLENT = ['TypeWater', 'TypeFlying'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeElectric', 'TypeGrass', 'TypeDragon'];
+    public const NOT_VERY = ['TypeElectric', 'TypeGrass', 'TypeDragon'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['TypeGround'];
+    public const DOESNT_AFFECT = ['TypeGround'];
 
 }

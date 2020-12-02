@@ -10,7 +10,7 @@ class TypeDark extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'あく';
+    public const NAME = 'あく';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeDark extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypePsychic', 'TypeGhost'];
+    public const EXCELLENT = ['TypePsychic', 'TypeGhost'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeFighting', 'TypeDark', 'TypeFairy'];
+    public const NOT_VERY = ['TypeFighting', 'TypeDark', 'TypeFairy'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

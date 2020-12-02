@@ -10,7 +10,7 @@ class TypeFairy extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'フェアリー';
+    public const NAME = 'フェアリー';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeFairy extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeFighting', 'TypeDragon', 'TypeDark'];
+    public const EXCELLENT = ['TypeFighting', 'TypeDragon', 'TypeDark'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeFire', 'TypePoison', 'TypeSteel'];
+    public const NOT_VERY = ['TypeFire', 'TypePoison', 'TypeSteel'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

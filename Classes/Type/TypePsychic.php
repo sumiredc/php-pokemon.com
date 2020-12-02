@@ -10,7 +10,7 @@ class TypePsychic extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'エスパー';
+    public const NAME = 'エスパー';
 
     /**
     * 攻撃技で使用したときの判定
@@ -20,18 +20,18 @@ class TypePsychic extends Type
     * こうかばつぐん
     * @var integer
     */
-    protected $excellent = ['TypeFighting', 'TypePoison'];
+    public const EXCELLENT = ['TypeFighting', 'TypePoison'];
 
     /**
     * こうかいまひとつ
     * @var integer
     */
-    protected $not_very = ['TypePshchic', 'TypeSteel'];
+    public const NOT_VERY = ['TypePshchic', 'TypeSteel'];
 
     /**
     * こうかがない
     * @var integer
     */
-    protected $doesnt_affect = ['TypeDark'];
+    public const DOESNT_AFFECT = ['TypeDark'];
 
 }

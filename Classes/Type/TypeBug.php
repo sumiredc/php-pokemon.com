@@ -10,7 +10,7 @@ class TypeBug extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'むし';
+    public const NAME = 'むし';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeBug extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypePsychic', 'TypeDark', 'TypeGrass'];
+    public const EXCELLENT = ['TypePsychic', 'TypeDark', 'TypeGrass'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeFire', 'TypeFighting', 'TypePoison', 'TypeFlying', 'TypeGhost', 'TypeSteel', 'TypeFairy'];
+    public const NOT_VERY = ['TypeFire', 'TypeFighting', 'TypePoison', 'TypeFlying', 'TypeGhost', 'TypeSteel', 'TypeFairy'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

@@ -10,7 +10,7 @@ class TypeRock extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'いわ';
+    public const NAME = 'いわ';
 
     /**
     * 攻撃技で使用したときの判定
@@ -20,18 +20,18 @@ class TypeRock extends Type
     * こうかばつぐん
     * @var integer
     */
-    protected $excellent = ['TypeFire', 'TypeIce', 'TypeFlying', 'TypeBug'];
+    public const EXCELLENT = ['TypeFire', 'TypeIce', 'TypeFlying', 'TypeBug'];
 
     /**
     * こうかいまひとつ
     * @var integer
     */
-    protected $not_very = ['TypeFighting', 'TypeGround', 'TypeSteel'];
+    public const NOT_VERY = ['TypeFighting', 'TypeGround', 'TypeSteel'];
 
     /**
     * こうかがない
     * @var integer
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

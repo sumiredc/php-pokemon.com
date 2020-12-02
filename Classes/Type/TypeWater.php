@@ -10,7 +10,7 @@ class TypeWater extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'みず';
+    public const NAME = 'みず';
 
     /**
     * 攻撃技で使用したときの判定
@@ -20,18 +20,18 @@ class TypeWater extends Type
     * こうかばつぐん
     * @var integer
     */
-    protected $excellent = ['TypeFire', 'TypeGround', 'TypeRock'];
+    public const EXCELLENT = ['TypeFire', 'TypeGround', 'TypeRock'];
 
     /**
     * こうかいまひとつ
     * @var integer
     */
-    protected $not_very = ['TypeWater', 'TypeGrass', 'TypeDragon'];
+    public const NOT_VERY = ['TypeWater', 'TypeGrass', 'TypeDragon'];
 
     /**
     * こうかがない
     * @var integer
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

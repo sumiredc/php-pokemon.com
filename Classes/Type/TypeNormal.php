@@ -10,7 +10,7 @@ class TypeNormal extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'ノーマル';
+    public const NAME = 'ノーマル';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeNormal extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = [];
+    public const EXCELLENT = [];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeRock', 'TypeSteel'];
+    public const NOT_VERY = ['TypeRock', 'TypeSteel'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['TypeGhost'];
+    public const DOESNT_AFFECT = ['TypeGhost'];
 
 }

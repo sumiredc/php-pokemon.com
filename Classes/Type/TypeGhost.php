@@ -10,7 +10,7 @@ class TypeGhost extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'ゴースト';
+    public const NAME = 'ゴースト';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeGhost extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypePsychic', 'TypeGhost'];
+    public const EXCELLENT = ['TypePsychic', 'TypeGhost'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeDark'];
+    public const NOT_VERY = ['TypeDark'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['TypeNormal'];
+    public const DOESNT_AFFECT = ['TypeNormal'];
 
 }

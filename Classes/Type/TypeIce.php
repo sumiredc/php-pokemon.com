@@ -10,7 +10,7 @@ class TypeIce extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'こおり';
+    public const NAME = 'こおり';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeIce extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeGrass', 'TypeGround', 'TypeFlying', 'TypeDragon'];
+    public const EXCELLENT = ['TypeGrass', 'TypeGround', 'TypeFlying', 'TypeDragon'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeFire', 'TypeWater', 'TypeIce', 'TypeSteel'];
+    public const NOT_VERY = ['TypeFire', 'TypeWater', 'TypeIce', 'TypeSteel'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

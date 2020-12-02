@@ -10,7 +10,7 @@ class TypeGround extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'じめん';
+    public const NAME = 'じめん';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeGround extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeFire', 'TypeElectric', 'TypePoison', 'TypeRock', 'TypeSteel'];
+    public const EXCELLENT = ['TypeFire', 'TypeElectric', 'TypePoison', 'TypeRock', 'TypeSteel'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeGrass', 'TypeBug'];
+    public const NOT_VERY = ['TypeGrass', 'TypeBug'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['TypeFlying'];
+    public const DOESNT_AFFECT = ['TypeFlying'];
 
 }

@@ -10,7 +10,7 @@ class TypeFire extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'ほのお';
+    public const NAME = 'ほのお';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeFire extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeGrass', 'TypeIce', 'TypeBug', 'TypeSteel'];
+    public const EXCELLENT = ['TypeGrass', 'TypeIce', 'TypeBug', 'TypeSteel'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeFire', 'TypeWater', 'TypeRock', 'TypeDragon'];
+    public const NOT_VERY = ['TypeFire', 'TypeWater', 'TypeRock', 'TypeDragon'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

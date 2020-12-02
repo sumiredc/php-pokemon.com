@@ -10,7 +10,7 @@ class TypeGrass extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'くさ';
+    public const NAME = 'くさ';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeGrass extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeWater', 'TypeGround', 'TypeRock'];
+    public const EXCELLENT = ['TypeWater', 'TypeGround', 'TypeRock'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeFire', 'TypeGrass', 'TypePoison', 'TypeFlying', 'TypeBug', 'TypeDragon', 'TypeSteel'];
+    public const NOT_VERY = ['TypeFire', 'TypeGrass', 'TypePoison', 'TypeFlying', 'TypeBug', 'TypeDragon', 'TypeSteel'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

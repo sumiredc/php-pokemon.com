@@ -10,7 +10,7 @@ class TypeDragon extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'ドラゴン';
+    public const NAME = 'ドラゴン';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeDragon extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeDragon'];
+    public const EXCELLENT = ['TypeDragon'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypeSteel'];
+    public const NOT_VERY = ['TypeSteel'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['TypeFairy'];
+    public const DOESNT_AFFECT = ['TypeFairy'];
 
 }

@@ -10,7 +10,7 @@ class TypeNone extends Type
     * 正式名称
     * @var string
     */
-    protected $name = '';
+    public const NAME = '';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeNone extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = [];
+    public const EXCELLENT = [];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = [];
+    public const NOT_VERY = [];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

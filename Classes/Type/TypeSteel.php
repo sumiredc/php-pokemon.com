@@ -10,7 +10,7 @@ class TypeSteel extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'はがね';
+    public const NAME = 'はがね';
 
     /**
     * 攻撃技で使用したときの判定
@@ -20,18 +20,18 @@ class TypeSteel extends Type
     * こうかばつぐん
     * @var integer
     */
-    protected $excellent = ['TypeIce', 'TypeRock', 'TypeFaily'];
+    public const EXCELLENT = ['TypeIce', 'TypeRock', 'TypeFaily'];
 
     /**
     * こうかいまひとつ
     * @var integer
     */
-    protected $not_very = ['TypeFire', 'TypeWater', 'TypeElectric', 'TypeSteel'];
+    public const NOT_VERY = ['TypeFire', 'TypeWater', 'TypeElectric', 'TypeSteel'];
 
     /**
     * こうかがない
     * @var integer
     */
-    protected $doesnt_affect = [];
+    public const DOESNT_AFFECT = [];
 
 }

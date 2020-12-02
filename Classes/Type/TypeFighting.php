@@ -10,7 +10,7 @@ class TypeFighting extends Type
     * 正式名称
     * @var string
     */
-    protected $name = 'かくとう';
+    public const NAME = 'かくとう';
 
     /**
     * 攻撃技で使用したときの判定
@@ -18,20 +18,20 @@ class TypeFighting extends Type
 
     /**
     * こうかばつぐん
-    * @var integer
+    * @var array
     */
-    protected $excellent = ['TypeNormal', 'TypeIce', 'TypeRock', 'TypeDark', 'TypeSteel'];
+    public const EXCELLENT = ['TypeNormal', 'TypeIce', 'TypeRock', 'TypeDark', 'TypeSteel'];
 
     /**
     * こうかいまひとつ
-    * @var integer
+    * @var array
     */
-    protected $not_very = ['TypePison', 'TypeFlying', 'TypePsychic', 'TypeBug', 'TypeFairy'];
+    public const NOT_VERY = ['TypePison', 'TypeFlying', 'TypePsychic', 'TypeBug', 'TypeFairy'];
 
     /**
     * こうかがない
-    * @var integer
+    * @var array
     */
-    protected $doesnt_affect = ['Ghost'];
+    public const DOESNT_AFFECT = ['Ghost'];
 
 }
