@@ -83,24 +83,13 @@ abstract class Pokemon
     protected $rank = [];
 
     /**
-    * 状態異常（バトル後も継続）
-    * SaBurn        やけど
-    * SaFreeze      こおり
-    * SaParalysis   まひ
-    * SaPoison      どく
-    * SaBadPoison   もうどく
-    * SaSleep       ねむり
-    * SaFainting    ひんし
+    * 状態異常
     * @var array [sa_class_name(string) => turn(integer)]
     */
     protected $sa = [];
 
     /**
-    * 状態変化（バトル後リセット）
-    * ScConfusion           こんらん
-    * ScFlinch              ひるみ
-    * ScLeechSeed           やどりぎのタネ
-    * ScBind                バインド
+    * 状態変化
     * @var array [sc_class_name(string) => ['turn' => turn(integer), 'param' => param(string)]]
     */
     protected $sc = [];
@@ -138,7 +127,7 @@ abstract class Pokemon
             $this->init($param);
         }
     }
-
+    
     /**
     * 初期化
     * @param param:mixed

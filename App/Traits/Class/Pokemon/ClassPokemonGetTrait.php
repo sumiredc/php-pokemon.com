@@ -554,7 +554,6 @@ trait ClassPokemonGetTrait
 
     /**
     * 現在のレベルで覚えられる技の数を取得する処理
-    *
     * @return boolean
     */
     public function getLevelMoveCount()

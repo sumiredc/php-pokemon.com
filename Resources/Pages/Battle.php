@@ -10,6 +10,7 @@ $root_path = __DIR__.'/../..';
     # cssの読み込み
     include($root_path.'/Resources/Partials/Layouts/Head/css.php');
     ?>
+    <link rel="stylesheet" href="/Assets/css/Page/battle.css">
 </head>
 <body>
     <?php

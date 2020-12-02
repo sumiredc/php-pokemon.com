@@ -26,7 +26,7 @@ class MoveStub extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     protected $species = '';
 
@@ -56,15 +56,14 @@ class MoveStub extends Move
 
     /**
     * 追加効果
-    *
-    * @param array $args
+    * @param args:array
     * @return void
     */
     public function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
     }

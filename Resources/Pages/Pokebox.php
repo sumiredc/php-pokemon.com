@@ -10,6 +10,7 @@ $root_path = __DIR__.'/../..';
     # cssの読み込み
     include($root_path.'/Resources/Partials/Layouts/Head/css.php');
     ?>
+    <link rel="stylesheet" href="/Assets/css/Page/pokebox.css">
 </head>
 <body>
     <?php
@@ -22,7 +23,8 @@ $root_path = __DIR__.'/../..';
                 <div class="card">
                     <div class="card-header bg-php d-flex align-items-center justify-content-between">
                         <h5 class="mb-0 font-weight-bolder">
-                            <img src="/Assets/img/icon/pokebox.png" class="mr-2" alt="ポケモン預かりシステム" />ポケモン預かりシステム
+                            <img src="/Assets/img/icon/pokebox.png" class="mr-2" alt="ポケモン預かりシステム" />
+                            ポケモン預かりシステム
                         </h5>
                         <button type="button" class="btn btn-danger rounded-circle p-0" style="width:40px;height:40px;" data-submit_remote="shutdown" title="終了する">
                             <i class="fas fa-power-off"></i>

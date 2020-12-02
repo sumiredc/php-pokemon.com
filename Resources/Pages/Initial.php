@@ -11,6 +11,7 @@ $pokemon_list = $controller->getPokemonList();
     # cssの読み込み
     include($root_path.'/Resources/Partials/Layouts/Head/css.php');
     ?>
+    <link rel="stylesheet" href="/Assets/css/Page/initial.css">
 </head>
 <body>
     <?php
