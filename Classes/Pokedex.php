@@ -15,14 +15,6 @@ class Pokedex
     protected $pokedex = [];
 
     /**
-    * @return void
-    */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
     * 一覧取得
     * @param list:boolean
     * @return array
