@@ -16,7 +16,7 @@ class MoveExplosion extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '使ったポケモンはひんしになる。';
+    public const DESCRIPTION = '使ったポケモンはひんしになる。';
 
     /**
     * タイプ

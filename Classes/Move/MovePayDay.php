@@ -16,7 +16,7 @@ class MovePayDay extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '戦いが終わったらお金を拾える。';
+    public const DESCRIPTION = '戦いが終わったらお金を拾える。';
 
     /**
     * タイプ

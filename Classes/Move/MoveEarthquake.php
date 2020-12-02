@@ -16,7 +16,7 @@ class MoveEarthquake extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = 'あなをほる状態のポケモンにも命中し、2倍のダメージを与えられる。';
+    public const DESCRIPTION = 'あなをほる状態のポケモンにも命中し、2倍のダメージを与えられる。';
 
     /**
     * タイプ

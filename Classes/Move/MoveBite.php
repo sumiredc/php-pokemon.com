@@ -16,7 +16,7 @@ class MoveBite extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '30％の確率で敵をひるませる。';
+    public const DESCRIPTION = '30％の確率で敵をひるませる。';
 
     /**
     * タイプ
@@ -68,8 +68,8 @@ class MoveBite extends Move
             return;
         }
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // 相手をひるませる

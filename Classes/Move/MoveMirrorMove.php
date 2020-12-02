@@ -16,7 +16,7 @@ class MoveMirrorMove extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '相手が最後に使った技を出す。';
+    public const DESCRIPTION = '相手が最後に使った技を出す。';
 
     /**
     * タイプ
@@ -57,7 +57,7 @@ class MoveMirrorMove extends Move
     /**
     * オウム返し専用効果
     *
-    * @param Pokemon $def 防御ポケモン
+    * @param def:object::Pokemon 防御ポケモン
     * @param battle_state:object::BattleState バトル状態
     * @return mixed
     */

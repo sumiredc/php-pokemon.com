@@ -16,7 +16,7 @@ class MoveCometPunch extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '2〜5回連続で攻撃する';
+    public const DESCRIPTION = '2〜5回連続で攻撃する';
 
     /**
     * タイプ

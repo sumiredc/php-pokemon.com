@@ -16,7 +16,7 @@ class MoveWithdraw extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '自分のぼうぎょを1段階上げる。';
+    public const DESCRIPTION = '自分のぼうぎょを1段階上げる。';
 
     /**
     * タイプ
@@ -63,8 +63,8 @@ class MoveWithdraw extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // 自分の防御ランクを1段階上げる

@@ -16,7 +16,7 @@ class MoveDig extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '1ターン目で地中に潜り、2ターン目に攻撃する。地中に潜っている間はほとんどの技を受けない。';
+    public const DESCRIPTION = '1ターン目で地中に潜り、2ターン目に攻撃する。地中に潜っている間はほとんどの技を受けない。';
 
     /**
     * タイプ
@@ -75,7 +75,7 @@ class MoveDig extends Move
     public static function charge($atk)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
         */
         // チャージ前後の分岐
         if($atk->checkChargeMove(get_class())){

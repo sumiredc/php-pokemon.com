@@ -16,7 +16,7 @@ class MoveFissure extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '一撃必殺技';
+    public const DESCRIPTION = '一撃必殺技';
 
     /**
     * タイプ

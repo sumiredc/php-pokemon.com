@@ -16,7 +16,7 @@ class MoveGrowth extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '自分のこうげきととくこうをそれぞれ1段階ずつ上げる。';
+    public const DESCRIPTION = '自分のこうげきととくこうをそれぞれ1段階ずつ上げる。';
 
     /**
     * タイプ
@@ -63,8 +63,8 @@ class MoveGrowth extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         return [

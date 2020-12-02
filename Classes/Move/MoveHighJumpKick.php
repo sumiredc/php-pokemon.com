@@ -16,7 +16,7 @@ class MoveHighJumpKick extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '攻撃がはずれると自分最大HPの半分のダメージを受ける。';
+    public const DESCRIPTION = '攻撃がはずれると自分最大HPの半分のダメージを受ける。';
 
     /**
     * タイプ

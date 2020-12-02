@@ -16,7 +16,7 @@ class MoveRage extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = 'いかり状態になり、ダメージを受けるたびにこうげきが1段階上がる。';
+    public const DESCRIPTION = 'いかり状態になり、ダメージを受けるたびにこうげきが1段階上がる。';
 
     /**
     * タイプ
@@ -63,8 +63,8 @@ class MoveRage extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // 攻撃ポケモンを怒り状態にする

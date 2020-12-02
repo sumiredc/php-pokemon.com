@@ -16,7 +16,7 @@ class MoveSplash extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '効果なし。';
+    public const DESCRIPTION = '効果なし。';
 
     /**
     * タイプ

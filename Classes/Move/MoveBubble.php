@@ -16,7 +16,7 @@ class MoveBubble extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '10%の確率ですばやさを1段階下げる。';
+    public const DESCRIPTION = '10%の確率ですばやさを1段階下げる。';
 
     /**
     * タイプ

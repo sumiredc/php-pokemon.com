@@ -16,7 +16,7 @@ class MoveWhirlwind extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '野生ポケモンとの戦闘を終了させる。トレーナー戦で使うと、相手ポケモンをランダムに交代させる。';
+    public const DESCRIPTION = '野生ポケモンとの戦闘を終了させる。トレーナー戦で使うと、相手ポケモンをランダムに交代させる。';
 
     /**
     * タイプ
@@ -69,8 +69,8 @@ class MoveWhirlwind extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // バトル終了

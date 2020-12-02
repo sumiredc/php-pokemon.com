@@ -16,7 +16,7 @@ class MoveCounter extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '相手から受けた物理攻撃のダメージを2倍にして与える。';
+    public const DESCRIPTION = '相手から受けた物理攻撃のダメージを2倍にして与える。';
 
     /**
     * タイプ
@@ -68,11 +68,10 @@ class MoveCounter extends Move
 
     /**
     * 固定ダメージ量の取得
-    *
-    * @param args:array
+    * @param args:array::mixed
     * @return integer
     */
-    public static function getFixedDamage(...$args)
+    public static function getFixedDamage(...$args): int
     {
         /**
         * @param atk:object::Pokemon 攻撃ポケモン

@@ -16,7 +16,7 @@ class MoveSandAttack extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '相手の命中率を1段階下げる。';
+    public const DESCRIPTION = '相手の命中率を1段階下げる。';
 
     /**
     * タイプ
@@ -69,8 +69,8 @@ class MoveSandAttack extends Move
     public static function debuff(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // 相手の命中ランクを1段階下げる

@@ -16,7 +16,7 @@ class MoveLowKick extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '相手の重さによって威力が変わる。';
+    public const DESCRIPTION = '相手の重さによって威力が変わる。';
 
     /**
     * タイプ
@@ -56,7 +56,6 @@ class MoveLowKick extends Move
 
     /**
     * 威力補正値の取得
-    *
     * @param mixed
     * @return integer
     */

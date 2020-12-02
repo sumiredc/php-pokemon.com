@@ -16,7 +16,7 @@ class MoveQuickAttack extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '先制攻撃。';
+    public const DESCRIPTION = '先制攻撃。';
 
     /**
     * タイプ

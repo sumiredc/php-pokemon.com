@@ -16,7 +16,7 @@ class MoveSlash extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '急所に当たりやすい。';
+    public const DESCRIPTION = '急所に当たりやすい。';
 
     /**
     * タイプ

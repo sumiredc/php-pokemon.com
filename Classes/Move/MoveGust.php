@@ -16,7 +16,7 @@ class MoveGust extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = 'そらをとぶ状態のポケモンにも命中し、その場合は威力が2倍になる。';
+    public const DESCRIPTION = 'そらをとぶ状態のポケモンにも命中し、その場合は威力が2倍になる。';
 
     /**
     * タイプ
@@ -56,11 +56,10 @@ class MoveGust extends Move
 
     /**
     * 威力補正値の取得
-    *
     * @param mixed
     * @return integer
     */
-    public static function powerCorrection(...$args)
+    public static function powerCorrection(...$args): int
     {
         /**
         * @param Pokemon:object $atk 攻撃ポケモン

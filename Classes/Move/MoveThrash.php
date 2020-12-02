@@ -16,7 +16,7 @@ class MoveThrash extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '2〜3ターンの間あばれる状態になり、その間攻撃し続ける。攻撃終了後、自分がこんらん状態になる。';
+    public const DESCRIPTION = '2〜3ターンの間あばれる状態になり、その間攻撃し続ける。攻撃終了後、自分がこんらん状態になる。';
 
     /**
     * タイプ
@@ -63,8 +63,8 @@ class MoveThrash extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // 現在あばれる状態でなければ「あばれる状態」をセット

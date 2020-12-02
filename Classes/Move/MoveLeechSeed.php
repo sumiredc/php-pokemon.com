@@ -16,7 +16,7 @@ class MoveLeechSeed extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '相手をやどりぎのタネ状態にし、毎ターン相手の最大HPの1/8を奪って、その分自分のHPを回復を回復させる。自分が交代しても効果は続く。';
+    public const DESCRIPTION = '相手をやどりぎのタネ状態にし、毎ターン相手の最大HPの1/8を奪って、その分自分のHPを回復を回復させる。自分が交代しても効果は続く。';
 
     /**
     * タイプ
@@ -63,8 +63,8 @@ class MoveLeechSeed extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // 相手をやどりぎのタネ状態にする

@@ -16,7 +16,7 @@ class MoveSwift extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '必ず命中する。';
+    public const DESCRIPTION = '必ず命中する。';
 
     /**
     * タイプ

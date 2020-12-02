@@ -16,7 +16,7 @@ class MoveMetronome extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = 'わざのどれかをランダムで繰り出す。';
+    public const DESCRIPTION = 'わざのどれかをランダムで繰り出す。';
 
     /**
     * タイプ

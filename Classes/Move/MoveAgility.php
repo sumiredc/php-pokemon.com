@@ -62,8 +62,8 @@ class MoveAgility extends Move
     public static function effects(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防護ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防護ポケモン
         */
         list($atk, $def) = $args;
         // 自分の素早さランクを2段階上げる

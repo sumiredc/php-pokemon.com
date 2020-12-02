@@ -16,7 +16,7 @@ class MoveSolarBeam extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '1ターン目に溜め、2ターン目で攻撃する。';
+    public const DESCRIPTION = '1ターン目に溜め、2ターン目で攻撃する。';
 
     /**
     * タイプ
@@ -69,7 +69,7 @@ class MoveSolarBeam extends Move
     public static function charge($atk)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
         */
         // 状態変化の取得
         $sc = $atk->getSc();

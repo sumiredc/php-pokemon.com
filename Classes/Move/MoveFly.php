@@ -16,7 +16,7 @@ class MoveFly extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '1ターン目で空に舞い上がり、2ターン目に攻撃する。空を飛んでいる間はほとんどの技を受けない。';
+    public const DESCRIPTION = '1ターン目で空に舞い上がり、2ターン目に攻撃する。空を飛んでいる間はほとんどの技を受けない。';
 
     /**
     * タイプ
@@ -75,7 +75,7 @@ class MoveFly extends Move
     public static function charge($atk)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
         */
         // チャージ前後の分岐
         if($atk->checkChargeMove(get_class())){

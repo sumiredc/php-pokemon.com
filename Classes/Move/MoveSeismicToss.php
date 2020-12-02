@@ -16,7 +16,7 @@ class MoveSeismicToss extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '自分のレベル分の固定ダメージを与える';
+    public const DESCRIPTION = '自分のレベル分の固定ダメージを与える';
 
     /**
     * タイプ
@@ -62,11 +62,10 @@ class MoveSeismicToss extends Move
 
     /**
     * 固定ダメージ量の取得
-    *
-    * @param args:array
+    * @param args:array::mixed
     * @return integer
     */
-    public static function getFixedDamage(...$args)
+    public static function getFixedDamage(...$args): int
     {
         /**
         * @param atk:object::Pokemon 攻撃ポケモン

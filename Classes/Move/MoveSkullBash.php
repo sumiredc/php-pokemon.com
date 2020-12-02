@@ -16,7 +16,7 @@ class MoveSkullBash extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '1ターン目は準備し、2ターン目に攻撃する。準備ターンに自分の防御が1段階上がる。';
+    public const DESCRIPTION = '1ターン目は準備し、2ターン目に攻撃する。準備ターンに自分の防御が1段階上がる。';
 
     /**
     * タイプ
@@ -69,7 +69,7 @@ class MoveSkullBash extends Move
     public static function charge($atk)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
         */
         // チャージ前後の分岐
         if($atk->checkChargeMove(get_class())){

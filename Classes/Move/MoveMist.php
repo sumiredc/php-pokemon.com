@@ -16,7 +16,7 @@ class MoveMist extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '5ターンの間、場をしろいきり状態にして能力を下げられなくする。';
+    public const DESCRIPTION = '5ターンの間、場をしろいきり状態にして能力を下げられなくする。';
 
     /**
     * タイプ

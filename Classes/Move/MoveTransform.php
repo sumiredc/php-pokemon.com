@@ -16,7 +16,7 @@ class MoveTransform extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '相手のポケモンに変身する。';
+    public const DESCRIPTION = '相手のポケモンに変身する。';
 
     /**
     * タイプ

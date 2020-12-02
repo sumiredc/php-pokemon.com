@@ -16,7 +16,7 @@ class MoveWaterGun extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '通常攻撃';
+    public const DESCRIPTION = '通常攻撃';
 
     /**
     * タイプ

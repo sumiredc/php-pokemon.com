@@ -16,7 +16,7 @@ class MoveLightScreen extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '5ターンの間、相手の特殊技のダメージが半分になる。';
+    public const DESCRIPTION = '5ターンの間、相手の特殊技のダメージが半分になる。';
 
     /**
     * タイプ
@@ -56,7 +56,6 @@ class MoveLightScreen extends Move
 
     /**
     * フィールド効果
-    *
     * @return array
     */
     public static function field()

@@ -16,7 +16,7 @@ class MoveStruggle extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '使用するたびに反動ダメージを受ける。';
+    public const DESCRIPTION = '使用するたびに反動ダメージを受ける。';
 
     /**
     * タイプ
@@ -57,14 +57,14 @@ class MoveStruggle extends Move
     /**
     * 反動
     *
-    * @param array $args
+    * @param args:array::mixed
     * @return array
     */
     public static function recoil(...$args)
     {
         /**
-        * @param Pokemon $atk 攻撃ポケモン
-        * @param Pokemon $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
 

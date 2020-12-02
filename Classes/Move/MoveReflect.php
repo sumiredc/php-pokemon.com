@@ -16,7 +16,7 @@ class MoveReflect extends Move
     * 説明文
     * @var string
     */
-    public const DESCTIPTION = '5ターンの間、相手の物理技のダメージが半分になる。';
+    public const DESCRIPTION = '5ターンの間、相手の物理技のダメージが半分になる。';
 
     /**
     * タイプ
