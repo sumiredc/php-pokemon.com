@@ -1,6 +1,8 @@
 <?php
 
-// 技
+/**
+* 技
+*/
 abstract class Move
 {
     /**
