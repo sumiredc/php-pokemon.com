@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StateChange.php');
 
-// チャージ
+/**
+* チャージ
+*/
 class ScCharge extends StateChange
 {
 
@@ -10,13 +12,13 @@ class ScCharge extends StateChange
     * 正式名称
     * @var string
     */
-    protected $name = 'チャージ';
+    public const NAME = 'チャージ';
 
     /**
     * 状態変化にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = [
+    public const SICKED_MSG = [
         'MoveSkullBash' => '::pokemonは、頭を引っ込めた',
         'MoveSolarBeam' => '::pokemonは、光を吸収した',
         'MoveFly' => '::pokemonは、空高く飛び上がった',

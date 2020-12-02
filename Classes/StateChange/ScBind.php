@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StateChange.php');
 
-// バインド
+/**
+* バインド
+*/
 class ScBind extends StateChange
 {
 
@@ -10,13 +12,13 @@ class ScBind extends StateChange
     * 正式名称
     * @var string
     */
-    protected $name = 'バインド';
+    public const NAME = 'バインド';
 
     /**
     * 状態変化にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = [
+    public const SICKED_MSG = [
         'Standard' => '::pokemonは、しめつけられた',
         'MoveFireSpin' => '::pokemonは、ほのおのうずに閉じ込められた',
     ];
@@ -25,7 +27,7 @@ class ScBind extends StateChange
     * ターンチェック時に表示されるメッセージ
     * @var string
     */
-    protected $turn_msg = [
+    public const TURN_MSG = [
         'Standard' => '::pokemonは、しめつけられている',
         'MoveFireSpin' => '::pokemonは、ほのおのうずに巻き込まれている',
     ];
@@ -34,7 +36,7 @@ class ScBind extends StateChange
     * 回復時に表示されるメッセージ
     * @var string
     */
-    protected $recovery_msg = [
+    public const RECOVERY_MSG = [
         'Standard' => '::pokemonは、しめつけから開放された',
         'MoveFireSpin' => '::pokemonは、ほのおのうずから抜け出した',
     ];

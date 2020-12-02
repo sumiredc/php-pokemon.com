@@ -2,7 +2,9 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/StateChange.php');
 
-// ひるみ
+/**
+* ひるみ
+*/
 class ScFlinch extends StateChange
 {
 
@@ -10,12 +12,12 @@ class ScFlinch extends StateChange
     * 正式名称
     * @var string
     */
-    protected $name = 'ひるみ';
+    public const NAME = 'ひるみ';
 
     /**
     * 状態変化にかかった際のメッセージ
     * @var string
     */
-    protected $sicked_msg = '::pokemonは、ひるんだ';
+    public const SICKED_MSG = '::pokemonは、ひるんだ';
 
 }
