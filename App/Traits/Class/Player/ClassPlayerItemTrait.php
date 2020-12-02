@@ -16,15 +16,11 @@ trait ClassPlayerItemTrait
 
     /**
     * 所有数の取得
-    * @param item:object|string
+    * @param item:string
     * @return integer
     */
-    public function getItemCount($item): int
+    public function getItemCount(string $item): int
     {
-        // オブジェクトの場合はクラス化する
-        if(is_object($item)){
-            $item = get_class($item);
-        }
         // 初期値
         $count = 0;
         // アイテム検索
@@ -51,15 +47,14 @@ trait ClassPlayerItemTrait
         }, array_flip(config('item.categories')));
         // カテゴリ分けした配列を返却
         return array_reduce($this->items, function($carry, $row){
-            // アイテムをインスタンス化
-            $item = new $row['class'];
             // アイテム番号を取得
             $order = array_search(
                 $row['class'],
                 array_column($this->items, 'class')
             );
-            $carry[$item->getCategory()][] = [
-                'item' => $item,
+            // カテゴリ分けして返却
+            $carry[$row['class']::CATEGORY][] = [
+                'class' => $row['class'],
                 'count' => $row['count'],
                 'order' => $order,
             ];
@@ -69,13 +64,13 @@ trait ClassPlayerItemTrait
 
     /**
     * アイテムの追加
-    * @param item:object::Item
+    * @param item:string
     * @param count:integer
     * @return boolean
     */
-    public function addItem(object $item, $count=1): bool
+    public function addItem(string $item, $count=1): bool
     {
-        if(is_null($item->getMax())){
+        if(is_null($item::MAX)){
             // 個数計算しないアイテムの場合はnullをセット
             $count = null;
         }else{
@@ -83,21 +78,19 @@ trait ClassPlayerItemTrait
             if($count < 1){
                 $count = 1; # 最小値
             }
-            if($item->getMax() < $count){
-                $count = $item->getMax(); # 最大値
+            if($item::MAX < $count){
+                $count = $item::MAX; # 最大値
             }
         }
-        // アイテムのクラスを取得
-        $class = get_class($item);
         // 現在所有しているかどうかの確認
         $key = array_search(
-            $class,
+            $item,
             array_column($this->items, 'class')
         );
         if($key === false){
             // 所有していない
             $this->items[] = [
-                'class' => $class,
+                'class' => $item,
                 'count' => $count
             ];
             return true;
@@ -105,7 +98,7 @@ trait ClassPlayerItemTrait
             // 個数計算するアイテム且つ最大量を超過しなければ個数を加算
             if(
                 !is_null($count) &&
-                ($this->items[$key]['count'] + $count) <= $item->getMax()
+                ($this->items[$key]['count'] + $count) <= $item::MAX
             ){
                 $this->items[$key]['count'] += $count;
             }else{

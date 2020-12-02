@@ -55,7 +55,7 @@ class ItemService extends Service
         $items = player()->getItems();
         // アイテムの存在チェック
         if(!isset($items[request('order')])){
-            setMessage('選択されたどうぐは存在しません');
+            response()->setMessage('選択されたどうぐは存在しません');
             $result = false;
         }
         return $result ?? true;
@@ -67,12 +67,10 @@ class ItemService extends Service
     */
     private function use(): void
     {
-        // 道具一覧を取得
-        $items = player()->getItems();
-        // インスタンス化
-        $item = new $items[request('order')]['class'];
+        // 道具を取得
+        $item = player()->getItems()[request('order')]['class'];
         // アイテムの対象による分岐
-        switch ($item->getTarget()) {
+        switch ($item::TARGET) {
             // 味方ポケモン
             case 'friend':
             $result = $this->useItemToFriend($item);

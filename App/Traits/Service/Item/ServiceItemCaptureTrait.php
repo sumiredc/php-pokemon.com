@@ -11,10 +11,10 @@ trait ServiceItemCaptureTrait
 
     /**
     * 捕獲判定
-    * @param ball:object::Item
+    * @param ball:string
     * @return boolean
     */
-    protected function useItemCapture(object $ball): bool
+    protected function useItemCapture(string $ball): bool
     {
         // 捕獲判定
         $result = $this->capture($ball);
@@ -23,7 +23,7 @@ trait ServiceItemCaptureTrait
             'action' => 'capture',
             'param' => json_encode([
                 'shake' => $this->shake,
-                'src' => '/Assets/img/item/class/'.get_class($ball).'.png'
+                'src' => '/Assets/img/item/class/'.$ball.'.png'
             ])
         ], $this->use_msg_id);
         // 判定
@@ -52,12 +52,12 @@ trait ServiceItemCaptureTrait
 
     /**
     * 捕獲判定
-    * @param ball:object::Item
+    * @param ball:string
     * @return boolean
     */
-    protected function capture(object $ball): bool
+    protected function capture(string $ball): bool
     {
-        if(get_class($ball) === 'ItemMasterBall'){
+        if($ball === 'ItemMasterBall'){
             // マスターボール専用処理
             $this->shake = 4;
             return true;
@@ -88,10 +88,10 @@ trait ServiceItemCaptureTrait
     * ・C ： 捕捉率
     * ・P ： 捕獲補正
     * ・S ： 状態補正
-    * @param ball:object::Item
+    * @param ball:string
     * @return float:G
     */
-    protected function calProbability(object $ball): float
+    protected function calProbability(string $ball): float
     {
         // 最大HP
         $mh = enemy()->getStats('HP');
@@ -100,21 +100,13 @@ trait ServiceItemCaptureTrait
         // 捕捉率
         $c = enemy()->getCapture();
         // 捕獲補正
-        $p = $ball->getPerformance();
+        $p = $ball::PERFORMANCE;
         /**
         * 状態補正
-        * どく（もうどく）orまひorやけど：1.5
-        * こおりorねむり：2.5
         */
-        $sa = enemy()->getSa();
-        if(in_array($sa, ['SaSleep', 'SaFreeze'], true)){
-            // こおり or ねむり
-            $s = 2.5;
-        }else if($sa){
-            // どく（もうどく） or まひ or やけど
-            $s = 1.5;
+        if(enemy()->getSa()){
+            $s = enemy()->getSa()::CAPTURE;
         }else{
-            // 未状態異常
             $s = 1;
         }
         // (((最大HP × 3 - 現在HP × 2) × 捕捉率 × 捕獲補正) ÷ (最大HP × 3)) × 状態補正

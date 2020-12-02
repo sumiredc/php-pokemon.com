@@ -20,8 +20,7 @@ trait ServiceItemTrashTrait
         // 確認
         if($result){
             // インスタンス化
-            $item = new $items[request('order')]['class'];
-            response()->setMessage($item->getName().'を'.request('count').'個捨てました');
+            response()->setMessage($items[request('order')]['class']::NAME.'を'.request('count').'個捨てました');
         }else{
             response()->setMessage('失敗しました');
         }

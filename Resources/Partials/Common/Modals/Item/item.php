@@ -66,29 +66,29 @@
                                         <tbody>
                                             <?php foreach($items as $item): ?>
                                                 <?php # 利用不可（バトル中のみ） ?>
-                                                <?php if(!in_array('battle', $item['item']->getTiming(), true)  ): ?>
+                                                <?php if(!in_array('battle', $item['class']::TIMING, true)  ): ?>
                                                     <?php # 利用不可 ?>
                                                     <tr class="text-muted">
                                                         <td class="w-75">
-                                                            <img src="/Assets/img/item/class/<?=get_class($item['item'])?>.png" alt="<?=$item['item']->getName()?>" class="mr-1" />
-                                                            <?=$item['item']->getName()?>
+                                                            <img src="/Assets/img/item/class/<?=$item['class']?>.png" alt="<?=$item['class']::NAME?>" class="mr-1" />
+                                                            <?=$item['class']::NAME?>
                                                             <td class="w-25 text-right"><?=$item['count']?> 個</td>
                                                         </td>
                                                     </tr>
                                                 <?php else: ?>
                                                     <?php # 利用可能 ?>
-                                                    <tr data-description="<?=$item['item']->getDescription()?>"
-                                                        data-name="<?=$item['item']->getName()?>"
+                                                    <tr data-description="<?=$item['class']::DESCRIPTION?>"
+                                                        data-name="<?=$item['class']::NAME?>"
                                                         data-category="<?=$category?>"
-                                                        data-target="<?=$item['item']->getTarget()?>"
-                                                        data-use="<?=var_export($item['item']->allowUsed(getPageName()), true)?>"
-                                                        data-trash="<?=var_export($item['item']->allowTrashed(), true)?>"
+                                                        data-target="<?=$item['class']::TARGET?>"
+                                                        data-use="<?=var_export($item['class']::allowUsed(getPageName()), true)?>"
+                                                        data-trash="<?=var_export($item['class']::allowTrashed(), true)?>"
                                                         data-owned="<?=$item['count']?>"
                                                         data-order="<?=$item['order']?>"
                                                         class="item-row">
                                                         <td class="w-75">
-                                                            <img src="/Assets/img/item/class/<?=get_class($item['item'])?>.png" alt="<?=$item['item']->getName()?>" class="mr-1" />
-                                                            <?=$item['item']->getName()?>
+                                                            <img src="/Assets/img/item/class/<?=$item['class']?>.png" alt="<?=$item['class']::NAME?>" class="mr-1" />
+                                                            <?=$item['class']::NAME?>
                                                         </td>
                                                         <td class="w-25 text-right"><?=$item['count']?> 個</td>
                                                     </tr>

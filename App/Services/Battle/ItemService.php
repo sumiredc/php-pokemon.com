@@ -37,7 +37,7 @@ class ItemService extends Service
 
     /**
     * 使用されたアイテム
-    * @var object::Item
+    * @var string
     */
     protected $item;
 
@@ -68,7 +68,7 @@ class ItemService extends Service
     {
         // アイテムの確認
         if(!$this->validation()){
-            setMessage('指定されたアイテムは使用できません');
+            response()->setMessage('指定されたアイテムは使用できません');
             return;
         }
         // アイテムの使用
@@ -76,7 +76,7 @@ class ItemService extends Service
         if($this->capture_flg){
             // 捕獲成功
             // バトル終了判定用メッセージの格納
-            setEmptyMessage('battle-end');
+            response()->setEmptyMessage('battle-end');
         }else{
             // 捕獲失敗
             //相手のターン処理
@@ -99,11 +99,11 @@ class ItemService extends Service
         if($items[request('order')]['count'] <= 0){
             return false;
         }
-        // どうぐをインスタンス化(プロパティへ格納)
-        $this->item = new $items[request('order')]['class'];
+        // どうぐをプロパティへ格納
+        $this->item = $items[request('order')]['class'];
         // 指定されたアイテムがポケモン対象の場合は、ポケモン番号をチェック
         if(
-            $this->item->getTarget() === 'friend' &&
+            $this->item::TARGET === 'friend' &&
             is_null(player()->getPartner(request('pokemon')))
         ){
             return false;
@@ -119,20 +119,20 @@ class ItemService extends Service
     private function use(): void
     {
         // 使用時のメッセージIDを発行
-        $this->use_msg_id = issueMsgId();
-        setMessage(
-            player()->getName().'は、'.$this->item->getName().'を使った',
+        $this->use_msg_id = response()->issueMsgId();
+        response()->setMessage(
+            player()->getName().'は、'.$this->item::NAME.'を使った',
             $this->use_msg_id
         );
         // アイテムの対象による分岐
-        switch ($this->item->getTarget()) {
+        switch ($this->item::TARGET) {
             // 味方ポケモン
             case 'friend':
             $result = $this->useItemToFriend($this->item);
             break;
             // 相手ポケモン
             case 'enemy':
-            if($this->item->getCategory() === 'ball'){
+            if($this->item::CATEGORY === 'ball'){
                 // 捕獲処理
                 $this->capture_flg = $this->useItemCapture($this->item);
                 // アイテム処理正常終了判定

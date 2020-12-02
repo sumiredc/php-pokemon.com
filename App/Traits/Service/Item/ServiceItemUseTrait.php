@@ -5,10 +5,10 @@ trait ServiceItemUseTrait
 
     /**
     * 使う（対象：ポケモン）
-    * @param item:object::Item
+    * @param item:string
     * @return boolean
     */
-    protected function useItemToFriend(object $item): bool
+    protected function useItemToFriend(string $item): bool
     {
         // パーティー取得
         $party = player()->getParty();
@@ -18,7 +18,7 @@ trait ServiceItemUseTrait
             return false;
         }
         // アイテム効果を使用
-        $result = $item->effects($party[request('pokemon')]);
+        $result = $item::effects($party[request('pokemon')]);
         // メッセージが返ってきていればセット
         if(isset($result['message'])){
             response()->setMessage($result['message']);
@@ -39,10 +39,10 @@ trait ServiceItemUseTrait
 
     /**
     * 使う（対象：プレイヤー）
-    * @param item:object::Item
+    * @param item:string
     * @return boolean
     */
-    protected function useItemToPlayer(object $item): bool
+    protected function useItemToPlayer(string $item): bool
     {
         //
         return true;
@@ -50,10 +50,10 @@ trait ServiceItemUseTrait
 
     /**
     * 使う（対象：相手※ボールを除く）
-    * @param item:object::Item
+    * @param item:string
     * @return boolean
     */
-    protected function useItemToEnemy(object $item): bool
+    protected function useItemToEnemy(string $item): bool
     {
         //
         return true;
