@@ -2,68 +2,63 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Pokemon.php');
 
-//
+/*
+*
+*/
 class PokemonStub extends Pokemon
 {
+
+    //=====================================
+    // オブジェクト定数
+    //=====================================
+
     /**
-    * ポケモンナンバー
+    * 全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 0;
+    public const number = 0;
 
     /**
     * 正式名称
-    * @var string(min:1 max:5)
+    * @var string::min:1|max:5
     */
-    protected $name = '';
+    public const NAME = '';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['Type'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = '';
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = '';
+    public const TYPES = ['Type'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 00;
+    public const EVOLVE_LEVEL = 00;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 000;
+    public const BASE_EXP = 0;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 000;
+    public const CAPTURE = 000;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 0.0;
+    public const WEIGHT = 0.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],      # たいあたり
     ];
 
@@ -71,21 +66,37 @@ class PokemonStub extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 0,
-        'Attack' => 0,
-        'Defense' => 0,
-        'SpAtk' => 0,
-        'SpDef' => 0,
-        'Speed' => 0,
+    public const BASE_STATS = [
+        'H' => 0,
+        'A' => 0,
+        'B' => 0,
+        'C' => 0,
+        'D' => 0,
+        'S' => 0,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'HP' => 0,
+    public const REWORD_EV = [
+        'H' => 0,
     ];
+
+    //=====================================
+    // 静的変数
+    //=====================================
+
+    /**
+    * 進化前のクラス
+    * @var string
+    */
+    public static $before_class = '';
+
+    /**
+    * 進化後のクラス
+    * @var string
+    */
+    public static $after_class = '';
 
 }

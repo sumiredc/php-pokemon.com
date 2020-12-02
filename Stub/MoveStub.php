@@ -10,56 +10,56 @@ class MoveStub extends Move
     * 正式名称
     * @var string
     */
-    protected $name = '';
+    public const NAME = '';
 
     /**
     * 説明文
     * @var string
     */
-    protected $description = '';
+    public const DESCRIPTION = '';
 
     /**
     * タイプ
     * @var string
     */
-    protected $type = '';
+    public const TYPE = '';
 
     /**
     * 分類
     * @var string::physical:物理|special:特殊|status:変化
     */
-    protected $species = '';
+    public const SPECIES = '';
 
     /**
     * 威力
     * @var integer
     */
-    protected $power = ;
+    public const POWER = ;
 
     /**
     * 命中率
     * @var integer
     */
-    protected $accuracy = ;
+    public const ACCURACY = ;
 
     /**
     * 使用回数
     * @var integer
     */
-    protected $pp = ;
+    public const PP = ;
 
     /**
     * 対象
     * @var string
     */
-    protected $target = ;
+    public const TARGET = ;
 
     /**
     * 追加効果
     * @param args:array
     * @return void
     */
-    public function effects(...$args)
+    public static function effects(...$args)
     {
         /**
         * @param atk:object::Pokemon 攻撃ポケモン
