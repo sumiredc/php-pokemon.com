@@ -25,6 +25,18 @@ class PokemonStub extends Pokemon
     public const NAME = '';
 
     /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'ポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '';
+
+    /**
     * タイプ
     * @var array
     */
