@@ -36,12 +36,6 @@ class ItemService extends Service
     use ServiceCommonRegistPokedexTrait;
 
     /**
-    * 使用されたアイテム
-    * @var string
-    */
-    protected $item;
-
-    /**
     * 捕獲フラグ
     * @var boolean
     */
@@ -90,20 +84,18 @@ class ItemService extends Service
     */
     private function validation(): bool
     {
-        // アイテム一覧を取得
-        $items = player()->getItems();
-        if(!isset($items[request('order')])){
+        if(!player()->isItem(request('order'))){
             return false;
         }
         // 個数チェック(念の為)
-        if($items[request('order')]['count'] <= 0){
+        if(player()->getItemCount(request('order')) <= 0){
             return false;
         }
         // どうぐをプロパティへ格納
-        $this->item = $items[request('order')]['class'];
+        $item = player()->getItemClass(request('order'));
         // 指定されたアイテムがポケモン対象の場合は、ポケモン番号をチェック
         if(
-            $this->item::TARGET === 'friend' &&
+            $item::TARGET === 'friend' &&
             is_null(player()->getPartner(request('pokemon')))
         ){
             return false;
@@ -120,25 +112,26 @@ class ItemService extends Service
     {
         // 使用時のメッセージIDを発行
         $this->use_msg_id = response()->issueMsgId();
+        $item = player()->getItemClass(request('order'));
         response()->setMessage(
-            player()->getName().'は、'.$this->item::NAME.'を使った',
+            player()->getName().'は、'.$item::NAME.'を使った',
             $this->use_msg_id
         );
         // アイテムの対象による分岐
-        switch ($this->item::TARGET) {
+        switch ($item::TARGET) {
             // 味方ポケモン
             case 'friend':
-            $result = $this->useItemToFriend($this->item);
+            $result = $this->useItemToFriend($item);
             break;
             // 相手ポケモン
             case 'enemy':
-            if($this->item::CATEGORY === 'ball'){
+            if($item::CATEGORY === 'ball'){
                 // 捕獲処理
-                $this->capture_flg = $this->useItemCapture($this->item);
+                $this->capture_flg = $this->useItemCapture($item);
                 // アイテム処理正常終了判定
                 $result = true;
             }else{
-                $result = $this->useItemToEnemy($this->item);
+                $result = $this->useItemToEnemy($item);
             }
             break;
         }

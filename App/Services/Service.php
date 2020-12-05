@@ -14,14 +14,14 @@ abstract class Service
         //
     }
 
-    /**
-    * プロパティの取得
-    * @var string
-    * @return mixed
-    */
-    public function getProperty(string $name)
-    {
-        return $this->$name ?? '';
-    }
+    // /**
+    // * プロパティの取得
+    // * @var string
+    // * @return mixed
+    // */
+    // public function getProperty(string $name)
+    // {
+    //     return $this->$name ?? '';
+    // }
 
 }

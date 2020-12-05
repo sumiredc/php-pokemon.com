@@ -45,7 +45,8 @@ class FightService extends Service
             ['enemy', 'friend', $this->aiSelectMove()],
         );
         // 攻撃処理
-        if($this->actionAttack($orders)){
+        $fight = $this->actionAttack($orders);
+        if($fight){
             // 行動後の状態異常・変化をチェック
             $this->afterCheck();
         }
@@ -66,9 +67,12 @@ class FightService extends Service
             return 'MoveStruggle';
         }else{
             // 配列で取得
-            $move = friend()->getMove(request('param'));
+            $move = friend()->getBattleMove(request('param'));
             // 残PPがなければ「わるあがき」を返却
-            if($move['remaining'] <= 0){
+            if(
+                empty($move) ||
+                $move['remaining'] <= 0
+            ){
                 return 'MoveStruggle';
             }
             // 技クラスを返却
@@ -87,17 +91,20 @@ class FightService extends Service
             $atk = $atk_position();
             $def = $def_position();
             // 攻撃ポケモンの怒り解除
-            $atk->releaseSc('ScRage');
+            $atk->initSc('ScRage');
             // 攻撃(返り値に使用した技を受け取る)
             $attack_move = $this->attack($atk, $def, $move);
             // 最後に使用した技を格納
             battle_state()->setLastMove($atk_position, $attack_move);
             // バトル終了のレスポンスチェック（交代技など）
-            if(getResponse('end')){
+            if(response()->getResponse('end')){
                 break;
             }
             // ひんしチェック
-            if(battle_state()->isFainting()){
+            if(
+                enemy()->isFainting() ||
+                friend()->isFainting()
+            ){
                 $result = false;
                 break;
             }

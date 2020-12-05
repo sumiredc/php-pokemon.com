@@ -28,7 +28,7 @@ class LearnMoveService extends Service
     */
     public function __construct($order, $before_responses, $before_messages, $before_modals)
     {
-        $this->pokemon = player()->getParty()[$order];
+        $this->pokemon = player()->getPartner($order);
         $this->before_responses = unserializeObject($before_responses);
         $this->before_messages = $before_messages;
         $this->before_modals = unserializeObject($before_modals);
@@ -73,14 +73,14 @@ class LearnMoveService extends Service
         $forget_move = $this->pokemon
         ->getMove(request('param.forget'));
         // 覚えさせる技を取得
-        $new_move = new $this->before_responses[request('param.id')]['move'];
+        $new_move = $this->before_responses[request('param.id')]['move'];
         // 技を覚えさせる
         $this->pokemon
         ->setMove($new_move, request('param.forget'));
         // メッセージの返却
         response()->setMessage('1 2の ……ポカン！');
-        response()->setMessage($this->pokemon->getNickname().'は、'.$forget_move->getName().'の使い方をキレイに忘れた！そして......');
-        response()->setMessage($this->pokemon->getNickname().'は新しく、'.$new_move->getName().'を覚えた！');
+        response()->setMessage($this->pokemon->getNickname().'は、'.$forget_move['class']::NAME.'の使い方をキレイに忘れた！そして......');
+        response()->setMessage($this->pokemon->getNickname().'は新しく、'.$new_move::NAME.'を覚えた！');
     }
 
     /**

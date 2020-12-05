@@ -45,11 +45,11 @@ class ChangeService extends Service
             return;
         }
         // 瀕死チェック後に交代処理を行う（friendのポケモンが入れ替わるため）
-        if(!friend()->isFight()){
+        if(friend()->isFainting()){
             // 瀕死状態からの交代
             $this->change();
             // モーダル初期化
-            initForceModal();
+            response()->initForceModal();
             // 判定不要処理
             battle_state()->judgeFalse();
         }else{
@@ -75,7 +75,7 @@ class ChangeService extends Service
         if(
             request('order') === battle_state()->getOrder() ||
             empty($partner) ||
-            !$partner->isFight()
+            $partner->isFainting()
         ){
             return false;
         }
@@ -90,7 +90,7 @@ class ChangeService extends Service
     {
         $partner = player()->getPartner(request('order'));
         // 現在のバトルポケモンのバトルステータス関係を初期化
-        friend()->releaseBattleStatsAll();
+        friend()->initBattleStats();
         battle_state()->changeInit('friend');
         // ポケモンを戻す演出処理(味方が戦闘不能状態でなければ)
         if(friend()->isFight()){
@@ -113,7 +113,7 @@ class ChangeService extends Service
                 'class' => get_class($partner),
                 'name' => $partner->getNickname(),
                 'level' => $partner->getLevel(),
-                'hp_max' => $partner->getStats('HP'),
+                'hp_max' => $partner->getStats('H'),
                 'hp_now' => $partner->getRemainingHp(),
                 'hp_per' => $partner->getRemainingHp('per'),
                 'hp_color' => $partner->getRemainingHp('color'),

@@ -4,8 +4,8 @@ $root_path = __DIR__.'/../../..';
 require_once($root_path.'/App/Services/Service.php');
 
 /**
- * バトル開始
- */
+* バトル開始
+*/
 class StartService extends Service
 {
 
@@ -40,7 +40,7 @@ class StartService extends Service
         // 前ターン状態を格納
         battle_state()->setBefore();
         // 返却値をセット
-        response()->setMessage('あ！野生の'.enemy()->getName().'が飛び出してきた！');
+        response()->setMessage('あ！野生の'.enemy('NAME').'が飛び出してきた！');
         $msg_id = response()->issueMsgId();
         response()->setMessage('ゆけっ！'.friend()->getNickName().'！', $msg_id);
         response()->setResponse([
@@ -82,28 +82,21 @@ class StartService extends Service
     {
         // 抽選箱の準備
         $lottery_box = [];
-        // 保険としてtry-catchを使用
-        try {
-            foreach(config('field.'.request('field').'.pokemon') as $class){
-                // データ取得用のポケモンインスタンスを生成
-                $pokemon = new $class(null, null, true);
-                $lottery_box = array_merge(
-                    $lottery_box,
-                    array_fill(0, $pokemon->getCapture(), $class)
-                );
-            }
-            // 0番から配列要素数までの番号をランダムに取得
-            $number = random_int(0, count($lottery_box) - 1);
-            // シャッフルして配列を添字に置き換え（念の為）
-            shuffle($lottery_box);
-            // 敵ポケモンをインスタンス化して格納
-            battle_state()->setEnemy(
-                new $lottery_box[$number]($level)
+        foreach(config('field.'.request('field').'.pokemon') as $pokemon){
+            // ポケモンを捕捉率数分抽選箱に投入
+            $lottery_box = array_merge(
+                $lottery_box,
+                array_fill(0, $pokemon::CAPTURE, $pokemon)
             );
-        } catch (\Exception $ex) {
-            // もしポケモンが取得できなかった場合の保険処理
-            battle_state()->setEnemy(new Poppo(2));
         }
+        // 0番から配列要素数までの番号をランダムに取得
+        $number = random_int(0, count($lottery_box) - 1);
+        // シャッフルして配列を添字に置き換え（念の為）
+        shuffle($lottery_box);
+        // 敵ポケモンをインスタンス化して格納
+        battle_state()->setEnemy(
+            new $lottery_box[$number]($level)
+        );
     }
 
     /**
@@ -114,7 +107,7 @@ class StartService extends Service
     {
         if(
             !player()->pokedex()
-            ->isRegisted(enemy()->getNumber())
+            ->isRegisted(enemy('NUMBER'))
         ){
             // 未登録→発見
             player()->pokedex()

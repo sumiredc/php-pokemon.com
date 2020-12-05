@@ -54,29 +54,29 @@ class EvolveService extends Service
     private function evolve()
     {
         // 対象ポケモンの取得
-        $before = player()->getParty()[$this->order];
-        $after_class = $before->getAfterClass();
+        $before = player()->getPartner($this->order);
+        $after_class = $before::$after_class;
         // 対象ポケモンが進化可能な状態か確認
         if(
             $before->getEvolveFlg()
             && class_exists($after_class)
         ){
             // 現在のHPを取得
-            $before_hp = $before->getStats('HP');
+            $before_hp = $before->getStats('H');
             // 進化ポケモンのインスタンスを生成
             $after = new $after_class($before);
             // HPの上昇値分だけ残りHPを加算(ひんし状態を除く)
             if($after->isFight()){
-                $after->calRemainingHp('add', $after->getStats('HP') - $before_hp);
+                $after->calRemainingHp('add', $after->getStats('H') - $before_hp);
             }
-            response()->setMessage('おめでとう！'.$before->getNickName().'は'.$after->getName().'に進化した！');
+            response()->setMessage('おめでとう！'.$before->getNickName().'は'.$after::NAME.'に進化した！');
             // 図鑑登録(トレイト：ServiceCommonRegistPokedexTrait)
             $this->setModalRegistPokedex($after);
             // 進化後のインスタンスをパーティーにセット
             player()->evolvePartner($this->order, $after);
             // 現在のレベルで習得できる技があるかチェック
             if($after->getLevelMoveCount()){
-                $after->checkLevelMove();
+                $after->isLevelMove();
                 $this->process_flg = true;
             }
             // 空メッセージのセット
