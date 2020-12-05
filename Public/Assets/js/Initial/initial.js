@@ -8,7 +8,7 @@
 * @return void
 **/
 var submitInit = function(){
-    $('form').submit(function(){
+    $('form[id^=first-pokemon-]').submit(function(){
         var name = $('#player-name').val();
         $(this).find('[name="name"]').val(name);
     });

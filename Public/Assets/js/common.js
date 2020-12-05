@@ -62,22 +62,30 @@ var selectedTableInit = function(){
 
 /**
  * 二重モーダルを正常に表示するための重ね処理
- *
- * @function on show modal
+ * @function on:click
  */
 var dubbleModalInit = function() {
-    $(document).ready(function() {
-        $('[data-dubble_modal="true"]').on("show.bs.modal", function(e) {
-            var currentModal = $(e.currentTarget);
-            var zIndex = 1040 + 10 * $(".modal:visible").length;
-            currentModal.css("z-index", zIndex);
-            setTimeout(function() {
-                $(".modal-backdrop")
-                    .not(".modal-stack")
-                    .css("z-index", zIndex - 1)
-                    .addClass("modal-stack");
-            }, 0);
-        });
+    $('[data-dubble_modal="true"]').on('show.bs.modal', function(e) {
+        var currentModal = $(e.currentTarget);
+        var zIndex = 1040 + 10 * $('.modal:visible').length;
+        currentModal.css('z-index', zIndex);
+        setTimeout(function() {
+            $('.modal-backdrop')
+                .not('.modal-stack')
+                .css('z-index', zIndex - 1)
+                .addClass('modal-stack');
+        }, 0);
+    });
+}
+
+/**
+ * 指定したモーダルの非表示処理
+ * @function on:click
+ */
+var hideModalInit = function() {
+    $('[data-hide_modal]').on('click', function() {
+        var modal = $(this).data('hide_modal');
+        $(modal).modal('hide');
     });
 }
 
@@ -119,6 +127,7 @@ jQuery(function($){
     navMoveBoxInit();
     selectedTableInit();
     dubbleModalInit();
+    hideModalInit();
     submitRemoteInit();
     showForceModalInit();
     // テンプレート関係の処理
