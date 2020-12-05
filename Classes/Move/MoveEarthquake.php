@@ -26,7 +26,7 @@ class MoveEarthquake extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -60,11 +60,11 @@ class MoveEarthquake extends Move
     * @param mixed
     * @return integer
     */
-    public static function powerCorrection(...$args)
+    public static function powerCorrection(...$args): int
     {
         /**
-        * @param Pokemon:object $atk 攻撃ポケモン
-        * @param Pokemon:object $def 防御ポケモン
+        * @param atk:object::Pokemon 攻撃ポケモン
+        * @param def:object::Pokemon 防御ポケモン
         */
         list($atk, $def) = $args;
         // もし相手があなをほるチャージ中なら威力2倍

@@ -26,7 +26,7 @@ class MoveAgility extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -56,7 +56,7 @@ class MoveAgility extends Move
 
     /**
     * 追加効果
-    * @param array $args
+    * @param args:array
     * @return array
     */
     public static function effects(...$args)
@@ -68,7 +68,7 @@ class MoveAgility extends Move
         list($atk, $def) = $args;
         // 自分の素早さランクを2段階上げる
         return [
-            'message' => $atk->addRank('Speed', 2)
+            'message' => $atk->addRank('S', 2)
         ];
     }
 

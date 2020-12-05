@@ -26,7 +26,7 @@ class MoveGrowth extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -57,7 +57,7 @@ class MoveGrowth extends Move
     /**
     * 追加効果
     *
-    * @param array $args
+    * @param args:array
     * @return void
     */
     public static function effects(...$args)
@@ -69,8 +69,8 @@ class MoveGrowth extends Move
         list($atk, $def) = $args;
         return [
             'message' => [
-                $atk->addRank('Attack', 1), # 自分の攻撃ランクを1段階上げる
-                $atk->addRank('SpAtk', 1)   # 自分の特攻ランクを1段階上げる
+                $atk->addRank('A', 1), # 自分の攻撃ランクを1段階上げる
+                $atk->addRank('C', 1)  # 自分の特攻ランクを1段階上げる
             ]
         ];
     }

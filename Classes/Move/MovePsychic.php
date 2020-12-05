@@ -26,7 +26,7 @@ class MovePsychic extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'special';
 
@@ -57,7 +57,7 @@ class MovePsychic extends Move
     /**
     * 能力下降効果
     *
-    * @param array $args
+    * @param args:array
     * @return array
     */
     public static function debuff(...$args)
@@ -74,7 +74,7 @@ class MovePsychic extends Move
         list($atk, $def) = $args;
         // 相手のとくぼうランクを1段階下げる
         return [
-            'message' => $def->subRank('SpDef', 1)
+            'message' => $def->subRank('D', 1)
         ];
     }
 

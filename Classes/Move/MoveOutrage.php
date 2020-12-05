@@ -26,7 +26,7 @@ class MoveOutrage extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -57,7 +57,7 @@ class MoveOutrage extends Move
     /**
     * 追加効果
     *
-    * @param array $args
+    * @param args:array
     * @return mixed
     */
     public static function effects(...$args)
@@ -68,14 +68,14 @@ class MoveOutrage extends Move
         */
         list($atk, $def) = $args;
         // 現在あばれる状態でなければ「あばれる状態」をセット
-        if(!$atk->checkSc('ScThrash')){
+        if(!$atk->isSc('ScThrash')){
             // あばれる状態をセット
             $atk->setSc('ScThrash', random_int(2, 3), get_class());
         }
         // ターンカウントを進める
         $atk->goScTurn('ScThrash');
         // あばれる状態が解除されており、こんらん状態でなければ、こんらん状態にする
-        if(!$atk->checkSc('ScThrash') && !$atk->checkSc('ScConfusion')){
+        if(!$atk->isSc('ScThrash') && !$atk->isSc('ScConfusion')){
             return [
                 'message' => $atk->setSc('ScConfusion', random_int(1, 4))
             ];

@@ -26,7 +26,7 @@ class MoveBubble extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'special';
 
@@ -74,7 +74,7 @@ class MoveBubble extends Move
         list($atk, $def) = $args;
         // 相手の素早さランクを1段階下げる
         return [
-            'message' => $def->subRank('Speed', 1)
+            'message' => $def->subRank('S', 1)
         ];
     }
 

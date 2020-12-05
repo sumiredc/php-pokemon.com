@@ -26,7 +26,7 @@ class MoveMirrorMove extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -68,20 +68,19 @@ class MoveMirrorMove extends Move
             get_class(), 'MoveCounter', 'MoveStruggle', 'MoveMimic', 'MoveTransform'
         ];
         // 相手が最後に使用した技を取得
-        $move_class = $battle_state->getLastMove($def->getPosition());
+        $move = $battle_state->getLastMove($def->getPosition());
         // 技が取得できない、またはコピーできない技一覧と一致すれば失敗
         if(
-            empty($move_class) ||
-            in_array($move_class, $black_list, true)
+            empty($move) ||
+            in_array($move, $black_list, true)
         ){
             return false;
         }
-        // 取得した技をインスタンス化
-        $move = new $move_class;
-        if($move->getTarget() === 'friend'){
+        // 取得した技の対象が味方であれば失敗
+        if($move::TARGET === 'friend'){
             return false;
         }
-        // 成功（技のインスタンスを返却）
+        // 成功
         return $move;
     }
 

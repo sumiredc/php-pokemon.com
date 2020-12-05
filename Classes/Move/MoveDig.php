@@ -26,7 +26,7 @@ class MoveDig extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -78,9 +78,9 @@ class MoveDig extends Move
         * @param atk:object::Pokemon 攻撃ポケモン
         */
         // チャージ前後の分岐
-        if($atk->checkChargeMove(get_class())){
+        if($atk->isChargeMove(get_class())){
             // チャージ完了
-            $atk->releaseSc('ScCharge');
+            $atk->initSc('ScCharge');
             return false;
         }else{
             // チャージ開始

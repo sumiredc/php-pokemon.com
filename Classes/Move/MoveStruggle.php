@@ -26,7 +26,7 @@ class MoveStruggle extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -68,7 +68,7 @@ class MoveStruggle extends Move
         */
         list($atk, $def) = $args;
 
-        $damage = floor($atk->getStats('HP') / 4);
+        $damage = floor($atk->getStats('H') / 4);
         $atk->calRemainingHp('sub', $damage);
         // メッセージとレスポンスを返却
         return [

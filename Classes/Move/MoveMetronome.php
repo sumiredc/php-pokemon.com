@@ -26,7 +26,7 @@ class MoveMetronome extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -56,9 +56,9 @@ class MoveMetronome extends Move
 
     /**
     * ゆびをふる 特殊効果
-    * @return object::Move
+    * @return string
     */
-    public static function exMetronome() :object
+    public static function exMetronome() :string
     {
         // ブラックリスト
         $black_list = [
@@ -78,7 +78,7 @@ class MoveMetronome extends Move
         // リストからランダムにキーを抽出
         $key = array_rand($move_list);
         // 技クラスを返却
-        return new $move_list[$key];
+        return $move_list[$key];
     }
 
 }

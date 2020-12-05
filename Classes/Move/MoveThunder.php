@@ -26,7 +26,7 @@ class MoveThunder extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'special';
 
@@ -60,7 +60,7 @@ class MoveThunder extends Move
     * @param mixed
     * @return integer
     */
-    public static function powerCorrection(...$args)
+    public static function powerCorrection(...$args): int
     {
         /**
         * @param Pokemon:object $atk 攻撃ポケモン
@@ -78,7 +78,7 @@ class MoveThunder extends Move
     /**
     * 追加効果
     *
-    * @param array $args
+    * @param args:array
     * @return mixed
     */
     public static function effects(...$args)
@@ -90,7 +90,10 @@ class MoveThunder extends Move
         list($atk, $def) = $args;
         // 相手が状態異常にかかっていない
         // 30%の確率
-        if($def->getSa() || 30 < random_int(1, 100)){
+        if(
+            $def->getSa() ||
+            30 < random_int(1, 100)
+        ){
             return;
         }
         // 相手をまひ状態にする

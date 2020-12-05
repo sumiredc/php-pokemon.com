@@ -26,7 +26,7 @@ class MoveScreech extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -57,7 +57,7 @@ class MoveScreech extends Move
     /**
     * 追加効果
     *
-    * @param array $args
+    * @param args:array
     * @return void
     */
     public static function effects(...$args)
@@ -69,7 +69,7 @@ class MoveScreech extends Move
         list($atk, $def) = $args;
         // 相手の攻撃ランクを1段階下げる
         return [
-            'message' => $def->subRank('Defense', 2)
+            'message' => $def->subRank('B', 2)
         ];
     }
 

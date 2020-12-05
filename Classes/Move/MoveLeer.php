@@ -26,7 +26,7 @@ class MoveLeer extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -63,7 +63,7 @@ class MoveLeer extends Move
     /**
     * 能力下降効果
     *
-    * @param array $args
+    * @param args:array
     * @return void
     */
     public static function debuff(...$args)
@@ -75,7 +75,7 @@ class MoveLeer extends Move
         list($atk, $def) = $args;
         // 相手の防御ランクを1段階下げる
         return [
-            'message' => $def->subRank('Defense', 1)
+            'message' => $def->subRank('B', 1)
         ];
     }
 

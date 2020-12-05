@@ -26,7 +26,7 @@ class MoveLowKick extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -59,7 +59,7 @@ class MoveLowKick extends Move
     * @param mixed
     * @return integer
     */
-    public static function powerCorrection(...$args)
+    public static function powerCorrection(...$args): int
     {
         /**
         * @param Pokemon:object $atk 攻撃ポケモン
@@ -69,7 +69,7 @@ class MoveLowKick extends Move
         // 防御ポケモンの重さを取得
         $weight_list = [0, 10, 25, 50, 100, 200];
         $power = array_map(function($weight) use($def){
-            if($def->getWeight() >= $weight){
+            if($def::WEIGHT >= $weight){
                 return 20;
             }else{
                 return 0;

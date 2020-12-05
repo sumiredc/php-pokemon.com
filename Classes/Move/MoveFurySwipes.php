@@ -26,7 +26,7 @@ class MoveFurySwipes extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -59,7 +59,7 @@ class MoveFurySwipes extends Move
     *
     * @return integer
     */
-    public static function times()
+    public static function times(): int
     {
         return random_int(2, 5);
     }

@@ -16,7 +16,7 @@ class MoveHydroPump extends Move
     * 説明文
     * @var string
     */
-    public const DESCRIPTION = '通常攻撃';
+    public const DESCRIPTION = '通常攻撃。';
 
     /**
     * タイプ
@@ -26,7 +26,7 @@ class MoveHydroPump extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'special';
 

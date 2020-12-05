@@ -26,7 +26,7 @@ class MoveSandAttack extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -63,7 +63,7 @@ class MoveSandAttack extends Move
     /**
     * 能力下降効果
     *
-    * @param array $args
+    * @param args:array
     * @return array
     */
     public static function debuff(...$args)

@@ -26,7 +26,7 @@ class MoveSolarBeam extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'special';
 
@@ -71,12 +71,10 @@ class MoveSolarBeam extends Move
         /**
         * @param atk:object::Pokemon 攻撃ポケモン
         */
-        // 状態変化の取得
-        $sc = $atk->getSc();
         // チャージ前後の分岐
-        if(isset($sc['ScCharge'])){
+        if($atk->isSc('ScCharge')){
             // チャージ完了
-            $atk->releaseSc('ScCharge');
+            $atk->initSc('ScCharge');
             return false;
         }else{
             // チャージ開始

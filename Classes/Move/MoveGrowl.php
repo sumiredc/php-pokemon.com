@@ -26,19 +26,19 @@ class MoveGrowl extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
     /**
     * 威力
-    * @var integer
+    * @var integer|null
     */
     public const POWER = null;
 
     /**
     * 命中率
-    * @var integer
+    * @var integer|null
     */
     public const ACCURACY = 100;
 
@@ -62,8 +62,7 @@ class MoveGrowl extends Move
 
     /**
     * 能力下降効果
-    *
-    * @param array $args
+    * @param args:array
     * @return void
     */
     public static function debuff(...$args)
@@ -75,7 +74,7 @@ class MoveGrowl extends Move
         list($atk, $def) = $args;
         // 相手の攻撃ランクを1段階下げる
         return [
-            'message' => $def->subRank('Attack', 1)
+            'message' => $def->subRank('A', 1)
         ];
     }
 

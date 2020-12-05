@@ -26,7 +26,7 @@ class MovePayDay extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -57,15 +57,12 @@ class MovePayDay extends Move
     /**
     * ネコにこばんの特別処理
     * @param atk:object::Pokemon
-    * @param battle_state:object::BattleState
-    * @return void
+    * @return integer
     */
-    public static function exPayDay($atk, $battle_state)
+    public static function exPayDay($atk)
     {
         // レベル x 5円をセット
-        $battle_state->setMoney(
-            $atk->getLevel() * 5
-        );
+        return $atk->getLevel() * 5;
     }
 
 }

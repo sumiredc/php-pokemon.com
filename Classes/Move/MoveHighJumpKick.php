@@ -26,7 +26,7 @@ class MoveHighJumpKick extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'physical';
 
@@ -63,7 +63,7 @@ class MoveHighJumpKick extends Move
     public static function failed($atk)
     {
         // 最大HPの1/2ダメージを受ける
-        $damage = $atk->getStats('HP') / 2;
+        $damage = $atk->getStats('H') / 2;
         $atk->calRemainingHp('sub', $damage);
         // レスポンスとメッセージを返却
         return [

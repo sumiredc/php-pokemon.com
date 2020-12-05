@@ -26,7 +26,7 @@ class MoveTransform extends Move
 
     /**
     * 分類
-    * @var string(physical:物理|special:特殊|status:変化)
+    * @var string::physical:物理|special:特殊|status:変化
     */
     public const SPECIES = 'status';
 
@@ -58,15 +58,13 @@ class MoveTransform extends Move
     * へんしんの専用効果
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
-    * @param battle_state:object::BattleState バトル状態
     * @return void
     */
-    public static function exTransform(object $atk, object $def, object $battle_state)
+    public static function exTransform(object $atk, object $def)
     {
-        if(!$atk->checkSc('ScTransform')){
+        if(!$atk->isSc('ScTransform')){
             // 現在へんしん状態でなければ実行
-            $atk->setSc('ScTransform', 0, get_class($def)); # 先に状態変化（へんしん）をセット
-            $battle_state->setTransform($atk, $def);
+            $atk->setSc('ScTransform', 0, $atk->transform($def));
             return true;
         }else{
             // 現在へんしん状態であれば失敗
