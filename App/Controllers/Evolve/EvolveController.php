@@ -41,9 +41,9 @@ class EvolveController extends Controller
     public function __destruct()
     {
         // 次画面へ送るデータ
-        $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
-        $_SESSION['__data']['before_modals'] = serializeObject(getModals());
-        $_SESSION['__data']['before_messages'] = getMessages();
+        $_SESSION['__data']['before_responses'] = serializeObject(response()->responses());
+        $_SESSION['__data']['before_modals'] = serializeObject(response()->modals());
+        $_SESSION['__data']['before_messages'] = response()->messages();
         if($this->process_flg){
             $_SESSION['__data']['order'] = $this->order;
         }
@@ -69,9 +69,6 @@ class EvolveController extends Controller
             case 'evolve':
             $service = new EvolveService($this->order);
             $service->execute();
-            // 新しくなったパーティーをセット(不要)
-            // player()
-            // ->replaceParty($service->getParty());
             // 処理中フラグを引き継ぎ
             $this->process_flg = $service->process_flg;
             break;

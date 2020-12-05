@@ -37,13 +37,13 @@ class BattleController extends Controller
     */
     public function __destruct()
     {
-        // デストラクタ直前のチェック処理
-        $this->checkBeforeDestruct();
+        // // デストラクタ直前のチェック処理
+        // $this->checkBeforeDestruct();
         // 次画面へ送るデータ
         $_SESSION['__data']['battle_state'] = serializeObject(battle_state());
-        $_SESSION['__data']['before_responses'] = serializeObject(getResponses());
-        $_SESSION['__data']['before_modals'] = serializeObject(getModals());
-        $_SESSION['__data']['before_messages'] = getMessages();
+        $_SESSION['__data']['before_responses'] = serializeObject(response()->responses());
+        $_SESSION['__data']['before_modals'] = serializeObject(response()->modals());
+        $_SESSION['__data']['before_messages'] = response()->messages();
         // 親デストラクタの呼び出し
         parent::__destruct();
     }
@@ -124,14 +124,14 @@ class BattleController extends Controller
                 battle_state()->judgeFalse();
                 // もしどちらかが戦闘不能状態であればバトルを強制終了
                 if(
-                    battle_state()->isFainting('enemy') ||
+                    enemy()->isFainting() ||
                     !player()->isFightParty()
                 ){
                     $this->battleEnd();
                 }
                 break;
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             // 初期画面へ移管
             $_SESSION['__route'] = 'initial';
             // 画面移管
@@ -150,7 +150,7 @@ class BattleController extends Controller
         $party = player()->getParty();
         // パーティーのランク補正・状態変化を解除
         array_map(function($partner){
-            $partner->releaseBattleStatsAll();
+            $partner->initBattleStats();
         }, $party);
         // セッション破棄
         $_SESSION['__data'] = [];

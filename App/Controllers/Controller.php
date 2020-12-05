@@ -13,7 +13,7 @@ abstract class Controller
     public function __construct()
     {
         // オートローダーの起動
-        new AutoLoader;
+        AutoLoader::init();
         // コンストラクタで実行させる処理
         $this->callConstruct();
     }
@@ -122,7 +122,7 @@ abstract class Controller
             $results = array_merge($results, array_diff($msg_ids, $results));
         }
         // 重複回避用のメッセージIDに格納
-        setUsedMessageId($results);
+        response()->setUsedMessageId($results);
     }
 
 }

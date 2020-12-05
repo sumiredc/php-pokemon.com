@@ -39,7 +39,7 @@ class NotFoundController extends Controller
     {
         // プレイヤー情報の存在確認
         if(player()){
-            player()->pokedex()->discovery(new Koiking(null, null, true));
+            player()->pokedex()->discovery('Koiking');
             $this->player_flg = true;
             // コイキング画像の準備
             if(!random_int(0, 8192)){

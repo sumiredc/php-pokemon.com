@@ -113,7 +113,7 @@ class HomeController extends Controller
                 }
                 break;
             }
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             // 初期画面へ移管
             $_SESSION['__route'] = 'initial';
             // 画面移管
