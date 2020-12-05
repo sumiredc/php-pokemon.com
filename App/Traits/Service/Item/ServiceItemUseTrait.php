@@ -24,7 +24,10 @@ trait ServiceItemUseTrait
             response()->setMessage($result['message']);
         }
         // 描画処理(バトルポケモンへのアイテム使用であれば)
-        if((int)request('pokemon') === battle_state()->getOrder()){
+        if(
+            getPageName() === 'battle' &&
+            (int)request('pokemon') === battle_state()->getOrder()
+        ){
             // HPバーの変動処理
             if(isset($result['hpbar'])){
                 response()->setResponse([

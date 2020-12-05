@@ -11,7 +11,7 @@ trait ServiceCommonRegistPokedexTrait
     */
     protected function setModalRegistPokedex(object $pokemon): void
     {
-        if(player()->pokedex()->isRegisted($pokemon->getNumber()) >= 2){
+        if(player()->pokedex()->isRegisted($pokemon::NUMBER) >= 2){
             // 登録の必要無し
             return;
         }
@@ -21,12 +21,12 @@ trait ServiceCommonRegistPokedexTrait
         // モーダルID生成
         $regist_id = response()->issueMsgId();
         // メッセージの生成
-        response()->setMessage($pokemon->getName().'のデータが、新しくポケモン図鑑に登録されます', $regist_id);
+        response()->setMessage($pokemon::NAME.'のデータが、新しくポケモン図鑑に登録されます', $regist_id);
         // モーダルの生成
         response()->setModal([
             'id' => $regist_id,
             'modal' => 'regist-pokedex',
-            'no' => $pokemon->getNumber()
+            'pokemon' => get_class($pokemon)
         ]);
         // レスポンスの生成
         response()->setResponse([

@@ -30,7 +30,7 @@ trait ServiceItemCaptureTrait
         if($result){
             // 捕獲成功
             response()->setResponse(true, 'result');
-            response()->setMessage('やったー！'.enemy()->getName().'を捕まえた！');
+            response()->setMessage('やったー！'.enemy('NAME').'を捕まえた！');
             // 捕まえたポケモンを登録
             $this->storePokemon();
         }else{
@@ -94,11 +94,11 @@ trait ServiceItemCaptureTrait
     protected function calProbability(string $ball): float
     {
         // 最大HP
-        $mh = enemy()->getStats('HP');
+        $mh = enemy()->getStats('H');
         // 現在HP
         $rh = enemy()->getRemainingHp();
         // 捕捉率
-        $c = enemy()->getCapture();
+        $c = enemy('CAPTURE');
         // 捕獲補正
         $p = $ball::PERFORMANCE;
         /**
@@ -152,7 +152,7 @@ trait ServiceItemCaptureTrait
         if($result){
             // 成功
             response()->setMessage(
-                enemy()->getName().'は、ボックス'.pokebox()->getSelectedBoxNumber().'へ転送された'
+                enemy('NAME').'は、ボックス'.pokebox()->getSelectedBoxNumber().'へ転送された'
             );
         }else{
             // 失敗
