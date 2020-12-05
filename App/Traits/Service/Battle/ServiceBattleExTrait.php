@@ -30,7 +30,7 @@ trait ServiceBattleExTrait
     * @param move:string
     * @return string
     */
-    protected function exMetronome(object $atk, string $move): object
+    protected function exMetronome(object $atk, string $move): string
     {
         // チャージ・あばれる技の確認
         $wait_move = $this->exGetWaitingMove($atk);
@@ -52,7 +52,7 @@ trait ServiceBattleExTrait
     */
     protected function exPayDay(object $atk, string $move): void
     {
-        $move::exPayDay($atk, battle_state());
+        battle_state()->setMoney($move::exPayDay($atk));
         response()->setMessage('辺りにお金が散らばった');
     }
 
@@ -67,8 +67,7 @@ trait ServiceBattleExTrait
     protected function exTransform(object $atk, object $def, string $move): void
     {
         // へんしんの特別処理を呼び出し
-        $result = $move::exTransform($atk, $def, battle_state());
-        if($result){
+        if($move::exTransform($atk, $def)){
             // へんしん
             response()->setResponse([
                 'param' => get_class($def),
@@ -76,19 +75,7 @@ trait ServiceBattleExTrait
                 'target' => $atk->getPosition(),
             ], $this->atk_msg_id);
             // 成功
-            response()->setMessage($atk->getPrefixName().'は'.$def->getName().'にへんしんした');
-            // プロパティの書き換え
-            if($atk->getPosition() === 'friend'){
-                // 味方
-                battle_state()->setFriend(
-                    battle_state()->getTransform('friend')
-                );
-            }else if('enemy'){
-                // 相手
-                battle_state()->setEnemy(
-                    battle_state()->getTransform('enemy')
-                );
-            }
+            response()->setMessage($atk->getPrefixName().'は'.$def::NAME.'にへんしんした');
         }else{
             // 失敗
             response()->setMessage('しかし上手く決まらなかった');

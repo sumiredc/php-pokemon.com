@@ -24,7 +24,7 @@ trait ServiceBattleOrderGenelatorTrait
             // 優先度のセット
             $speed = $move::PRIORITY * 1000000;
             // 素早さ実数値の加算
-            $speed += $atk->getStats('Speed', true) * 10;
+            $speed += $atk->getStatsM('S') * 10;
             // 乱数の生成(同速判定用)
             $key = $speed + random_int(0, 9);
             // 重複回避
@@ -55,7 +55,7 @@ trait ServiceBattleOrderGenelatorTrait
             $atk = $atk_position();
             $def = $def_position();
             // 素早さ実数値の加算
-            $speed = $atk->getStats('Speed', true) * 10;
+            $speed = $atk->getStatsM('S') * 10;
             // 乱数の生成(同速判定用)
             $key = $speed + random_int(0, 9);
             // 重複回避

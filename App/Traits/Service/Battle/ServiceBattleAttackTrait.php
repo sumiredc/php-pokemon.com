@@ -166,10 +166,7 @@ trait ServiceBattleAttackTrait
             return; # 処理終了
         }
         // タイプ相性チェック
-        $this->type_comp_msg = $this->checkTypeCompatibility(
-            $move::TYPE,
-            $def->getTypes()
-        );
+        $this->type_comp_msg = $this->checkTypeCompatibility($move::TYPE, $def::TYPES);
         // 「こうかがない」の判定（命中率と威力がnullではなく、タイプ相性補正が０の場合）
         if(
             !is_null($move::ACCURACY) &&
@@ -193,7 +190,7 @@ trait ServiceBattleAttackTrait
             $def->calRemainingHp('death');
             // HPバーのアニメーション用レスポンス
             response()->setResponse([
-                'param' => $def->getStats('HP'),
+                'param' => $def->getStats('H'),
                 'action' => 'hpbar',
                 'target' => $def->getPosition(),
             ], $this->atk_msg_id);
@@ -212,6 +209,11 @@ trait ServiceBattleAttackTrait
             }
             // 攻撃判定成功時の処理
             $this->attackSuccess($atk, $def, $move);
+            // もし途中でどちらか瀕死になれば処理終了
+            if(!$def->isFight() || !$def->isFight()){
+                $times = $i + 1; # 行なった攻撃回数を上書き
+                break;
+            }
         }
         // 連続技はヒット回数のメッセージを返却
         if($times > 1){
@@ -257,7 +259,7 @@ trait ServiceBattleAttackTrait
                 // 乱数補正値の計算
                 $m *= $this->calRandNum();
                 // タイプ一致補正の計算
-                $this->calMatchType($move::TYPE, $atk->getTypes());
+                $this->calMatchType($move::TYPE, $atk::TYPES);
                 // 補正込みの技威力を取得(けたぐり等を考慮してnullの場合は1をセット)
                 $power = ($move::POWER ?? 1) * $move::powerCorrection($atk, $def);
                 // ダメージ計算
@@ -341,13 +343,13 @@ trait ServiceBattleAttackTrait
             }
             // いかり判定
             if(
-                $def->checkSc('ScRage') &&
+                $def->isSc('ScRage') &&
                 !empty($damage ?? 0)
             ){
                 // いかり発動メッセージをセット
                 response()->setMessage(ScRage::getActiveMessage($def->getPrefixName()));
                 // こうげきランクを１段階上昇
-                response()->setMessage($def->addRank('Attack', 1));
+                response()->setMessage($def->addRank('A', 1));
             }
             return;
         }
@@ -476,7 +478,10 @@ trait ServiceBattleAttackTrait
     {
         $effects = $move::effects($atk, $def);
         // メッセージが取得できたらセット
-        if(isset($effects['message']) && isset($effects['sa'])){
+        if(
+            isset($effects['message']) &&
+            isset($effects['sa'])
+        ){
             // 状態異常有り
             $effect_id = response()->issueMsgId();
             response()->setMessage($effects['message'], $effect_id);
@@ -514,13 +519,13 @@ trait ServiceBattleAttackTrait
         switch ($species) {
             // 物理
             case 'physical':
-            $a = $atk->getStats('Attack', true);
-            $d = $def->getStats('Defense', true);
+            $a = $atk->getStatsM('A');
+            $d = $def->getStatsM('B');
             break;
             // 特殊
             case 'special':
-            $a = $atk->getStats('SpAtk', true);
-            $d = $def->getStats('SpDef', true);
+            $a = $atk->getStatsM('C');
+            $d = $def->getStatsM('D');
             break;
             // 変化
             case 'status':

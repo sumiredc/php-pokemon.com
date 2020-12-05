@@ -10,7 +10,7 @@ trait ServiceBattleEnemyTurnTrait
     protected function enemyTurn(): void
     {
         // 相手ポケモンの怒り解除
-        enemy()->releaseSc('ScRage');
+        enemy()->initSc('ScRage');
         // 相手ポケモンの攻撃
         if($this->enemyAttack()){
             // 行動後の状態異常・変化をチェック
@@ -29,10 +29,7 @@ trait ServiceBattleEnemyTurnTrait
         // 敵ポケモンの攻撃
         $this->attack(enemy(), friend(), $this->aiSelectMove());
         // ひんしチェック
-        if(battle_state()->isFainting()){
-            return false;
-        }
-        return true;
+        return enemy()->isFainting() || friend()->isFainting();
     }
 
 }

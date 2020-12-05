@@ -19,14 +19,17 @@ trait ServiceBattleAttackAfterTrait
             $atk = $atk_position();
             $def = $def_position();
             // ひんしチェック(開始時に行動側がひんし状態になっていないか確認)
-            if(battle_state()->isFainting($atk_position)){
+            if($atk->isFainting()){
                 // ひんし状態になった
                 continue;
             }
             // 状態異常チェック
             $this->checkAfterSa($atk);
             // ひんしチェック
-            if(battle_state()->isFainting($atk_position)){
+            if(
+                $atk->isFainting() ||
+                $def->isFainting()
+            ){
                 // どちらかがひんし状態になった
                 continue;
             }
