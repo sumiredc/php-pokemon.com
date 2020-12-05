@@ -5,7 +5,7 @@ require_once($root_path.'/Classes/Field.php');
 /**
 * リフレクター
 */
-class FieldReflect extends Field
+abstract class FieldReflect extends Field
 {
 
     /**

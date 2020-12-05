@@ -5,7 +5,7 @@ require_once($root_path.'/Classes/Field.php');
 /**
 * ひかりのかべ
 */
-class FieldLightScreen extends Field
+abstract class FieldLightScreen extends Field
 {
 
     /**

@@ -5,7 +5,7 @@ require_once($root_path.'/Classes/Field.php');
 /**
 * しろいきり
 */
-class FieldMist extends Field
+abstract class FieldMist extends Field
 {
 
     /**
