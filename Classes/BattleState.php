@@ -63,11 +63,11 @@ class BattleState
     */
     private $turn_damages;
 
-    /**
-    * へんしん情報
-    * @var array
-    */
-    private $transforms;
+    // /**
+    // * へんしん情報
+    // * @var array
+    // */
+    // private $transforms;
 
     /**
     * 最後に使用した技
@@ -112,10 +112,10 @@ class BattleState
     public function init() :void
     {
         $this->run = 0;
-        $this->dafaultFields();
-        $this->dafaultTurnDamages();
-        $this->dafaultTransforms();
-        $this->dafaultLastMoves();
+        $this->initFields();
+        $this->initTurnDamages();
+        $this->initTransforms();
+        $this->initLastMoves();
     }
 
     /**
@@ -124,7 +124,7 @@ class BattleState
     */
     public function turnInit() :void
     {
-        $this->dafaultTurnDamages();
+        $this->initTurnDamages();
         $this->judgeTrue();
     }
 
@@ -138,7 +138,7 @@ class BattleState
         // ターンダメージ、へんしん、最後に使った技をリセット
         if(in_array($position, config('pokemon.position'), true)){
             $this->resetTurnDamege($position);
-            $this->resetTransform($position);
+            // $this->resetTransform($position);
             $this->resetLastMove($position);
         }
     }

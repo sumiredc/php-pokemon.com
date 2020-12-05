@@ -7,7 +7,7 @@ abstract class Field
 {
 
     // メッセージの初期値
-    public const set_MSG = '';
+    public const SET_MSG = '';
     public const ALREADY_MSG = '';
     public const RELEASE_MSG = '';
     public const FAILED_MSG = '';
@@ -19,11 +19,8 @@ abstract class Field
     */
     public static function getSetMessage(string $target): string
     {
-        $prefix = '味方';
-        if($target === 'enemy'){
-            $prefix = '相手';
-        }
-        return str_replace('::prefix', $prefix, static::set_MSG);
+        $prefix = ($target === 'enemy') ? '相手' : '味方';
+        return str_replace('::prefix', $prefix, static::SET_MSG);
     }
 
     /**
@@ -33,10 +30,7 @@ abstract class Field
     */
     public static function getAlreadyMessage(string $target): string
     {
-        $prefix = '味方';
-        if($target === 'enemy'){
-            $prefix = '相手';
-        }
+        $prefix = ($target === 'enemy') ? '相手' : '味方';
         return str_replace('::prefix', $prefix, static::ALREADY_MSG);
     }
 
@@ -47,10 +41,7 @@ abstract class Field
     */
     public static function getReleaseMessage(string $target): string
     {
-        $prefix = '味方';
-        if($target === 'enemy'){
-            $prefix = '相手';
-        }
+        $prefix = ($target === 'enemy') ? '相手' : '味方';
         return str_replace('::prefix', $prefix, static::RELEASE_MSG);
     }
 

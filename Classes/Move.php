@@ -1,5 +1,4 @@
 <?php
-
 /**
 * 技
 */
@@ -55,7 +54,7 @@ abstract class Move
     * タイプ名の取得
     * @return string
     */
-    public static function getTypeName()
+    public static function getTypeName(): string
     {
         $type = static::TYPE;
         return $type::NAME;
@@ -166,7 +165,7 @@ abstract class Move
     * @param pokemon:string
     * @return string
     */
-    public function getFailedMessage($pokemon): string
+    public static function getFailedMessage($pokemon): string
     {
         return str_replace('::pokemon', $pokemon, static::FAILED_MSG);
     }
@@ -176,7 +175,7 @@ abstract class Move
     * @param pokemon:string
     * @return string
     */
-    public function getOneHitKnockoutFailedMessage($pokemon): string
+    public static function getOneHitKnockoutFailedMessage($pokemon): string
     {
         return str_replace('::pokemon', $pokemon, static::ONE_HIT_KNOCKOUt_FAILED_MSG);
     }

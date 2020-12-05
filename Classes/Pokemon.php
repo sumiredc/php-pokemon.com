@@ -1,48 +1,55 @@
 <?php
 $root_path = __DIR__.'/..';
+// クラス
+require_once($root_path.'/Classes/PokemonTransform.php');
 // トレイト
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonInitTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonDefaultTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCheckTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonIsTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonReleaseTrait.php');
 require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGoTurnTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonTransformTrait.php');
+require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonBattleTrait.php');
 
 // ポケモン
 abstract class Pokemon
 {
+
+    use ClassPokemonInitTrait;
     use ClassPokemonSetTrait;
     use ClassPokemonGetTrait;
-    use ClassPokemonDefaultTrait;
-    use ClassPokemonCheckTrait;
+    use ClassPokemonIsTrait;
     use ClassPokemonCalculationTrait;
     use ClassPokemonReleaseTrait;
     use ClassPokemonGoTurnTrait;
-    use ClassPokemonTransformTrait;
+    use ClassPokemonBattleTrait;
+
+    public const EVOLVE_LEVEL = null;
+    public static $before_class = '';
+    public static $after_class = '';
 
     /**
     * ID（friendセット時に一意の値をセット）
     * @var string
     */
-    protected $id;
+    protected $id = '';
 
     /**
     * ニックネーム
-    * @var string (min:1 max:5)
+    * @var string
     */
     protected $nickname;
 
     /**
     * 現在のレベル
-    * @var integer (min:2 max:100)
+    * @var integer::min:2|max:100
     */
     protected $level;
 
     /**
-    * 覚えている技 (min:1 max:4)
-    * @var array [num => [class => (string), remaining => (int), correction => (int)]]
+    * 覚えている技（最大４つまで）
+    * @var array::[order:integer=>[class=>string,remaining=>integer,correction=>integer]]
     */
     protected $move = [];
 
@@ -60,13 +67,13 @@ abstract class Pokemon
 
     /**
     * ポケモンの立場
-    * @var string (enemy:敵|friend:味方)
+    * @var string::enemy|friend
     */
     protected $position = 'enemy';
 
     /**
     * 個体値
-    * @var array(value min:0 max:31)
+    * @var array::value:min:0|max:31
     */
     protected $iv = [];
 
@@ -78,19 +85,19 @@ abstract class Pokemon
 
     /**
     * ランク（バトルステータス）
-    * @var array(min:-6, max:6)
+    * @var array::value:min:-6|max:6
     */
     protected $rank = [];
 
     /**
     * 状態異常
-    * @var array [sa_class_name(string) => turn(integer)]
+    * @var array::[string:class=>integer:turn]
     */
     protected $sa = [];
 
     /**
     * 状態変化
-    * @var array [sc_class_name(string) => ['turn' => turn(integer), 'param' => param(string)]]
+    * @var array::[string:class=>[integer:turn,string:param]]
     */
     protected $sc = [];
 
@@ -101,75 +108,68 @@ abstract class Pokemon
     protected $evolve_flg = false;
 
     /**
-    * へんしんフラグ
-    * @var boolean
-    */
-    protected $transform_flg = false;
-
-    /**
     * インスタンス作成時に実行される処理
-    * @param param:mixed
-    * @param transform:object|null::Pokemon
-    * @param empty:boolean
+    * @param param:mixed::level:integer|evolve:object::Pokemon
     * @return void
     */
-    public function __construct($param=null, $transform=null, $empty=false)
+    public function __construct($param=5)
     {
-        if($empty){
-            // 情報取得用の空オブジェクトを要求
-            return;
-        }
-        if(is_object($transform)){
-            // へんしん用処理
-            $this->transform($param, $transform);
+        if(is_a($param, static::$before_class)){
+            // 進化
+            $this->evolve($param);
         }else{
             // 初期化
             $this->init($param);
         }
     }
-    
+
     /**
     * 初期化
-    * @param param:mixed
+    * @param level:integer
     * @return void
     */
-    private function init($param)
+    private function init(int $level): void
     {
         // 初期値のセット
-        $this->defaultRank();
-        $this->defaultIv();
-        $this->defaultEv();
-        // パラメーターに合わせた分岐
-        switch (gettype($param)) {
-            /**
-            * 新規登場時の処理(レベル指定)
-            * @var integer
-            */
-            case 'integer':
-            $this->setLevel($param);
-            $this->setDefaultExp();
-            $this->setDefaultMove();
-            $this->setIv();
-            $this->calRemainingHp('reset');
-            break;
-            /**
-            * 進化した際の処理
-            * @var object
-            */
-            case 'object':
-            // 進化前のポケモンと一致しているかチェック
-            if(is_a($param, $this->before_class ?? null)){
-                $this->takeOverAbility($param->export());
-            }
-            break;
+        $this->setLevel($level);
+        $this->setDefaultExp();
+        $this->setDefaultMove();
+        $this->initIv();
+        $this->initEv();
+        $this->calRemainingHp('init');
+        // バトル用ステータスの準備
+        $this->initBattleStats();
+    }
+
+    /**
+    * 進化
+    * @param before:object::Pokemon
+    * @return void
+    */
+    private function evolve(object $before): void
+    {
+        $this->id = $before->getId();                      # ID
+        $this->level = $before->getLevel();                # レベル
+        $this->position = $before->getPosition();          # 立場
+        $this->ev = $before->getEv();                      # 努力値
+        $this->iv = $before->getIv();                      # 個体値
+        $this->exp = $before->getExp();                    # 経験値
+        $this->move = $before->getMove();                  # 技
+        $this->sa = $before->getSa('all');                 # 状態異常
+        $this->remaining_hp = $before->getRemainingHp();   # 残りHP
+        // ポケモン名とニックネームが異なる場合のみ
+        if($before->getNickname() !== $before::NAME){
+            $this->nickname = $before->getNickname();      # ニックネーム
         }
+        // バトル用ステータスの準備
+        $this->initBattleStats();
     }
 
     /**
     * IDの生成（setPositionで呼び出し）
-    * @return void
+    * @return string
     */
-    protected function generateId()
+    protected function generateId(): string
     {
         if(!$this->id){
             $id = substr(bin2hex(random_bytes(16)), 0, 16);
@@ -179,15 +179,16 @@ abstract class Pokemon
             $this->id = $id;
             $_SESSION['__pokemon_ids'][] = $id;
         }
+        return $id;
     }
 
     /**
     * レベルアップ処理
     *
-    * @param string|null $msg_id
+    * @param msg_id::string|null
     * @return void
     */
-    protected function actionLevelUp($msg_id=null)
+    protected function actionLevelUp($msg_id=null): void
     {
         // メッセージIDの指定があれば、経験値バーのアニメーション用レスポンスをセット(戦闘ポケモンのみ)
         if(
@@ -200,12 +201,12 @@ abstract class Pokemon
             ], $msg_id);
         }
         // 現在のHPを取得
-        $before_hp = $this->getStats('HP');
+        $before_hp = $this->getStats('H');
         // レベルアップ
         $this->level++;
         // HPの上昇値分だけ残りHPを加算(ひんし状態を除く)
-        if(!isset($this->sa['SaFainting'])){
-            $this->calRemainingHp('add', $this->getStats('HP') - $before_hp);
+        if($this->isFight()){
+            $this->calRemainingHp('add', $this->getStats('H') - $before_hp);
         }
         // メッセージIDを生成
         $msg_id1 = response()->issueMsgId();
@@ -217,7 +218,7 @@ abstract class Pokemon
                     'level' => $this->level,
                     'remaining_hp' => $this->getRemainingHp(),
                     'remaining_hp_per' => $this->getRemainingHp('per'),
-                    'max_hp' => $this->getStats('HP'),
+                    'max_hp' => $this->getStats('H'),
                 ]),
                 'action' => 'levelup',
             ], $msg_id1);
@@ -234,62 +235,62 @@ abstract class Pokemon
         response()->setModal([
             'id' => $msg_id2,
             'modal' => 'levelup',
-            'stats' => $this->getStats(), # 連続レベルアップ時に書き換わるため現在の値をセット
+            'stats' => $this->getStatsAll(), # 連続レベルアップ時に書き換わるため現在の値をセット(実数値)
             'pokemon' => $this
         ]);
         // 現在のレベルで習得できる技があるか確認
-        $this->checkLevelMove();
+        $this->isLevelMove();
         // プレイヤーレベルの更新
         if($this->level > player()->getLevel()){
             player()->levelUp();
         }
     }
 
-    /**
-    * 現在インスタンスを出力(引き継ぎ用:進化で使用中)
-    *
-    * @param string
-    * @return array
-    */
-    public function export($param=null)
-    {
-        if(empty($param)){
-            return [
-                'id' => $this->id,                      # ID
-                'class_name' => get_class($this),       # クラス名
-                'nickname' => $this->nickname,          # ニックネーム
-                'level' => $this->level,                # レベル
-                'position' => $this->position,          # 立場
-                'ev' => $this->ev,                      # 努力値
-                'iv' => $this->iv,                      # 個体値
-                'exp' => $this->exp,                    # 経験値
-                'move' => $this->move,                  # 技
-                'sa' => $this->sa,                      # 状態異常
-                'remaining_hp' => $this->remaining_hp,  # 残りHP
-            ];
-        }else{
-            // プロパティ指定
-            $property = [
-                'sc', 'rank'
-            ];
-            if(in_array($param, $property, true)){
-                return $this->$param;
-            }
-        }
-    }
+    // /**
+    // * 現在インスタンスを出力(引き継ぎ用:進化で使用中)
+    // *
+    // * @param string
+    // * @return array
+    // */
+    // public function export($param=null)
+    // {
+    //     if(empty($param)){
+    //         return [
+    //             'id' => $this->id,                      # ID
+    //             'class_name' => get_class($this),       # クラス名
+    //             'nickname' => $this->nickname,          # ニックネーム
+    //             'level' => $this->level,                # レベル
+    //             'position' => $this->position,          # 立場
+    //             'ev' => $this->ev,                      # 努力値
+    //             'iv' => $this->iv,                      # 個体値
+    //             'exp' => $this->exp,                    # 経験値
+    //             'move' => $this->move,                  # 技
+    //             'sa' => $this->sa,                      # 状態異常
+    //             'remaining_hp' => $this->remaining_hp,  # 残りHP
+    //         ];
+    //     }else{
+    //         // プロパティ指定
+    //         $property = [
+    //             'sc', 'rank'
+    //         ];
+    //         if(in_array($param, $property, true)){
+    //             return $this->$param;
+    //         }
+    //     }
+    // }
 
-    /**
-    * 能力引き継ぎ処理
-    *
-    * @param before:array
-    * @return void
-    */
-    protected function takeOverAbility($before)
-    {
-        foreach($before as $key => $val){
-            $this->$key = $val;
-        }
-    }
+    // /**
+    // * 能力引き継ぎ処理
+    // *
+    // * @param before:array
+    // * @return void
+    // */
+    // protected function takeOverAbility($before)
+    // {
+    //     foreach($before as $key => $val){
+    //         $this->$key = $val;
+    //     }
+    // }
 
     /**
     * 全回復
@@ -298,11 +299,13 @@ abstract class Pokemon
     public function recovery()
     {
         // HP回復
-        $this->calRemainingHp('reset');
+        $this->calRemainingHp('init');
+        // 全技PP回復
+        $this->calRemainingPpAll('init');
         // 状態異常解除
-        $this->releaseSa();
-        // PP回復
-        $this->calRemainingPp('reset');
+        $this->initSa();
+        // バトルステータスの
+        $this->initBattleStats();
     }
 
 }

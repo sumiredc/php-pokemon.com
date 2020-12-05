@@ -1,6 +1,7 @@
 <?php
-
-// 状態変化
+/**
+* 状態変化
+*/
 abstract class StateChange
 {
 
@@ -15,12 +16,14 @@ abstract class StateChange
     /**
     * 状態変化にかかった際のメッセージを取得
     * @param pokemon:string
+    * @param move:mixed
     * @return string
     */
-    public static function getSickedMessage(string $pokemon, string $param='Standard')
+    public static function getSickedMessage(string $pokemon, $move='')
     {
+        if(is_object($move) || is_array($move)) $move = '';
         if(is_array(static::SICKED_MSG)){
-            return str_replace('::pokemon', $pokemon, static::SICKED_MSG[$param]);
+            return str_replace('::pokemon', $pokemon, static::SICKED_MSG[$move] ?? static::SICKED_MSG[0]);
         }else{
             return str_replace('::pokemon', $pokemon, static::SICKED_MSG);
         }
@@ -29,12 +32,14 @@ abstract class StateChange
     /**
     * 既に状態変化にかかっている際のメッセージを取得
     * @param pokemon:string
+    * @param move:mixed
     * @return string
     */
-    public static function getSickedAlreadyMessage(string $pokemon, string $param='Standard')
+    public static function getSickedAlreadyMessage(string $pokemon, $move='')
     {
+        if(is_object($move) || is_array($move)) $move = '';
         if(is_array(static::SICKED_ALREADY_MSG)){
-            return str_replace('::pokemon', $pokemon, static::SICKED_ALREADY_MSG[$param]);
+            return str_replace('::pokemon', $pokemon, static::SICKED_ALREADY_MSG[$move] ?? static::SICKED_ALREADY_MSG[0]);
         }else{
             return str_replace('::pokemon', $pokemon, static::SICKED_ALREADY_MSG);
         }
@@ -43,12 +48,14 @@ abstract class StateChange
     /**
     * ターンメッセージを取得
     * @param pokemon:string
+    * @param move:mixed
     * @return string
     */
-    public static function getTurnMessage(string $pokemon, string $param='Standard')
+    public static function getTurnMessage(string $pokemon, $move='')
     {
+        if(is_object($move) || is_array($move)) $move = '';
         if(is_array(static::TURN_MSG)){
-            return str_replace('::pokemon', $pokemon, static::TURN_MSG[$param]);
+            return str_replace('::pokemon', $pokemon, static::TURN_MSG[$move] ?? static::TURN_MSG[0]);
         }else{
             return str_replace('::pokemon', $pokemon, static::TURN_MSG);
         }
@@ -58,12 +65,14 @@ abstract class StateChange
     /**
     * 行動失敗時のメッセージを取得
     * @param pokemon:string
+    * @param move:mixed
     * @return string
     */
-    public static function getFailedMessage(string $pokemon, string $param='Standard')
+    public static function getFailedMessage(string $pokemon, $move='')
     {
+        if(is_object($move) || is_array($move)) $move = '';
         if(is_array(static::FAILED_MSG)){
-            return str_replace('::pokemon', $pokemon, static::FAILED_MSG[$param]);
+            return str_replace('::pokemon', $pokemon, static::FAILED_MSG[$move] ?? static::FAILED_MSG[0]);
         }else{
             return str_replace('::pokemon', $pokemon, static::FAILED_MSG);
         }
@@ -72,13 +81,14 @@ abstract class StateChange
     /**
     * 回復時のメッセージを取得
     * @param pokemon:string
-    * @param param:string
+    * @param move:mixed
     * @return string
     */
-    public static function getRecoveryMessage(string $pokemon, string $param='Standard')
+    public static function getRecoveryMessage(string $pokemon, $move='')
     {
+        if(is_object($move) || is_array($move)) $move = '';
         if(is_array(static::RECOVERY_MSG)){
-            return str_replace('::pokemon', $pokemon, static::RECOVERY_MSG[$param]);
+            return str_replace('::pokemon', $pokemon, static::RECOVERY_MSG[$move] ?? static::RECOVERY_MSG[0]);
         }else{
             return str_replace('::pokemon', $pokemon, static::RECOVERY_MSG);
         }

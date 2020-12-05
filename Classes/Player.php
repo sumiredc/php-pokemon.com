@@ -120,7 +120,7 @@ class Player
     * 図鑑の取得
     * @return object::Pokedex
     */
-    public function pokedex()
+    public function pokedex(): object
     {
         return $this->pokedex;
     }

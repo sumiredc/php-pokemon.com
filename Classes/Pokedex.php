@@ -15,40 +15,12 @@ class Pokedex
     protected $pokedex = [];
 
     /**
-    * 一覧取得
-    * @param list:boolean
+    * 図鑑情報の取得
     * @return array
     */
-    public function getPokedex($list=false): array
+    public function get(): array
     {
-        if($list){
-            // リスト化して返却
-            $config = array_slice(
-                config('pokedex'),
-                array_key_first($this->pokedex) - 1,
-                count($this->pokedex)
-            );
-            $pokedex = array_map(function($status, $data){
-                if($status >= 2){
-                    // 捕獲済み
-                    return $data;
-                }elseif($status === 1){
-                    // 発見済み
-                    // 添え番2以降は未調査データのため「-」に書き換え
-                    $unknown = array_fill(2, array_key_last($data), '-');
-                    // 未調査データを上書きして返却
-                    return array_replace($data, $unknown);
-                }else{
-                    // 未発見
-                    return array_fill(0, count($data), '-');
-                }
-            }, $this->pokedex, $config);
-            // キーを採番して返却
-            return array_combine(array_keys($this->pokedex), $pokedex);
-        }else{
-            // そのまま返却
-            return $this->pokedex;
-        }
+        return $this->pokedex;
     }
 
     /**
@@ -80,20 +52,21 @@ class Pokedex
 
     /**
     * 発見
-    * @param pokemon:object::Pokemon
+    * @param pokemon:string|object::Pokemon
     * @return void
     */
-    public function discovery(object $pokemon): void
+    public function discovery($pokemon): void
     {
+        // オブジェクトを受け取った際はクラスを取得
+        if(is_object($pokemon)){
+            $pokemon = get_class($pokemon);
+        }
         // 発見済みの場合は処理中断
-        if(
-            !is_a($pokemon, 'Pokemon') ||
-            ($this->pokedex[$pokemon->getNumber()] ?? 0) >= 1
-        ){
+        if(($this->pokedex[$pokemon::NUMBER] ?? 0) >= 1){
             return;
         }
         // 追加
-        $this->pokedex[$pokemon->getNumber()] = 1;
+        $this->pokedex[$pokemon::NUMBER] = 1;
         // 図鑑の歯抜けを空データで埋める
         $this->fillSpace();
     }
@@ -123,7 +96,7 @@ class Pokedex
     * 図鑑の歯抜けを空データで埋める
     * @return void
     */
-    private function fillSpace()
+    private function fillSpace(): void
     {
         // まずキーを基準に並び替えをする
         ksort($this->pokedex);

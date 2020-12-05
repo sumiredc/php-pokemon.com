@@ -35,7 +35,7 @@ abstract class StatusAilment
     */
     public static function getSickedAlreadyMessage(string $pokemon): string
     {
-        return str_replace('::pokemon', $pokemon, static::SICKED_ALEREADY_MSG);
+        return str_replace('::pokemon', $pokemon, static::SICKED_ALREADY_MSG);
     }
 
     /**
