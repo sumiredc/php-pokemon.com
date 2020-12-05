@@ -1,13 +1,12 @@
 <?php
-$root_path = __DIR__.'/../../..';
-require_once($root_path.'/App/Controllers/Controller.php');
+require_once(app_path('Controllers').'Controller.php');
 // サービス
-require_once($root_path.'/App/Services/Initial/SelectPokemonService.php');
+require_once(app_path('Services.Initial').'SelectPokemonService.php');
 
 // 初期画面用コントローラー
 class InitialController extends Controller
 {
-    
+
     /**
     * @return void
     */

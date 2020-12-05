@@ -1,6 +1,6 @@
 <?php
-$root_path = __DIR__.'/../..';
-require_once($root_path.'/Classes/Move.php');
+
+require_once(root_path('Classes').'Move.php');
 
 // あやしいひかり
 class MoveConfuseRay extends Move

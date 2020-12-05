@@ -1,16 +1,15 @@
 <?php
-$root_path = __DIR__.'/..';
 // クラス
-require_once($root_path.'/Classes/PokemonTransform.php');
+require_once(root_path('Classes').'PokemonTransform.php');
 // トレイト
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonInitTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonSetTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGetTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonIsTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonCalculationTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonReleaseTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonGoTurnTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokemon/ClassPokemonBattleTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonInitTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonSetTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonGetTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonIsTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonCalculationTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonReleaseTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonGoTurnTrait.php');
+require_once(app_path('Traits.Class.Pokemon').'ClassPokemonBattleTrait.php');
 
 // ポケモン
 abstract class Pokemon

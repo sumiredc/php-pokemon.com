@@ -1,7 +1,7 @@
 <?php
 $global_pokebox = $_SESSION['__pokebox'] ?? null;
 // クラス読み込み
-require_once($root_path.'/Classes/Pokebox.php');
+require_once(root_path('Classes').'Pokebox.php');
 
 /**
 * ボックスの取得

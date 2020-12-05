@@ -1,6 +1,5 @@
 <?php
-$root_path = __DIR__.'/../../..';
-require_once($root_path.'/App/Controllers/Controller.php');
+require_once(app_path('Controllers').'Controller.php');
 
 // 404ページ用コントローラー
 class NotFoundController extends Controller

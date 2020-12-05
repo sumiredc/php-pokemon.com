@@ -1,6 +1,5 @@
 <?php
-$root_path = __DIR__.'/../..';
-require_once($root_path.'/Classes/Item.php');
+require_once(root_path('Classes').'Item.php');
 
 /**
 * モンスターボール

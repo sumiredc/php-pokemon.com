@@ -1,8 +1,6 @@
 <?php
 // レスポンス用グローバル関数
-$root_path = __DIR__.'/../..';
-// クラス読み込み
-require_once($root_path.'/Classes/Response.php');
+require_once(root_path('Classes').'Response.php');
 $global_response = new Response;
 
 /**

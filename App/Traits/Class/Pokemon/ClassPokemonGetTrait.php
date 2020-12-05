@@ -39,15 +39,22 @@ trait ClassPokemonGetTrait
 
     /**
     * 画像の取得
-    * @return string
+    * @param pause:string::front|back|mini
+    * @param transform:boolean
+    * @return string::data:base64
     */
-    public function getImage()
+    public function base64(string $pause='front', bool $transform=false): string
     {
-        if($this->isSc('ScTransform')){
-            return $this->getTransform()->pokemon;
+        if(
+            $transform &&
+            $this->isSc('ScTransform')
+        ){
+            $pokemon = $this->getTransform()->pokemon;
         }else{
-            return get_class($this);
+            $pokemon = get_class($this);
         }
+        // base64画像を取得
+        return base64_pokemon($pokemon, $pause);
     }
 
     /**

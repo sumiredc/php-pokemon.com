@@ -70,7 +70,7 @@ trait ServiceBattleExTrait
         if($move::exTransform($atk, $def)){
             // へんしん
             response()->setResponse([
-                'param' => get_class($def),
+                'param' => $def->base64('back'),
                 'action' => 'transform',
                 'target' => $atk->getPosition(),
             ], $this->atk_msg_id);

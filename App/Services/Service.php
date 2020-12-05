@@ -1,6 +1,7 @@
 <?php
-$root_path = __DIR__.'/../..';
-
+/**
+* サービス
+*/
 abstract class Service
 {
 

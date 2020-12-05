@@ -1,15 +1,14 @@
 <?php
-$root_path = __DIR__.'/../../..';
 // 親クラス
-require_once($root_path.'/App/Services/Service.php');
+require_once(app_path('Services').'Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackAfterTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleAttackTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleAttackAfterTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleCheckTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleEnemyAiTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleOrderGenelatorTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleExTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleCalTrait.php');
 
 /**
  * バトル開始

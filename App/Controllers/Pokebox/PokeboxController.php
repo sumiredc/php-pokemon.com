@@ -1,11 +1,11 @@
 <?php
 $root_path = __DIR__.'/../../..';
-require_once($root_path.'/App/Controllers/Controller.php');
+require_once(app_path('Controllers').'Controller.php');
 // サービス
-require_once($root_path.'/App/Services/Pokebox/SwitchService.php');
-require_once($root_path.'/App/Services/Pokebox/DepositService.php');
-require_once($root_path.'/App/Services/Pokebox/ReceiveService.php');
-require_once($root_path.'/App/Services/Pokebox/AddBoxService.php');
+require_once(app_path('Services.Pokebox').'SwitchService.php');
+require_once(app_path('Services.Pokebox').'DepositService.php');
+require_once(app_path('Services.Pokebox').'ReceiveService.php');
+require_once(app_path('Services.Pokebox').'AddBoxService.php');
 
 // ポケモンボックス用コントローラー
 class PokeboxController extends Controller

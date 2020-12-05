@@ -1,9 +1,7 @@
 <?php
-$root_path = __DIR__.'/../../..';
-// 親クラス
-require_once($root_path.'/App/Services/Service.php');
+require_once(app_path('Services').'Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Service/Common/ServiceCommonRegistPokedexTrait.php');
+require_once(app_path('Traits.Service.Common').'ServiceCommonRegistPokedexTrait.php');
 
 /**
  * 進化用サービス

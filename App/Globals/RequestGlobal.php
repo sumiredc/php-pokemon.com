@@ -1,6 +1,6 @@
 <?php
 // クラス読み込み
-require_once($root_path.'/Classes/Request.php');
+require_once(root_path('Classes').'Request.php');
 $global_request = new Request;
 /**
 * 送信された値の取得

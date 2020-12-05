@@ -1,7 +1,7 @@
 <?php
 $global_player = null;
 // クラス読み込み
-require_once($root_path.'/Classes/Player.php');
+require_once(root_path('Classes').'Player.php');
 
 /**
 * プレイヤーの初期化

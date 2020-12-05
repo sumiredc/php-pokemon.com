@@ -1,13 +1,12 @@
 <?php
-$root_path = __DIR__.'/../../..';
-require_once($root_path.'/App/Controllers/Controller.php');
+require_once(app_path('Controllers').'Controller.php');
 // サービス
-require_once($root_path.'/App/Services/Evolve/EvolveService.php');
-require_once($root_path.'/App/Services/Evolve/CancelService.php');
-require_once($root_path.'/App/Services/Evolve/DefaultService.php');
-require_once($root_path.'/App/Services/Evolve/LearnMoveService.php');
+require_once(app_path('Services.Evolve').'EvolveService.php');
+require_once(app_path('Services.Evolve').'CancelService.php');
+require_once(app_path('Services.Evolve').'DefaultService.php');
+require_once(app_path('Services.Evolve').'LearnMoveService.php');
 // トレイト
-require_once($root_path.'/App/Traits/Controller/EvolveControllerTrait.php');
+require_once(app_path('Traits.Controller').'EvolveControllerTrait.php');
 
 // 進化画面用コントローラー
 class EvolveController extends Controller

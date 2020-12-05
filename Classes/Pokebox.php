@@ -1,8 +1,7 @@
 <?php
-$root_path = __DIR__.'/..';
 // トレイト
-require_once($root_path.'/App/Traits/Class/Pokebox/ClassPokeboxBoxTrait.php');
-require_once($root_path.'/App/Traits/Class/Pokebox/ClassPokeboxPokemonTrait.php');
+require_once(app_path('Traits.Class.Pokebox').'ClassPokeboxBoxTrait.php');
+require_once(app_path('Traits.Class.Pokebox').'ClassPokeboxPokemonTrait.php');
 
 // ポケモンボックス
 class Pokebox

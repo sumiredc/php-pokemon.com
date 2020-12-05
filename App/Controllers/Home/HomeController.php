@@ -1,13 +1,12 @@
 <?php
-$root_path = __DIR__.'/../../..';
-require_once($root_path.'/App/Controllers/Controller.php');
+require_once(app_path('Controllers').'Controller.php');
 // サービス
-require_once($root_path.'/App/Services/Home/ItemService.php');
-require_once($root_path.'/App/Services/Home/RecoveryService.php');
-require_once($root_path.'/App/Services/Home/ShopService.php');
-require_once($root_path.'/App/Services/Home/SortPartyService.php');
+require_once(app_path('Services.Home').'ItemService.php');
+require_once(app_path('Services.Home').'RecoveryService.php');
+require_once(app_path('Services.Home').'ShopService.php');
+require_once(app_path('Services.Home').'SortPartyService.php');
 // トレイト
-require_once($root_path.'/App/Traits/Controller/HomeControllerTrait.php');
+require_once(app_path('Traits.Controller').'HomeControllerTrait.php');
 
 // ホーム用コントローラー
 class HomeController extends Controller

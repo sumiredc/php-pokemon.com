@@ -1,16 +1,15 @@
 <?php
-$root_path = __DIR__.'/../../..';
 // 親クラス
-require_once($root_path.'/App/Services/Service.php');
+require_once(app_path('Services').'Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyTurnTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackAfterTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleAttackTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleEnemyTurnTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleAttackAfterTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleCheckTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleEnemyAiTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleOrderGenelatorTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleExTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleCalTrait.php');
 
 /**
 * 交代
@@ -110,7 +109,7 @@ class ChangeService extends Service
             'action' => 'change-out',
             'target' => 'friend',
             'param' => json_encode([
-                'class' => get_class($partner),
+                'base64' => $partner->base64('back'),
                 'name' => $partner->getNickname(),
                 'level' => $partner->getLevel(),
                 'hp_max' => $partner->getStats('H'),

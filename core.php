@@ -24,9 +24,11 @@ $_SESSION['__token'] = bin2hex(openssl_random_pseudo_bytes(32));
 /**
 * グローバル関数
 */
+require_once(__DIR__.'/App/Globals/ConfigGlobal.php');
+require_once(__DIR__.'/App/Globals/PathGlobal.php');
+require_once(__DIR__.'/App/Globals/ImageGlobal.php');
 require_once(__DIR__.'/App/Globals/RequestGlobal.php');
 require_once(__DIR__.'/App/Globals/ResponseGlobal.php');
-require_once(__DIR__.'/App/Globals/ConfigGlobal.php');
 require_once(__DIR__.'/App/Globals/SerializeGlobal.php');
 require_once(__DIR__.'/App/Globals/CommonGlobal.php');
 require_once(__DIR__.'/App/Globals/PlayerGlobal.php');

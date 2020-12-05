@@ -1,12 +1,11 @@
 <?php
-$root_path = __DIR__.'/..';
 // トレイト
-require_once($root_path.'/App/Traits/Class/BattleState/ClassBattleStateFieldTrait.php');
-require_once($root_path.'/App/Traits/Class/BattleState/ClassBattleStateLastMoveTrait.php');
-require_once($root_path.'/App/Traits/Class/BattleState/ClassBattleStateMoneyTrait.php');
-require_once($root_path.'/App/Traits/Class/BattleState/ClassBattleStatePokemonTrait.php');
-require_once($root_path.'/App/Traits/Class/BattleState/ClassBattleStateTransformTrait.php');
-require_once($root_path.'/App/Traits/Class/BattleState/ClassBattleStateTurnDamageTrait.php');
+require_once(app_path('Traits.Class.BattleState').'ClassBattleStateFieldTrait.php');
+require_once(app_path('Traits.Class.BattleState').'ClassBattleStateLastMoveTrait.php');
+require_once(app_path('Traits.Class.BattleState').'ClassBattleStateMoneyTrait.php');
+require_once(app_path('Traits.Class.BattleState').'ClassBattleStatePokemonTrait.php');
+require_once(app_path('Traits.Class.BattleState').'ClassBattleStateTransformTrait.php');
+require_once(app_path('Traits.Class.BattleState').'ClassBattleStateTurnDamageTrait.php');
 
 /**
 * バトル状態クラス

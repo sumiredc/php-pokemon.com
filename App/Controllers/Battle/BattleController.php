@@ -1,15 +1,14 @@
 <?php
-$root_path = __DIR__.'/../../..';
-require_once($root_path.'/App/Controllers/Controller.php');
+require_once(app_path('Controllers').'Controller.php');
 // サービス
-require_once($root_path.'/App/Services/Battle/StartService.php');
-require_once($root_path.'/App/Services/Battle/RunService.php');
-require_once($root_path.'/App/Services/Battle/FightService.php');
-require_once($root_path.'/App/Services/Battle/ItemService.php');
-require_once($root_path.'/App/Services/Battle/ChangeService.php');
-require_once($root_path.'/App/Services/Battle/LearnMoveService.php');
+require_once(app_path('Services.Battle').'StartService.php');
+require_once(app_path('Services.Battle').'RunService.php');
+require_once(app_path('Services.Battle').'FightService.php');
+require_once(app_path('Services.Battle').'ItemService.php');
+require_once(app_path('Services.Battle').'ChangeService.php');
+require_once(app_path('Services.Battle').'LearnMoveService.php');
 // トレイト
-require_once($root_path.'/App/Traits/Controller/BattleControllerTrait.php');
+require_once(app_path('Traits.Controller').'BattleControllerTrait.php');
 
 // バトル用コントローラー
 class BattleController extends Controller
@@ -120,6 +119,8 @@ class BattleController extends Controller
                 * アクション未選択 or 実装されていないアクション
                 */
                 default:
+                // バトル状態が生成されていない場合はエラー
+                if(is_null(battle_state())) throw new Exception;
                 // 判定不要処理
                 battle_state()->judgeFalse();
                 // もしどちらかが戦闘不能状態であればバトルを強制終了
@@ -132,8 +133,8 @@ class BattleController extends Controller
                 break;
             }
         } catch (Exception $ex) {
-            // 初期画面へ移管
-            $_SESSION['__route'] = 'initial';
+            // ホーム画面へ移管
+            $_SESSION['__route'] = 'home';
             // 画面移管
             $this->redirect();
         }

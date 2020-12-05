@@ -1,10 +1,8 @@
 <?php
-$root_path = __DIR__.'/../../..';
-// 親クラス
-require_once($root_path.'/App/Services/Service.php');
+require_once(app_path('Services').'Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Service/Item/ServiceItemUseTrait.php');
-require_once($root_path.'/App/Traits/Service/Item/ServiceItemTrashTrait.php');
+require_once(app_path('Traits.Service.Item').'ServiceItemUseTrait.php');
+require_once(app_path('Traits.Service.Item').'ServiceItemTrashTrait.php');
 
 /**
 * アイテムの操作

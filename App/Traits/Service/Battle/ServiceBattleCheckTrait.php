@@ -307,8 +307,8 @@ trait ServiceBattleCheckTrait
     protected function checkAfterSc(object $sicked_pokemon, object $enemy_pokemon)
     {
         // ひるみ解除
-        $sicked_pokemon->isSc('ScFlinch');
-        // 状態異常にかかっていない
+        $sicked_pokemon->initSc('ScFlinch');
+        // 状態変化にかかっていない
         if(empty($sicked_pokemon->getSc())){
             return;
         }
@@ -395,22 +395,5 @@ trait ServiceBattleCheckTrait
             }
         }
     }
-
-    // /**
-    // * ひんし判定
-    // * @param pokemon:object::Pokemon
-    // * @return boolean
-    // */
-    // protected function checkFainting(object $pokemon)
-    // {
-    //     if($pokemon->getSa() === 'SaFainting'){
-    //         // ひんしポケモンの状態変化を全解除
-    //         $pokemon->initSc();
-    //         return true;
-    //     }else{
-    //         // ひんし状態ではない
-    //         return false;
-    //     }
-    // }
 
 }

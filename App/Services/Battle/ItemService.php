@@ -1,19 +1,18 @@
 <?php
-$root_path = __DIR__.'/../../..';
 // 親クラス
-require_once($root_path.'/App/Services/Service.php');
+require_once(app_path('Services').'Service.php');
 // トレイト
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyTurnTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleAttackAfterTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCheckTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleOrderGenelatorTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleExTrait.php');
-require_once($root_path.'/App/Traits/Service/Battle/ServiceBattleCalTrait.php');
-require_once($root_path.'/App/Traits/Service/Item/ServiceItemUseTrait.php');
-require_once($root_path.'/App/Traits/Service/Item/ServiceItemCaptureTrait.php');
-require_once($root_path.'/App/Traits/Service/Common/ServiceCommonRegistPokedexTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleAttackTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleEnemyTurnTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleAttackAfterTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleCheckTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleEnemyAiTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleOrderGenelatorTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleExTrait.php');
+require_once(app_path('Traits.Service.Battle').'ServiceBattleCalTrait.php');
+require_once(app_path('Traits.Service.Item').'ServiceItemUseTrait.php');
+require_once(app_path('Traits.Service.Item').'ServiceItemCaptureTrait.php');
+require_once(app_path('Traits.Service.Common').'ServiceCommonRegistPokedexTrait.php');
 
 /**
 * どうぐの使用

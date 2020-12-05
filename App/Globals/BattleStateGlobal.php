@@ -1,7 +1,7 @@
 <?php
 $global_battle_state = null;
 // クラス読み込み
-require_once($root_path.'/Classes/BattleState.php');
+require_once(root_path('Classes').'BattleState.php');
 
 /**
 * バトル状態の初期化

@@ -1,7 +1,6 @@
 <?php
-$root_path = __DIR__.'/../../..';
 // 親クラス
-require_once($root_path.'/App/Services/Service.php');
+require_once(app_path('Services').'Service.php');
 
 /**
 * バトル開始
