@@ -1,6 +1,6 @@
 <?php
-$root_path = __DIR__.'/../..';
-require_once($root_path.'/Classes/Type.php');
+
+require_once(root_path('Classes').'Type.php');
 
 // みずタイプ
 class TypeWater extends Type
