@@ -6,7 +6,7 @@
                 <div class="modal-body">
                     <div class="text-center">
                         <figure class="my-3">
-                            <img src="/Assets/img/pokemon/dots/front/<?=$pokemon?>.gif" alt="<?=$pokemon::NAME?>" class="mb-4">
+                            <img src="<?=base64_pokemon($pokemon)?>" alt="<?=$pokemon::NAME?>" class="mb-4">
                             <p class="mb-0"><span class="font-weight-bolder"><?=$pokemon::NAME?></span>を最初のパートナーとして連れていきますか？</p>
                         </figure>
                     </div>

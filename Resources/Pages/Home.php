@@ -6,16 +6,16 @@ $root_path = __DIR__.'/../..';
 <head>
     <?php
     # metaの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/meta.php');
+    include(resources_path('Partials.Layouts.Head').'meta.php');
     # cssの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/css.php');
+    include(resources_path('Partials.Layouts.Head').'css.php');
     ?>
     <link rel="stylesheet" href="/Assets/css/Page/home.css">
 </head>
 <body>
     <?php
     # headerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/header.php');
+    include(resources_path('Partials.Layouts.Head').'header.php');
     ?>
     <main>
         <div class="container-fluid bg-php-back section">
@@ -23,7 +23,7 @@ $root_path = __DIR__.'/../..';
                 <div class="row">
                     <?php
                     # メニュー
-                    include($root_path.'/Resources/Partials/Common/menu.php');
+                    include(resources_path('Partials.Common').'menu.php');
                     ?>
                     <div class="col-12 mb-5 text-center">
                         <img src="/Assets/img/player/red/large/front.gif" alt="プレイヤー">
@@ -32,7 +32,7 @@ $root_path = __DIR__.'/../..';
             </section>
             <hr>
             <section>
-                <?php include($root_path.'/Resources/Partials/Home/action.php'); ?>
+                <?php include(resources_path('Partials.Home').'action.php'); ?>
             </section>
             <section class="p-3">
                 <div class="row">
@@ -48,25 +48,25 @@ $root_path = __DIR__.'/../..';
         </div>
         <?php
         # お知らせ
-        include($root_path.'/Resources/Partials/Common/notice.php');
+        include(resources_path('Partials.Common').'notice.php');
         ?>
     </main>
     <?php
     # footerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
+    include(resources_path('Partials.Layouts.Foot').'footer.php');
     # モーダルの読み込み
-    include($root_path.'/Resources/Partials/Common/Modals/Party/party.php');
-    include($root_path.'/Resources/Partials/Common/Modals/Item/item.php');
-    include($root_path.'/Resources/Partials/Common/Modals/Item/item-trash.php');
-    include($root_path.'/Resources/Partials/Common/Modals/Item/item-use-friend.php');
-    include($root_path.'/Resources/Partials/Home/Modals/pokedex.php');
-    include($root_path.'/Resources/Partials/Home/Modals/player.php');
-    include($root_path.'/Resources/Partials/Home/Modals/shop.php');
-    include($root_path.'/Resources/Partials/Home/Modals/reset.php');
-    include($root_path.'/Resources/Partials/Home/Modals/pokemon-center.php');
-    include($root_path.'/Resources/Partials/Home/Modals/field.php');
+    include(resources_path('Partials.Common.Modals.Party').'party.php');
+    include(resources_path('Partials.Common.Modals.Item').'item.php');
+    include(resources_path('Partials.Common.Modals.Item').'item-trash.php');
+    include(resources_path('Partials.Common.Modals.Item').'item-use-friend.php');
+    include(resources_path('Partials.Home.Modals').'pokedex.php');
+    include(resources_path('Partials.Home.Modals').'player.php');
+    include(resources_path('Partials.Home.Modals').'shop.php');
+    include(resources_path('Partials.Home.Modals').'reset.php');
+    include(resources_path('Partials.Home.Modals').'pokemon-center.php');
+    include(resources_path('Partials.Home.Modals').'field.php');
     # JSの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
+    include(resources_path('Partials.Layouts.Foot').'js.php');
     ?>
     <script src="/Assets/js/Common/item.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Home/home.js" type="text/javascript" defer></script>

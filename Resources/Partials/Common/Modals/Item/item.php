@@ -28,7 +28,6 @@
                     <?php $cnt = 0; ?>
                     <?php foreach($bag as $category => $items): ?>
                         <div class="tab-pane fade show <?php if(!$cnt) echo 'active'; ?>" id="item-modal-<?=$category?>" role="tabpanel" aria-labelledby="item-modal-<?=$category?>">
-                            <h6 class="font-weight-bolder mb-2"><?=transJp($category, 'item');?></h6>
                             <div class="bg-light p-3 mb-2 overflow-auto" style="height:120px;">
                                 <div class="d-flex justify-content-between">
                                     <h6 id="item-modal-<?=$category?>-name" class="font-weight-bolder mb-0 d-flex align-self-center"></h6>

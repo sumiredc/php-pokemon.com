@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="<?=$modal['id']?>-modal-title">
-                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($modal['pokemon'])?>.gif" alt="<?=$modal['pokemon']::NAME?>">
+                    <img src="<?=$modal['pokemon']->base64('mini')?>" alt="<?=$modal['pokemon']::NAME?>">
                     <?=$modal['pokemon']->getNickname()?>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" data-controls="message-box" aria-label="Close">

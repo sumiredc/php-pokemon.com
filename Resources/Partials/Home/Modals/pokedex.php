@@ -47,7 +47,7 @@
                                 <?php $class = ($registed) ? config('pokedex.'.$number) : ''; ?>
                                 <?php if($registed >= 2): ?>
                                     <?php # 捕まえた ?>
-                                    <tr data-class="<?=$class?>" data-name="<?=$class::NAME?>" data-species="<?=$class::SPECIES?>" data-description="<?=$class::DESCRIPTION?>">
+                                    <tr data-base64_front="<?=base64_pokemon($class)?>" data-base64_back="<?=base64_pokemon($class, 'back')?>" data-name="<?=$class::NAME?>" data-species="<?=$class::SPECIES?>" data-description="<?=$class::DESCRIPTION?>">
                                         <th scope="row" style="width:20px;">
                                             <img src="/Assets/img/icon/pokemon.png" alt="捕まえた" style="max-height: 16px;" data-registed="true">
                                         </th>
@@ -56,14 +56,14 @@
                                     </tr>
                                 <?php elseif($registed === 1): ?>
                                     <?php # 見つけた ?>
-                                    <tr data-class="<?=$class?>" data-name="<?=$class::NAME?>" data-species="" data-description="">
+                                    <tr data-base64_front="<?=base64_pokemon($class)?>" data-base64_back="<?=base64_pokemon($class, 'back')?>" data-name="<?=$class::NAME?>" data-species="" data-description="">
                                         <th scope="row" style="width:20px;"><input type="hidden" data-registed="true"></th>
                                         <td style="width:60px;"><?=fillZero($number)?></td>
                                         <td><?=$class::NAME?></td>
                                     </tr>
                                 <?php else: ?>
                                     <?php # 未発見 ?>
-                                    <tr data-class="" data-name="" data-species="" data-description="">
+                                    <tr data-base64_front="" data-base64_back="" data-name="" data-species="" data-description="">
                                         <th scope="row" style="width:20px;"><input type="hidden" data-registed="false"></th>
                                         <td style="width:60px;"><?=fillZero($number)?></td>
                                         <td></td>

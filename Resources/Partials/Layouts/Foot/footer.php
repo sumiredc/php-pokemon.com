@@ -18,13 +18,13 @@ if(response()->isForceModal()){
     $force_modal = response()->getForceModal();
     // 既存モーダルを使用しない場合は読み込み
     if(isset($force_modal['modal'])){
-        include($root_path.'/Resources/Partials/'.getPageName(true).'/Modals/'.$force_modal['modal'].'.php');
+        include(resources_path('Partials.'.getPageName(true).'.Modals').$force_modal['modal'].'.php');
     }
     echo '<input type="hidden" id="force-modal" value="'.($force_modal['existing_modal'] ?? '#'.$force_modal['id'].'-modal').'">';
 }
 # 共通モーダルの読み込み
-include($root_path.'/Resources/Partials/Common/Modals/introduction.php');
-include($root_path.'/Resources/Partials/Common/Modals/Help/help.php');
+include(resources_path('Partials.Common.Modals').'introduction.php');
+include(resources_path('Partials.Common.Modals.Help').'help.php');
 # テンプレートの読み込み
-include($root_path.'/Resources/Partials//Layouts/Templates/template-common.php');
+include(resources_path('Partials.Layouts.Templates').'template-common.php');
 ?>

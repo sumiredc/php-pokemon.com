@@ -6,16 +6,16 @@ $root_path = __DIR__.'/../..';
 <head>
     <?php
     # metaの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/meta.php');
+    include(resources_path('Partials.Layouts.Head').'meta.php');
     # cssの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/css.php');
+    include(resources_path('Partials.Layouts.Head').'css.php');
     ?>
     <link rel="stylesheet" href="/Assets/css/Page/initial.css">
 </head>
 <body>
     <?php
     # headerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/header.php');
+    include(resources_path('Partials.Layouts.Head').'header.php');
     ?>
     <main>
         <div class="container-fluid bg-php-back section">
@@ -61,16 +61,16 @@ $root_path = __DIR__.'/../..';
         </div>
         <?php
         # お知らせ
-        include($root_path.'/Resources/Partials/Common/notice.php');
+        include(resources_path('Partials.Common').'notice.php');
         ?>
     </main>
     <?php
     # footerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
+    include(resources_path('Partials.Layouts.Foot').'footer.php');
     # モーダルの読み込み
-    include($root_path.'/Resources/Partials/Initial/Modals/pokemon.php');
+    include(resources_path('Partials.Initial.Modals').'pokemon.php');
     # JSの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
+    include(resources_path('Partials.Layouts.Foot').'js.php');
     ?>
     <script src="/Assets/js/Initial/initial.js" type="text/javascript" defer></script>
 </body>

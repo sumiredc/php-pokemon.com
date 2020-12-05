@@ -11,7 +11,7 @@
                 <?php foreach(player()->getParty() as $order => $party): ?>
                     <div class="row bg-hover-light pokemon-row" data-pokemon="<?=$order?>">
                         <div class="col-3 text-center">
-                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party::NAME?>">
+                            <img src="<?=$party->base64('mini')?>" alt="<?=$party::NAME?>">
                         </div>
                         <div class="col-9">
                             <div class="row">

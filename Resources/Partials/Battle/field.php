@@ -29,9 +29,8 @@ $before_enemy = battle_state()->getBefore('enemy');
             <input type="image"
             id="enemy-pokemon-image"
             class="action-img-btn <?php if($before_enemy->isFainting()) echo 'opacity-0'; ?>"
-            src="/Assets/img/pokemon/dots/front/<?=$before_enemy->getImage()?>.gif"
+            src="<?=$before_enemy->base64('front', true)?>"
             alt="<?=$before_enemy::NAME?>"
-            data-pokemon="<?=get_class($before_enemy)?>"
             data-toggle="modal"
             data-target="#enemy-battle-state-modal" />
         </div>
@@ -42,9 +41,8 @@ $before_enemy = battle_state()->getBefore('enemy');
             <input type="image"
             id="friend-pokemon-image"
             class="action-img-btn <?php if(response()->getResponse('battle-start') || $before_friend->isFainting()) echo 'opacity-0'; ?>"
-            src="/Assets/img/pokemon/dots/back/<?=$before_friend->getImage()?>.gif"
+            src="<?=$before_friend->base64('back', true)?>"
             alt="<?=$before_friend::NAME?>"
-            data-pokemon="<?=get_class($before_friend)?>"
             data-toggle="modal"
             data-target="#friend-battle-state-modal" />
         </div>

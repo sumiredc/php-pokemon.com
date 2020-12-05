@@ -23,7 +23,7 @@
                         $color = 'php-dark';
                         $form = 'buy';
                         $select = $controller->getShop();
-                        include($root_path.'/Resources/Partials/Home/Forms/shop.php');
+                        include(resources_path('Partials.Home.Forms').'shop.php');
                         ?>
                     </div><!-- buy -->
                     <?php # 売却 ?>
@@ -32,7 +32,7 @@
                         $color = 'php-link';
                         $form = 'sell';
                         $select = player()->getBag();
-                        include($root_path.'/Resources/Partials/Home/Forms/shop.php');
+                        include(resources_path('Partials.Home.Forms').'shop.php');
                         ?>
                     </div><!-- sell -->
                 </div>

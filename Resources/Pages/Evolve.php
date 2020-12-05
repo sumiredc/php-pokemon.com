@@ -1,5 +1,4 @@
 <?php
-$root_path = __DIR__.'/../..';
 $pokemon = $controller->getPokemon();
 ?>
 <!DOCTYPE html>
@@ -7,16 +6,16 @@ $pokemon = $controller->getPokemon();
 <head>
     <?php
     # metaの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/meta.php');
+    include(resources_path('Partials.Layouts.Head').'meta.php');
     # cssの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/css.php');
+    include(resources_path('Partials.Layouts.Head').'css.php');
     ?>
     <link rel="stylesheet" href="/Assets/css/Page/evolve.css">
 </head>
 <body>
     <?php
     # headerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Head/header.php');
+    include(resources_path('Partials.Layouts.Head').'header.php');
     ?>
     <main>
         <div class="container-fluid bg-php-back section">
@@ -25,12 +24,12 @@ $pokemon = $controller->getPokemon();
                     <div class="col-12 text-center my-5">
                         <figure class="position-relative text-center d-inline-block area-evolve">
                             <img id="pokemon-before"
-                            src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif"
+                            src="<?=$pokemon->base64()?>"
                             alt="<?=$pokemon::NAME?>"
                             class="bg-php-back p-5">
                             <?php if($pokemon::$after_class): ?>
                                 <img id="pokemon-after"
-                                src="/Assets/img/pokemon/dots/front/<?=$pokemon::$after_class?>.gif"
+                                src="<?=base64_pokemon($pokemon::$after_class)?>"
                                 alt="進化先"
                                 class="bg-php-back p-5">
                             <?php endif; ?>
@@ -65,13 +64,13 @@ $pokemon = $controller->getPokemon();
     </main>
     <?php
     # footerの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
+    include(resources_path('Partials.Layouts.Foot').'footer.php');
     # モーダルの読み込み
     foreach(response()->modals() as $modal){
-        include($root_path.'/Resources/Partials/Evolve/Modals/'.$modal['modal'].'.php');
+        include(resources_path('Partials.Evolve.Modals').$modal['modal'].'.php');
     }
     # JSの読み込み
-    include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
+    include(resources_path('Partials.Layouts.Foot').'js.php');
     ?>
     <script src="/Assets/js/Common/forget-move.js" type="text/javascript" defer></script>
     <script src="/Assets/js/Common/action-message.js" type="text/javascript" defer></script>

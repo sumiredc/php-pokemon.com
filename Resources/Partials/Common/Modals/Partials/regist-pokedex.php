@@ -4,8 +4,8 @@
             <div class="modal-body">
                 <div class="theme-back mb-3 p-3 rounded">
                     <figure class="d-flex justify-content-around align-items-center mb-3 py-3">
-                        <img src="/Assets/img/pokemon/dots/front/<?=$modal['pokemon']?>.gif" alt="ポケモン-前">
-                        <img src="/Assets/img/pokemon/dots/back/<?=$modal['pokemon']?>.gif" alt="ポケモン-後ろ">
+                        <img src="<?=base64_pokemon($modal['pokemon'])?>" alt="ポケモン-前">
+                        <img src="<?=base64_pokemon($modal['pokemon'], 'back')?>" alt="ポケモン-後ろ">
                     </figure>
                     <div class="bg-php-back rounded p-2">
                         <div class="row">

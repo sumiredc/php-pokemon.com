@@ -7,7 +7,7 @@
     <button type="button" class="btn btn-sm btn-php-dark d-soft-none mx-1" data-category="common" data-btn="details" data-pokemon_id="<?=$pokemon->getId()?>" data-toggle="modal" data-target="#pokemon<?=$pokemon->getId()?>-details-modal">様子を見る</button>
     <?php
     # 詳細モーダルの読み込み
-    include($root_path.'/Resources/Partials/Common/Modals/pokemon-details.php');
+    include(resources_path().'Partials/Common/Modals/pokemon-details.php');
     ?>
 <?php endforeach; ?>
 <?php # パーティー用のボタン ?>

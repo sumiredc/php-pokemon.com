@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="pokemon<?=$pokemon->getId()?>-details-modal-title">
-                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>_ミニ">
+                    <img src="<?=$pokemon->base64('mini')?>" alt="<?=$pokemon::NAME?>_ミニ">
                     <?=$pokemon->getNickname()?>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -13,8 +13,8 @@
             <div class="modal-body overflow-auto my-2" style="height:400px;">
                 <div class="theme-back mb-3 p-3 rounded">
                     <figure class="d-flex justify-content-around align-items-center mb-0" style="min-height:80px;">
-                        <img src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>_前">
-                        <img src="/Assets/img/pokemon/dots/back/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>_後">
+                        <img src="<?=$pokemon->base64()?>" alt="<?=$pokemon::NAME?>_前">
+                        <img src="<?=$pokemon->base64('back')?>" alt="<?=$pokemon::NAME?>_後">
                     </figure>
                 </div>
                 <nav class="nav nav-pills nav-justified btn-group mb-3" id="pokemon<?=$pokemon->getId()?>-details-tab">
@@ -144,7 +144,7 @@
             <div class="modal-footer justify-content-between">
                 <?php # 前のポケモン ?>
                 <?php if($prev = player()->prevPartner($pokemon->getId())): ?>
-                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($prev)?>.gif"
+                    <img src="<?=$prev->base64('mini')?>"
                     alt="<?=$prev::NAME?>"
                     class="cursor-pointer"
                     data-toggle="modal"
@@ -156,7 +156,7 @@
                 <?php endif; ?>
                 <?php # 次のポケモン ?>
                 <?php if($next = player()->nextPartner($pokemon->getId())): ?>
-                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($next)?>.gif"
+                    <img src="<?=$next->base64('mini')?>"
                     alt="<?=$next::NAME?>"
                     class="cursor-pointer"
                     data-toggle="modal"

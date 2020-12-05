@@ -27,7 +27,7 @@
                             data-order="<?=$order?>">
                         <?php endif; ?>
                         <div class="col-3 text-center">
-                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party::NAME?>">
+                            <img src="<?=$party->base64('mini')?>" alt="<?=$party::NAME?>">
                         </div>
                         <div class="col-9">
                             <div class="row">
@@ -100,6 +100,6 @@
 <?php
 // 詳細モーダル
 foreach(player()->getParty() as $pokemon){
-    include($root_path.'/Resources/Partials/Common/Modals/pokemon-details.php');
+    include(resources_path('Partials.Common.Modals').'pokemon-details.php');
 }
 ?>
