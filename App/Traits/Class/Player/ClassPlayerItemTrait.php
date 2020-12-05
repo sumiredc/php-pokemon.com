@@ -6,6 +6,16 @@ trait ClassPlayerItemTrait
 {
 
     /**
+    * どうぐの所有確認
+    * @param order:integer
+    * @return boolean
+    */
+    public function isItem(int $order): bool
+    {
+        return isset($this->items[$order]);
+    }
+
+    /**
     * どうぐの取得
     * @return array
     */
@@ -15,12 +25,36 @@ trait ClassPlayerItemTrait
     }
 
     /**
+    * どうぐの取得(指定)
+    * @param order:integer
+    * @return array
+    */
+    public function getItem(int $order): array
+    {
+        return $this->items[$order] ?? [];
+    }
+
+    /**
+    * どうぐのクラス名を取得
+    * @param order:integer
+    * @return string
+    */
+    public function getItemClass(int $order): string
+    {
+        return $this->items[$order]['class'] ?? '';
+    }
+
+    /**
     * 所有数の取得
-    * @param item:string
+    * @param item:mixed::string|integer
     * @return integer
     */
-    public function getItemCount(string $item): int
+    public function getItemCount($item): int
     {
+        // アイテム番号指定(サニタイズした値が来るのでis_int不可)
+        if(is_numeric($item)){
+            return $this->items[$item]['count'] ?? 0;
+        }
         // 初期値
         $count = 0;
         // アイテム検索
@@ -28,11 +62,12 @@ trait ClassPlayerItemTrait
             $item,
             array_column($this->items, 'class')
         );
-        // もし所有していれば所有数を取得
+        // 番号が返ってくれば数を返却
         if(is_int($key)){
-            $count = $this->items[$key]['count'];
+            return $this->items[$key]['count'] ?? 0;
+        }else{
+            return 0;
         }
-        return $count;
     }
 
     /**

@@ -103,13 +103,13 @@ trait ClassPlayerPartyTrait
     * @param evolve:Pokemon
     * @return void
     */
-    public function evolvePartner($order, $evolve): void
+    public function evolvePartner(int $order, object $evolve): void
     {
         // 進化が可能かを入念にチェック
         if(
             isset($this->party[$order]) &&
             $this->party[$order]->getEvolveFlg() &&
-            ($this->party[$order]->getAfterClass() === get_class($evolve))
+            $this->party[$order]::$after_class === get_class($evolve)
         ){
             $this->party[$order] = $evolve;
         }
@@ -120,7 +120,7 @@ trait ClassPlayerPartyTrait
     * @param id:string
     * @return void
     */
-    public function releasePartner($id): void
+    public function releasePartner(string $id): void
     {
         // ポケモンIDを使って取得
         $partner = array_filter($this->party, function($partner) use($id){
@@ -129,6 +129,49 @@ trait ClassPlayerPartyTrait
         // ポケモンが見つかれば削除
         if($partner){
             unset($this->party[array_key_first($partner)]);
+        }
+    }
+
+    /**
+    * 指定したポケモンの手前のポケモン番号を取得
+    * @param id:string
+    * @return integer|false
+    */
+    public function prevPartner(string $id)
+    {
+        $partner = array_filter($this->party, function($partner) use($id){
+            return $partner->getId() === $id;
+        });
+        $order = array_key_first($partner);
+        if(empty($order)){
+            // 0番（最初）または見つからなければnull
+            return null;
+        }else{
+            // 1引いた番号を返却
+            return $this->party[--$order];
+        }
+    }
+
+    /**
+    * 指定したポケモンの次のポケモン番号を取得
+    * @param id:string
+    * @return object::Pokemon|false
+    */
+    public function nextPartner(string $id)
+    {
+        $partner = array_filter($this->party, function($partner) use($id){
+            return $partner->getId() === $id;
+        });
+        $order = array_key_first($partner);
+        if(
+            is_null($order) ||
+            array_key_last($this->party) === $order
+        ){
+            // 最終番号または見つからなければnull
+            return null;
+        }else{
+            // 次のポケモン情報を返却
+            return $this->party[++$order];
         }
     }
 
