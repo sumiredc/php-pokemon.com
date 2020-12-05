@@ -19,7 +19,7 @@ class ScBind extends StateChange
     * @var string
     */
     public const SICKED_MSG = [
-        'Standard' => '::pokemonは、しめつけられた',
+        0 => '::pokemonは、しめつけられた',
         'MoveFireSpin' => '::pokemonは、ほのおのうずに閉じ込められた',
     ];
 
@@ -28,7 +28,7 @@ class ScBind extends StateChange
     * @var string
     */
     public const TURN_MSG = [
-        'Standard' => '::pokemonは、しめつけられている',
+        0 => '::pokemonは、しめつけられている',
         'MoveFireSpin' => '::pokemonは、ほのおのうずに巻き込まれている',
     ];
 
@@ -37,7 +37,7 @@ class ScBind extends StateChange
     * @var string
     */
     public const RECOVERY_MSG = [
-        'Standard' => '::pokemonは、しめつけから開放された',
+        0 => '::pokemonは、しめつけから開放された',
         'MoveFireSpin' => '::pokemonは、ほのおのうずから抜け出した',
     ];
 
