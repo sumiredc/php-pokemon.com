@@ -2,7 +2,7 @@
 /**
 * オートローダー
 */
-class AutoLoader
+abstract class AutoLoader
 {
 
     /**
@@ -14,29 +14,38 @@ class AutoLoader
     ];
 
     /**
-    * オートローダーの実行
+    * 起動
     * @return void
     */
-    public function __construct()
+    public static function init()
     {
-        spl_autoload_register([$this, 'autoLoader']);
+        spl_autoload_register(function($class){
+            // クラス名からファイルを検索
+            foreach(self::FOLDERS as $folder){
+                $path = __DIR__ . '/../Classes/'.$folder.'/'.$class.'.php';
+                if(file_exists($path)){
+                    // 見つかった場合は読み込み実行
+                    require $path;
+                    break;
+                }
+            }
+        });
     }
 
-    /**
-    * コールバック用メソッド
-    * @return void
-    */
-    private function autoLoader(string $class_name): void
-    {
-        // クラス名からファイルを検索
-        foreach(self::FOLDERS as $folder){
-            $path = __DIR__ . '/../Classes/'.$folder.'/'.$class_name.'.php';
-            if(file_exists($path)){
-                // 見つかった場合は読み込み実行
-                require $path;
-                break;
-            }
-        }
-    }
-    
+    // /**
+    // * @return void
+    // */
+    // private function load(string $class_name): void
+    // {
+    //     // クラス名からファイルを検索
+    //     foreach(self::FOLDERS as $folder){
+    //         $path = __DIR__ . '/../Classes/'.$folder.'/'.$class_name.'.php';
+    //         if(file_exists($path)){
+    //             // 見つかった場合は読み込み実行
+    //             require $path;
+    //             break;
+    //         }
+    //     }
+    // }
+
 }
