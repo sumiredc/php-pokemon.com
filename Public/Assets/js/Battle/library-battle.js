@@ -144,13 +144,8 @@ window.battleLib.doAnimateSaRelease = function (target){
 */
 window.battleLib.doAnimateTransform = function (target, param){
     return new Promise ((resolve, reject) => {
-        // 対象のポケモン画像を指定
-        var img = $('#' + target + '-pokemon-image');
-        // へんしん前のポケモンクラスを取得
-        var before = img.data('pokemon');
-        // srcを書き換える
-        var src = img.attr('src').replace(before, param);
-        img.attr('src', src);
+        // 対象のポケモン画像を変更
+        var img = $('#' + target + '-pokemon-image').attr('src', param);
         resolve();
     });
 }
@@ -178,7 +173,7 @@ window.battleLib.doAnimateChangeOut = function (target, param){
     return new Promise ( async (resolve, reject) => {
         // 交代後のポケモンの画像を生成
         var img = $('#' + target + '-pokemon-image');
-        img.attr('src', '/Assets/img/pokemon/dots/back/' + param.class + '.gif')
+        img.attr('src', param.base64)
         // HPの生成
         var hpbar = $('#hpbar-' + target);
         hpbar.css('width', param.hp_per + '%');

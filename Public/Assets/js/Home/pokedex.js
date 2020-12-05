@@ -8,9 +8,8 @@
 * @return void
 **/
 var selectPokedexInit = function(){
-    $('#pokedex-list-table > tbody > tr').on('click', function(){
+    $('#pokedex-list-table > tbody > tr').on('click', function(tr){
         var preview = $('#pokedex-preview');
-        var class_name = $(this).data('class');
         var name = $(this).data('name');
         var species = $(this).data('species');
         var description = $(this).data('description');
@@ -19,8 +18,9 @@ var selectPokedexInit = function(){
         if(registed){
             // 登録済み
             $.each(['front', 'back'], function(index, val){
+                var base64 = $(tr.currentTarget).data('base64_' + val);
                 preview.find('[data-pokemon="image-' + val + '"]')
-                .attr('src', '/Assets/img/pokemon/dots/' + val + '/' + class_name + '.gif')
+                .attr('src', base64)
                 .show();
             })
         }else{
