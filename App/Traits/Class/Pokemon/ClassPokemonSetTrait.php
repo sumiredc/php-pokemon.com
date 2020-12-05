@@ -1,4 +1,7 @@
 <?php
+/**
+* 格納用トレイト
+*/
 trait ClassPokemonSetTrait
 {
 
@@ -7,9 +10,12 @@ trait ClassPokemonSetTrait
     * @param string
     * @return boolean
     */
-    public function setNickname($nickname): bool
+    public function setNickname(string $nickname): bool
     {
-        if(empty($nickname) || mb_strlen($nickname, 'UTF-8') > 5){
+        if(
+            empty($nickname) ||
+            mb_strlen($nickname, 'UTF-8') > 5
+        ){
             response()->setMessage('ニックネームは１〜５文字で入力してください');
             return false;
         }else{
@@ -24,7 +30,7 @@ trait ClassPokemonSetTrait
     * @param level:integer
     * @return void
     */
-    public function setLevel($level=5)
+    public function setLevel(int $level=5): void
     {
         // 指定されたレベルをセット
         $this->level = $level;
@@ -35,7 +41,7 @@ trait ClassPokemonSetTrait
     * @param position:string::friend|enemy
     * @return void
     */
-    public function setPosition($position='friend')
+    public function setPosition($position='friend'): void
     {
         // 入力制限
         if(in_array($position, config('pokemon.position'), true)){
@@ -55,7 +61,7 @@ trait ClassPokemonSetTrait
     * 進化フラグをfalseにする
     * @return void
     */
-    public function setEvolveFlgFalse()
+    public function setEvolveFlgFalse(): void
     {
         $this->evolve_flg = false;
     }
@@ -67,7 +73,7 @@ trait ClassPokemonSetTrait
     protected function setDefaultMove(): void
     {
         // レベル順に並び替えて取得(array_multisortが破壊的な関数のため)
-        $move_list = $this->level_move;
+        $move_list = static::LEVEL_MOVE;
         $keys = array_column($move_list, 0);
         array_multisort($keys, SORT_ASC, $move_list);
         // 低レベルから順番に技を取得
@@ -114,9 +120,9 @@ trait ClassPokemonSetTrait
 
     /**
     * 初期経験値をセットする
-    * @return integer
+    * @return void
     */
-    public function setDefaultExp()
+    public function setDefaultExp(): void
     {
         $this->exp = $this->level ** 3;
     }
@@ -124,14 +130,14 @@ trait ClassPokemonSetTrait
     /**
     * 残りHPをセット
     * @param val:integer
-    * @return integer
+    * @return void
     */
-    public function setRemainingHp($val)
+    public function setRemainingHp($val): void
     {
         // 0超過、最大HP以下
         if(
             $val > 0 &&
-            $this->getStats('HP') >= $val
+            $this->getStats('H') >= $val
         ){
             $this->remaining_hp = $val;
         }
@@ -142,18 +148,18 @@ trait ClassPokemonSetTrait
     * @param exp:integer
     * @return void
     */
-    public function setExp(int $exp)
+    public function setExp(int $exp): void
     {
         // 次のレベルに必要な経験値を取得
         $next_exp = $this->getReqLevelUpExp();
         // 経験値を加算
         $this->exp += $exp;
         // メッセージIDを生成
-        $msg_id = issueMsgId();
+        $msg_id = response()->issueMsgId();
         response()->setMessage($this->getNickname().'は経験値を'.$exp.'手に入れた！', $msg_id);
         // レベル上限の確認
         if($this->level >= 100){
-            return $this;
+            return;
         }
         if($next_exp <= $exp){
             $levelup = true;
@@ -165,20 +171,20 @@ trait ClassPokemonSetTrait
             // レベルアップ処理ループ
             while($this->getReqLevelUpExp() < 0){
                 // メッセージIDを再生成
-                $msg_id = issueMsgId();
-                setAutoMessage($msg_id);
+                $msg_id = response()->issueMsgId();
+                response()->setAutoMessage($msg_id);
                 // レベルアップ処理
                 $this->actionLevelUp($msg_id);
             }
             // 全レベルアップ処理終了後、メッセージIDを再生成(戦闘ポケモンのみ)
             if(battle_state()->getPokemonId() === $this->id){
-                $msg_id = issueMsgId();
-                setAutoMessage($msg_id);
+                $msg_id = response()->issueMsgId();
+                response()->setAutoMessage($msg_id);
             }
         }
         // 経験値バーの最終アニメーション用レスポンス(戦闘ポケモンのみ)
         if(battle_state()->getPokemonId() === $this->id){
-            setResponse([
+            response()->setResponse([
                 'param' => $this->getPerCompNexExp(),
                 'action' => 'expbar',
             ], $msg_id);
@@ -186,8 +192,8 @@ trait ClassPokemonSetTrait
         // 進化判定
         if(
             isset($levelup) &&
-            isset($this->evolve_level) &&
-            $this->evolve_level <= $this->level
+            !is_null(static::EVOLVE_LEVEL) &&
+            static::EVOLVE_LEVEL <= $this->level
         ){
             $this->evolve_flg = true;
         }
@@ -195,10 +201,10 @@ trait ClassPokemonSetTrait
 
     /**
     * 努力値をセット（取得）する
-    * @param array $reward_ev
+    * @param reward_ev:array
     * @return void
     */
-    public function setEv($reward_ev)
+    public function setEv(array $reward_ev): void
     {
         // 最大努力値合計は510
         if(array_sum($this->ev) >= 510){
@@ -221,45 +227,6 @@ trait ClassPokemonSetTrait
     }
 
     /**
-    * 個体値をセットする
-    * @return void
-    */
-    protected function setIv()
-    {
-        $this->iv = array_map(function(){
-            // 0〜31の間でランダムの数値を割り振る
-            return random_int(0, 31);
-        }, $this->iv);
-    }
-
-    /**
-    * ランク（バトルステータス）をセットする
-    * @param array|string $rank
-    * @return void
-    */
-    public function setRank($rank): void
-    {
-        // 初期化
-        if($rank === 'reset'){
-            $this->rank = [
-                'Attack' => 0,
-                'Defense' => 0,
-                'SpAtk' => 0,
-                'SpDef' => 0,
-                'Speed' => 0,
-                'Critical' => 0,
-                'Accuracy' => 0,
-                'Evasion' => 0,
-            ];
-            return;
-        }
-        // ランクをセット
-        if(is_array($rank)){
-            $this->rank = $rank;
-        }
-    }
-
-    /**
     * 状態異常の格納
     * @param class:string
     * @param turn:integer
@@ -270,8 +237,8 @@ trait ClassPokemonSetTrait
         // ひんしをセット
         if($class === 'SaFainting'){
             $this->sa = [$class => $turn];
-            // ランク・状態変化をリセット
-            $this->releaseBattleStatsAll();
+            // バトル専用ステータスを全解除
+            $this->initBattleStats();
             // 進化フラグがtureになっていればfalseに変更
             if($this->evolve_flg){
                 $this->evolve_flg = false;
@@ -303,29 +270,6 @@ trait ClassPokemonSetTrait
         return [
             'message' => 'しかし上手く決まらなかった'
         ];
-    }
-
-    /**
-    * 状態変化をセットする
-    * @param class:string
-    * @param turn:integer
-    * @param param:string
-    * @return string
-    */
-    public function setSc(string $class, $turn=0, $param='Standard'): string
-    {
-        // 状態変化のセット確認
-        if(isset($this->sc[$class])){
-            // 既に同じ状態変化にかかっている
-            return $class::getSickedAlreadyMessage($this->getPrefixName(), $param);
-        }else{
-            // 状態変化をセット
-            $this->sc[$class] = [
-                'turn' => $turn,
-                'param' => $param,
-            ];
-            return $class::getSickedMessage($this->getPrefixName(), $param);
-        }
     }
 
 }

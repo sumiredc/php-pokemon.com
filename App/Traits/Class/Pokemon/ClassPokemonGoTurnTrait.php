@@ -9,16 +9,19 @@ trait ClassPokemonGoTurnTrait
     public function goSaTurn(bool $release=true): void
     {
         // 状態異常クラスを取得
-        $sa = $this->getSa();
-        switch ($sa) {
+        $class = $this->getSa();
+        switch ($class) {
             /**
             * ねむり
             */
             case 'SaSleep':
             // 残ターン数を1マイナス
-            $this->sa[$sa]--;
+            $this->sa[$class]--;
             // $releaseがtrueなら解除判定
-            if($release && ($this->sa[$sa] <= 0)){
+            if(
+                $release &&
+                $this->sa[$class] <= 0
+            ){
                 $this->sa = [];
             }
             break;
@@ -27,10 +30,10 @@ trait ClassPokemonGoTurnTrait
             */
             case 'SaBadPoison':
             // 経過ターン数を1プラス（最大15）
-            if($this->sa[$sa] <= 14){
-                $this->sa[$sa]++;
+            if($this->sa[$class] <= 14){
+                $this->sa[$class]++;
             }else{
-                $this->sa[$sa] = 15;
+                $this->sa[$class] = 15;
             }
             break;
         }
@@ -43,11 +46,10 @@ trait ClassPokemonGoTurnTrait
     * @param release:boolean
     * @return void
     */
-    public function goScTurn(string $class, bool $release=true)
+    public function goScTurn(string $class, bool $release=true): void
     {
         // 状態変化を取得
-        $sc = $this->getSc();
-        if(isset($sc[$class])){
+        if($this->isSc($class)){
             // 残ターン数を1マイナス
             $this->sc[$class]['turn']--;
             // $releaseがtrueなら解除チェック

@@ -4,74 +4,20 @@
 */
 trait ClassPokemonCalculationTrait
 {
-    /**
-    * ランクの加算
-    * @param param:string
-    * @param val:integer::min:1|max:12
-    * @return string
-    */
-    public function addRank(string $param, int $val): string
-    {
-        // 変化ランクに合わせたメッセージ
-        $msg = [
-            1 => '上がった',
-            2 => 'ぐーんと上がった',
-            3 => 'ぐぐーんと上がった',
-            12 => '最大まで上がった',
-        ];
-        // 既にランクが最大であればfalseを返却
-        if($this->rank[$param] === 6){
-            return $this->getPrefixName().'の'.transJp($param, 'stats').'はもう上がらない';
-        }
-        // 加算処理
-        $this->rank[$param] += $val;
-        // 最大値は6
-        if($this->rank[$param] > 6){
-            $this->rank[$param] = 6;
-        }
-        return $this->getPrefixName().'の'.transJp($param, 'stats').'が'.($msg[$val] ?? $msg[3]);
-    }
-
-    /**
-    * ランクの減算
-    * @param param:string
-    * @param val:integer::min:1|max:3
-    * @return string
-    */
-    public function subRank(string $param, int $val): string
-    {
-        // 変化ランクに合わせたメッセージ
-        $msg = [
-            1 => '下がった',
-            2 => 'がくっと下がった',
-            3 => 'がくーんと下がった',
-        ];
-        // 既にランクが最低であればfalseを返却
-        if($this->rank[$param] === -6){
-            return $this->getPrefixName().'の'.transJp($param, 'stats').'はもう下がらない';
-        }
-        // 減算処理
-        $this->rank[$param] -= $val;
-        // 最低値は-6
-        if($this->rank[$param] < -6){
-            $this->rank[$param] = -6;
-        }
-        return $this->getPrefixName().'の'.transJp($param, 'stats').'が'.$msg[$val] ?? $msg[3];
-    }
 
     /**
     * 残りHPの計算
-    * @param param:string::reset|death|sub|add
+    * @param operator:string::init|death|sub|add
     * @param val:integer
     * @return integer
     */
-    public function calRemainingHp($param, int $val=0): int
+    public function calRemainingHp(string $operator='init', int $val=0): int
     {
-        switch ($param) {
+        switch ($operator) {
             // リセット処理
-            case 'reset':
+            case 'init':
             // 最大HPをセット
-            $this->remaining_hp = $this->getStats('HP');
+            $this->remaining_hp = $this->getStats('H');
             break;
             // 即死処理
             case 'death':
@@ -84,15 +30,15 @@ trait ClassPokemonCalculationTrait
             // 加算処理
             case 'add':
             $this->remaining_hp += $val;
-            // 最大HPを超えないようにする
-            if($this->remaining_hp > $this->getStats('HP')){
-                $this->remaining_hp = $this->getStats('HP');
+            // 最大HPの超過を防止
+            if($this->remaining_hp > $this->getStats('H')){
+                $this->remaining_hp = $this->getStats('H');
             }
             break;
         }
         // 復活処理（ひんしからの回復）
         if(
-            !$this->isFight() &&
+            isset($this->sa['SaFainting']) &&
             $this->remaining_hp > 0
         ){
             unset($this->sa['SaFainting']);
@@ -115,67 +61,92 @@ trait ClassPokemonCalculationTrait
     }
 
     /**
-    * 残りPPの計算
-    * @param param:string::reset|sub|add
+    * 指定された技の残りPPの計算処理
+    * @param order:integer
+    * @param operator:string::init|sub|add
     * @param val:integer
-    * @param order:integer # 技番号
+    * @return void
+    */
+    public function calRemainingPp(int $order, string $operator='init', int $val=0): void
+    {
+        switch ($operator) {
+            // =====================
+            // 初期化(全回復)
+            // =====================
+            case 'init':
+            // 指定された技PPを全回復
+            $this->move[$order]['remaining'] = $this->move[$order]::getPp($this->move[$order]['correction']);
+            break;
+            // =====================
+            // 減算
+            // =====================
+            case 'sub':
+            $this->move[$order]['remaining'] -= $val;
+            if($this->move[$order]['remaining'] < 0){
+                // 最小値の処理
+                $this->move[$order]['remaining'] = 0;
+            }
+            break;
+            // =====================
+            // 加算
+            // =====================
+            case 'add':
+            $class = $this->move[$order]['class'];
+            $correction = $this->move[$order]['correction'];
+            // 加算
+            $this->move[$order]['remaining'] += $val;
+            // 最大値の確認
+            if($this->move[$order]['remaining'] > $class::getPp($correction)){
+                // 最大値の
+                $this->move[$order]['remaining'] = $class::getPp($correction);
+            }
+            break;
+        }
+    }
+
+    /**
+    * 全残りPPの計算処理
+    * @param param:string::init|sub|add
+    * @param val:integer
     * @return integer
     */
-    public function calRemainingPp(string $param, int $val=0, $order=null): void
+    public function calRemainingPpAll(string $operator='init', int $val=0): void
     {
-        switch ($param) {
-            // リセット処理
-            case 'reset':
-            if(is_null($order)){
-                // すべてのPPを全回復
-                foreach($this->getMove() as $key => $move){
-                    $this->move[$key]['remaining'] = $move['class']::getPp($move['correction']);
-                }
-            }else{
-                // 指定された技PPを全回復
-                $this->move[$order]['remaining'] = $this->move[$order]::getPp($this->move[$order]['correction']);
-            }
+        switch ($operator) {
+            // =====================
+            // 初期化(全回復)
+            // =====================
+            case 'init':
+            $this->move = array_map(function($move){
+                $move['remaining'] = $move['class']::getPp($move['correction']);
+                return $move;
+            }, $this->move);
             break;
-            // 減算処理
+            // =====================
+            // 減算
+            // =====================
             case 'sub':
-            if(is_null($order)){
-                // すべてのPPに減算処理
-                foreach($this->move as $key => $move){
-                    $this->move[$key]['remaining'] -= $val;
-                    if($this->move[$key]['remaining'] < 0){
-                        // 最小値の処理
-                        $this->move[$key]['remaining'] = 0;
-                    }
+            $this->move = array_map(function($move) use($val){
+                // 0以下でなければ減算
+                if($move['remaining'] <= 0) {
+                    $move['remaining'] -= $val;
                 }
-            }else{
-                // 指定された技PPに減算処理
-                $this->move[$order]['remaining'] -= $val;
-                if($this->move[$order]['remaining'] < 0){
-                    // 最小値の処理
-                    $this->move[$order]['remaining'] = 0;
-                }
-            }
+                return $move;
+            }, $this->move);
             break;
-            // 加算処理
+            // =====================
+            // 加算
+            // =====================
             case 'add':
-            if(is_null($order)){
-                // すべてのPPに加算処理
-                foreach($this->getMove() as $key => $move){
-                    $this->move[$key]['remaining'] += $val;
-                    if($this->move[$key]['remaining'] > $move['class']::getPp($move['correction'])){
-                        // 最大値の処理
-                        $this->move[$key]['remaining'] = $move['class']::getPp($move['correction']);
-                    }
+            $this->move = array_map(function($move) use($val){
+                // 加算
+                $move['remaining'] += $val;
+                // 最大値の確認
+                if($move['remaining'] > $move['class']::getPp($move['correction'])) {
+                    $move['remaining'] = $move['class']::getPp($move['correction']);
                 }
-            }else{
-                // 指定されたPPに加算処理
-                $move = $this->move[$order]; # 対象技クラスを取得
-                $this->move[$order]['remaining'] += $val;
-                if($this->move[$order]['remaining'] > $move::getPp($this->move[$order]['correction'])){
-                    // 最大値の処理
-                    $this->move[$order]['remaining'] = $move::getPp($this->move[$order]['correction']);
-                }
-            }
+                return $move;
+            }, $this->move);
             break;
         }
     }

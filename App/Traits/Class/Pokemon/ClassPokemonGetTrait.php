@@ -1,23 +1,15 @@
 <?php
+/**
+* 取得用トレイト
+*/
 trait ClassPokemonGetTrait
 {
 
     /**
-    * タイプ名の取得
-    * @return array
-    */
-    public function getTypeNames()
-    {
-        return array_map(function($type){
-            return $type::NAME;
-        }, $this->types);
-    }
-
-    /**
     * IDを取得する
-    * @return string|null
+    * @return string
     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -33,32 +25,36 @@ trait ClassPokemonGetTrait
             // ゼロ埋め
             $zero = '';
             // ゼロ必要数の算出
-            $zero_count = 3 - strlen($this->number);
+            $zero_count = 3 - strlen(static::NUMBER);
             for ($i=0; $i < $zero_count; $i++) {
                 $zero = $zero.'0';
             }
             // ゼロ埋め返却
-            return $zero.$this->number;
+            return $zero.static::NUMBER;
         }else{
             // ナンバー返却
-            return $this->number;
+            return static::NUMBER;
         }
     }
 
     /**
-    * 正式名称を取得する
+    * 画像の取得
     * @return string
     */
-    public function getName()
+    public function getImage()
     {
-        return $this->name;
+        if($this->isSc('ScTransform')){
+            return $this->getTransform()->pokemon;
+        }else{
+            return get_class($this);
+        }
     }
 
     /**
     * 名前の手前に接頭語を付ける（相手の）
     * @return string
     */
-    public function getPrefixName()
+    public function getPrefixName(): string
     {
         if($this->position === 'enemy'){
             return '相手の'.$this->getNickname();
@@ -71,10 +67,10 @@ trait ClassPokemonGetTrait
     * ニックネームを取得する
     * @return string
     */
-    public function getNickname()
+    public function getNickname(): string
     {
         if(empty($this->nickname)){
-            return $this->name;
+            return static::NAME;
         }
         return $this->nickname;
     }
@@ -83,18 +79,20 @@ trait ClassPokemonGetTrait
     * 立場を取得する
     * @return string
     */
-    public function getPosition()
+    public function getPosition(): string
     {
         return $this->position;
     }
 
     /**
-    * 進化先のクラスを取得する
-    * @return string
+    * タイプ名の取得
+    * @return array
     */
-    public function getAfterClass()
+    public function getTypeNames(): array
     {
-        return $this->after_class ?? '';
+        return array_map(function($type){
+            return $type::NAME;
+        }, static::TYPES);
     }
 
     /**
@@ -102,7 +100,7 @@ trait ClassPokemonGetTrait
     * @param order:integer
     * @return array
     */
-    public function getMove($order=null)
+    public function getMove($order=null): array
     {
         if(is_null($order)){
             // 全返却
@@ -117,25 +115,16 @@ trait ClassPokemonGetTrait
     * 進化フラグを取得する
     * @return boolean
     */
-    public function getEvolveFlg()
+    public function getEvolveFlg(): bool
     {
         return $this->evolve_flg;
-    }
-
-    /**
-    * へんしんフラグを取得する
-    * @return boolean
-    */
-    public function getTransformFlg()
-    {
-        return $this->transform_flg;
     }
 
     /**
     * 現在のレベルを取得する
     * @return integer
     */
-    public function getLevel()
+    public function getLevel(): int
     {
         return $this->level;
     }
@@ -144,72 +133,37 @@ trait ClassPokemonGetTrait
     * 現在の経験値を取得する
     * @return integer
     */
-    public function getExp()
+    public function getExp(): int
     {
         return $this->exp;
-    }
-
-    /**
-    * 基礎経験値を取得する
-    * @return integer
-    */
-    public function getBaseExp()
-    {
-        return $this->base_exp;
-    }
-
-    /**
-    * 捕捉率を取得する
-    * @return integer
-    */
-    public function getCapture()
-    {
-        return $this->capture;
-    }
-
-    /**
-    * 重さを取得する
-    * @return numeric
-    */
-    public function getWeight()
-    {
-        return $this->weight;
     }
 
     /**
     * 努力値を取得する
     * @return array
     */
-    public function getEv()
+    public function getEv(): array
     {
         return $this->ev;
+    }
+
+    /**
+    * 努力値の達成割合を取得する
+    * @param key:string
+    * @return float
+    */
+    public function getEvPer($key=''): float
+    {
+        return ($this->ev[$key] ?? 0) / 252 * 100;
     }
 
     /**
     * 個体値を取得する
     * @return array
     */
-    public function getIv()
+    public function getIv(): array
     {
         return $this->iv;
-    }
-
-    /**
-    * 種族値を取得する
-    * @return array
-    */
-    public function getBaseStats()
-    {
-        return $this->base_stats;
-    }
-
-    /**
-    * 獲得努力値を取得する
-    * @return array
-    */
-    public function getRewardEv()
-    {
-        return $this->reward_ev;
     }
 
     /**
@@ -225,10 +179,10 @@ trait ClassPokemonGetTrait
     }
 
     /**
-    * 現在のレベルから次のレベルまでの経験値達成率
-    * @return integer
+    * 現在から次のレベルまでの経験値達成率
+    * @return float
     */
-    public function getPerCompNexExp()
+    public function getPerCompNexExp(): float
     {
         if($this->level >= 100){
             return 100;
@@ -247,7 +201,7 @@ trait ClassPokemonGetTrait
     * @param string::class|turn|all
     * @return mixed
     */
-    public function getSa($param='class')
+    public function getSa(string $param='class')
     {
         // そのまま返却
         if($param === 'all'){
@@ -268,73 +222,31 @@ trait ClassPokemonGetTrait
     }
 
     /**
-    * 現在の状態変化を取得する
-    * @param class:string
-    * @param turn:boolean
-    * @param param:boolean
-    * @param object_flg:boolean
+    * 残りHPを取得
+    * @return return:string::per|color
     * @return mixed
     */
-    public function getSc(string $class='', bool $turn=false, bool $param=false)
+    public function getRemainingHp(string $return='')
     {
-        if(empty($class)){
-            // 全状態異常を取得
-            return $this->sc;
-        }else{
-            if($this->checkSc($class)){
-                // 残ターン数を取得
-                if($turn){
-                    return $this->sc[$class]['turn'];
-                }
-                // パラメーターを取得
-                if($param){
-                    return $this->sc[$class]['param'];
-                }
-            }
+        // 全返却
+        if(empty($return)){
+            return $this->remaining_hp;
         }
-    }
-
-    // /**
-    // * 現在の状態変化をインスタンス化して配列で取得する
-    // * @return array
-    // */
-    // public function getScObject()
-    // {
-    //     return array_map(function($class){
-    //         return new $class;
-    //     }, array_keys($this->sc));
-    // }
-
-    /**
-    * 残りHPを取得
-    * @return string $param (per|color)
-    * @return integer
-    */
-    public function getRemainingHp($param='')
-    {
-        if($param){
-            // 割合を算出
-            $per = $this->remaining_hp / $this->getStats('HP') * 100;
-            // パラメーターによる分岐
-            switch ($param) {
-                // ========================
-                // 最大HPとの比率を%で取得(数値で返却)
-                case 'per':
-                return $per;
-                break;
-                // ========================
-                // HPバーのカラーを取得
-                case 'color':
-                // 赤
-                if($per <= 20) return 'danger';
-                // 黄色
-                if($per <= 50) return 'warning';
-                // 緑
-                return 'success';
-                break;
-            }
+        // 割合を算出
+        $per = $this->remaining_hp / $this->getStats('H') * 100;
+        // パーセンテージを返却
+        if($return === 'per'){
+            return $per;
         }
-        return $this->remaining_hp;
+        // カラーを返却
+        if($return === 'color'){
+            // 赤
+            if($per <= 20) return 'danger';
+            // 黄色
+            if($per <= 50) return 'warning';
+            // 緑
+            return 'success';
+        }
     }
 
     /**
@@ -342,16 +254,15 @@ trait ClassPokemonGetTrait
     * @param fainting:boolean
     * @return string
     */
-    public function getSaName($fainting=true): string
+    public function getSaName(bool $fainting=true): string
     {
-        // 状態異常(ひんし)ではない場合
         if(empty($this->sa)){
             return '';
         }
-        // ひんしの場合は不要（バトル画面など）
+        // ひんしの場合は不要
         if(
             !$fainting &&
-            array_key_first($this->sa) === 'SaFainting'
+            isset($this->sa['SaFainting'])
         ){
             return '';
         }
@@ -365,16 +276,15 @@ trait ClassPokemonGetTrait
     * @param fainting:boolean
     * @return string
     */
-    public function getSaColor($fainting=true): string
+    public function getSaColor(bool $fainting=true): string
     {
-        // 状態異常(ひんし)ではない
         if(empty($this->sa)){
             return '';
         }
         // ひんしの場合は不要（バトル画面など）
         if(
             !$fainting &&
-            array_key_first($this->sa) === 'SaFainting'
+            isset($this->sa['SaFainting'])
         ){
             return '';
         }
@@ -383,125 +293,46 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * 全テータスの取得
+    * @return array
+    */
+    public function getStatsAll(): array
+    {
+        $stats = [];
+        foreach(array_keys(config('pokemon.stats.default')) as $key){
+            $stats[$key] = $this->getStats($key);
+        }
+        return $stats;
+    }
+
+    /**
     * ステータスの取得
-    *
-    * @param string|null
-    * @return array|integer
+    * @param key:string
+    * @return integer
     */
-    public function getStats($param=null, $m=false)
+    public function getStats(string $key): int
     {
-        // ポケモンのステータス（実数値）を計算して返却
-        foreach($this->base_stats as $key => $val){
-            /**
-            * ステータスの計算式（小数点以下は切り捨て）
-            * HP：(種族値×2+個体値+努力値÷4)×レベル÷100+レベル+10
-            * HP以外：(種族値×2+個体値+努力値÷4)×レベル÷100+5
-            */
-            if($key === 'HP'){
-                $correction = $this->level + 10;
-            }else{
-                $correction = 5;
-            }
-            $stats[$key] = (int)(($val * 2 + $this->iv[$key] + $this->ev[$key] / 4) * $this->level / 100 + $correction);
-        }
-        if(is_null($param)){
-            // 指定がなければ全ステータスを返却
-            return $stats;
-        }
         /**
-        * 補正値の計算
+        * ステータスの計算式（小数点以下は切り捨て）
+        * HP：(種族値×2+個体値+努力値÷4)×レベル÷100+レベル+10
+        * HP以外：(種族値×2+個体値+努力値÷4)×レベル÷100+5
         */
-        $result = $stats[$param];
-        if($m){
-            // ランク補正
-            $rank = $this->getRank($param);
-            if($rank >= 0){
-                // +補正
-                $per = ($rank + 2) / 2;
-            }else{
-                // -補正
-                $per = 2 / (2 - $rank);
-            }
-            $result *= round($per, 2); # 補正割合は四捨五入
-            // 状態異常補正
-            if(($param === 'Speed') && $this->getSa() === 'SaParalysis'){
-                // すばやさ半減
-                $result *= 0.5;
-            }
-        }
-        return (int)$result; # 実数値は切り捨て
-    }
-
-    /**
-    * ランク（バトルステータス）の取得
-    *
-    * @param string|null
-    * @return array|integer
-    */
-    public function getRank($param=null)
-    {
-        // ランクを変数に格納
-        $rank = $this->rank;
-        /**
-        * ロケットずつき待機中は防御＋1補正
-        *
-        * 1.チャージ状態
-        * 2.ロケットずつきのチャージ状態
-        * 3.ぼうぎょランクが+6以外
-        */
-        $sc = $this->getSc();
-        if(isset($sc['ScCharge']) && ($sc['ScCharge']['param'] === 'SkullBash') && ($rank['Defense'] !== 6)){
-            $rank['Defense']++;
-        }
-        // パラメーターに合わせた返り値の分岐
-        if(is_null($param)){
-            return $rank;
+        if($key === 'H'){
+            $correction = $this->level + 10;
         }else{
-            return $rank[$param];
+            $correction = 5;
         }
-    }
-
-    /**
-    * タイプの取得
-    * @var array
-    */
-    public function getTypes(): array
-    {
-        return $this->types;
-    }
-
-    /**
-    * チャージ技（クラス）を取得 ※getScのラップ
-    * @return string|null
-    */
-    public function getChargeMove()
-    {
-        // チャージ状態であれば、技クラスを取得
-        if($this->checkSc('ScCharge')){
-            return $this->getSc('ScCharge', false, true);
-        }
-    }
-
-    /**
-    * あばれる技（クラス）を取得 ※getScのラップ
-    * @return string|null
-    */
-    public function getThrashMove()
-    {
-        // あばれる状態であれば、技クラスを取得
-        if($this->checkSc('ScThrash')){
-            return $this->getSc('ScThrash', false, true);
-        }
+        return (static::BASE_STATS[$key] * 2 + $this->iv[$key] + $this->ev[$key] / 4) * $this->level / 100 + $correction;
     }
 
     /**
     * 現在のレベルで覚えられる技の数を取得する処理
-    * @return boolean
+    * @return integer
     */
-    public function getLevelMoveCount()
+    public function getLevelMoveCount(): int
     {
         $level_move_keys = array_keys(
-            array_column($this->level_move, 0),
+            array_column(static::LEVEL_MOVE, 0),
             $this->level
         );
         return count($level_move_keys);
