@@ -9,7 +9,7 @@ trait ClassBattleStateTurnDamageTrait
     * ターンダメージの初期値
     * @return void
     */
-    protected function dafaultTurnDamages() :void
+    protected function initTurnDamages() :void
     {
         $this->turn_damages = [
             'friend' => [

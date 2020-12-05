@@ -9,7 +9,7 @@ trait ClassBattleStateTransformTrait
     * へんしん状態の初期値
     * @return void
     */
-    public function dafaultTransforms() :void
+    public function initTransforms() :void
     {
         $this->transforms = [
             'friend' => null,

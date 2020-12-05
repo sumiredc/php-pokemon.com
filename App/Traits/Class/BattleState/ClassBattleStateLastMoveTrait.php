@@ -9,7 +9,7 @@ trait ClassBattleStateLastMoveTrait
     * 最後に使用した技の初期値
     * @return void
     */
-    protected function dafaultLastMoves(): void
+    protected function initLastMoves(): void
     {
         $this->last_moves = [
             'friend' => '',

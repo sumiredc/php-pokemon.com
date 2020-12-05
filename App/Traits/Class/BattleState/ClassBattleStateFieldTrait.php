@@ -9,7 +9,7 @@ trait ClassBattleStateFieldTrait
     * フィールドの初期値
     * @return void
     */
-    public function dafaultFields(): void
+    public function initFields(): void
     {
         $this->fields = [
             'friend' => [],

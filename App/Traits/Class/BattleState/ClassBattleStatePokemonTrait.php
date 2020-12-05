@@ -150,12 +150,9 @@ trait ClassBattleStatePokemonTrait
         // 先頭に現在のポケモン番号を追加
         array_unshift($fought_orders,  $this->order);
         // 戦闘可能状態でフィルターにかけて返却
-        return array_filter(
-            $fought_orders,
-            function($order){
-                return player()->getPartner($order)->isFight();
-            }
-        );
+        return array_filter($fought_orders, function($order){
+            return player()->getPartner($order)->isFight();
+        });
     }
 
     /**==================================================================
@@ -187,29 +184,29 @@ trait ClassBattleStatePokemonTrait
     * ひんし状態関係処理
     ==================================================================**/
 
-    /**
-    * 瀕死状態の確認
-    * @param position:string
-    * @return boolean
-    */
-    public function isFainting(string $position=''): bool
-    {
-        if(in_array($position, config('pokemon.position'), true)){
-            // どちらか指定
-            return !$this->$position->isFight();
-        }else{
-            // 両方チェック
-            if(
-                !$this->enemy->isFight() ||
-                !$this->friend->isFight()
-            ){
-                // 瀕死状態
-                return true;
-            }else{
-                // 瀕死状態ではない
-                return false;
-            }
-        }
-    }
+    // /**
+    // * 瀕死状態の確認
+    // * @param position:string
+    // * @return boolean
+    // */
+    // public function isFainting(string $position=''): bool
+    // {
+    //     if(in_array($position, config('pokemon.position'), true)){
+    //         // どちらか指定
+    //         return !$this->$position->isFight();
+    //     }else{
+    //         // 両方チェック
+    //         if(
+    //             $this->enemy->isFight() &&
+    //             $this->friend->isFight()
+    //         ){
+    //             // どちらも瀕死状態ではない
+    //             return false;
+    //         }else{
+    //             // どちらかが瀕死状態
+    //             return true;
+    //         }
+    //     }
+    // }
 
 }
