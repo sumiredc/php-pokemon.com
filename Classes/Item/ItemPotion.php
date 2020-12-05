@@ -63,21 +63,23 @@ class ItemPotion extends Item
     public static function effects($pokemon)
     {
         $before = $pokemon->getRemainingHp();
-        if($before < $pokemon->getStats('HP')){
-            // HP20回復
-            $after = $pokemon->calRemainingHp('add', 20);
-            $heal = $after - $before;
-            $message = $pokemon->getPrefixName().'のHPが'.$heal.'回復した';
-            $result = true;
-        }else{
-            // 効果なし
-            $message = '使っても効果がないよ';
-            $result = false;
+        // 効果なし
+        if(
+            $before >= $pokemon->getStats('H') ||
+            $pokemon->isFainting()
+        ){
+            return [
+                'message' => '使っても効果がないよ',
+                'result' => false,
+            ];
         }
+        // HP20回復
+        $after = $pokemon->calRemainingHp('add', 20);
+        $heal = $after - $before;
         // メッセージを返却
         return [
-            'message' => $message,
-            'result' => $result,
+            'message' => $pokemon->getPrefixName().'のHPが'.$heal.'回復した',
+            'result' => true,
             'hpbar' => $heal * -1, # 回復のためマイナス値をセット
         ];
     }
