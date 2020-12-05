@@ -19,9 +19,9 @@ function transJp($str, $key=0)
 */
 function getPageName(bool $prefix=false)
 {
-    // 404ページ
-    if(http_response_code() === 404){
-        return 404;
+    // 404,503ページ
+    if(in_array(http_response_code(), [404, 503])){
+        return http_response_code();
     }
     // ページ名を全て小文字に変換
     $page = strtolower($_SESSION['__route'] ?? 'initial');
@@ -50,6 +50,15 @@ function fillZero($number, $length=3)
     }
     // ゼロ埋め返却
     return $zero.$number;
+}
+
+/**
+* トークン出力用関数
+* @return void
+*/
+function input_token()
+{
+    echo '<input type="hidden" name="__token" value="'.$_SESSION['__token'].'">';
 }
 
 /**
