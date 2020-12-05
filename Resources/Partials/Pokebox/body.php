@@ -42,7 +42,7 @@
                                 <p>Lv.<?=$party->getLevel()?></p>
                             </div>
                             <div class="text-center mb-2">
-                                <img id="pokebox-pokemon-img-<?=$party->getId()?>" src="/Assets/img/pokemon/dots/front/<?=get_class($party)?>.gif" alt="<?=$party->getName()?>">
+                                <img id="pokebox-pokemon-img-<?=$party->getId()?>" src="/Assets/img/pokemon/dots/front/<?=get_class($party)?>.gif" alt="<?=$party::NAME?>">
                             </div>
                         </div>
                     </figure>
@@ -60,7 +60,7 @@
                                 <p>Lv.<?=$pokemon->getLevel()?></p>
                             </div>
                             <div class="text-center mb-2">
-                                <img id="pokebox-pokemon-img-<?=$pokemon->getId()?>" src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>">
+                                <img id="pokebox-pokemon-img-<?=$pokemon->getId()?>" src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>">
                             </div>
                         </div>
                     </figure>

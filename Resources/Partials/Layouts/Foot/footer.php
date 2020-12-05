@@ -14,8 +14,8 @@
 </div>
 <?php
 # 強制モーダルの読み込み
-if(isForceModal()){
-    $force_modal = getForceModal();
+if(response()->isForceModal()){
+    $force_modal = response()->getForceModal();
     // 既存モーダルを使用しない場合は読み込み
     if(isset($force_modal['modal'])){
         include($root_path.'/Resources/Partials/'.getPageName(true).'/Modals/'.$force_modal['modal'].'.php');

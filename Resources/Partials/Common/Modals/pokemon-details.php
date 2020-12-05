@@ -1,21 +1,20 @@
-<!-- Modal -->
 <div class="modal fade" id="pokemon<?=$pokemon->getId()?>-details-modal" tabindex="-1" role="dialog" aria-labelledby="pokemon<?=$pokemon->getId()?>-details-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="pokemon<?=$pokemon->getId()?>-details-modal-title">
-                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>_ミニ">
+                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>_ミニ">
                     <?=$pokemon->getNickname()?>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body overflow-auto my-2" style="height:450px;">
+            <div class="modal-body overflow-auto my-2" style="height:400px;">
                 <div class="theme-back mb-3 p-3 rounded">
                     <figure class="d-flex justify-content-around align-items-center mb-0" style="min-height:80px;">
-                        <img src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>_前">
-                        <img src="/Assets/img/pokemon/dots/back/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>_後">
+                        <img src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>_前">
+                        <img src="/Assets/img/pokemon/dots/back/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>_後">
                     </figure>
                 </div>
                 <nav class="nav nav-pills nav-justified btn-group mb-3" id="pokemon<?=$pokemon->getId()?>-details-tab">
@@ -51,7 +50,7 @@
                             <tbody>
                                 <tr>
                                     <th scope="row" class="w-50">名称</th>
-                                    <td><?=$pokemon->getName()?></td>
+                                    <td><?=$pokemon::NAME?></td>
                                 </tr>
                                 <tr>
                                     <th scope="row" class="w-50">ニックネーム</th>
@@ -80,10 +79,17 @@
                     <div class="tab-pane fade show" id="pokemon<?=$pokemon->getId()?>-details-stats" role="tabpanel" aria-labelledby="pokemon<?=$pokemon->getId()?>-details-tab-stats">
                         <table class="table table-bordered table-sm table-hover">
                             <tbody>
-                                <?php foreach($pokemon->getStats() as $key => $val): ?>
+                                <?php # バトル画面では補正値込みのステータスを取得 ?>
+                                <?php $stats = (getPageName() === 'battle') ? $pokemon->getStatsMAll() : $pokemon->getStatsAll();  ?>
+                                <?php foreach($stats as $key => $val): ?>
                                     <tr>
-                                        <th scope="row" class="w-50"><?=transJp($key, 'stats')?></th>
-                                        <td><?=$val?></td>
+                                        <th scope="row" class="w-25"><?=transJp($key, 'stats')?></th>
+                                        <td class="w-25"><?=$val?></td>
+                                        <td class="align-middle">
+                                            <div class="d-flex align-items-center">
+                                                <span class="bg-php-dark rounded-sm d-inline-block" style="height: 12px; width:<?=$pokemon->getEvPer($key)?>%;"></span>
+                                            </div>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -134,6 +140,32 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <?php # 前のポケモン ?>
+                <?php if($prev = player()->prevPartner($pokemon->getId())): ?>
+                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($prev)?>.gif"
+                    alt="<?=$prev::NAME?>"
+                    class="cursor-pointer"
+                    data-toggle="modal"
+                    data-dubble_modal="true"
+                    data-hide_modal="#pokemon<?=$pokemon->getId()?>-details-modal"
+                    data-target="#pokemon<?=$prev->getId()?>-details-modal" />
+                <?php else: ?>
+                    <span></span>
+                <?php endif; ?>
+                <?php # 次のポケモン ?>
+                <?php if($next = player()->nextPartner($pokemon->getId())): ?>
+                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($next)?>.gif"
+                    alt="<?=$next::NAME?>"
+                    class="cursor-pointer"
+                    data-toggle="modal"
+                    data-dubble_modal="true"
+                    data-hide_modal="#pokemon<?=$pokemon->getId()?>-details-modal"
+                    data-target="#pokemon<?=$next->getId()?>-details-modal" />
+                <?php else: ?>
+                    <span></span>
+                <?php endif; ?>
             </div>
         </div>
     </div>

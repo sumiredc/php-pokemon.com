@@ -1,6 +1,5 @@
 <?php
 $root_path = __DIR__.'/../..';
-$pokemon_list = $controller->getPokemonList();
 ?>
 <!DOCTYPE html>
 <html lang="jp" dir="ltr">
@@ -39,10 +38,10 @@ $pokemon_list = $controller->getPokemonList();
             <section>
                 <h3 class="mb-3 h5 text-center font-weight-bolder text-php-head">一緒に旅をするポケモンを選んでください</h3>
                 <div class="row justify-content-center">
-                    <?php foreach($pokemon_list as $key => $name): ?>
+                    <?php foreach(config('const.first_pokemon') as $pokemon): ?>
                         <div class="col-3 col-sm-2">
                             <figure class="first-pokemon">
-                                <img src="/Assets/img/ball/monster_ball.png" alt="<?=$name?>" data-toggle="modal" data-target="#<?=$key?>-modal">
+                                <img src="/Assets/img/ball/monster_ball.png" alt="<?=$pokemon::NAME?>" data-toggle="modal" data-target="#first-pokemon-<?=$pokemon?>-modal">
                             </figure>
                         </div>
                     <?php endforeach; ?>

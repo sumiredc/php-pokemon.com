@@ -11,7 +11,7 @@
                 <?php foreach(player()->getParty() as $order => $party): ?>
                     <div class="row bg-hover-light pokemon-row" data-pokemon="<?=$order?>">
                         <div class="col-3 text-center">
-                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party->getName()?>">
+                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party::NAME?>">
                         </div>
                         <div class="col-9">
                             <div class="row">
@@ -27,14 +27,14 @@
                                             style="width:<?=$party->getRemainingHp('per')?>%;"
                                             aria-valuenow="<?=$party->getRemainingHp()?>"
                                             aria-valuemin="0"
-                                            aria-valuemax="<?=$party->getStats('HP')?>">
+                                            aria-valuemax="<?=$party->getStats('H')?>">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-8">
-                                    <?=$party->getRemainingHp()?> / <?=$party->getStats('HP')?>
+                                    <?=$party->getRemainingHp()?> / <?=$party->getStats('H')?>
                                 </div>
                                 <div class="col-4">
                                     Lv.<?=$party->getLevel()?>

@@ -22,7 +22,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach(friend()->getMove() as $key => $move): ?>
+                                <?php foreach(friend()->getBattleMove() as $key => $move): ?>
                                     <?php if(empty($move['remaining'])):?>
                                         <tr class="bg-light text-secondary" style="cursor:not-allowed;">
                                         <?php else: ?>

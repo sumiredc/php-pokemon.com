@@ -82,7 +82,7 @@
                         <div class="tab-pane fade show" id="<?=$id?>-field" role="tabpanel" aria-labelledby="<?=$id?>-field-tab">
                             <?php # フィールド ?>
                             <div class="row">
-                                <?php foreach(battle_state()->getFields($pokemon->getPosition(), true) as list($field, $turn)): ?>
+                                <?php foreach(battle_state()->getFields($pokemon->getPosition(), true) as $field => $turn): ?>
                                     <div class="col-6">
                                         <div class="alert alert-cyan" role="alert">
                                             <h6 class="alert-heading"><?=$field::NAME?></h6>

@@ -21,7 +21,7 @@
         <div class="col-12 col-sm-6">
             <div class="row">
                 <div class="col-6 mb-2">
-                    <?php if(friend()->checkUsedMove()): ?>
+                    <?php if(friend()->isUsedMove()): ?>
                         <button type="button"
                         class="btn btn-disabled btn-block action-btn"
                         data-toggle="modal"

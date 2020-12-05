@@ -5,7 +5,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="<?=$modal['id']?>-modal-title">
-                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon->getName()?>">
+                    <img src="/Assets/img/pokemon/dots/mini/<?=get_class($pokemon)?>.gif" alt="<?=$pokemon::NAME?>">
                     <?=$pokemon->getNickname()?>
                 </h5>
             </div>

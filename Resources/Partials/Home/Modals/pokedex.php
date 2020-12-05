@@ -42,21 +42,33 @@
                 <div class="overflow-auto" style="max-height:200px;">
                     <table class="table table-sm table-bordered table-selected table-hover bg-white mb-0" id="pokedex-list-table">
                         <tbody>
-                            <?php foreach(player()->pokedex()->getPokedex(true) as $number => list($class, $name, $species, $desc)): ?>
-                                <tr data-class="<?=$class?>" data-name="<?=$name?>" data-species="<?=$species?>" data-description="<?=$desc?>">
-                                    <th scope="row" style="width:20px;">
-                                        <?php $registed = player()->pokedex()->isRegisted($number); ?>
-                                        <?php if($registed >= 2): # 捕まえた ?>
+                            <?php foreach(player()->pokedex()->get() as $number => $registed): ?>
+                                <?php # 登録が合った場合のみポケモン情報を取得 ?>
+                                <?php $class = ($registed) ? config('pokedex.'.$number) : ''; ?>
+                                <?php if($registed >= 2): ?>
+                                    <?php # 捕まえた ?>
+                                    <tr data-class="<?=$class?>" data-name="<?=$class::NAME?>" data-species="<?=$class::SPECIES?>" data-description="<?=$class::DESCRIPTION?>">
+                                        <th scope="row" style="width:20px;">
                                             <img src="/Assets/img/icon/pokemon.png" alt="捕まえた" style="max-height: 16px;" data-registed="true">
-                                        <?php elseif($registed === 1): # 見つけた ?>
-                                            <input type="hidden" data-registed="true">
-                                        <?php else: # 未発見 ?>
-                                            <input type="hidden" data-registed="false">
-                                        <?php endif; ?>
-                                    </th>
-                                    <td style="width:60px;"><?=fillZero($number)?></td>
-                                    <td><?=$name?></td>
-                                </tr>
+                                        </th>
+                                        <td style="width:60px;"><?=fillZero($number)?></td>
+                                        <td><?=$class::NAME?></td>
+                                    </tr>
+                                <?php elseif($registed === 1): ?>
+                                    <?php # 見つけた ?>
+                                    <tr data-class="<?=$class?>" data-name="<?=$class::NAME?>" data-species="" data-description="">
+                                        <th scope="row" style="width:20px;"><input type="hidden" data-registed="true"></th>
+                                        <td style="width:60px;"><?=fillZero($number)?></td>
+                                        <td><?=$class::NAME?></td>
+                                    </tr>
+                                <?php else: ?>
+                                    <?php # 未発見 ?>
+                                    <tr data-class="" data-name="" data-species="" data-description="">
+                                        <th scope="row" style="width:20px;"><input type="hidden" data-registed="false"></th>
+                                        <td style="width:60px;"><?=fillZero($number)?></td>
+                                        <td></td>
+                                    </tr>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>

@@ -1,5 +1,4 @@
-<!-- Modal -->
-<?php $static = isForceModalTarget('#party-modal'); ?>
+<?php $static = response()->isForceModalTarget('#party-modal'); ?>
 <div class="modal fade" id="party-modal" tabindex="-1" role="dialog" aria-labelledby="party-modal-title" aria-hidden="true" <?php if($static) echo 'data-keyboard="false" data-backdrop="static"'; ?>>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -28,7 +27,7 @@
                             data-order="<?=$order?>">
                         <?php endif; ?>
                         <div class="col-3 text-center">
-                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party->getName()?>">
+                            <img src="/Assets/img/pokemon/dots/mini/<?=get_class($party)?>.gif" alt="<?=$party::NAME?>">
                         </div>
                         <div class="col-9">
                             <div class="row">
@@ -44,14 +43,14 @@
                                             style="width:<?=$party->getRemainingHp('per')?>%;"
                                             aria-valuenow="<?=$party->getRemainingHp()?>"
                                             aria-valuemin="0"
-                                            aria-valuemax="<?=$party->getStats('HP')?>">
+                                            aria-valuemax="<?=$party->getStats('H')?>">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-8">
-                                    <?=$party->getRemainingHp()?> / <?=$party->getStats('HP')?>
+                                    <?=$party->getRemainingHp()?> / <?=$party->getStats('H')?>
                                 </div>
                                 <div class="col-4">
                                     Lv.<?=$party->getLevel()?>

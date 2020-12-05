@@ -26,12 +26,11 @@ $pokemon = $controller->getPokemon();
                         <figure class="position-relative text-center d-inline-block area-evolve">
                             <img id="pokemon-before"
                             src="/Assets/img/pokemon/dots/front/<?=get_class($pokemon)?>.gif"
-                            alt="<?=$pokemon->getName()?>"
-                            class="bg-php-back p-5"
-                            >
-                            <?php if($pokemon->getAfterClass()): ?>
+                            alt="<?=$pokemon::NAME?>"
+                            class="bg-php-back p-5">
+                            <?php if($pokemon::$after_class): ?>
                                 <img id="pokemon-after"
-                                src="/Assets/img/pokemon/dots/front/<?=$pokemon->getAfterClass()?>.gif"
+                                src="/Assets/img/pokemon/dots/front/<?=$pokemon::$after_class?>.gif"
                                 alt="進化先"
                                 class="bg-php-back p-5">
                             <?php endif; ?>
