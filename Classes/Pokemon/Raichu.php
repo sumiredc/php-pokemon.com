@@ -7,52 +7,58 @@ class Raichu extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 26;
+    public const NUMBER = 26;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ライチュウ';
+    public const NAME = 'ライチュウ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'ねずみポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '長い しっぽが アースになって 身を 守るため 自分自身は 高電圧にも 痺れないのだ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeElectric'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Pikachu';
+    public const TYPES = ['TypeElectric'];
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 243;
+    public const BASE_EXP = 243;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 75;
+    public const CAPTURE = 75;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 30.0;
+    public const WEIGHT = 30.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         // 本技
         [1, 'MoveThunderShock'],
         [1, 'MoveGrowl'],
@@ -63,21 +69,28 @@ class Raichu extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 60,
-        'Attack' => 90,
-        'Defense' => 55,
-        'SpAtk' => 90,
-        'SpDef' => 80,
-        'Speed' => 110,
+    public const BASE_STATS = [
+        'H' => 60,
+        'A' => 90,
+        'B' => 55,
+        'C' => 90,
+        'D' => 80,
+        'S' => 110,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 3,
+    public const REWARD_EV = [
+        'S' => 3,
     ];
+
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Pikachu';
 
 }

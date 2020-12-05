@@ -7,58 +7,64 @@ class Nyarth extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 52;
+    public const NUMBER = 52;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ニャース';
+    public const NAME = 'ニャース';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'ばけねこポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '光り物を 集めるのが 好き。 機嫌が いいときは トレーナーにも コレクションを 見せてくれるぞ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeNormal'];
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Persian';
+    public const TYPES = ['TypeNormal'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 28;
+    public const EVOLVE_LEVEL = 28;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 58;
+    public const BASE_EXP = 58;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 255;
+    public const CAPTURE = 255;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 4.2;
+    public const WEIGHT = 4.2;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveScratch'],     # ひっかく
         [1, 'MoveGrowl'],       # なきごえ
         [12, 'MoveBite'],       # かみつく
@@ -72,21 +78,27 @@ class Nyarth extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 40,
-        'Attack' => 45,
-        'Defense' => 35,
-        'SpAtk' => 40,
-        'SpDef' => 40,
-        'Speed' => 90,
+    public const BASE_STATS = [
+        'H' => 40,
+        'A' => 45,
+        'B' => 35,
+        'C' => 40,
+        'D' => 40,
+        'S' => 90,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 1,
+    public const REWARD_EV = [
+        'S' => 1,
     ];
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Persian';
 
 }

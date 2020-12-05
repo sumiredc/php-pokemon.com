@@ -7,58 +7,64 @@ class Hitokage extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 4;
+    public const NUMBER = 4;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ヒトカゲ';
+    public const NAME = 'ヒトカゲ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'とかげポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '熱いものを 好む 性格。 雨に濡れると しっぽの 先から 煙が 出るという。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeFire'];
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Lizardo';
+    public const TYPES = ['TypeFire'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 16;
+    public const EVOLVE_LEVEL = 16;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 64;
+    public const BASE_EXP = 64;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 8.5;
+    public const WEIGHT = 8.5;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveScratch'],
         [1, 'MoveGrowl'],
         [9, 'MoveEmber'],
@@ -73,21 +79,27 @@ class Hitokage extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 39,
-        'Attack' => 52,
-        'Defense' => 43,
-        'SpAtk' => 60,
-        'SpDef' => 50,
-        'Speed' => 65,
+    public const BASE_STATS = [
+        'H' => 39,
+        'A' => 52,
+        'B' => 43,
+        'C' => 60,
+        'D' => 50,
+        'S' => 65,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 1,
+    public const REWARD_EV = [
+        'S' => 1,
     ];
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Lizardo';
 
 }

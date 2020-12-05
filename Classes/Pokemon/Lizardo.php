@@ -7,64 +7,64 @@ class Lizardo extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 5;
+    public const NUMBER = 5;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'リザード';
+    public const NAME = 'リザード';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'かえんポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '燃える しっぽを 振りまわし するどい ツメで 相手を 切り裂く 荒々しい 性格。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeFire'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Hitokage';
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Lizardon';
+    public const TYPES = ['TypeFire'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 36;
+    public const EVOLVE_LEVEL = 36;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 142;
+    public const BASE_EXP = 142;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 19.0;
+    public const WEIGHT = 19.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveScratch'],
         [1, 'MoveGrowl'],
         [1, 'MoveEmber'],
@@ -80,22 +80,34 @@ class Lizardo extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 58,
-        'Attack' => 64,
-        'Defense' => 58,
-        'SpAtk' => 80,
-        'SpDef' => 65,
-        'Speed' => 80,
+    public const BASE_STATS = [
+        'H' => 58,
+        'A' => 64,
+        'B' => 58,
+        'C' => 80,
+        'D' => 65,
+        'S' => 80,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'SpAtk' => 1,
-        'Speed' => 1,
+    public const REWARD_EV = [
+        'C' => 1,
+        'S' => 1,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Hitokage';
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Lizardon';
 
 }

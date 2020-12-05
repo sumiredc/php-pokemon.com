@@ -7,66 +7,64 @@ class Zenigame extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 7;
+    public const NUMBER = 7;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ゼニガメ';
+    public const NAME = 'ゼニガメ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'かめのこポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '長い 首を 甲羅のなかに 引っこめるとき 勢いよく 水鉄砲を 発射する。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeWater'];
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Kameil';
-
-    /**
-    * 初期レベル
-    * @var array
-    */
-    protected $default_level = [
-        5
-    ];
+    public const TYPES = ['TypeWater'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 16;
+    public const EVOLVE_LEVEL = 16;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 63;
+    public const BASE_EXP = 63;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 9.0;
+    public const WEIGHT = 9.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],      # たいあたり
         [1, 'MoveTailWhip'],    # しっぽをふる
         [8, 'MoveBubble'],      # あわ
@@ -81,21 +79,27 @@ class Zenigame extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 44,
-        'Attack' => 48,
-        'Defense' => 65,
-        'SpAtk' => 50,
-        'SpDef' => 64,
-        'Speed' => 43,
+    public const BASE_STATS = [
+        'H' => 44,
+        'A' => 48,
+        'B' => 65,
+        'C' => 50,
+        'D' => 64,
+        'S' => 43,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Defense' => 1,
+    public const REWARD_EV = [
+        'B' => 1,
     ];
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Kameil';
 
 }

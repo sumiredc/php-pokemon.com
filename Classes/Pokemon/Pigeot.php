@@ -6,52 +6,58 @@ require_once($root_path.'/Classes/Pokemon.php');
 class Pigeot extends Pokemon
 {
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 18;
+    public const NUMBER = 18;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ピジョット';
+    public const NAME = 'ピジョット';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'とりポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '美しい 光沢の 羽を 持つ ポケモン。 頭の 羽の 美しさに 心 奪われ ピジョットを 育てる トレーナーも 多い。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeNormal', 'TypeFlying'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Pigeon';
+    public const TYPES = ['TypeNormal', 'TypeFlying'];
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 172;
+    public const BASE_EXP = 172;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 39.5;
+    public const WEIGHT = 39.5;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveGust'],            # かぜおこし
         [1, 'MoveSandAttack'],      # すなかけ
         [1, 'MoveQuickAttack'],     # でんこうせっか
@@ -67,21 +73,27 @@ class Pigeot extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 83,
-        'Attack' => 80,
-        'Defense' => 75,
-        'SpAtk' => 70,
-        'SpDef' => 70,
-        'Speed' => 101,
+    public const BASE_STATS = [
+        'H' => 83,
+        'A' => 80,
+        'B' => 75,
+        'C' => 70,
+        'D' => 70,
+        'S' => 101,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 3,
+    public const REWARD_EV = [
+        'S' => 3,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Pigeon';
 
 }

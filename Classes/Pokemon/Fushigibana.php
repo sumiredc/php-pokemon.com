@@ -7,52 +7,58 @@ class Fushigibana extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 3;
+    public const NUMBER = 3;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'フシギバナ';
+    public const NAME = 'フシギバナ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'たねポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '2本の ふとい ツルを 振りまわし 戦う。 10階建ての ビルを かるく なぎ倒すほど パワフルだ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeGrass', 'TypePoison'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Fushigisou';
+    public const TYPES = ['TypeGrass', 'TypePoison'];
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 263;
+    public const BASE_EXP = 263;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 100.0;
+    public const WEIGHT = 100.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],
         [1, 'MoveGrowl'],
         [1, 'MoveLeechSeed'],
@@ -70,22 +76,28 @@ class Fushigibana extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 80,
-        'Attack' => 82,
-        'Defense' => 83,
-        'SpAtk' => 100,
-        'SpDef' => 100,
-        'Speed' => 80,
+    public const BASE_STATS = [
+        'H' => 80,
+        'A' => 82,
+        'B' => 83,
+        'C' => 100,
+        'D' => 100,
+        'S' => 80,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'SpAtk' => 2,
-        'SpDef' => 1,
+    public const REWARD_EV = [
+        'C' => 2,
+        'D' => 1,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Fushigisou';
 
 }

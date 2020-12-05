@@ -7,52 +7,58 @@ class Kamex extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 9;
+    public const NUMBER = 9;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'カメックス';
+    public const NAME = 'カメックス';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'こうらポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '精密な 射撃は 苦手。 31門の 大砲で 撃って撃って 撃ちまくる スタイルで 攻めるのだ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeWater'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Kameil';
+    public const TYPES = ['TypeWater'];
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 265;
+    public const BASE_EXP = 265;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 85.5;
+    public const WEIGHT = 85.5;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],
         [1, 'MoveTailWhip'],
         [1, 'MoveWaterGun'],
@@ -69,21 +75,27 @@ class Kamex extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 79,
-        'Attack' => 83,
-        'Defense' => 100,
-        'SpAtk' => 85,
-        'SpDef' => 105,
-        'Speed' => 78,
+    public const BASE_STATS = [
+        'H' => 79,
+        'A' => 83,
+        'B' => 100,
+        'C' => 85,
+        'D' => 105,
+        'S' => 78,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'SpDef' => 3,
+    public const REWARD_EV = [
+        'D' => 3,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Kameil';
 
 }

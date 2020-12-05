@@ -6,58 +6,64 @@ require_once($root_path.'/Classes/Pokemon.php');
 class Poppo extends Pokemon
 {
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 16;
+    public const NUMBER = 16;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ポッポ';
+    public const NAME = 'ポッポ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'ことりポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '方向 感覚に とても 優れているので どんなに 離れた 場所からでも 迷わずに 自分の 巣 まで 帰る ことが できる。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeNormal', 'TypeFlying'];
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Pigeon';
+    public const TYPES = ['TypeNormal', 'TypeFlying'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 18;
+    public const EVOLVE_LEVEL = 18;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 50;
+    public const BASE_EXP = 50;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 255;
+    public const CAPTURE = 255;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 1.8;
+    public const WEIGHT = 1.8;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveGust'],            # かぜおこし
         [5, 'MoveSandAttack'],      # すなかけ
         [12, 'MoveQuickAttack'],    # でんこうせっか
@@ -71,21 +77,27 @@ class Poppo extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 40,
-        'Attack' => 45,
-        'Defense' => 40,
-        'SpAtk' => 35,
-        'SpDef' => 35,
-        'Speed' => 56,
+    public const BASE_STATS = [
+        'H' => 40,
+        'A' => 45,
+        'B' => 40,
+        'C' => 35,
+        'D' => 35,
+        'S' => 56,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 1,
+    public const REWARD_EV = [
+        'S' => 1,
     ];
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Pigeon';
 
 }

@@ -7,58 +7,64 @@ class Koiking extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 129;
+    public const NUMBER = 129;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'コイキング';
+    public const NAME = 'コイキング';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'さかなポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '力も スピードも ほとんどダメ。世界で 一番 弱くて 情けない ポケモンだ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeWater'];
+    public const TYPES = ['TypeWater'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 20;
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Gyarados';
+    public const EVOLVE_LEVEL = 20;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 40;
+    public const BASE_EXP = 40;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 255;
+    public const CAPTURE = 255;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 10.0;
+    public const WEIGHT = 10.0;
 
     /**
     * レベルアップで覚える技
     * @var array[習得レベル(integer), 技名称(class_name)]
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveSplash'],
         [15, 'MoveTackle'],
     ];
@@ -67,21 +73,27 @@ class Koiking extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 20,
-        'Attack' => 10,
-        'Defense' => 55,
-        'SpAtk' => 15,
-        'SpDef' => 20,
-        'Speed' => 80,
+    public const BASE_STATS = [
+        'H' => 20,
+        'A' => 10,
+        'B' => 55,
+        'C' => 15,
+        'D' => 20,
+        'S' => 80,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 2,
+    public const REWARD_EV = [
+        'S' => 2,
     ];
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Gyarados';
 
 }

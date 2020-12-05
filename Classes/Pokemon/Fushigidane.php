@@ -7,58 +7,64 @@ class Fushigidane extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 1;
+    public const NUMBER = 1;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'フシギダネ';
+    public const NAME = 'フシギダネ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'たねポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '生まれたときから 背中に 植物の タネが あって 少しずつ 大きく 育つ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeGrass', 'TypePoison'];
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Fushigisou';
+    public const TYPES = ['TypeGrass', 'TypePoison'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 16;
+    public const EVOLVE_LEVEL = 16;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 64;
+    public const BASE_EXP = 64;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 6.9;
+    public const WEIGHT = 6.9;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],          # たいあたり
         [1, 'MoveGrowl'],           # なきごえ
         [7, 'MoveLeechSeed'],       # やどりぎのタネ
@@ -74,21 +80,27 @@ class Fushigidane extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 45,
-        'Attack' => 49,
-        'Defense' => 49,
-        'SpAtk' => 65,
-        'SpDef' => 65,
-        'Speed' => 45,
+    public const BASE_STATS = [
+        'H' => 45,
+        'A' => 49,
+        'B' => 49,
+        'C' => 65,
+        'D' => 65,
+        'S' => 45,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'SpAtk' => 1,
+    public const REWARD_EV = [
+        'C' => 1,
     ];
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Fushigisou';
 
 }

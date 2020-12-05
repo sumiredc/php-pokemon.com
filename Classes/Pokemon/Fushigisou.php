@@ -7,64 +7,64 @@ class Fushigisou extends Pokemon
 {
 
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 2;
+    public const NUMBER = 2;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'フシギソウ';
+    public const NAME = 'フシギソウ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'たねポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '背中の つぼみが 大きく 育ってくると 2本脚で 立つことが できなくなるらしい。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeGrass', 'TypePoison'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Fushigidane';
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Fushigibana';
+    public const TYPES = ['TypeGrass', 'TypePoison'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 32;
+    public const EVOLVE_LEVEL = 32;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 142;
+    public const BASE_EXP = 142;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 13.0;
+    public const WEIGHT = 13.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],
         [1, 'MoveGrowl'],
         [1, 'MoveLeechSeed'],
@@ -81,22 +81,34 @@ class Fushigisou extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 60,
-        'Attack' => 62,
-        'Defense' => 63,
-        'SpAtk' => 80,
-        'SpDef' => 80,
-        'Speed' => 60,
+    public const BASE_STATS = [
+        'H' => 60,
+        'A' => 62,
+        'B' => 63,
+        'C' => 80,
+        'D' => 80,
+        'S' => 60,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'SpAtk' => 1,
-        'SpDef' => 1,
+    public const REWARD_EV = [
+        'C' => 1,
+        'D' => 1,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Fushigidane';
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Fushigibana';
 
 }

@@ -2,57 +2,69 @@
 $root_path = __DIR__.'/../..';
 require_once($root_path.'/Classes/Pokemon.php');
 
-// ピカチュウ
+/*
+* ピカチュウ
+*/
 class Pikachu extends Pokemon
 {
 
+    //=====================================
+    // オブジェクト定数
+    //=====================================
+
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 25;
+    public const NUMBER = 25;
 
     /**
     * 正式名称
-    * @var string(min:1 max:5)
+    * @var string
     */
-    protected $name = 'ピカチュウ';
+    public const NAME = 'ピカチュウ';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'ねずみポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = 'つくる 電気が 強力な ピカチュウほど ほっぺの 袋は 軟らかく よく 伸びるぞ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeElectric'];
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Raichu';
+    public const TYPES = ['TypeElectric'];
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 112;
+    public const BASE_EXP = 112;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 190;
+    public const CAPTURE = 190;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 6.0;
+    public const WEIGHT = 6.0;
 
     /**
-    * レベルアップで覚える技
-    * @var array[習得レベル(integer), 技名称(class_name)]
+    * レベルアップ技
+    * @var array::[習得レベル:integer,技名称:string]
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveThunderShock'],
         [1, 'MoveGrowl'],
         [9, 'MoveThunderWave'],
@@ -66,21 +78,31 @@ class Pikachu extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 35,
-        'Attack' => 55,
-        'Defense' => 40,
-        'SpAtk' => 50,
-        'SpDef' => 50,
-        'Speed' => 90,
+    public const BASE_STATS = [
+        'H' => 35,
+        'A' => 55,
+        'B' => 40,
+        'C' => 50,
+        'D' => 50,
+        'S' => 90,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 2,
+    public const REWARD_EV = [
+        'S' => 2,
     ];
+
+    //=====================================
+    // 静的変数
+    //=====================================
+
+    /**
+    * 進化先
+    * @var string
+    */
+    public static $after_class = 'Raichu';
 
 }

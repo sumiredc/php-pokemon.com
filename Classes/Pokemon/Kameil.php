@@ -6,64 +6,64 @@ require_once($root_path.'/Classes/Pokemon.php');
 class Kameil extends Pokemon
 {
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 8;
+    public const NUMBER = 8;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'カメール';
+    public const NAME = 'カメール';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'かめポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '長生きの シンボルと されている。 甲羅に 苔が ついているのは とくに 長生きの カメールだ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeWater'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Zenigame';
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Kamex';
+    public const TYPES = ['TypeWater'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 36;
+    public const EVOLVE_LEVEL = 36;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 142;
+    public const BASE_EXP = 142;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 45;
+    public const CAPTURE = 45;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 22.5;
+    public const WEIGHT = 22.5;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveTackle'],
         [1, 'MoveTailwhip'],
         [1, 'MoveBubble'],
@@ -79,22 +79,34 @@ class Kameil extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 59,
-        'Attack' => 63,
-        'Defense' => 80,
-        'SpAtk' => 65,
-        'SpDef' => 80,
-        'Speed' => 58,
+    public const BASE_STATS = [
+        'H' => 59,
+        'A' => 63,
+        'B' => 80,
+        'C' => 65,
+        'D' => 80,
+        'S' => 58,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Defense' => 1,
-        'SpDef' => 1,
+    public const REWARD_EV = [
+        'B' => 1,
+        'D' => 1,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Zenigame';
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Kamex';
 
 }

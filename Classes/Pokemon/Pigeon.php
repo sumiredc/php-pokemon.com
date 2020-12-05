@@ -6,64 +6,64 @@ require_once($root_path.'/Classes/Pokemon.php');
 class Pigeon extends Pokemon
 {
     /**
-    * ポケモンナンバー
+    * ポケモン全国図鑑ナンバー
     * @var integer
     */
-    protected $number = 17;
+    public const NUMBER = 17;
 
     /**
     * 正式名称
     * @var string(min:1 max:5)
     */
-    protected $name = 'ピジョン';
+    public const NAME = 'ピジョン';
+
+    /**
+    * 分類
+    * @var string
+    */
+    public const SPECIES = 'とりポケモン';
+
+    /**
+    * 説明文
+    * @var string
+    */
+    public const DESCRIPTION = '広い 縄張りを 飛んで 見まわりを する。 縄張りを 荒らす 相手は 容赦 しない。 鋭い ツメで 徹底的に 懲らしめるぞ。';
 
     /**
     * タイプ
     * @var array
     */
-    protected $types = ['TypeNormal', 'TypeFlying'];
-
-    /**
-    * 進化前（クラス名）
-    * @var string
-    */
-    protected $before_class = 'Poppo';
-
-    /**
-    * 進化後（クラス名）
-    * @var string
-    */
-    protected $after_class = 'Pigeot';
+    public const TYPES = ['TypeNormal', 'TypeFlying'];
 
     /**
     * 進化レベル
     * @var integer
     */
-    protected $evolve_level = 36;
+    public const EVOLVE_LEVEL = 36;
 
     /**
     * 基礎経験値
     * @var integer
     */
-    protected $base_exp = 122;
+    public const BASE_EXP = 122;
 
     /**
     * 捕捉率
     * @var integer
     */
-    protected $capture = 120;
+    public const CAPTURE = 120;
 
     /**
     * 重さ
     * @var float
     */
-    protected $weight = 30.0;
+    public const WEIGHT = 30.0;
 
     /**
     * レベルアップで覚える技
     * @var array
     */
-    protected $level_move = [
+    public const LEVEL_MOVE = [
         [1, 'MoveGust'],            # かぜおこし
         [1, 'MoveSandAttack'],      # すなかけ
         [5, 'MoveSandAttack'],      # すなかけ
@@ -78,21 +78,33 @@ class Pigeon extends Pokemon
     * 種族値
     * @var array
     */
-    protected $base_stats = [
-        'HP' => 63,
-        'Attack' => 60,
-        'Defense' => 55,
-        'SpAtk' => 50,
-        'SpDef' => 50,
-        'Speed' => 71,
+    public const BASE_STATS = [
+        'H' => 63,
+        'A' => 60,
+        'B' => 55,
+        'C' => 50,
+        'D' => 50,
+        'S' => 71,
     ];
 
     /**
     * 獲得努力値
     * @var array
     */
-    protected $reward_ev = [
-        'Speed' => 2,
+    public const REWARD_EV = [
+        'S' => 2,
     ];
+
+    /**
+    * 進化前（クラス名）
+    * @var string
+    */
+    public static $before_class = 'Poppo';
+
+    /**
+    * 進化後（クラス名）
+    * @var string
+    */
+    public static $after_class = 'Pigeot';
 
 }
