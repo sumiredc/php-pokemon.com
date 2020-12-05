@@ -3,7 +3,6 @@
 * メンテナンスモード(503)
 */
 http_response_code(503);
-$root_path = __DIR__.'/..';
 // ポケモンをランダムで取得
 $pokemon = random_int(1, 3);
 // 画像の取得
@@ -20,15 +19,15 @@ if(!random_int(0, 8192)){
     <head>
         <?php
         # metaの読み込み
-        include($root_path.'/Resources/Partials/Layouts/Head/meta.php');
+        include(resources_path().'Partials/Layouts/Head/meta.php');
         # cssの読み込み
-        include($root_path.'/Resources/Partials/Layouts/Head/css.php');
+        include(resources_path().'Partials/Layouts/Head/css.php');
         ?>
     </head>
     <body>
         <?php
         # headerの読み込み
-        include($root_path.'/Resources/Partials/Layouts/Head/header.php');
+        include(resources_path().'Partials/Layouts/Head/header.php');
         ?>
         <main>
             <div class="container-fluid bg-php-back section">
@@ -52,9 +51,9 @@ if(!random_int(0, 8192)){
         </main>
         <?php
         # footerの読み込み
-        include($root_path.'/Resources/Partials/Layouts/Foot/footer.php');
+        include(resources_path().'Partials/Layouts/Foot/footer.php');
         # JSの読み込み
-        include($root_path.'/Resources/Partials/Layouts/Foot/js.php');
+        include(resources_path().'Partials/Layouts/Foot/js.php');
         ?>
     </body>
 </html>
