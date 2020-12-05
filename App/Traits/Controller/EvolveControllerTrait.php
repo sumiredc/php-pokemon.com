@@ -45,7 +45,7 @@ trait EvolveControllerTrait
     */
     public function getPokemon()
     {
-        return player()->getParty()[$this->order] ?? '';
+        return player()->getPartner($this->order) ?? '';
     }
 
 }

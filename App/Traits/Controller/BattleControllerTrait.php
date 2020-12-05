@@ -42,15 +42,18 @@ trait BattleControllerTrait
             return false;
         }
         // ひんしポケモンがでた場合の処理
-        if(battle_state()->isFainting()){
+        if(
+            enemy()->isFainting() ||
+            friend()->isFainting()
+        ){
             $this->judgment();
             return false;
         }
         // チャージ中、反動有り、あばれる状態なら再度アクション実行
         if(
             $this->chargeNow() ||
-            friend()->checkSc('ScRecoil') ||
-            friend()->checkSc('ScThrash')
+            friend()->isSc('ScRecoil') ||
+            friend()->isSc('ScThrash')
         ){
             $this->branch();
             return true;
@@ -68,9 +71,8 @@ trait BattleControllerTrait
     */
     private function chargeNow()
     {
-        $sc = friend()->getSc();
         // チャージ中なら行動選択不可
-        if(isset($sc['ScCharge'])){
+        if(friend()->isSc('ScCharge')){
             return true;
         }else{
             return false;
@@ -84,16 +86,16 @@ trait BattleControllerTrait
     private function judgment(): void
     {
         // 味方がひんし状態になった
-        if(battle_state()->isFainting('friend')){
+        if(friend()->isFainting()){
             // 戦闘可能なパーティーを確認
             if(player()->isFightParty()){
                 // パーティーが残っている
-                if(battle_state()->isFainting('enemy')){
+                if(enemy()->isFainting()){
                     // 相手が瀕死状態 → バトル終了
                     $this->judgmentWin();
                 }else{
                     // 相手が瀕死状態ではない → ポケモン交代の確認
-                    $msg_id = issueMsgId();
+                    $msg_id = response()->issueMsgId();
                     response()->setMessage('次のポケモンを使いますか？', $msg_id);
                     // レスポンスデータをセット
                     response()->setResponse([
@@ -101,17 +103,17 @@ trait BattleControllerTrait
                         'target' => '#'.$msg_id.'-modal'
                     ], $msg_id);
                     // モーダル用のレスポンスをセット
-                    setModal([
+                    response()->setModal([
                         'id' => $msg_id,
                         'modal' => 'change-or-run'
                     ]);
-                    waitForceModal($msg_id);
+                    response()->waitForceModal($msg_id);
                 }
             }else{
                 // 全滅（負け）
                 $this->judgmentLose();
             }
-        }else if(battle_state()->isFainting('enemy')){
+        }else if(enemy()->isFainting()){
             // 相手がひんし状態になった（味方はひんし状態ではない）
             // 勝ち
             $this->judgmentWin();
@@ -127,7 +129,7 @@ trait BattleControllerTrait
         // 全滅
         response()->setMessage(player()->getName().'は、目の前が真っ暗になった...');
         // バトル終了判定用メッセージの格納
-        setEmptyMessage('battle-end');
+        response()->setEmptyMessage('battle-end');
     }
 
     /**
@@ -141,17 +143,11 @@ trait BattleControllerTrait
         $orders = battle_state()->getEntitledExpOrders();
         foreach($orders as $order){
             // 経験値の計算
-            $exp = $this->calExp(friend(), enemy(), count($orders));
+            $exp = $this->calExp($party[$order], enemy(), count($orders));
             // 経験値をポケモンにセット
             $party[$order]->setExp($exp);
             // 努力値を獲得
-            $party[$order]->setEv(enemy()->getRewardEv());
-        }
-        // もしポケモンが「へんしん状態」であれば変更後の状態を引き継ぎ
-        if(friend()->checkSc('ScTransform')){
-            friend()->judgmentTransform(
-                $party[battle_state()->getOrder()]
-            );
+            $party[$order]->setEv(enemy('REWARD_EV'));
         }
         // 散らばったお金の取得
         $money = battle_state()->getMoney();
@@ -160,7 +156,7 @@ trait BattleControllerTrait
             player()->addMoney($money);
         }
         // バトル終了判定用メッセージの格納
-        setEmptyMessage('battle-end');
+        response()->setEmptyMessage('battle-end');
     }
 
     /**
@@ -171,7 +167,6 @@ trait BattleControllerTrait
     * @var LM レベル補正 (2L + 10) / (L + Lp + 10)
     * @var L 倒されたポケモン($lose)のレベル
     * @var Lp 倒したポケモン($win)のレベル
-    *
     * @param win:object::Pokemon
     * @param lose:object::Pokeomo
     * @param count:integer
@@ -180,32 +175,11 @@ trait BattleControllerTrait
     protected function calExp(object $win, object $lose, int $count): int
     {
         // EXP
-        $exp = $lose->getLevel() * $lose->getBaseExp() / 5;
+        $exp = $lose->getLevel() * $lose::BASE_EXP / 5;
         // レベル補正
         $lm = (2 * $lose->getLevel() + 10) / ($lose->getLevel() + $win->getLevel() + 10);
         // 返り値の型指定を使って、経験値の計算結果を整数（切り捨て）で返却
         return $exp / $count * $lm ** 2.5 + 1;
-
-        // // EXP
-        // $exp = $lose->getLevel() * $lose->getBaseExp() / 5;
-        // // レベル補正
-        // $lm = (2 * $lose->getLevel() + 10) / ($lose->getLevel() + $win->getLevel() + 10);
-        // // 経験値の計算結果を整数（切り捨て）で返却
-        // return (int)($exp * $lm ** 2.5 + 1);
-    }
-
-    /**
-    * デストラクタ直前の処理
-    * @return void
-    */
-    private function checkBeforeDestruct()
-    {
-        $transform = battle_state()->getTransform('friend');
-        // もし「へんしん状態」であれば、残HPと状態異常を元ポケモンに反映
-        if($transform){
-            player()->getPartner(battle_state()->getOrder())
-            ->mirroringTransform($transform);
-        }
     }
 
 }
