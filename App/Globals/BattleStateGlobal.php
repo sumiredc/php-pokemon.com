@@ -7,10 +7,10 @@ require_once(root_path('Classes').'BattleState.php');
 * バトル状態の初期化
 * @return void
 */
-function initBattleState()
+function initBattleState($mode='wild')
 {
     global $global_battle_state;
-    $global_battle_state = new BattleState;
+    $global_battle_state = new BattleState($mode);
 }
 
 /**
@@ -64,4 +64,15 @@ function enemy(string $const='')
         // 味方ポケモンのオブジェクトを返却
         return $global_battle_state->getEnemy();
     }
+}
+
+/**
+* 相手トレーナー情報の取得
+* @return mixed
+*/
+function trainer()
+{
+    global $global_battle_state;
+    // トレーナーオブジェクトを返却
+    return $global_battle_state->getTrainer();
 }
