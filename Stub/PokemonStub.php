@@ -95,20 +95,16 @@ class PokemonStub extends Pokemon
         'H' => 0,
     ];
 
-    //=====================================
-    // 静的変数
-    //=====================================
-
     /**
     * 進化前のクラス
     * @var string
     */
-    public static $before_class = '';
+    public const BEFORE_CLASS = '';
 
     /**
     * 進化後のクラス
     * @var string
     */
-    public static $after_class = '';
+    public const AFTER_CLASS = '';
 
 }
