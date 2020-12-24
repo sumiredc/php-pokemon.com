@@ -2,6 +2,7 @@
 require_once(app_path('Controllers').'Controller.php');
 // サービス
 require_once(app_path('Services.Battle').'StartService.php');
+require_once(app_path('Services.Battle').'StartTrainerService.php');
 require_once(app_path('Services.Battle').'RunService.php');
 require_once(app_path('Services.Battle').'FightService.php');
 require_once(app_path('Services.Battle').'ItemService.php');
@@ -36,8 +37,6 @@ class BattleController extends Controller
     */
     public function __destruct()
     {
-        // // デストラクタ直前のチェック処理
-        // $this->checkBeforeDestruct();
         // 次画面へ送るデータ
         $_SESSION['__data']['battle_state'] = serializeObject(battle_state());
         $_SESSION['__data']['before_responses'] = serializeObject(response()->responses());
@@ -57,11 +56,20 @@ class BattleController extends Controller
             // アクション分岐
             switch (request('action')) {
                 /******************************************
-                * 開始
+                * 野生ポケモン戦 開始
                 */
                 case 'battle':
                 // サービス実行
                 $service = new StartService;
+                $service->execute();
+                response()->setResponse(true, 'battle-start');
+                break;
+                /******************************************
+                * トレーナー戦 開始
+                */
+                case 'battle_trainer':
+                // サービス実行
+                $service = new StartTrainerService;
                 $service->execute();
                 response()->setResponse(true, 'battle-start');
                 break;
@@ -114,6 +122,17 @@ class BattleController extends Controller
                 */
                 case 'end':
                 $this->battleEnd();
+                break;
+                /******************************************
+                * 降参（トレーナー戦のみ）
+                */
+                case 'surrender':
+                if(battle_state()->isMode('trainer')){
+                    // 持ち金を半分失う
+                    player()->loseMoney();
+                    // バトル終了
+                    $this->battleEnd();
+                }
                 break;
                 /******************************************
                 * アクション未選択 or 実装されていないアクション

@@ -2,6 +2,7 @@
 require_once(app_path('Controllers').'Controller.php');
 // サービス
 require_once(app_path('Services.Initial').'SelectPokemonService.php');
+require_once(app_path('Services.Initial').'LoadService.php');
 
 // 初期画面用コントローラー
 class InitialController extends Controller
@@ -38,6 +39,21 @@ class InitialController extends Controller
                 // ホーム画面へ移管
                 $_SESSION['__route'] = 'home';
                 $_SESSION['__start_php_pokemon'] = true;
+                // 画面移管
+                $this->redirect();
+            }
+            break;
+            /**
+            * セーブデータの読み込み
+            */
+            case 'load':
+            $service = new LoadService;
+            $service->execute();
+            // セーブデータの読み込み成功
+            if($service->auth()){
+                // ホーム画面へ移管
+                $_SESSION['__route'] = 'home';
+                $_SESSION['__restart_php_pokemon'] = true;
                 // 画面移管
                 $this->redirect();
             }
