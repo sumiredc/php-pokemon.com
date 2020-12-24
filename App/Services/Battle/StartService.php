@@ -28,12 +28,6 @@ class StartService extends Service
         $level = $this->getEnemyLevel();
         // 敵ポケモンを生成
         $this->callEnemy($level);
-        // ローカルのみの分岐
-        if(@$_SERVER['SERVER_NAME'] === 'php-pokemon.com.local'){
-            // battle_state()->setEnemy(
-            //     $this->enemy = new Fushigibana(5);
-            // );
-        }
         // ポケモン図鑑への登録確認（発見）
         $this->checkPokedex();
         // 前ターン状態を格納
