@@ -1,6 +1,6 @@
 <?php
 /**
-* セッションスタート
+* セッション
 */
 session_name('YQUAL_PHP_POKEMON_SESSION');
 session_save_path(__DIR__.'/Storage/Sessions');
@@ -9,6 +9,9 @@ ini_set('session.gc_probability', 1);
 ini_set('session.gc_divisor', 50);
 session_start();
 session_regenerate_id(true);
+
+// タイムゾーン
+date_default_timezone_set('Asia/Tokyo');
 
 /**
 * ルーティング
