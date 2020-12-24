@@ -27,7 +27,8 @@ trait ServiceBattleEnemyTurnTrait
     private function enemyAttack(): bool
     {
         // 敵ポケモンの攻撃
-        $this->attack(enemy(), friend(), $this->aiSelectMove());
+        $move = $this->attack(enemy(), friend(), $this->aiSelectMove());
+        battle_state()->setLastMove('enemy', $move);
         // ひんしチェック
         return enemy()->isFainting() || friend()->isFainting();
     }

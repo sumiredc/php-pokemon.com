@@ -94,6 +94,6 @@ class Koiking extends Pokemon
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Gyarados';
+    public const AFTER_CLASS = 'Gyarados';
 
 }

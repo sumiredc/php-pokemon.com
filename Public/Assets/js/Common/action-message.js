@@ -163,6 +163,12 @@ var actionMsgBox = function(now){
                 .doAnimateFainting(now.data('target'));
                 break;
                 // ==============================================
+                // トレーナー表示処理 ===========================
+                case 'battle-show-trainer':
+                await window.battleLib
+                .doAnimateShowTrainer(now.data('target'));
+                break;
+                // ==============================================
                 // 進化アニメーション ===========================
                 case 'evolve-evolve':
                 $('#cancel-evolve').show()

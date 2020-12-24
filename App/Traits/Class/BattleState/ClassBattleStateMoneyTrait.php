@@ -6,6 +6,12 @@ trait ClassBattleStateMoneyTrait
 {
 
     /**
+    * 散らばったお金
+    * @var array
+    */
+    private $money = [];
+
+    /**
     * 散らばったお金の取得
     * @return integer
     */
@@ -33,5 +39,5 @@ trait ClassBattleStateMoneyTrait
     {
         $this->money[] = [];
     }
-    
+
 }

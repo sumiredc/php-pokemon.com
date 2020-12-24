@@ -6,19 +6,27 @@ $root_path = __DIR__.'/../..';
 <head>
     <?php
     # metaの読み込み
-    include(resources_path('Partials.Layouts.Head').'meta.php');
+    include(resources_path('Partials/Layouts/Head').'meta.php');
     # cssの読み込み
-    include(resources_path('Partials.Layouts.Head').'css.php');
+    include(resources_path('Partials/Layouts/Head').'css.php');
     ?>
     <link rel="stylesheet" href="/Assets/css/Page/initial.css">
 </head>
 <body>
     <?php
     # headerの読み込み
-    include(resources_path('Partials.Layouts.Head').'header.php');
+    include(resources_path('Partials/Layouts/Head').'header.php');
     ?>
     <main>
         <div class="container-fluid bg-php-back section">
+            <section class="pt-3">
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <button type="button" class="btn btn-sm btn-php-dark" data-toggle="modal" data-target="#load-modal">続きから始める</button>
+                    </div>
+                </div>
+            </section>
+            <hr>
             <section class="py-3">
                 <div class="row justify-content-center">
                     <div class="col-12 text-center mb-5">
@@ -61,16 +69,17 @@ $root_path = __DIR__.'/../..';
         </div>
         <?php
         # お知らせ
-        include(resources_path('Partials.Common').'notice.php');
+        include(resources_path('Partials/Common').'notice.php');
         ?>
     </main>
     <?php
     # footerの読み込み
-    include(resources_path('Partials.Layouts.Foot').'footer.php');
+    include(resources_path('Partials/Layouts/Foot').'footer.php');
     # モーダルの読み込み
-    include(resources_path('Partials.Initial.Modals').'pokemon.php');
+    include(resources_path('Partials/Initial/Modals').'pokemon.php');
+    include(resources_path('Partials/Initial/Modals').'load.php');
     # JSの読み込み
-    include(resources_path('Partials.Layouts.Foot').'js.php');
+    include(resources_path('Partials/Layouts/Foot').'js.php');
     ?>
     <script src="/Assets/js/Initial/initial.js" type="text/javascript" defer></script>
 </body>

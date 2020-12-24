@@ -22,11 +22,18 @@ trait BattleControllerTrait
             battle_state()->turnInit();
             // 描画用ポケモンをセット（味方・敵）
             battle_state()->setBefore();
-            // シリアライズでリンク切れしているため、味方のオブジェクトを再セット(へんしん状態を考慮)
+            // シリアライズでリンク切れしているため、味方のオブジェクトを再セット
             $order = battle_state()->getOrder();
             battle_state()->setFriend(
-                battle_state()->getTransform('friend') ?? player()->getPartner($order)
+                player()->getPartner($order)
             );
+            // もしトレーナー戦であれば、相手のオブジェクトも再セット
+            if(battle_state()->isMode('trainer')){
+                $trainer_order = battle_state()->getTrainerOrder();
+                battle_state()->setEnemy(
+                    trainer()->getPartner($trainer_order)
+                );
+            }
         }
     }
 
@@ -126,6 +133,12 @@ trait BattleControllerTrait
     */
     private function judgmentLose()
     {
+        // トレーナー戦
+        if(battle_state()->isMode('trainer')){
+            response()->setMessage(trainer()->getLine('win'));
+        }
+        // お小遣いの半額を失う
+        player()->loseMoney();
         // 全滅
         response()->setMessage(player()->getName().'は、目の前が真っ暗になった...');
         // バトル終了判定用メッセージの格納
@@ -149,6 +162,59 @@ trait BattleControllerTrait
             // 努力値を獲得
             $party[$order]->setEv(enemy('REWARD_EV'));
         }
+        // トレーナー戦の場合は、次のポケモンを選出
+        if(battle_state()->isMode('trainer')){
+            $msg_id = response()->issueMsgId();
+            if(battle_state()->nextOrder()){
+                response()->setMessage(trainer()->getPrefixName().'は、'.enemy('NAME').'を繰り出してきた', $msg_id);
+                response()->setResponse([
+                    'action' => 'change-out',
+                    'target' => 'enemy',
+                    'param' => json_encode([
+                        'base64' => enemy()->base64(),
+                        'name' => enemy('NAME'),
+                        'level' => enemy()->getLevel(),
+                        'hp_max' => enemy()->getStats('H'),
+                        'hp_now' => enemy()->getRemainingHp(),
+                        'hp_per' => enemy()->getRemainingHp('per'),
+                        'sa' => enemy()->getSaName(),
+                        'sa_color' => enemy()->getSaColor(),
+                    ])
+                ], $msg_id);
+                // 次のポケモンのバトル状態を初期化
+                enemy()->initBattleStats();
+                battle_state()->changeInit('enemy');
+                // 行動選択へ
+                response()->setEmptyMessage();
+
+            }else{
+                // 勝利演出
+                response()->setMessage(trainer()->getPrefixName().'との勝負に勝った', $msg_id);
+                response()->setResponse([
+                    'action' => 'show-trainer',
+                    'target' => 'enemy',
+                ], $msg_id);
+                // 勝利メッセージ
+                response()->setMessage(trainer()->getLine('lose'));
+                // 賞金
+                $money = trainer()->getMoney();
+                response()->setMessage(player()->getName().'は、賞金として'.$money.'円を受け取った！');
+                player()->addMoney($money);
+                // 勝利時の最終処理
+                $this->judgmentWinLast();
+            }
+        }else{
+            // 勝利時の最終処理
+            $this->judgmentWinLast();
+        }
+    }
+
+    /**
+    * バトル結果（勝ち）
+    * @return void
+    */
+    private function judgmentWinLast()
+    {
         // 散らばったお金の取得
         $money = battle_state()->getMoney();
         if($money){

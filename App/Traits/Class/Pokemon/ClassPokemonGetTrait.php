@@ -92,6 +92,16 @@ trait ClassPokemonGetTrait
     }
 
     /**
+    * 進化後のクラスを取得する
+    * @return string
+    */
+    public function getAfterClass(): string
+    {
+        // 定数→プロパティの順番で取得
+        return static::AFTER_CLASS ?? $this->after_class;
+    }
+
+    /**
     * タイプ名の取得
     * @return array
     */
@@ -171,6 +181,20 @@ trait ClassPokemonGetTrait
     public function getIv(): array
     {
         return $this->iv;
+    }
+
+    /**
+    * 個体値を取得する
+    * @param key:string
+    * @return int
+    */
+    public function getIvRank($key): int
+    {
+        $rank = floor($this->iv[$key] / 6);
+        if($this->iv[$key] % 6){
+            $rank = 1;
+        }
+        return $rank;
     }
 
     /**

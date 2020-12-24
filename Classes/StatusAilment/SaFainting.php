@@ -26,4 +26,16 @@ class SaFainting extends StatusAilment
     */
     public const CAPTURE = 0;
 
+    /**
+    * 行動前の状態異常発症
+    * @param pokemon:object
+    * @return array
+    */
+    public static function onsetBefore(object $pokemon): array
+    {
+        return [
+            'result' => false
+        ];
+    }
+
 }

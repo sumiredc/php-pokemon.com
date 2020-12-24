@@ -102,12 +102,12 @@ class Lizardo extends Pokemon
     * 進化前（クラス名）
     * @var string
     */
-    public static $before_class = 'Hitokage';
+    public const BEFORE_CLASS = 'Hitokage';
 
     /**
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Lizardon';
+    public const AFTER_CLASS = 'Lizardon';
 
 }

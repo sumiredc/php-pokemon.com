@@ -5,6 +5,37 @@
 trait ClassBattleStatePokemonTrait
 {
 
+    /**
+    * 味方
+    * @var object::Pokemon
+    */
+    private $friend;
+
+    /**
+    * 相手
+    * @var object::Pokemon
+    */
+    private $enemy;
+
+    /**
+    * 戦闘に参加しているポケモン番号
+    * @var integer
+    */
+    protected $order;
+
+    /**
+    * 前ターンのポケモンの状態
+    * @var array
+    */
+    protected $before;
+
+    /**
+    * 戦闘に参加したポケモン番号
+    * @var array
+    */
+    private $fought_orders = [];
+
+
     /**==================================================================
     * 前ターンのポケモン関係処理
     ==================================================================**/
@@ -34,12 +65,11 @@ trait ClassBattleStatePokemonTrait
             if(!is_a($pokemon, 'Pokemon')){
                 $pokemon = null;
             }
-            // へんしんオブジェクトがあればgtTransformの値をクローンして格納
-            $this->before[$position] = clone ($pokemon ?? $this->getTransform($position) ?? $this->$position);
+            $this->before[$position] = clone ($pokemon ?? $this->$position);
         }else{
             // 両方
-            $this->before['friend'] = clone ($this->getTransform('friend') ?? $this->friend);
-            $this->before['enemy'] =  clone ($this->getTransform('enemy') ?? $this->enemy);
+            $this->before['friend'] = clone $this->friend;
+            $this->before['enemy'] =  clone $this->enemy;
         }
     }
 
@@ -179,34 +209,5 @@ trait ClassBattleStatePokemonTrait
             $this->enemy = $pokemon;
         }
     }
-
-    /**==================================================================
-    * ひんし状態関係処理
-    ==================================================================**/
-
-    // /**
-    // * 瀕死状態の確認
-    // * @param position:string
-    // * @return boolean
-    // */
-    // public function isFainting(string $position=''): bool
-    // {
-    //     if(in_array($position, config('pokemon.position'), true)){
-    //         // どちらか指定
-    //         return !$this->$position->isFight();
-    //     }else{
-    //         // 両方チェック
-    //         if(
-    //             $this->enemy->isFight() &&
-    //             $this->friend->isFight()
-    //         ){
-    //             // どちらも瀕死状態ではない
-    //             return false;
-    //         }else{
-    //             // どちらかが瀕死状態
-    //             return true;
-    //         }
-    //     }
-    // }
 
 }

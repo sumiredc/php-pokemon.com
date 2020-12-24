@@ -17,9 +17,9 @@ trait ServiceBattleCalTrait
     {
         // 計算式を当てはめる
         $result = floor(floor(floor($l * 2 / 5 + 2) * $p * $a / $d) / 50 + 2) * $m;
-        if($result === 0){
-            // 計算結果が０になった場合は＋１
-            $result++;
+        if($result < 1){
+            // 最小ダメージの調整
+            $result = 1;
         }
         return $result;
     }

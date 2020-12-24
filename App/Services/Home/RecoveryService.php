@@ -2,8 +2,8 @@
 require_once(app_path('Services').'Service.php');
 
 /**
- * 全回復
- */
+* ポケモンセンター
+*/
 class RecoveryService extends Service
 {
 
@@ -25,9 +25,11 @@ class RecoveryService extends Service
             $partner->recovery();
         }
         response()->setMessage([
-            ['お預かりしたポケモンたちは、皆元気になりましたよ'],
-            ['またのご利用お待ちしております']
+            'お預かりしたポケモンたちは、皆元気になりましたよ',
+            'またのご利用お待ちしております'
         ]);
+        response()->setEmptyMessage();
+        response()->setToastr('success', 'ポケモンの状態が万全になった！');
     }
 
 }

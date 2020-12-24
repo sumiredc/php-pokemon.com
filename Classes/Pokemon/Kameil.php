@@ -101,12 +101,12 @@ class Kameil extends Pokemon
     * 進化前（クラス名）
     * @var string
     */
-    public static $before_class = 'Zenigame';
+    public const BEFORE_CLASS = 'Zenigame';
 
     /**
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Kamex';
+    public const AFTER_CLASS = 'Kamex';
 
 }

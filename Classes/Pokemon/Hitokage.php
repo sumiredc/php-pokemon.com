@@ -100,6 +100,6 @@ class Hitokage extends Pokemon
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Lizardo';
+    public const AFTER_CLASS = 'Lizardo';
 
 }

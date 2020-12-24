@@ -41,6 +41,12 @@ class ItemService extends Service
     protected $capture_flg = false;
 
     /**
+    * どろぼうフラグ
+    * @var boolean
+    */
+    protected $thief_flg = false;
+
+    /**
     * アイテム使用時のメッセージID
     * @var string
     */
@@ -71,9 +77,14 @@ class ItemService extends Service
             // バトル終了判定用メッセージの格納
             response()->setEmptyMessage('battle-end');
         }else{
-            // 捕獲失敗
-            //相手のターン処理
-            $this->enemyTurn();
+            // 捕獲失敗・通常アイテムの使用
+            if($this->thief_flg){
+                // トレーナー戦でのボールの使用
+                response()->setMessage('人のものを取ったら、どろぼう！');
+            }else{
+                //相手のターン処理
+                $this->enemyTurn();
+            }
         }
     }
 
@@ -121,6 +132,10 @@ class ItemService extends Service
             // 味方ポケモン
             case 'friend':
             $result = $this->useItemToFriend($item);
+            break;
+            // バトル中の味方ポケモン
+            case 'friend_battle':
+            $result = $this->useItemToFriendBattle($item);
             break;
             // 相手ポケモン
             case 'enemy':

@@ -99,12 +99,12 @@ class Pigeon extends Pokemon
     * 進化前（クラス名）
     * @var string
     */
-    public static $before_class = 'Poppo';
+    public const BEFORE_CLASS = 'Poppo';
 
     /**
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Pigeot';
+    public const AFTER_CLASS = 'Pigeot';
 
 }

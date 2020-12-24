@@ -120,13 +120,17 @@ class SelectPokemonService extends Service
             player()->setParty($pokemon);
         }
         // プレイヤーレベルを90にする
-        for ($i=1; $i < 90; $i++) {
+        for ($i=1; $i < 10; $i++) {
             player()->levelUp();
         }
         // 初期アイテム
         player()->addItem('ItemPotion', 20);
         player()->addItem('ItemPokeBall', 20);
         player()->addItem('ItemMasterBall', 50);
+        player()->addItem('ItemXAttack', 50);
+        // player()->addItem('ItemThunderStone', 50);
+        // おこづかい
+        player()->addMoney(10000);
     }
 
 }

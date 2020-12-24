@@ -96,6 +96,6 @@ class Lizardon extends Pokemon
     * 進化前（クラス名）
     * @var string
     */
-    public static $before_class = 'Lizardo';
+    public const BEFORE_CLASS = 'Lizardo';
 
 }

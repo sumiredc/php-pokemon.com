@@ -91,6 +91,6 @@ class Raichu extends Pokemon
     * 進化前（クラス名）
     * @var string
     */
-    public static $before_class = 'Pikachu';
+    public const BEFORE_CLASS = 'Pikachu';
 
 }

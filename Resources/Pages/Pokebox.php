@@ -3,16 +3,16 @@
 <head>
     <?php
     # metaの読み込み
-    include(resources_path('Partials.Layouts.Head').'meta.php');
+    include(resources_path('Partials/Layouts/Head').'meta.php');
     # cssの読み込み
-    include(resources_path('Partials.Layouts.Head').'css.php');
+    include(resources_path('Partials/Layouts/Head').'css.php');
     ?>
     <link rel="stylesheet" href="/Assets/css/Page/pokebox.css">
 </head>
 <body>
     <?php
     # headerの読み込み
-    include(resources_path('Partials.Layouts.Head').'header.php');
+    include(resources_path('Partials/Layouts/Head').'header.php');
     ?>
     <main>
         <div class="container-fluid section">
@@ -29,11 +29,11 @@
                     </div>
                     <div class="card-body py-0 px-3">
                         <div class="row">
-                            <?php include(resources_path('Partials.Pokebox').'body.php'); ?>
+                            <?php include(resources_path('Partials/Pokebox').'body.php'); ?>
                         </div>
                     </div>
                     <div class="card-footer bg-php d-flex justify-content-center" data-pokebox="controls">
-                        <?php include(resources_path('Partials.Pokebox').'foot.php'); ?>
+                        <?php include(resources_path('Partials/Pokebox').'foot.php'); ?>
                     </div>
                     <div class="card-footer p-3 overflow-auto bg-white" style="height: 90px;">
                         <?php foreach(response()->messages() as list($message)): ?>
@@ -46,13 +46,13 @@
     </main>
     <?php
     # footerの読み込み
-    include(resources_path('Partials.Layouts.Foot').'footer.php');
+    include(resources_path('Partials/Layouts/Foot').'footer.php');
     # モーダルの読み込み
-    include(resources_path('Partials.Pokebox.Modals').'deposit.php');
-    include(resources_path('Partials.Pokebox.Modals').'receive.php');
-    include(resources_path('Partials.Pokebox.Modals').'switch.php');
+    include(resources_path('Partials/Pokebox/Modals').'deposit.php');
+    include(resources_path('Partials/Pokebox/Modals').'receive.php');
+    include(resources_path('Partials/Pokebox/Modals').'switch.php');
     # JSの読み込み
-    include(resources_path('Partials.Layouts.Foot').'js.php');
+    include(resources_path('Partials/Layouts/Foot').'js.php');
     ?>
     <script src="/Assets/js/Pokebox/pokebox.js" type="text/javascript" defer></script>
 </body>

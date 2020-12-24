@@ -1,5 +1,4 @@
 <?php foreach(config('const.first_pokemon') as $order => $pokemon): ?>
-    <!-- Modal -->
     <div class="modal fade" id="first-pokemon-<?=$pokemon?>-modal" tabindex="-1" role="dialog" aria-labelledby="<?=$key?>-modal-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -16,14 +15,8 @@
                         <input type="hidden" name="action" value="select_pokemon">
                         <input type="hidden" name="pokemon" value="<?=$order?>">
                         <input type="hidden" name="name">
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">もう少し考える</button>
-                            </div>
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-sm btn-php-dark">キミに決めた！</button>
-                            </div>
-                        </div>
+                        <button type="button" class="btn btn-sm btn-secondary mr-2" data-dismiss="modal">もう少し考える</button>
+                        <button type="submit" class="btn btn-sm btn-php-dark">キミに決めた！</button>
                         <?php input_token(); ?>
                     </form>
                 </div>

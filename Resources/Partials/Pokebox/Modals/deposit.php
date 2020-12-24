@@ -8,13 +8,13 @@
                 </figure>
             </div>
             <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">やめる</button>
                 <form id="pokebox-deposit-form" method="post">
                     <?php input_token(); ?>
                     <input type="hidden" name="action" value="deposit">
                     <input type="hidden" name="pokemon_id">
                     <button type="submit" class="btn btn-sm btn-php-dark">預ける</button>
                 </form>
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">やめる</button>
             </div>
         </div>
     </div>

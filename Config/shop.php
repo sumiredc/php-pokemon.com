@@ -1,4 +1,4 @@
 <?php
 return [
-    'ItemPotion', 'ItemPokeBall'
+    'ItemPotion', 'ItemPokeBall', 'ItemXAttack', 'ItemThunderStone', 'ItemTM01'
 ];

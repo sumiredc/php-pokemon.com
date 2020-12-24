@@ -93,9 +93,10 @@ class Mew extends Pokemon
         // [1, 'MoveRage'],                # いかり
         // [1, 'MoveMirrorMove'],             # オウムがえし
         // [1, 'MoveGrowth'],            # せいちょう
-        // [1, 'MovePayDay'],            # ネコにこばん
-        // [1, 'MoveFireSpin'],            # ほのおのうず
-        // [1, 'MoveExplosion'],              # だいばくはつ
+        [1, 'MovePayDay'],            # ネコにこばん
+        [1, 'MoveFireSpin'],            # ほのおのうず
+        [1, 'MoveExplosion'],              # だいばくはつ
+        // [1, 'MoveDisable'],              # かなしばり
 
         // [1, 'MoveOutrage'],                 # げきりん（威力10）
     ];

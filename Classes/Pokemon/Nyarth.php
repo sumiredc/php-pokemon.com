@@ -99,6 +99,6 @@ class Nyarth extends Pokemon
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Persian';
+    public const AFTER_CLASS = 'Persian';
 
 }

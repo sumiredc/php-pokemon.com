@@ -6,6 +6,12 @@ trait ClassBattleStateTurnDamageTrait
 {
 
     /**
+    * このターンに受けた攻撃によるダメージ量
+    * @var array
+    */
+    private $turn_damages;
+
+    /**
     * ターンダメージの初期値
     * @return void
     */

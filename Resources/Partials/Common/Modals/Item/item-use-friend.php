@@ -4,12 +4,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <p class="small mb-0">
-                    <span id="item-use-name" class="font-weight-bolder"></span>を使うポケモンを選んでください
+                    <span id="item-use-name" class="font-weight-bolder text-white"></span>を使うポケモンを選んでください
                 </p>
             </div>
             <div class="modal-body">
                 <?php foreach(player()->getParty() as $order => $party): ?>
-                    <div class="row bg-hover-light pokemon-row" data-pokemon="<?=$order?>">
+                    <div class="row bg-hover-light pokemon-row py-1" data-pokemon="<?=$order?>" data-class="<?=get_class($party)?>">
                         <div class="col-3 text-center">
                             <img src="<?=$party->base64('mini')?>" alt="<?=$party::NAME?>">
                         </div>
@@ -40,6 +40,10 @@
                                     Lv.<?=$party->getLevel()?>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12">
+                            <span class="badge badge-secondary d-soft-none" data-is_use="false">使えません</span>
+                            <span class="badge badge-php-dark d-soft-none" data-is_use="true">使えます</span>
                         </div>
                     </div>
                 <?php endforeach; ?>

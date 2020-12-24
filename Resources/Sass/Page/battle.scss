@@ -3,6 +3,49 @@
 #battle-field{
     position: relative;
 }
+// 相手トレーナー
+#enemy-trainer-parameter{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+// 画像（トレーナー・ポケモン）
+#enemy-trainer-image, #enemy-pokemon-image, #friend-trainer-image, #friend-pokemon-image{
+    position: absolute;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
+    top: 50%;
+}
+// ボールアイコン
+.icon-party-ball{
+    display: inline-block;
+    margin-right: 4px;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #CCC;
+    border-radius: 50%;
+    overflow: hidden;
+    &:before, &:after{
+        content: '';
+        display: block;
+        width: 100%;
+        height: 50%;
+
+    }
+    &:before{
+        background-color: #FF4646;
+    }
+    &:after{
+        background-color: #FFF;
+    }
+    // 未所有
+    &.empty{
+        &:before, &:after{
+            display: none;
+        }
+    }
+}
 // 捕獲時のボール
 img.capture-ball{
     position: absolute;
@@ -13,17 +56,20 @@ img.capture-ball{
 }
 img.capture-ball-open{
     position: absolute;
+    z-index: 1;
     transform: translateY(-50%) translateX(-50%);
     width: 80px;
     height: 80px;
-    &.enemy{
-        left: 75%;
-        top: 25%;
-    }
-    &.friend{
-        left: 25%;
-        top: 75%;
-    }
+    left: 50%;
+    top: 50%;
+    // &.enemy{
+    //     left: 75%;
+    //     top: 25%;
+    // }
+    // &.friend{
+    //     left: 25%;
+    //     top: 75%;
+    // }
 }
 img.capture-ball-get{
     position: absolute;

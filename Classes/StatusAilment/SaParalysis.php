@@ -44,4 +44,26 @@ class SaParalysis extends StatusAilment
     */
     public const RECOVERY_MSG = '::pokemonの体の痺れがとれた';
 
+    /**
+    * 行動前の状態異常発症
+    * @param pokemon:object
+    * @return array
+    */
+    public static function onsetBefore(object $pokemon): array
+    {
+        // 1/4の確率で行動不能
+        if(random_int(0, 3)){
+            // 行動可能
+            return [
+                'result' => true,
+            ];
+        }else{
+            // 行動不能
+            return [
+                'result' => false,
+                'message' => static::getFailedMessage($pokemon->getPrefixName())
+            ];
+        }
+    }
+
 }

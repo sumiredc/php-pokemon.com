@@ -1,6 +1,6 @@
 <?php
 /**
-* ポケモン
+* へんしんポケモン
 */
 class PokemonTransform
 {

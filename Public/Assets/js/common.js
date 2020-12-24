@@ -91,7 +91,7 @@ var hideModalInit = function() {
 
 /**
  * 強制モーダルの起動
- * @function modal
+ * @function ready
  */
 var showForceModalInit = function(){
     $(document).ready(function() {
@@ -105,12 +105,54 @@ var showForceModalInit = function(){
 /**
  * リモートフォームへのサブミット
  *
- * @function on show modal
+ * @function on:click
  */
 var submitRemoteInit = function() {
     $('[data-submit_remote]').on('click', function(){
         $("#remote-form-action").val($(this).data('submit_remote'))
         $('form#remote-form').submit();
+    });
+}
+
+/**
+ * クリップボードへのコピー
+ * @function on:click
+ */
+var copyToClipboard = function() {
+    $('[data-clipboard="true"]').on('click', function(){
+        var text;
+        var target = $(this).data('target');
+        // コピーする文章の取得(もし対象が見つからなければ自身を選択)
+        if(target){
+            text = $(target).text();
+        }else{
+            text = $(this).text();
+        }
+        // テキストエリアに対象テキストをセット
+        var textarea = $('<textarea>' + text + '</textarea>');
+        $(this).append(textarea);
+        // テキストエリアを選択してコピー
+        textarea.select();
+        document.execCommand('copy');
+        // 不要になったテキストエリアを削除
+        textarea.remove();
+        toastr.success('プレイヤーIDをコピーしました');
+    });
+}
+
+/**
+ * トーストの表示
+  * @function each
+ */
+var showToastrs = function() {
+    $(document).ready(function() {
+        $('[data-toastr]').each(function(){
+            var design = $(this).data('toastr');
+            if(0 <= $.inArray(design, ['success', 'info', 'error', 'warning'])){
+                // 指定されたデザインのトーストを表示
+                toastr[design]($(this).val());
+            }
+        });
     });
 }
 
@@ -130,6 +172,8 @@ jQuery(function($){
     hideModalInit();
     submitRemoteInit();
     showForceModalInit();
+    copyToClipboard();
+    showToastrs();
     // テンプレート関係の処理
     $('[data-toggle="popover"]').popover();
 });

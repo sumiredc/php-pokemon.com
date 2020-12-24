@@ -20,4 +20,18 @@
             <p><span class="badge badge-success">フィールド</span></p>
         </figure>
     </div>
+    <div class="col text-center">
+        <?php # トレーナー ?>
+        <figure class="btn-action" data-toggle="modal" data-target="#trainer-modal">
+            <img src="/Assets/img/npc/shadow.png" class="mb-2 rounded-sm" alt="トレーナー" />
+            <p><span class="badge badge-php">トレーナー</span></p>
+        </figure>
+    </div>
+    <div class="col text-center">
+        <?php # ジム ?>
+        <figure class="btn-action" data-toggle="modal" data-target="#gym-modal">
+            <img src="/Assets/img/building/gym.png" class="mb-2 rounded-sm" alt="ジム" />
+            <p><span class="badge badge-secondary">ジム</span></p>
+        </figure>
+    </div>
 </div>

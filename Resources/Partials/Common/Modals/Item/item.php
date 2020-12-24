@@ -48,6 +48,13 @@
                                         </form>
                                         <?php # 味方ポケモン対象のアイテム使用 ?>
                                         <button type="button" class="btn btn-sm btn-php-dark" data-button="use" data-item_target="friend" data-toggle="modal" data-target="#item-use-friend-modal" style="display:none">使う</button>
+                                        <?php # バトル中の味方ポケモン対象のアイテム使用 ?>
+                                        <form method="post" data-button="use" data-item_target="friend_battle" style="display:none">
+                                            <?php input_token(); ?>
+                                            <input type="hidden" name="action" value="item">
+                                            <input type="hidden" name="order">
+                                            <button type="submit" class="btn btn-sm btn-php-dark">使う</button>
+                                        </form>
                                         <?php # 捨てる ?>
                                         <?php if(getPageName() !== 'battle'): ?>
                                             <button type="button" class="btn btn-sm btn-danger" data-button="trash" data-toggle="modal" data-target="#item-trash-modal" style="display:none">捨てる</button>
@@ -64,33 +71,10 @@
                                     <table class="table table-sm table-hover table-selected table-bordered bg-white mb-0">
                                         <tbody>
                                             <?php foreach($items as $item): ?>
-                                                <?php # 利用不可（バトル中のみ） ?>
-                                                <?php if(!in_array('battle', $item['class']::TIMING, true)  ): ?>
-                                                    <?php # 利用不可 ?>
-                                                    <tr class="text-muted">
-                                                        <td class="w-75">
-                                                            <img src="/Assets/img/item/class/<?=$item['class']?>.png" alt="<?=$item['class']::NAME?>" class="mr-1" />
-                                                            <?=$item['class']::NAME?>
-                                                            <td class="w-25 text-right"><?=$item['count']?> 個</td>
-                                                        </td>
-                                                    </tr>
+                                                <?php if(getPageName() === 'battle'): ?>
+                                                    <?php include(resources_path('Partials/Common/Modals/Item/').'item-row-battle.php'); ?>
                                                 <?php else: ?>
-                                                    <?php # 利用可能 ?>
-                                                    <tr data-description="<?=$item['class']::DESCRIPTION?>"
-                                                        data-name="<?=$item['class']::NAME?>"
-                                                        data-category="<?=$category?>"
-                                                        data-target="<?=$item['class']::TARGET?>"
-                                                        data-use="<?=var_export($item['class']::allowUsed(getPageName()), true)?>"
-                                                        data-trash="<?=var_export($item['class']::allowTrashed(), true)?>"
-                                                        data-owned="<?=$item['count']?>"
-                                                        data-order="<?=$item['order']?>"
-                                                        class="item-row">
-                                                        <td class="w-75">
-                                                            <img src="/Assets/img/item/class/<?=$item['class']?>.png" alt="<?=$item['class']::NAME?>" class="mr-1" />
-                                                            <?=$item['class']::NAME?>
-                                                        </td>
-                                                        <td class="w-25 text-right"><?=$item['count']?> 個</td>
-                                                    </tr>
+                                                    <?php include(resources_path('Partials/Common/Modals/Item/').'item-row.php'); ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         </tbody>

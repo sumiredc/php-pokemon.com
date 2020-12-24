@@ -13,10 +13,11 @@
             <form method="post" id="select-field-form">
                 <div class="modal-body">
                     <figure class="text-center" style="height:160px;">
-                        <img src="/Assets/img/fields/route_1.png" alt="フィールド画像" id="select-filed-image" class="rounded-sm">
+                        <img src="" alt="フィールド画像" id="select-field-image" class="rounded-sm d-soft-none">
                     </figure>
                     <div class="form-group">
                         <select class="form-control form-control-sm" name="field">
+                            <option value="">-- 選択してください --</option>
                             <?php foreach(config('field') as $key => $field): ?>
                                 <option value="<?=$key?>" <?php if($field['level'] > player()->getLevel()) echo 'disabled'; ?>><?=$field['name']?>（必要レベル：<?=$field['level']?>）</option>
                             <?php endforeach; ?>
@@ -31,7 +32,7 @@
                 <div class="modal-footer">
                     <input type="hidden" name="action" value="battle">
                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">戻る</button>
-                    <input class="btn btn-sm btn-php-dark" type="submit" value="出発する">
+                    <input class="btn btn-sm btn-php-dark" type="submit" value="出発する" disabled>
                     <?php input_token(); ?>
                 </div>
             </form>

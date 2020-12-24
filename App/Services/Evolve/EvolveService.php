@@ -53,7 +53,7 @@ class EvolveService extends Service
     {
         // 対象ポケモンの取得
         $before = player()->getPartner($this->order);
-        $after_class = $before::$after_class;
+        $after_class = $before->getAfterClass();
         // 対象ポケモンが進化可能な状態か確認
         if(
             $before->getEvolveFlg()

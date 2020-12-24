@@ -25,6 +25,10 @@ if(response()->isForceModal()){
 # 共通モーダルの読み込み
 include(resources_path('Partials.Common.Modals').'introduction.php');
 include(resources_path('Partials.Common.Modals.Help').'help.php');
+# トースト用メッセージの出力
+foreach(response()->getToastrs() as $toastr){
+    echo '<input type="hidden" data-toastr="'.$toastr[0].'" value="'.$toastr[1].'">';
+}
 # テンプレートの読み込み
 include(resources_path('Partials.Layouts.Templates').'template-common.php');
 ?>

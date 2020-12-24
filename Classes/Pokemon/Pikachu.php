@@ -95,14 +95,30 @@ class Pikachu extends Pokemon
         'S' => 2,
     ];
 
-    //=====================================
-    // 静的変数
-    //=====================================
-
     /**
     * 進化先
     * @var string
     */
-    public static $after_class = 'Raichu';
+    public const AFTER_CLASS = 'Raichu';
+
+    //=====================================
+    // 専用メソッド
+    //=====================================
+
+    /**
+    * 進化条件の分岐
+    * @param args:array
+    * @var boolean
+    */
+    public function judgeEvolve(...$args): bool
+    {
+        list($item) = $args;
+        if($item === 'ItemThunderStone'){
+            // 進化フラグを立てる
+            $this->evolve_flg = true;
+        }
+        // 結果を返却
+        return $this->evolve_flg;
+    }
 
 }

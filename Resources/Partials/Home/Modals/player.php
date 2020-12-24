@@ -9,12 +9,26 @@
                 </h5>
             </div>
             <div class="modal-body">
+
                 <div class="row">
-                    <div class="col-6">
-                        <label class="font-weight-bold mb-0">おこづかい</label>：<?=player()->getMoney()?>円
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="font-weight-bold mb-0">プレイヤーID</label>
+                            <p class="form-control-plaintext bg-light rounded-sm py-1 px-2 cursor-pointer" data-clipboard="true" title="クリックでコピーします"><?=player()->getID()?></p>
+                            <small class="form-text text-muted ml-2">クリックでコピーします</small>
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <label class="font-weight-bold mb-0">プレイヤーレベル</label>：<?=player()->getLevel()?>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold mb-0">おこづかい</label>
+                            <p class="form-control-plaintext bg-light rounded-sm py-1 px-2"><?=player()->getMoney()?>円</p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <div class="form-group">
+                            <label class="font-weight-bold mb-0">プレイヤーレベル</label>
+                            <p class="form-control-plaintext bg-light rounded-sm py-1 px-2"><?=player()->getLevel()?></p>
+                        </div>
                     </div>
                 </div>
                 <hr>

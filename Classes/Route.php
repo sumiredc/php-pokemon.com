@@ -34,6 +34,7 @@ abstract class Route
         // トークン認証を実行
         if(
             !isset($_POST['__token']) ||
+            !isset($_SESSION['__token']) ||
             $_POST['__token'] !== $_SESSION['__token']
         ){
             // 認証失敗(リロード)

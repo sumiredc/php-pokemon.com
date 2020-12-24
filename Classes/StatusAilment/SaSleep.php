@@ -50,4 +50,30 @@ class SaSleep extends StatusAilment
     */
     public const RECOVERY_MSG = '::pokemonは、目を覚ました';
 
+    /**
+    * 行動前の状態異常発症
+    * @param pokemon:object
+    * @return array
+    */
+    public static function onsetBefore(object $pokemon): array
+    {
+        // ターンカウントを進める
+        $pokemon->goSaTurn();
+        // ターンカウントが残っていれば行動不能
+        if($pokemon->getSa()){
+            // 行動不能
+            return [
+                'result' => false,
+                'message' => static::getFailedMessage($pokemon->getPrefixName())
+            ];
+        }else{
+            // ねむり解除
+            return [
+                'result' => true,
+                'release' => true,
+                'message' => static::getRecoveryMessage($pokemon->getPrefixName())
+            ];
+        }
+    }
+
 }

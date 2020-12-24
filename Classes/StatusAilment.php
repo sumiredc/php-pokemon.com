@@ -19,6 +19,18 @@ abstract class StatusAilment
     public const RECOVERY_MSG = '';
 
     /**
+    * 行動前の状態異常発症
+    * @param pokemon:object
+    * @return array
+    */
+    public static function onsetBefore(object $pokemon): array
+    {
+        return [
+            'result' => true,
+        ];
+    }
+
+    /**
     * 状態異常にかかった際のメッセージを取得
     * @param pokemon:string
     * @return string

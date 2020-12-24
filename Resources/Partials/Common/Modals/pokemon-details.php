@@ -83,8 +83,9 @@
                                 <?php $stats = (getPageName() === 'battle') ? $pokemon->getStatsMAll() : $pokemon->getStatsAll();  ?>
                                 <?php foreach($stats as $key => $val): ?>
                                     <tr>
-                                        <th scope="row" class="w-25"><?=transJp($key, 'stats')?></th>
-                                        <td class="w-25"><?=$val?></td>
+                                        <th scope="row" class="text-center" style="width:10%"><?=config('pokemon.iv.icon.'.$pokemon->getIvRank($key))?></th>
+                                        <td style="width:20%"><?=transJp($key, 'stats')?></td>
+                                        <td style="width:20%"><?=$val?></td>
                                         <td class="align-middle">
                                             <div class="d-flex align-items-center">
                                                 <span class="bg-php-dark rounded-sm d-inline-block" style="height: 12px; width:<?=$pokemon->getEvPer($key)?>%;"></span>
@@ -142,8 +143,13 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <?php # 前のポケモン ?>
-                <?php if($prev = player()->prevPartner($pokemon->getId())): ?>
+                <?php # 前のポケモン
+                if(getPageName() === 'pokebox'){
+                    $prev = player()->prevPartner($pokemon->getId()) ?? pokebox()->prevPokemon($pokemon->getId());
+                }else{
+                    $prev = player()->prevPartner($pokemon->getId());
+                } ?>
+                <?php if($prev): ?>
                     <img src="<?=$prev->base64('mini')?>"
                     alt="<?=$prev::NAME?>"
                     class="cursor-pointer"
@@ -154,8 +160,13 @@
                 <?php else: ?>
                     <span></span>
                 <?php endif; ?>
-                <?php # 次のポケモン ?>
-                <?php if($next = player()->nextPartner($pokemon->getId())): ?>
+                <?php # 次のポケモン
+                if(getPageName() === 'pokebox'){
+                    $next = player()->nextPartner($pokemon->getId()) ?? pokebox()->nextPokemon($pokemon->getId());
+                }else{
+                    $next = player()->nextPartner($pokemon->getId());
+                } ?>
+                <?php if($next): ?>
                     <img src="<?=$next->base64('mini')?>"
                     alt="<?=$next::NAME?>"
                     class="cursor-pointer"

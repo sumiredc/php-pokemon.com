@@ -4,7 +4,6 @@
 */
 abstract class Item
 {
-
     /**
     * 性能値（捕獲補正率※ボールのみ個別で設定）
     * @var float
@@ -32,6 +31,26 @@ abstract class Item
             return false;
         }
         return true;
+    }
+
+    /**
+    * 使用できるポケモンの取得
+    * @return array
+    */
+    public static function getUsePokemon(): array
+    {
+        // 未設定のアイテム
+        if(!defined('static::POKEMON')){
+            return [];
+        }
+        // 設定されているポケモン
+        if(is_array(static::POKEMON)){
+            // 配列の場合はそのまま返却
+            return static::POKEMON;
+        }else{
+            // 文字列の場合はconfigから返却
+            return config(static::POKEMON) ?? [];
+        }
     }
 
 }

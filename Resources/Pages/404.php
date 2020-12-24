@@ -3,15 +3,15 @@
 <head>
     <?php
     # metaの読み込み
-    include(resources_path('Partials.Layouts.Head').'meta.php');
+    include(resources_path('Partials/Layouts/Head').'meta.php');
     # cssの読み込み
-    include(resources_path('Partials.Layouts.Head').'css.php');
+    include(resources_path('Partials/Layouts/Head').'css.php');
     ?>
 </head>
 <body>
     <?php
     # headerの読み込み
-    include(resources_path('Partials.Layouts.Head').'header.php');
+    include(resources_path('Partials/Layouts/Head').'header.php');
     ?>
     <main>
         <div class="container-fluid section bg-php-back">
@@ -44,14 +44,14 @@
         </div>
         <?php
         # お知らせ
-        include(resources_path('Partials.Common').'notice.php');
+        include(resources_path('Partials/Common').'notice.php');
         ?>
     </main>
     <?php
     # footerの読み込み
-    include(resources_path('Partials.Layouts.Foot').'footer.php');
+    include(resources_path('Partials/Layouts/Foot').'footer.php');
     # JSの読み込み
-    include(resources_path('Partials.Layouts.Foot').'js.php');
+    include(resources_path('Partials/Layouts/Foot').'js.php');
     ?>
 </body>
 </html>

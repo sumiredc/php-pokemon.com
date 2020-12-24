@@ -12,14 +12,15 @@ window.battleLib = {};
 */
 window.battleLib.doAnimateStart = function (target){
     return new Promise ( async (resolve, reject) => {
+        // プレイヤー画像とパラメーターを非表示
+        $('#' + target + '-trainer-image').remove();
+        $('#' + target + '-trainer-parameter').remove();
         // ボールが開くエフェクト
-        $('#battle-field').append(
-            $($('#template-effect-ball-open').html())
-            .addClass('friend')
-        );
+        var ball_open = $($('#template-effect-ball-open').html());
+        $('#' + target + '-pokemon-image').after(ball_open);
         await timer(500);
-        // ボールエフェクトを非表示
-        $('img.capture-ball-open').hide();
+        // ボールエフェクトを削除
+        ball_open.remove();
         // 画像とパラメーターを表示
         $('#' + target + '-pokemon-image').removeClass('opacity-0');
         $('#' + target + '-pokemon-parameter').removeClass('opacity-0');
@@ -173,19 +174,10 @@ window.battleLib.doAnimateChangeOut = function (target, param){
     return new Promise ( async (resolve, reject) => {
         // 交代後のポケモンの画像を生成
         var img = $('#' + target + '-pokemon-image');
-        img.attr('src', param.base64)
-        // HPの生成
-        var hpbar = $('#hpbar-' + target);
-        hpbar.css('width', param.hp_per + '%');
-        hpbar.attr('aria-valuenow', param.hp_now);
-        hpbar.attr('aria-valuemax', param.hp_max);
-        hpbar.removeClass(function(index, className) {
-            // 背景色クラスを全リセット
-            return (className.match(/\bbg-\S+/g) || []).join(' ');
-        });
-        hpbar.addClass('bg-' + param.hp_color);
-        $('#remaining-hp-count-' + target).text(param.hp_now);
-        $('#max-hp-count-' + target).text(param.hp_max);
+        img.attr('src', param.base64);
+        // レベル・名前
+        $('#level-' + target).text(param.level);
+        $('#name-' + target).text(param.name);
         // 状態異常の生成
         var sa = $('#sa-' + target);
         sa.text('');
@@ -197,21 +189,35 @@ window.battleLib.doAnimateChangeOut = function (target, param){
             })
             .addClass('badge-' + param.sa_color);
         }
-        // レベル・名前
-        $('#level-friend').text(param.level);
-        $('#name-friend').text(param.name);
-        // 経験値
-        var expbar = $('#expbar-friend');
-        expbar.css('width', param.exp + '%');
-        expbar.attr('aria-valuenow', param.exp);
+        // HPの生成
+        var hpbar = $('#hpbar-' + target);
+        // キーフレームをリセット
+        hpbar.resetKeyframe(function(){});
+        // 現在のHP状況を生成
+        hpbar.css('width', param.hp_per + '%');
+        hpbar.attr('aria-valuenow', param.hp_now);
+        hpbar.attr('aria-valuemax', param.hp_max);
+        // 味方のみの描画処理
+        if(target === 'friend'){
+            // HPバーの色
+            hpbar.removeClass(function(index, className) {
+                // 背景色クラスを全リセット
+                return (className.match(/\bbg-\S+/g) || []).join(' ');
+            });
+            hpbar.addClass('bg-' + param.hp_color);
+            $('#remaining-hp-count-' + target).text(param.hp_now);
+            $('#max-hp-count-' + target).text(param.hp_max);
+            // 経験値
+            var expbar = $('#expbar-' + target);
+            expbar.css('width', param.exp + '%');
+            expbar.attr('aria-valuenow', param.exp);
+        }
         // ボールが開くエフェクト
-        $('#battle-field').append(
-            $($('#template-effect-ball-open').html())
-            .addClass('friend')
-        );
+        var ball_open = $($('#template-effect-ball-open').html());
+        $('#' + target + '-pokemon-image').after(ball_open);
         await timer(500);
         // ボールエフェクトを非表示
-        $('img.capture-ball-open').hide();
+        ball_open.remove();
         // 画像とパラメーターを表示
         img.removeClass('opacity-0');
         $('#' + target + '-pokemon-parameter').removeClass('opacity-0');
@@ -341,16 +347,17 @@ window.battleLib.doAnimateCapture = function (param){
             direction: 'normal',
             fillMode: 'forwards',
             complete: async function(){
+                // 繰り返し防止のためキーフレームを破棄
+                ball.resetKeyframe(function(){});
                 // ボールエフェクト
                 ball.hide();
                 ball.css('top', '35%'); // ボールの位置を少し下げる
                 var ball_open = $($('#template-effect-ball-open').html());
-                ball_open.addClass('enemy');
-                $('#battle-field').append(ball_open);
+                $('#enemy-pokemon-image').after(ball_open);
                 await timer(500);
                 // 相手ポケモンを非表示
                 ball.show();
-                $('img.capture-ball-open').hide();
+                ball_open.remove();
                 $('#enemy-pokemon-image').addClass('opacity-0');
                 // 揺れ演出
                 await shakeBall(ball, param.shake);
@@ -364,16 +371,15 @@ window.battleLib.doAnimateCapture = function (param){
                     resolve();
                 }else{
                     // 捕獲失敗
-                    // ボールエフェクト
+                    // ボールエフェクトを再生成(gifアニメーションのため)
                     ball.remove();
                     ball_open = $($('#template-effect-ball-open').html());
-                    ball_open.addClass('enemy');
-                    $('#battle-field').append(ball_open);
+                    $('#enemy-pokemon-image').after(ball_open);
                     // 相手ポケモンを表示
                     $('#enemy-pokemon-image').removeClass('opacity-0');
                     await timer(500);
                     // 非表示
-                    $('img.capture-ball-open').hide();
+                    ball_open.remove();
                     await timer(500);
                     resolve();
                 }
@@ -391,6 +397,20 @@ window.battleLib.doAnimateFainting = function (target){
     return new Promise ( async (resolve, reject) => {
         $('#' + target + '-pokemon-parameter').addClass('opacity-0');
         $('#' + target + '-pokemon-image').addClass('opacity-0');
+        await timer(500);
+        resolve();
+    });
+}
+
+
+/**
+* トレーナー表示処理
+* @param target:string
+* @return Promise
+*/
+window.battleLib.doAnimateShowTrainer = function (target){
+    return new Promise ( async (resolve, reject) => {
+        $('#' + target + '-trainer-image').show();
         await timer(500);
         resolve();
     });
@@ -447,9 +467,10 @@ var countHp = function(start, end){
 * @return Promise
 */
 var shakeBall = function(ball, count){
-    return new Promise ((resolve, reject) => {
+    return new Promise ( async (resolve, reject) => {
         // 揺れ回数0
         if(!count){
+            await timer(500);
             resolve();
             return;
         }

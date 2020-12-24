@@ -30,11 +30,12 @@ trait ServiceBattleEnemyAiTrait
                 return 'MoveStruggle';
             }
         }else{
-            // PPが残っている技を抽出
+            // PPが残っている && かなしばり状態ではない技を選択
             $move_list = array_filter($move_list, function($move){
-                return $move['remaining'];
+                return $move['remaining'] &&
+                $move['class'] !== enemy()->getScOther('ScDisable');
             });
-            // 残PPが全て0の場合は「わるあがき」
+            // 使用できる技がなければ「わるあがき」
             if(empty($move_list)){
                 return 'MoveStruggle';
             }else{

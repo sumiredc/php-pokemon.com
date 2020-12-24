@@ -40,8 +40,7 @@
                 <button type="button"
                 class="btn btn-link btn-block text-left text-secondary font-weight-bolder px-4 text-decoration-none"
                 data-toggle="modal"
-                data-target="#report-modal"
-                title="未実装の機能です" disabled>レポート</button>
+                data-target="#report-modal">レポート</button>
             </span>
             <span class="dropdown-item p-0">
                 <?php # せってい ?>

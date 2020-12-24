@@ -6,6 +6,12 @@ trait ClassPlayerPartyTrait
 {
 
     /**
+    * パーティー
+    * @var array
+    */
+    protected $party = [];
+
+    /**
     * パーティー情報の取得
     * @return array
     */
@@ -109,7 +115,7 @@ trait ClassPlayerPartyTrait
         if(
             isset($this->party[$order]) &&
             $this->party[$order]->getEvolveFlg() &&
-            $this->party[$order]::$after_class === get_class($evolve)
+            $this->party[$order]->getAfterClass() === get_class($evolve)
         ){
             $this->party[$order] = $evolve;
         }
@@ -129,6 +135,8 @@ trait ClassPlayerPartyTrait
         // ポケモンが見つかれば削除
         if($partner){
             unset($this->party[array_key_first($partner)]);
+            // 採番
+            $this->party = array_values($this->party);
         }
     }
 
@@ -142,13 +150,12 @@ trait ClassPlayerPartyTrait
         $partner = array_filter($this->party, function($partner) use($id){
             return $partner->getId() === $id;
         });
-        $order = array_key_first($partner);
-        if(empty($order)){
-            // 0番（最初）または見つからなければnull
-            return null;
-        }else{
+        if($order = array_key_first($partner)){
             // 1引いた番号を返却
             return $this->party[--$order];
+        }else{
+            // 0番（最初）または見つからなければnull
+            return null;
         }
     }
 

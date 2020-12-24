@@ -34,4 +34,38 @@ trait ClassPokemonInitTrait
         }
     }
 
+    /**
+    * トレーナーポケモン用の初期化
+    * @param data:array
+    * @return object::this
+    */
+    public function initTrainerPokemon(array $data): object
+    {
+        // 指定した技への書き換え
+        if(isset($data['move'])){
+            // 技が存在していれば、初期化して再セット
+            $this->move = [];
+            foreach($data['move'] as $move){
+                $this->setMove($move);
+            }
+        }
+        // 個体値の書き換え
+        if(isset($data['iv'])){
+            // もしポケモン個別で設定があれば、優先
+            $this->iv = $data['iv'];
+        }else{
+            // オール10(標準)
+            $this->iv = array_map(function(){
+                return 10;
+            }, $this->iv);
+        }
+        // 努力値の書き換え
+        if(isset($data['ev'])){
+            $this->ev = $data['ev'];
+        }
+        // 全回復状態にする
+        $this->recovery();
+        return $this;
+    }
+
 }

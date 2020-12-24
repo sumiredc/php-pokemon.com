@@ -62,6 +62,56 @@ trait ClassPokeboxPokemonTrait
         // ポケモンが見つかれば削除
         if($pokemon){
             unset($this->pokebox[$this->selected][array_key_first($pokemon)]);
+            // 採番
+            $this->pokebox[$this->selected] = array_values($this->pokebox[$this->selected]);
+        }
+    }
+
+    /**
+    * 指定されたポケモンの手前にいるポケモン情報を取得する
+    * @param id:string
+    * @return object::Pokemon|null
+    */
+    public function prevPokemon(string $id)
+    {
+        // ポケモンIDを使って取得
+        $pokemon = array_filter($this->pokebox[$this->selected], function($pokemon) use($id){
+            return $pokemon['id'] === $id;
+        });
+        // 先頭でなければ手前の番号のポケモン情報を返却
+        if($order = array_key_first($pokemon)){
+            // 復号化して返却
+            return unserializeObject(
+                $this->pokebox[$this->selected][--$order]['object']
+            );
+        }else{
+            return null;
+        }
+    }
+
+    /**
+    * 指定されたポケモンの手前にいるポケモン情報を取得する
+    * @param id:string
+    * @return object::Pokemon|null
+    */
+    public function nextPokemon(string $id)
+    {
+        // ポケモンIDを使って取得
+        $pokemon = array_filter($this->pokebox[$this->selected], function($pokemon) use($id){
+            return $pokemon['id'] === $id;
+        });
+        // 末尾でなければ次の番号のポケモン情報を返却
+        $order = array_key_first($pokemon);
+        if(
+            !is_null($order) &&
+            array_key_last($this->pokebox[$this->selected]) !== $order
+        ){
+            // 復号化して返却
+            return unserializeObject(
+                $this->pokebox[$this->selected][++$order]['object']
+            );
+        }else{
+            return null;
         }
     }
 

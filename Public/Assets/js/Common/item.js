@@ -4,7 +4,7 @@
 ----------------------------------------------------------*/
 /**
 * アイテム詳細の表示
-* @function on beforeunload
+* @function on:click
 * @return void
 */
 var showItemModalDetailInit = function(){
@@ -18,7 +18,7 @@ var showItemModalDetailInit = function(){
         var order = $(this).data('order');
         // 操作ボタンを非表示
         var button_group = $('.item-action-button-group[data-category="' + category + '"]');
-        button_group.find('[data-button="*"]').hide();
+        button_group.find('[data-button]').hide();
         // 詳細に表示
         $('#item-modal-' + category + '-name').text(name);
         $('#item-modal-' + category + '-description').text(description);
@@ -27,8 +27,8 @@ var showItemModalDetailInit = function(){
             // targetに合わせた使うボタン(フォーム)を表示
             var use_btn = button_group.find('[data-button="use"][data-item_target="' + target + '"]')
             use_btn.show();
-            // もしアイテムの対象がenemyまたはplayerの場合はorderをセット
-            if(target === 'enemy' || target === 'player'){
+            // もしアイテムの対象がenemy,player,friend_battleの場合はアイテム番号(order)をセット
+            if(0 <= $.inArray(target, ['enemy', 'player', 'friend_battle'])){
                 use_btn.find('[name="order"]').val(order);
             }
         }
@@ -42,7 +42,7 @@ var showItemModalDetailInit = function(){
 
 /**
 * 「捨てる」の処理
-* @function on beforeunload
+* @function on:click
 * @return void
 */
 var clickItemTrashInit = function(){
@@ -66,7 +66,7 @@ var clickItemTrashInit = function(){
 
 /**
 * 「使う」の処理（ポケモン）
-* @function on beforeunload
+* @function on:click
 * @return void
 */
 var clickItemUseFriendInit = function(){
@@ -77,17 +77,42 @@ var clickItemUseFriendInit = function(){
         var tr = $('tr[data-category="' + category + '"].active');
         var name = tr.data('name');
         var order = tr.data('order');
+        // 使用できるポケモン
+        var pokemon = $(tr).data('pokemon');
         // フォームを取得
         var form = $('form#item-use-friend-form');
         // アイテム名とアイテム番号をセット
         $('#item-use-name').text(name);
         form.find('[name="order"]').val(order);
+        // 使用できるポケモンの判定
+        if(pokemon){
+            $('#item-use-friend-modal .pokemon-row').each(function(){
+                // 使用できるポケモンに該当しているかの確認
+                var result = 0 <= $.inArray($(this).data('class'), pokemon);
+                $(this).find('[data-is_use="' + result + '"]')
+                .show();
+                $(this).find('[data-is_use="' + !result + '"]')
+                .hide();
+            });
+        }
+    });
+}
+
+/**
+* 「ポケモンに使う」モーダルが閉じた際の処理
+* @function modal:hide
+* @return void
+*/
+var closeItemUseFriendModalInit = function(){
+    $('#item-use-friend-modal').on('hide.bs.modal', function(){
+        // 使用可否のバッジを全て非表示にする
+        $(this).find('[data-is_use]').hide();
     });
 }
 
 /**
 * 「使う」の処理（ポケモン） ポケモンを選択→送信処理
-* @function on beforeunload
+* @function on:click
 * @return void
 */
 var selectItemUseFriendInit = function(){
@@ -132,4 +157,5 @@ jQuery(function($){
     clickItemTrashInit();
     clickItemUseFriendInit();
     selectItemUseFriendInit();
+    closeItemUseFriendModalInit();
 });

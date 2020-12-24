@@ -32,7 +32,7 @@ trait HomeControllerTrait
     }
 
     /**
-    * バトル開始の検証
+    * バトル開始(野生)の検証
     * @return boolean
     */
     protected function validationBattle(): bool
@@ -48,6 +48,33 @@ trait HomeControllerTrait
             player()->getLevel() < config('field.'.request('field').'.level')
         ){
             response()->setMessage('プレイヤーレベルが足りていません');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+    * バトル開始(トレーナー)の検証
+    * @return boolean
+    */
+    protected function validationBattleTrainer(): bool
+    {
+        // バトル開始可能な状態かを確認
+        if(!player()->isFightParty()){
+            response()->setMessage('バトルに参加できるポケモンがいないので、戦えません');
+            return false;
+        }
+        // トレーナー情報・プレイヤーレベルの確認
+        if(
+            empty(config('trainer.'.request('trainer'))) ||
+            player()->getLevel() < config('trainer.'.request('trainer').'.level')
+        ){
+            response()->setMessage('プレイヤーレベルが足りていません');
+            return false;
+        }
+        // 残り回数の確認
+        if(!player()->isFightTrainer(request('trainer'))){
+            response()->setMessage('本日のバトル上限回数を越えています');
             return false;
         }
         return true;

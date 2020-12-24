@@ -16,6 +16,11 @@ trait ServiceItemCaptureTrait
     */
     protected function useItemCapture(string $ball): bool
     {
+        // トレーナー戦の分岐
+        if(battle_state()->isMode('trainer')){
+            $this->thief_flg = true;
+            return false;
+        }
         // 捕獲判定
         $result = $this->capture($ball);
         // レスポンス

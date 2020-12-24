@@ -6,6 +6,13 @@ trait ClassPlayerItemTrait
 {
 
     /**
+    * 持ち物
+    * [[class => string, count => int|null], ...]
+    * @var array
+    */
+    protected $items = [];
+
+    /**
     * どうぐの所有確認
     * @param order:integer
     * @return boolean
@@ -147,10 +154,10 @@ trait ClassPlayerItemTrait
     * アイテムの消費
     * @param order:integer
     * @param count:integer
-    * @param important_flg:boolean
+    * @param force_flg:boolean
     * @return boolean
     */
-    public function subItem(int $order, int $count=1, bool $important_flg=false): bool
+    public function subItem(int $order, int $count=1, bool $force_flg=false): bool
     {
         // 消費可否チェック
         // 存在しない or アイテムカウントがnull且つ大切なものフラグがfalse
@@ -160,11 +167,15 @@ trait ClassPlayerItemTrait
         ){
             return false;
         }
-        if($important_flg){
-            // 大切なものを消費
+        // 強制消費
+        if($force_flg){
             unset($this->items[$order]);
             $this->items = array_values($this->items);
             return true;
+        }
+        // 大切なもの、わざマシンは通常消費されない
+        if(in_array($this->items[$order]['class']::CATEGORY, ['machine', 'important'], true)){
+            return false;
         }
         // 通常アイテムの消費
         if($count < 1){

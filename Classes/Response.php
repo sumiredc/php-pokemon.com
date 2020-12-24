@@ -26,6 +26,12 @@ class Response
     private $modals = [];
 
     /**
+    * トーストメッセージの格納用
+    * @var array
+    */
+    private $toastrs = [];
+
+    /**
     * 待機中の強制表示モーダルID
     * @var string
     */
@@ -117,12 +123,12 @@ class Response
 
     /**
     * メッセージの格納
-    *
-    * @param string|array $msg
-    * @param mixed $param
+    * @param msg:string|array
+    * @param param:mixed
+    * @param toastr:string::info|error|success|warning
     * @return array
     */
-    public function setMessage($msg, $param=null)
+    public function setMessage($msg, $param=null, $toastr='')
     {
         if(empty($msg)){
             // 空の場合はスキップ
@@ -141,6 +147,10 @@ class Response
         }else{
             // 単発登録
             $this->messages[] = [$msg, $param, ''];
+            // トーストへの登録
+            if(in_array($toastr, ['info', 'error', 'success', 'warning'], true)){
+                $this->toastrs[] = [$toastr, $msg];
+            }
         }
     }
 
@@ -177,6 +187,15 @@ class Response
     }
 
     /**
+    * メッセージの初期化
+    * @return void
+    */
+    public function initMessage()
+    {
+        $this->messages = [];
+    }
+
+    /**
     * メッセージの最初のキーを取得
     *
     * @return void
@@ -207,9 +226,7 @@ class Response
     */
     public function getResponse($param)
     {
-        if(isset($this->responses[$param])){
-            return $this->responses[$param];
-        }
+        return $this->responses[$param] ?? null;
     }
 
     /**
@@ -264,10 +281,18 @@ class Response
 
     /**
     * レスポンステータの初期化
-    *
     * @return void
     */
     public function resetResponse()
+    {
+        $this->responses = [];
+    }
+
+    /**
+    * レスポンステータの初期化
+    * @return void
+    */
+    public function initResponse()
     {
         $this->responses = [];
     }
@@ -310,10 +335,18 @@ class Response
 
     /**
     * モーダル情報の初期化
-    *
     * @return void
     */
     public function resetModal()
+    {
+        $this->modals = [];
+    }
+
+    /**
+    * モーダル情報の初期化
+    * @return void
+    */
+    public function initModal()
     {
         $this->modals = [];
     }
@@ -407,6 +440,42 @@ class Response
             return true;
         }
         return false;
+    }
+
+    /**==================================================================
+    * トースト関係の処理
+    ==================================================================**/
+
+    /**
+    * トーストの登録
+    * @param design:string
+    * @param msg:string::info|error|success|warning
+    * @return void
+    */
+    public function setToastr(string $design, string $msg): void
+    {
+        // トーストへの登録
+        if(in_array($design, ['info', 'error', 'success', 'warning'], true)){
+            $this->toastrs[] = [$design, $msg];
+        }
+    }
+
+    /**
+    * トーストの取得
+    * @return array
+    */
+    public function getToastrs(): array
+    {
+        return $this->toastrs ?? [];
+    }
+
+    /**
+    * トーストの初期化
+    * @return void
+    */
+    public function initToastr(): void
+    {
+        $this->toastrs = [];
     }
 
 }

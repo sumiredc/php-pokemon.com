@@ -23,41 +23,45 @@
                             </thead>
                             <tbody>
                                 <?php foreach(friend()->getBattleMove() as $key => $move): ?>
-                                    <?php if(empty($move['remaining'])):?>
-                                        <tr class="bg-light text-secondary" style="cursor:not-allowed;">
-                                        <?php else: ?>
-                                            <tr class="move-table-row" data-key="<?=$key?>">
+                                    <?php if(empty($move['remaining']) || $move['class'] === friend()->getScOther('ScDisable')): ?>
+                                        <tr class="bg-light text-secondary"
+                                        style="cursor:not-allowed;">
+                                    <?php else: ?>
+                                        <tr class="move-table-row" data-key="<?=$key?>">
+                                        <?php endif; ?>
+                                        <th scope="row" data-move="name"><?=$move['class']::NAME?></th>
+                                        <td data-move="type"><?=$move['class']::getTypeName()?></td>
+                                        <td data-move="pp">
+                                            <?php if(empty($move['remaining'])):?>
+                                                <span class="text-danger"><?=$move['remaining']?></span>
+                                            <?php else: ?>
+                                                <?=$move['remaining']?>
                                             <?php endif; ?>
-                                            <th scope="row" data-move="name"><?=$move['class']::NAME?></th>
-                                            <td data-move="type"><?=$move['class']::getTypeName()?></td>
-                                            <td data-move="pp">
-                                                <?php if(empty($move['remaining'])):?>
-                                                    <span class="text-danger"><?=$move['remaining']?></span>
-                                                <?php else: ?>
-                                                    <?=$move['remaining']?>
-                                                <?php endif; ?>
-                                                /<?=$move['class']::getPp($move['correction'])?>
-                                            </td>
-                                            <td tabIndex="0"
-                                            class="text-center"
-                                            data-move="details"
-                                            data-toggle="popover"
-                                            data-trigger="focus"
-                                            data-html="true"
-                                            data-content="<?=$move['class']::DESCRIPTION?>"
-                                            title='<small>
-                                                命中：<?=$move['class']::ACCURACY ?? '-'?>　
-                                                威力：<?=$move['class']::POWER ?? '-'?>　
-                                                分類：<?=transJp($move['class']::SPECIES, 'move')?>
-                                            </small>'><i class="fas fa-info-circle text-php-dark"></i></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <?php input_token(); ?>
-                    </form>
-                </div>
+                                            /<?=$move['class']::getPp($move['correction'])?>
+                                        </td>
+                                        <td tabIndex="0"
+                                        class="text-center"
+                                        data-move="details"
+                                        data-toggle="popover"
+                                        data-trigger="focus"
+                                        data-html="true"
+                                        data-content="<?=$move['class']::DESCRIPTION?>"
+                                        title='<small>
+                                            命中：<?=$move['class']::ACCURACY ?? '-'?>　
+                                            威力：<?=$move['class']::POWER ?? '-'?>　
+                                            分類：<?=transJp($move['class']::SPECIES, 'move')?>
+                                        </small>'><i class="fas fa-info-circle text-php-dark"></i></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php if(friend()->isSc('ScDisable')): ?>
+                            <p class="text-danger small mt-2">「<?=constant(friend()->getScOther('ScDisable').'::NAME')?>」は、かなしばり状態のため使えません</p>
+                        <?php endif; ?>
+                    </div>
+                    <?php input_token(); ?>
+                </form>
             </div>
         </div>
     </div>
+</div>

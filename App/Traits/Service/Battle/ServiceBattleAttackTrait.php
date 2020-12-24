@@ -40,10 +40,12 @@ trait ServiceBattleAttackTrait
     */
     protected function attack(object $atk, object $def, string $move) :string
     {
+        // 行動判定前に前回選択された技を初期化
+        battle_state()->resetSelectedMove($atk->getPosition());
         /**
         * ■ 第1ステップ（技の発動）
         */
-        if(!$this->attackActivateMove($atk, $def)){
+        if(!$this->attackActivateMove($atk, $def, $move)){
             // 失敗（技発動せず）
             return $move;
         }
@@ -54,6 +56,8 @@ trait ServiceBattleAttackTrait
             // 悪あがき発動
             response()->setMessage($atk->getPrefixName().'は、出すことのできる技がない');
         }
+        // ここで選択された技を記録
+        battle_state()->setSelectedMove($atk->getPosition(), $move);
         /**
         * ■ 第3ステップ（特別技による技の書き換え）
         */
@@ -98,13 +102,14 @@ trait ServiceBattleAttackTrait
     * 技発動前に行う確認処理(状態異常・状態変化)
     * @param atk:object::Pokemon
     * @param def:object::Pokemon
+    * @param move:string
     * @return boolean
     */
-    private function attackActivateMove(object $atk, object $def): bool
+    private function attackActivateMove(object $atk, object $def, string $move): bool
     {
         if(
             !$this->checkBeforeSa($atk) ||
-            !$this->checkBeforeSc($atk)
+            !$this->checkBeforeSc($atk, $move)
         ){
             // 技の発動 失敗
             return false;
@@ -263,7 +268,7 @@ trait ServiceBattleAttackTrait
                 // 補正込みの技威力を取得(けたぐり等を考慮してnullの場合は1をセット)
                 $power = ($move::POWER ?? 1) * $move::powerCorrection($atk, $def);
                 // ダメージ計算
-                $damage = (int)$this->calDamage(
+                $damage = $this->calDamage(
                     $atk->getLevel(),   # 攻撃ポケモンのレベル
                     $stats['a'],        # 攻撃ポケモンの攻撃値
                     $stats['d'],        # 防御ポケモンの防御値

@@ -6,6 +6,12 @@ trait ClassPlayerMoneyTrait
 {
 
     /**
+    * おこづかい
+    * @var integer
+    */
+    protected $money = 2000;
+
+    /**
     * おこづかいの増加
     * @param money:integer
     * @return void
@@ -23,6 +29,16 @@ trait ClassPlayerMoneyTrait
     public function subMoney($money): void
     {
         $this->money -= $money;
+    }
+
+    /**
+    * バトル敗北時のお小遣い消費
+    * @return void
+    */
+    public function loseMoney(): void
+    {
+        // 半額を失う(切り捨て)
+        $this->money = (int)($this->money / 2);
     }
 
     /**

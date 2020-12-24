@@ -47,6 +47,13 @@ pre{
 .d-soft-none{
     display: none;
 }
+// 画像の中央配置（absolute
+.center-image{
+    position: absolute;
+    transform: translateY(-50%) translateX(-50%);
+    left: 50%;
+    top: 50%;
+}
 // 透明度
 @for $i from 0 through 10 {
     .opacity-#{$i}{
@@ -174,16 +181,16 @@ pre{
 }
 // モーダル関係
 .modal{
-    > .modal-dialog{
-        > .modal-content{
-            > .modal-header{
+     .modal-dialog{
+         .modal-content{
+             .modal-header{
                 background-color: #8892BF;
                 border-bottom: 4px solid #4F5B93;
-                > .modal-title{
+                 .modal-title{
                     font-weight: bold;
                 }
             }
-            > .modal-footer{
+             .modal-footer{
                 background-color: #8892BF;
             }
         }

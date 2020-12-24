@@ -6,6 +6,13 @@ trait ClassBattleStateFieldTrait
 {
 
     /**
+    * フィールド効果
+    * @var integer
+    */
+    private $fields;
+
+
+    /**
     * フィールドの初期値
     * @return void
     */

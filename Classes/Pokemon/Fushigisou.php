@@ -103,12 +103,12 @@ class Fushigisou extends Pokemon
     * 進化前（クラス名）
     * @var string
     */
-    public static $before_class = 'Fushigidane';
+    public const BEFORE_CLASS = 'Fushigidane';
 
     /**
     * 進化後（クラス名）
     * @var string
     */
-    public static $after_class = 'Fushigibana';
+    public const AFTER_CLASS = 'Fushigibana';
 
 }

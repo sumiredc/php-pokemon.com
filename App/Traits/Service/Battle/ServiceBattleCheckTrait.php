@@ -58,92 +58,46 @@ trait ServiceBattleCheckTrait
     }
 
     /**
-    * アタック前の状態異常チェック
+    * 攻撃前の状態異常判定
     * @param pokemon:object::Pokemon
     * @return boolean
     */
     protected function checkBeforeSa(object $pokemon): bool
     {
-        if(empty($pokemon->getSa())){
+        $sa = $pokemon->getSa();
+        if(empty($sa)){
             // 状態異常にかかっていない
             return true;
         }
-        switch ($pokemon->getSa()) {
-            /**
-            * まひ
-            */
-            case 'SaParalysis':
-            // 1/4の確率で行動不能
-            if(!random_int(0, 3)){
-                response()->setMessage(
-                    SaParalysis::getFailedMessage($pokemon->getPrefixName())
-                );
-                return false;
-            }
-            break;
-            /**
-            * こおり
-            */
-            case 'SaFreeze':
-            // 1/5の確率でこおり解除
-            if(!random_int(0, 4)){
-                // こおり解除
-                $pokemon->initSa();
-                response()->setMessage(
-                    SaFreeze::getRecoveryMessage($pokemon->getPrefixName())
-                );
-            }else{
-                // 行動不可
-                response()->setMessage(
-                    SaFreeze::getFailedMessage($pokemon->getPrefixName())
-                );
-                return false;
-            }
-            break;
-            /**
-            * ねむり
-            */
-            case 'SaSleep':
-            // ターンカウントが残っていれば行動不能
-            // ターンカウントを進める
-            $pokemon->goSaTurn();
-            if(empty($pokemon->getSa())){
-                // ねむり解除
-                $msg_id = response()->issueMsgId();
-                response()->setMessage(
-                    SaSleep::getRecoveryMessage($pokemon->getPrefixName()), $msg_id
-                );
-                response()->setResponse([
-                    'action' => 'sa-release',
-                    'target' => $pokemon->getPosition()
-                ], $msg_id);
-            }else{
-                // 行動失敗
-                response()->setMessage(
-                    SaSleep::getFailedMessage($pokemon->getPrefixName())
-                );
-                return false;
-            }
-            break;
-            /**
-            * ひんし
-            */
-            case 'SaFainting':
-            return false;
-            break;
+        // アタック前の症状を発火
+        $result = $sa::onsetBefore($pokemon);
+        // 解除の有無確認
+        if($result['release'] ?? false){
+            $msg_id = response()->issueMsgId();
+            response()->setResponse([
+                'action' => 'sa-release',
+                'target' => $pokemon->getPosition()
+            ], $msg_id);
         }
-        return true;
+        // メッセージがあれば格納
+        if(isset($result['message'])){
+            response()->setMessage($result['message'], $msg_id ?? null);
+        }
+        // 結果を返却
+        return $result['result'];
     }
 
     /**
     * アタック前の状態変化チェック
     * 1. ひるみ
     * 2. 反動
-    * 3. こんらん
+    * 3. かなしばり
+    * 4. こんらん
     * @param pokemon:object::Pokemon
+    * @param move:string
     * @return boolean
     */
-    protected function checkBeforeSc(object $pokemon)
+    protected function checkBeforeSc(object $pokemon, string $move)
     {
         // 状態変化の値を取得
         if(empty($pokemon->getSc())){
@@ -170,6 +124,33 @@ trait ServiceBattleCheckTrait
             return false;
         }
         /**
+        * かなしばり
+        */
+        if(
+            $pokemon->isSc('ScDisable') &&
+            $move === $pokemon->getScOther('ScDisable')
+        ){
+            // 行動失敗メッセージを格納
+            response()->setMessage(
+                ScDisable::getFailedMessage($pokemon->getPrefixName(), $move)
+            );
+            // あばれる状態で金縛りを受けた場合は、失敗後に解除※こんらん状態にはならない
+            if(
+                $pokemon->isSc('ScThrash') &&
+                $pokemon->getScOther('ScThrash') === $move
+            ){
+                $pokemon->initSc('ScThrash');
+            }
+            // チャージ状態で金縛りを受けた場合は、失敗後に解除
+            if(
+                $pokemon->isSc('ScCharge') &&
+                $pokemon->getScOther('ScCharge') === $move
+            ){
+                $pokemon->initSc('ScCharge');
+            }
+            return false;
+        }
+        /**
         * こんらん
         */
         if($pokemon->isSc('ScConfusion')){
@@ -191,7 +172,7 @@ trait ServiceBattleCheckTrait
                     response()->setMessage(
                         ScConfusion::getFailedMessage($pokemon->getPrefixName()),
                         $msg_id
-                     );
+                    );
                     // ダメージ計算
                     $damage = $this->calDamage(
                         $pokemon->getLevel(),         # レベル
@@ -392,6 +373,19 @@ trait ServiceBattleCheckTrait
                 if(!$sicked_pokemon->getRemainingHp()){
                     return;
                 }
+            }
+        }
+        /**
+        * かなしばり
+        */
+        if($sicked_pokemon->isSc('ScDisable')){
+            // ターンを進める
+            $sicked_pokemon->goScTurn('ScDisable');
+            if(!$sicked_pokemon->isSc('ScDisable')){
+                // かなしばり解除
+                response()->setMessage(
+                    ScDisable::getRecoveryMessage($sicked_pokemon->getPrefixName())
+                );
             }
         }
     }
