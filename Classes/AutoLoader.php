@@ -10,7 +10,7 @@ abstract class AutoLoader
     * @var array
     */
     private const FOLDERS = [
-        'Move', 'Pokemon', 'Type', 'StatusAilment', 'StateChange', 'Field', 'Item'
+        'Move', 'Pokemon', 'Type', 'StatusAilment', 'StateChange', 'Field', 'Item', 'Gym'
     ];
 
     /**
