@@ -24,7 +24,7 @@ return [
         'sakaki' => 'サカキ'
     ],
     // ジムバッジ
-    'leader' => [
+    'badge' => [
         'boulder' => 'グレーバッジ',
         'cascade' => 'ブルーバッジ',
         'thunder' => 'オレンジバッジ',
