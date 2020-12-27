@@ -12,7 +12,7 @@
             </div>
             <form method="post" id="select-gym-form">
                 <div class="modal-body">
-                    <figure class="text-center position-relative" style="height:120px;">
+                    <figure class="text-center position-relative" style="height:70px;">
                         <img src="" id="select-gym-image" class="center-image d-soft-none">
                     </figure>
                     <div class="mb-2 p-1 text-center small bg-light rounded-sm">
@@ -20,6 +20,11 @@
                             ジムを選択してください
                         </p>
                         <?php foreach(config('gym') as $num => $gym): ?>
+                            <?php if(!$gym::isRequiredChallenge(player())): ?>
+                                <p class="text-danger d-soft-none mb-1" data-gym="<?=$num?>">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i>必要条件を満たせていません
+                                </p>
+                            <?php endif; ?>
                             <ol class="mb-0 pl-4 small text-left d-soft-none" data-gym="<?=$num?>">
                                 <?php foreach($gym::REQUIRED_CHALLENGE as $text): ?>
                                     <li class="text-muted"><?=$text?></li>
@@ -31,7 +36,12 @@
                         <select class="form-control form-control-sm" name="gym">
                             <option value="">-- 選択してください --</option>
                             <?php foreach(config('gym') as $num => $gym): ?>
-                                <option value="<?=$num?>" data-img="<?=$gym::base64Leader('thumb')?>">
+                                <option value="<?=$num?>" data-img="<?=$gym::base64Leader('thumb')?>"
+                                    <?php if($gym::isRequiredChallenge(player()) && !player()->isBadge($gym::BADGE)): ?>
+                                        data-fight="true"
+                                    <?php else: ?>
+                                        data-fight="false"
+                                    <?php endif; ?>>
                                     <?=$gym::NAME?>
                                 </option>
                             <?php endforeach; ?>
