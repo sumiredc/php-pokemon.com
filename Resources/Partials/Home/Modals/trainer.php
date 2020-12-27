@@ -20,9 +20,13 @@
                         <p class="text-muted mb-0" data-trainer="default">トレーナーを選択してください</p>
                         <?php foreach(config('trainer') as $key => $trainer): ?>
                             <?php if(player()->isFightTrainer($key)): ?>
-                                <p class="text-success d-soft-none mb-0" data-trainer="<?=$key?>" data-fight="true">本日は残り<?=player()->getRemainingTrainerCount($key)?>回戦えます</p>
+                                <p class="text-success d-soft-none mb-0" data-trainer="<?=$key?>">
+                                    本日は残り<?=player()->getRemainingTrainerCount($key)?>回戦えます
+                                </p>
                             <?php else: ?>
-                                <p class="text-danger d-soft-none mb-0" data-trainer="<?=$key?>" data-fight="false">本日はもう戦えません</p>
+                                <p class="text-danger d-soft-none mb-0" data-trainer="<?=$key?>">
+                                    本日はもう戦えません
+                                </p>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
@@ -30,7 +34,14 @@
                         <select class="form-control form-control-sm" name="trainer">
                             <option value="">-- 選択してください --</option>
                             <?php foreach(config('trainer') as $key => $trainer): ?>
-                                <option value="<?=$key?>" <?php if($trainer['level'] > player()->getLevel()) echo 'disabled'; ?>><?=$trainer['name']?>（必要レベル：<?=$trainer['level']?>）</option>
+                                <option value="<?=$key?>" data-img="<?=base64_storage('Trainers/'.$key.'.gif')?>"
+                                    <?php if($trainer['level'] > player()->getLevel()): ?>
+                                        data-fight="false" disabled
+                                    <?php else: ?>
+                                        data-fight="true"
+                                    <?php endif;?>>
+                                    <?=$trainer['name']?>（必要レベル：<?=$trainer['level']?>）
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
