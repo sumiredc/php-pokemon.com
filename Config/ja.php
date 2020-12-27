@@ -12,8 +12,8 @@ return [
         'friend' => '味方',
         'enemy' => '相手',
     ],
-    // トレーナー
-    'trainer' => [
+    // ジムリーダー
+    'leader' => [
         'takeshi' => 'タケシ',
         'kasumi' => 'カスミ',
         'machisu' => 'マチス',
@@ -22,6 +22,17 @@ return [
         'natsume' => 'ナツメ',
         'katsura' => 'カツラ',
         'sakaki' => 'サカキ'
+    ],
+    // ジムバッジ
+    'leader' => [
+        'boulder' => 'グレーバッジ',
+        'cascade' => 'ブルーバッジ',
+        'thunder' => 'オレンジバッジ',
+        'rainbow' => 'レインボーバッジ',
+        'soul' => 'ピンクバッジ',
+        'marsh' => 'ゴールドバッジ',
+        'volcano' => 'クリムゾンバッジ',
+        'earth' => 'グリーンバッジ'
     ],
     // ステータス
     'stats' => [
