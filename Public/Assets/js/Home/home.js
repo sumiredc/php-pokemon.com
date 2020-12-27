@@ -40,13 +40,15 @@ var selectTrainerInit = function(){
         var form = $('form#select-trainer-form');
         var image = $('#select-trainer-image');
         var text = $('p[data-trainer="' + trainer + '"]');
+        var selected = $(this).find('option:selected');
         if(trainer){
             // 画像とテキストを表示
-            image.attr('src', '/Assets/img/npc/front/' + trainer + '.gif')
+            image.attr('src', selected.data('img'))
             .show();
             text.show();
             // 戦える状態ならボタンを有効化
-            form.find('input[type="submit"]').prop('disabled', !text.data('fight'));
+            form.find('input[type="submit"]')
+            .prop('disabled', !selected.data('fight'));
         }else{
             // デフォルトテキストを表示
             $('p[data-trainer="default"]').show();
@@ -58,6 +60,39 @@ var selectTrainerInit = function(){
     });
 }
 
+/**
+* ジム選択
+* @function on:change
+* @return void
+**/
+var selectGymInit = function(){
+    $('form#select-gym-form [name="gym"]').on('change', function(){
+        // テキストを全て非表示
+        $('[data-gym]').hide();
+        // 必要情報の取得
+        var gym = $(this).val();
+        var form = $('form#select-gym-form');
+        var image = $('#select-gym-image');
+        var text = $('[data-gym="' + gym + '"]');
+        var selected = $(this).find('option:selected');
+        if(gym !== ''){
+            // 画像とテキストを表示
+            image.attr('src', selected.data('img'))
+            .show();
+            text.show();
+            // 戦える状態ならボタンを有効化
+            form.find('input[type="submit"]')
+            .prop('disabled', !selected.data('fight'));
+        }else{
+            // デフォルトテキストを表示
+            $('p[data-gym="default"]').show();
+            // 画像を非表示にしてフォームを無効化
+            image.attr('src', '')
+            .hide();
+            form.find('input[type="submit"]').prop('disabled', true);
+        }
+    });
+}
 
 
 /*----------------------------------------------------------
@@ -71,4 +106,5 @@ var selectTrainerInit = function(){
 jQuery(function($){
     selectFieldInit();
     selectTrainerInit();
+    selectGymInit();
 });

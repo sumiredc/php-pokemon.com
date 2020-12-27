@@ -15,10 +15,26 @@
                     <figure class="text-center position-relative" style="height:120px;">
                         <img src="" id="select-gym-image" class="center-image d-soft-none">
                     </figure>
+                    <div class="mb-2 p-1 text-center small bg-light rounded-sm">
+                        <p class="text-muted mb-0" data-gym="default">
+                            ジムを選択してください
+                        </p>
+                        <?php foreach(config('gym') as $num => $gym): ?>
+                            <ol class="mb-0 pl-4 small text-left d-soft-none" data-gym="<?=$num?>">
+                                <?php foreach($gym::REQUIRED_CHALLENGE as $text): ?>
+                                    <li class="text-muted"><?=$text?></li>
+                                <?php endforeach; ?>
+                            </ol>
+                        <?php endforeach; ?>
+                    </div>
                     <div class="form-group">
                         <select class="form-control form-control-sm" name="gym">
                             <option value="">-- 選択してください --</option>
-
+                            <?php foreach(config('gym') as $num => $gym): ?>
+                                <option value="<?=$num?>" data-img="<?=$gym::base64Leader('thumb')?>">
+                                    <?=$gym::NAME?>
+                                </option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <ul class="mb-0 pl-3 small">

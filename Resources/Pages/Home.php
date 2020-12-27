@@ -65,6 +65,7 @@
     include(resources_path('Partials/Home/Modals').'pokemon-center.php');
     include(resources_path('Partials/Home/Modals').'field.php');
     include(resources_path('Partials/Home/Modals').'trainer.php');
+    include(resources_path('Partials/Home/Modals').'gym.php');
     foreach(response()->modals() as $modal){
         include(resources_path('Partials/Home/Modals').$modal['modal'].'.php');
     }
