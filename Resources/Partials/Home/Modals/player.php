@@ -7,6 +7,9 @@
                     <img src="/Assets/img/player/red/mini/front.png" alt="<?=player()->getName()?>" />
                     <?=player()->getName()?>
                 </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
 
@@ -33,17 +36,17 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <?php foreach(config('gym') as $num => list($gym, $badge, $leader)): ?>
+                    <?php foreach(config('gym') as $num => $gym): ?>
                         <div class="col-4 col-sm-3">
                             <h6>
                                 <span class="badge badge-php-dark"><?=$num+1?></span>
-                                <?=transJp($leader, 'trainer')?>
+                                <?=transJp($gym::LEADER, 'leader')?>
                             </h6>
                             <figure class="text-center">
-                                <?php if(player()->isBadge($badge)): ?>
-                                    <img src="/Assets/img/gym/badge/<?=$badge?>.png" alt="<?=$badge?>">
+                                <?php if(player()->isBadge($gym::BADGE)): ?>
+                                    <img src="<?=$gym::base64Badge()?>" alt="<?=$gym::BADGE?>">
                                 <?php else: ?>
-                                    <img src="/Assets/img/gym/leader/thumb/<?=$leader?>.png" alt="<?=$leader?>">
+                                    <img src="<?=$gym::base64Leader('thumb')?>" alt="<?=$gym::LEADER?>">
                                 <?php endif; ?>
                             </figure>
                         </div>
