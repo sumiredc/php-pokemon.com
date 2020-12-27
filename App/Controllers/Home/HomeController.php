@@ -6,6 +6,7 @@ require_once(app_path('Services/Home').'ItemService.php');
 require_once(app_path('Services/Home').'RecoveryService.php');
 require_once(app_path('Services/Home').'ShopService.php');
 require_once(app_path('Services/Home').'SortPartyService.php');
+require_once(app_path('Services/Home').'LearnMoveService.php');
 // トレイト
 require_once(app_path('Traits/Controller').'HomeControllerTrait.php');
 
@@ -24,8 +25,6 @@ class HomeController extends Controller
         parent::__construct();
         // 分岐処理
         $this->branch();
-        // // 親デストラクタの呼び出し
-        // parent::__destruct();
         // プレイヤー情報の最終更新日時を更新
         player()->setUpdatedAt();
     }
@@ -35,7 +34,9 @@ class HomeController extends Controller
     */
     public function __destruct()
     {
-
+        $_SESSION['__data']['before_responses'] = serializeObject(response()->responses());
+        $_SESSION['__data']['before_modals'] = serializeObject(response()->modals());
+        $_SESSION['__data']['before_messages'] = response()->messages();
         // 親デストラクタの呼び出し
         parent::__destruct();
     }
@@ -130,6 +131,18 @@ class HomeController extends Controller
                     // 画面移管
                     $this->redirect();
                 }
+                break;
+                /******************************************
+                * 技の習得
+                */
+                case 'learn_move':
+                // サービス実行
+                $service = new LearnMoveService(
+                    $_SESSION['__data']['before_responses'],
+                    $_SESSION['__data']['before_messages'],
+                    $_SESSION['__data']['before_modals']
+                );
+                $service->execute();
                 break;
                 /******************************************
                 * アクション未選択 or 実装されていないアクション

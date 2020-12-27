@@ -1,15 +1,15 @@
 <?php
 require_once(app_path('Controllers').'Controller.php');
 // サービス
-require_once(app_path('Services.Battle').'StartService.php');
-require_once(app_path('Services.Battle').'StartTrainerService.php');
-require_once(app_path('Services.Battle').'RunService.php');
-require_once(app_path('Services.Battle').'FightService.php');
-require_once(app_path('Services.Battle').'ItemService.php');
-require_once(app_path('Services.Battle').'ChangeService.php');
-require_once(app_path('Services.Battle').'LearnMoveService.php');
+require_once(app_path('Services/Battle').'StartService.php');
+require_once(app_path('Services/Battle').'StartTrainerService.php');
+require_once(app_path('Services/Battle').'RunService.php');
+require_once(app_path('Services/Battle').'FightService.php');
+require_once(app_path('Services/Battle').'ItemService.php');
+require_once(app_path('Services/Battle').'ChangeService.php');
+require_once(app_path('Services/Battle').'LearnMoveService.php');
 // トレイト
-require_once(app_path('Traits.Controller').'BattleControllerTrait.php');
+require_once(app_path('Traits/Controller').'BattleControllerTrait.php');
 
 // バトル用コントローラー
 class BattleController extends Controller

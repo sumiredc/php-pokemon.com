@@ -9,11 +9,6 @@ class LearnMoveService extends Service
 {
 
     /**
-    * @var object::Pokemon
-    */
-    protected $tmp_pokemon;
-
-    /**
     * @var array
     */
     protected $before_responses;
@@ -39,8 +34,6 @@ class LearnMoveService extends Service
     */
     public function execute()
     {
-        // 描画用ポケモンオブジェクトの作成
-        $this->createTmpPokemon();
         // 技の置き換え
         $this->replaceMove();
         // レスポンスの引き継ぎ
@@ -55,26 +48,6 @@ class LearnMoveService extends Service
         response()->setModal(
             $this->getUntreatedResponses($this->before_modals, 'modal'), true
         );
-        // 判定不要(経験値が加算されるため)
-        battle_state()->judgeFalse();
-    }
-
-    /**
-    * 表示用のポケモンオブジェクトを生成
-    * @return void
-    */
-    private function createTmpPokemon(): void
-    {
-        // へんしん状態を想定して描画用のポケモンを生成
-        $pokemon = clone (
-            friend()
-        );
-        // クローンオブジェクトにレベルと残HPをセット
-        $pokemon->setLevel(request('param.level'));
-        $pokemon->setRemainingHp(request('param.hp'));
-        $pokemon->setDefaultExp();
-        // 格納(第2引数でインスタンスを指定)
-        battle_state()->setBefore('friend', $pokemon);
     }
 
     /**
@@ -83,7 +56,7 @@ class LearnMoveService extends Service
     */
     private function replaceMove()
     {
-        // 技を習得する対象のポケモンのIDを旧レスポンスから取得(交代したポケモンを想定)
+        // 技を習得する対象のポケモンのIDを旧レスポンスから取得
         $pokemon = player()->getPartner(
             $this->before_responses[request('param.id')]['pokemon_id'], 'id'
         );
