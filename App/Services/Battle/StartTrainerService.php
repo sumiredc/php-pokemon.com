@@ -69,8 +69,9 @@ class StartTrainerService extends Service
     */
     private function createTrainer(): void
     {
+        dd(storage_path('Database/Trainers/'.request('trainer')).'*.php');
         // 選択されたトレーナーレベルからランダム取得
-        $list = glob(storage_path('Database/Trainer/'.request('trainer')).'/*.php');
+        $list = glob(storage_path('Database/Trainers/'.request('trainer')).'/*.php');
         $key = array_rand($list);
         // トレーナーのインスタンスを作成
         $trainer = new Trainer(
