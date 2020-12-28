@@ -6,6 +6,7 @@ require_once(app_path('Traits/Class/Player').'ClassPlayerBadgeTrait.php');
 require_once(app_path('Traits/Class/Player').'ClassPlayerMoneyTrait.php');
 require_once(app_path('Traits/Class/Player').'ClassPlayerPartyTrait.php');
 require_once(app_path('Traits/Class/Player').'ClassPlayerTrainerTrait.php');
+require_once(app_path('Traits/Class/Player').'ClassPlayerCounterTrait.php');
 /**
 * プレイヤー情報
 */
@@ -16,6 +17,7 @@ class Player
     use ClassPlayerMoneyTrait;
     use ClassPlayerPartyTrait;
     use ClassPlayerTrainerTrait;
+    use ClassPlayerCounterTrait;
 
     public static $error_flg = false;
 
