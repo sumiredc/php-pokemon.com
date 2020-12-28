@@ -40,7 +40,7 @@ abstract class GymPewter extends Gym
     */
     public static function isRequiredChallenge(Player $player): bool
     {
-        return false;
+        return $player->getLevel() >= 8;
     }
 
 }
