@@ -42,7 +42,8 @@ abstract class GymCerulean extends Gym
     public static function isRequiredChallenge(Player $player): bool
     {
         return $player->getBadgeCount() >= 1 &&
-        $player->getLevel() >= 15;
+        $player->getLevel() >= 15 &&
+        $player->pokedex()->getCount(2) >= 4;
     }
 
 }
