@@ -9,7 +9,7 @@ trait ClassPlayerBadgeTrait
     * ジムバッジ
     * @var array
     */
-    protected $badges;
+    protected $badges = [];
 
     /**
     * バッジを初期状態にする
@@ -17,10 +17,10 @@ trait ClassPlayerBadgeTrait
     */
     private function setDefaultBadges(): void
     {
-        // configから取得したバッジ情報の値とキーを入れ替えて、全てにfalseをセット
-        $this->badges = array_map(function($badge){
-            return false;
-        }, array_flip(config('gym')));
+        // configから取得したジム情報を使ってバッチリストを作成
+        foreach(config('gym') as $gym){
+            $this->badges[$gym::BADGE] = false;
+        }
     }
 
     /**
