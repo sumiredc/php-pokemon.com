@@ -1,8 +1,7 @@
 <div class="card">
-    <div class="card-header bg-php" id="player-badge-collapse-head" data-toggle="collapse" data-target="#player-badge-collapse" aria-expanded="true" aria-controls="player-badge-collapse">
-        <h6 class="mb-0 font-weight-bold">
-            ジムバッジ
-        </h6>
+    <div class="card-header bg-php d-flex justify-content-between align-items-center cursor-pointer" id="player-badge-collapse-head" data-toggle="collapse" data-target="#player-badge-collapse" aria-expanded="true" aria-controls="player-badge-collapse">
+        <h6 class="mb-0 font-weight-bold">ジムバッジ</h6>
+        <i class="fas fa-bars fa-lg text-white"></i>
     </div>
     <div id="player-badge-collapse" class="collapse" aria-labelledby="player-badge-collapse-head" data-parent="#player-modal-accordion">
         <div class="card-body">

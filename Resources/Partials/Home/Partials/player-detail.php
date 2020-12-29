@@ -1,8 +1,7 @@
 <div class="card">
-    <div class="card-header bg-php" id="player-detail-collapse-head" data-toggle="collapse" data-target="#player-detail-collapse" aria-expanded="true" aria-controls="player-detail-collapse">
-        <h6 class="mb-0 font-weight-bold">
-            プレイヤー情報
-        </h6>
+    <div class="card-header bg-php d-flex justify-content-between align-items-center cursor-pointer" id="player-detail-collapse-head" data-toggle="collapse" data-target="#player-detail-collapse" aria-expanded="true" aria-controls="player-detail-collapse">
+        <h6 class="mb-0 font-weight-bold">プレイヤー情報</h6>
+        <i class="fas fa-bars fa-lg text-white"></i>
     </div>
     <div id="player-detail-collapse" class="collapse show" aria-labelledby="player-detail-collapse-head" data-parent="#player-modal-accordion">
         <div class="card-body">
