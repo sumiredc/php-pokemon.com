@@ -23,7 +23,7 @@
                     include(resources_path('Partials/Common').'menu.php');
                     ?>
                     <div class="col-12 mb-5 text-center">
-                        <img src="/Assets/img/player/red/large/front.gif" alt="プレイヤー">
+                        <img src="/Assets/img/player/red/large/front.gif" alt="プレイヤー" data-toggle="modal" data-target="#player-modal" />
                     </div>
                 </div>
             </section>
