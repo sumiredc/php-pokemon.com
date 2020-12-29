@@ -120,7 +120,7 @@ class Trainer
     */
     public function getPrefixName(): string
     {
-        return config('trainer.'.$this->category.'.name').'の、'.$this->name;
+        return config('trainer.'.$this->category.'.name').'の'.$this->name;
     }
 
     /**
