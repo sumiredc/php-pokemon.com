@@ -1,7 +1,7 @@
 <?php
 // トレイト
-require_once(app_path('Traits.Class.Pokebox').'ClassPokeboxBoxTrait.php');
-require_once(app_path('Traits.Class.Pokebox').'ClassPokeboxPokemonTrait.php');
+require_once(app_path('Traits/Class/Pokebox').'ClassPokeboxBoxTrait.php');
+require_once(app_path('Traits/Class/Pokebox').'ClassPokeboxPokemonTrait.php');
 
 // ポケモンボックス
 class Pokebox
