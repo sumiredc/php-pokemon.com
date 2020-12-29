@@ -12,8 +12,8 @@ require_once(app_path('Traits.Service.Battle').'ServiceBattleExTrait.php');
 require_once(app_path('Traits.Service.Battle').'ServiceBattleCalTrait.php');
 
 /**
- * にげる
- */
+* にげる
+*/
 class RunService extends Service
 {
 
@@ -41,8 +41,13 @@ class RunService extends Service
     {
         // にげるのカウントを進める
         battle_state()->run();
-        if($this->checkRun()){
+        // 逃げるの判定（もしトレーナー戦の場合は失敗）
+        if(
+            $this->checkRun() &&
+            !battle_state()->isMode('trainer')
+        ){
             // 逃走成功
+            player()->countWild('run');
             response()->setMessage('上手く逃げ切れた！');
             // バトル終了判定用メッセージの格納
             response()->setEmptyMessage('battle-end');

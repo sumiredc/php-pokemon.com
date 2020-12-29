@@ -39,7 +39,10 @@ class StartTrainerService extends Service
             trainer()->getPrefixName().'が勝負を仕掛けてきた'
         );
         $msg_id1 = response()->issueMsgId();
-        response()->setMessage('相手は、'.enemy('NAME').'を繰り出してきた', $msg_id1);
+        response()->setMessage(
+            trainer()->getPrefixName().'は、'.enemy('NAME').'を繰り出してきた',
+            $msg_id1
+        );
         response()->setResponse([
             'action' => 'start',
             'target' => 'enemy'
@@ -69,9 +72,8 @@ class StartTrainerService extends Service
     */
     private function createTrainer(): void
     {
-        dd(storage_path('Database/Trainers/'.request('trainer')).'*.php');
         // 選択されたトレーナーレベルからランダム取得
-        $list = glob(storage_path('Database/Trainers/'.request('trainer')).'/*.php');
+        $list = glob(storage_path('Database/Trainers/'.request('trainer')).'*.php');
         $key = array_rand($list);
         // トレーナーのインスタンスを作成
         $trainer = new Trainer(

@@ -47,7 +47,7 @@ trait ClassPlayerCounterTrait
     }
 
     /**
-    * 野生戦のカウント
+    * 野生ポケモン戦のカウント
     * @param judge:string::win|lose|run
     * @return void
     */

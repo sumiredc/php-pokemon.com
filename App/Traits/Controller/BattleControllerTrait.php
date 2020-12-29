@@ -133,9 +133,14 @@ trait BattleControllerTrait
     */
     private function judgmentLose()
     {
-        // トレーナー戦
+
         if(battle_state()->isMode('trainer')){
+            // トレーナー戦
             response()->setMessage(trainer()->getLine('win'));
+            player()->countTrainer('lose');
+        }else{
+            // 野生ポケモン戦
+            player()->countWild('lose');
         }
         // お小遣いの半額を失う
         player()->loseMoney();
@@ -166,7 +171,10 @@ trait BattleControllerTrait
         if(battle_state()->isMode('trainer')){
             $msg_id = response()->issueMsgId();
             if(battle_state()->nextOrder()){
-                response()->setMessage(trainer()->getPrefixName().'は、'.enemy('NAME').'を繰り出してきた', $msg_id);
+                response()->setMessage(
+                    trainer()->getPrefixName().'は、'.enemy('NAME').'を繰り出してきた',
+                    $msg_id
+                );
                 response()->setResponse([
                     'action' => 'change-out',
                     'target' => 'enemy',
@@ -189,6 +197,7 @@ trait BattleControllerTrait
 
             }else{
                 // 勝利演出
+                player()->countTrainer('win');
                 response()->setMessage(trainer()->getPrefixName().'との勝負に勝った', $msg_id);
                 response()->setResponse([
                     'action' => 'show-trainer',
@@ -205,6 +214,7 @@ trait BattleControllerTrait
             }
         }else{
             // 勝利時の最終処理
+            player()->countWild('win');
             $this->judgmentWinLast();
         }
     }
