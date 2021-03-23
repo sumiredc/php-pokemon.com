@@ -28,11 +28,12 @@ abstract class GymCerulean extends Gym
     * 挑戦条件
     * @var array
     */
-    public const REQUIRED_CHALLENGE = [
-        '所有ジムバッジ数 1つ以上',
-        'プレイヤーレベル 15以上',
-        '捕まえた数 4匹以上',
-    ];
+    public const REQUIRED_CHALLENGE = ['準備中'];
+    // public const REQUIRED_CHALLENGE = [
+    //     '所有ジムバッジ数 1つ以上',
+    //     'プレイヤーレベル 15以上',
+    //     '捕まえた数 4匹以上',
+    // ];
 
     /**
     * 挑戦条件が満たされているかの確認
@@ -41,9 +42,10 @@ abstract class GymCerulean extends Gym
     */
     public static function isRequiredChallenge(Player $player): bool
     {
-        return $player->getBadgeCount() >= 1 &&
-        $player->getLevel() >= 15 &&
-        $player->pokedex()->getCount(2) >= 4;
+        return false;
+        // return $player->getBadgeCount() >= 1 &&
+        // $player->getLevel() >= 15 &&
+        // $player->pokedex()->getCount(2) >= 4;
     }
 
 }

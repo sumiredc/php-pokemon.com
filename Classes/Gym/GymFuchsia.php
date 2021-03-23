@@ -28,7 +28,7 @@ abstract class GymFuchsia extends Gym
     * 挑戦条件
     * @var array
     */
-    public const REQUIRED_CHALLENGE = [];
+    public const REQUIRED_CHALLENGE = ['準備中'];
 
     /**
     * 挑戦条件が満たされているかの確認
