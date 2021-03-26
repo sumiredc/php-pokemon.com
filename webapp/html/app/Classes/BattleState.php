@@ -1,12 +1,12 @@
 <?php
 // トレイト
-require_once(app_path('Traits/Class/BattleState').'ClassBattleStateFieldTrait.php');
-require_once(app_path('Traits/Class/BattleState').'ClassBattleStateMoveTrait.php');
-require_once(app_path('Traits/Class/BattleState').'ClassBattleStateMoneyTrait.php');
-require_once(app_path('Traits/Class/BattleState').'ClassBattleStatePokemonTrait.php');
-// require_once(app_path('Traits/Class/BattleState').'ClassBattleStateTransformTrait.php');
-require_once(app_path('Traits/Class/BattleState').'ClassBattleStateTurnDamageTrait.php');
-require_once(app_path('Traits/Class/BattleState').'ClassBattleStateTrainerTrait.php');
+require_once app_path('Traits/Class/BattleState/ClassBattleStateFieldTrait.php');
+require_once app_path('Traits/Class/BattleState/ClassBattleStateMoveTrait.php');
+require_once app_path('Traits/Class/BattleState/ClassBattleStateMoneyTrait.php');
+require_once app_path('Traits/Class/BattleState/ClassBattleStatePokemonTrait.php');
+// require_once app_path('Traits/Class/BattleState/ClassBattleStateTransformTrait.php');
+require_once app_path('Traits/Class/BattleState/ClassBattleStateTurnDamageTrait.php');
+require_once app_path('Traits/Class/BattleState/ClassBattleStateTrainerTrait.php');
 
 /**
 * バトル状態クラス

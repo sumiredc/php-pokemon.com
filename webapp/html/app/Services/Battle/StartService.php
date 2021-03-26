@@ -1,6 +1,6 @@
 <?php
 // 親クラス
-require_once app_path('Services/ervice.php');
+require_once app_path('Services/Service.php');
 
 /**
 * バトル開始

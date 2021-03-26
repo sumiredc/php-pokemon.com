@@ -2,6 +2,8 @@ RewriteEngine On
 RewriteCond %{REQUEST_URI} !^/public/
 RewriteRule ^(.*) /public/$1
 
+php_flag display_errors on
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /

@@ -2,14 +2,14 @@
 // 親クラス
 require_once app_path('Services/Service.php');
 // トレイト
-require_once app_path('Traits.Service.Battle/ServiceBattleAttackTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleEnemyTurnTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleAttackAfterTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleCheckTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleEnemyAiTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleOrderGenelatorTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleExTrait.php');
-require_once app_path('Traits.Service.Battle/ServiceBattleCalTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleAttackTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleEnemyTurnTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleAttackAfterTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleCheckTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleEnemyAiTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleOrderGenelatorTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleExTrait.php');
+require_once app_path('Traits/Service/Battle/ServiceBattleCalTrait.php');
 
 /**
 * 交代
