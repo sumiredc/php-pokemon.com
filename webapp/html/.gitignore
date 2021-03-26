@@ -1,0 +1,5 @@
+public/assets/modules
+storage/database/players.csv
+storage/reports/*
+storage/sessions
+node_modules

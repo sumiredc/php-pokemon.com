@@ -1,0 +1,37 @@
+# vagrant upで初回起動後に以下の手順でデータベースの初期設定を行う
+
+# インストール後にログを確認して一時設定されたrootのパスワードを確認する
+sudo cat /var/log/mysqld.log
+
+↓　このようなログが残っている
+=====
+2019-10-07T02:52:45.915878Z 1 [Note] A temporary password is generated for root@localhost: GPwahd&bc6W;
+=====
+
+この場合のパスワードは下記のとおり
+GPwahd&bc6W;
+
+# 権限変更
+sudo chmod 644 /etc/my.cnf
+
+# パスワード再設定
+mysqladmin password 'Password!1' -u root -p'GPwahd&bc6W;'
+
+# データベース作成
+mysql -uroot -p'Password!1' -e'CREATE DATABASE fcblogdb CHARACTER SET utf8mb4;'
+
+# 権限設定
+mysql -uroot -p'Password!1' -e'CREATE USER fcblogdb@"%" IDENTIFIED BY "ieBislfesc3!w";'
+mysql -uroot -p'Password!1' -e'GRANT ALL PRIVILEGES ON *.* TO fcblogdb@"%";'
+mysql -uroot -p'Password!1' -e'CREATE USER fcblogdb@"localhost" IDENTIFIED BY "ieBislfesc3!w";'
+mysql -uroot -p'Password!1' -e'GRANT ALL PRIVILEGES ON *.* TO fcblogdb@"localhost";'
+mysql -uroot -p'Password!1' -e'ALTER USER fcblogdb@"%" IDENTIFIED WITH mysql_native_password BY "ieBislfesc3!w";'
+mysql -uroot -p'Password!1' -e'ALTER USER fcblogdb@"localhost" IDENTIFIED WITH mysql_native_password BY "ieBislfesc3!w";'
+
+# 接続情報
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=33306
+DB_DATABASE=fcblogdb
+DB_USERNAME=fcblogdb
+DB_PASSWORD=ieBislfesc3!w

@@ -1,0 +1,36 @@
+
+Vagrant.configure("2") do |config|
+
+    Encoding.default_external='UTF-8'
+    config.vm.define "php_pokemon" do |ss|
+        ss.vm.box = "centos/7"
+
+        ss.vm.provider :virtualbox do |vb|
+            vb.name = "php_pokemon_dev"
+            vb.customize ["modifyvm", :id, "--memory", "4096", "--natdnshostresolver1", "on"]
+            vb.gui = false
+        end
+
+        # Port
+        ss.vm.network "forwarded_port", guest: 80, host: 8080
+        ss.vm.network "forwarded_port", guest: 3000, host: 33000
+        ss.vm.network "forwarded_port", guest: 3306, host: 33306
+
+        # IP
+        ss.vm.network "private_network", ip: "192.168.33.10"
+
+        # vagrantのアップデート
+        ss.vbguest.auto_update = false
+
+        # フォルダのマウント
+        ss.vm.synced_folder "../webapp/html", "/var/www/html", id: "vagrant-root", :nfs => false, :owner => "vagrant", :group => "vagrant", :mountoptions => ["dmode=775,fmode=664"]
+
+        # 初回のみ実行
+        ss.vm.provision "shell", path: 'provision/provision_root.sh'
+
+        # 毎回のup時に実行
+        ss.vm.provision "shell", run: "always", path: 'entrypoint/entrypoint_root.sh'
+
+    end
+
+end

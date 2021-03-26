@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^(.*) /public/$1
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  # ローカル環境
+  RewriteCond %{HTTPS} on
+  RewriteRule ^.*$ http://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+  # 本番環境
+  #RewriteCond %{HTTPS} off
+  #RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
