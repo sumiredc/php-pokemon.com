@@ -116,7 +116,7 @@ class Response
     *
     * @return array
     */
-    public function getMessages()
+    public function getMessages(): array
     {
         return $this->messages;
     }
@@ -126,13 +126,13 @@ class Response
     * @param msg:string|array
     * @param param:mixed
     * @param toastr:string::info|error|success|warning
-    * @return array
+    * @return this
     */
-    public function setMessage($msg, $param=null, $toastr='')
+    public function setMessage($msg, $param=null, $toastr=''): Response
     {
         if(empty($msg)){
             // 空の場合はスキップ
-            return;
+            return $this;
         }
         if(is_array($msg)){
             $messages = array_map(function($message){
@@ -152,28 +152,31 @@ class Response
                 $this->toastrs[] = [$toastr, $msg];
             }
         }
+		return $this;
     }
 
     /**
     * アニメーション用の自動メッセージの格納
     *
     * @param mixed $param
-    * @return array
+    * @return this
     */
-    public function setAutoMessage($param='')
+    public function setAutoMessage($param=''): Response
     {
         $this->messages[] = ['', $param, 'auto'];
+		return $this;
     }
 
     /**
     * 空メッセージの格納
     *
     * @param string $param
-    * @return array
+    * @return this
     */
-    public function setEmptyMessage(string $param='')
+    public function setEmptyMessage(string $param=''): Response
     {
         $this->messages[] = ['', $param, ''];
+		return $this;
     }
 
     /**
@@ -188,17 +191,18 @@ class Response
 
     /**
     * メッセージの初期化
-    * @return void
+    * @return this
     */
-    public function initMessage()
+    public function initMessage(): Response
     {
         $this->messages = [];
+		return $this;
     }
 
     /**
     * メッセージの最初のキーを取得
     *
-    * @return void
+    * @return mixed
     */
     public function getMessageFirstKey()
     {
@@ -208,7 +212,7 @@ class Response
     /**
     * メッセージの最後のキーを取得
     *
-    * @return void
+    * @return mixed
     */
     public function getMessageLastKey()
     {
@@ -244,13 +248,13 @@ class Response
     *
     * @param mixed $response
     * @param mixed $key
-    * @return array
+    * @return this
     */
-    public function setResponse($response, $key=null)
+    public function setResponse($response, $key=null): Response
     {
         if(empty($response)){
             // 空の場合はスキップ
-            return;
+            return $this;
         }
         if(is_null($key)){
             // キー指定無し
@@ -265,6 +269,7 @@ class Response
             // キー指定有り
             $this->responses[$key] = $response;
         }
+		return $this;
     }
 
     /**
@@ -314,13 +319,13 @@ class Response
     * モーダル用テータの格納
     * @param param:array
     * @param merge:boolean
-    * @return void
+    * @return this
     */
-    public function setModal(array $param, bool $merge=false): void
+    public function setModal(array $param, bool $merge=false): Response
     {
         if(empty($param)){
             // 空の場合はスキップ
-            return;
+            return $this;
         }
         if($merge){
             // 結合（引き継ぎ）
@@ -331,6 +336,7 @@ class Response
             // モーダルが最終になる場合を想定した空の自動メッセージをセット
             $this->setAutoMessage();
         }
+		return $this;
     }
 
     /**
@@ -450,14 +456,15 @@ class Response
     * トーストの登録
     * @param design:string
     * @param msg:string::info|error|success|warning
-    * @return void
+    * @return this
     */
-    public function setToastr(string $design, string $msg): void
+    public function setToastr(string $design, string $msg): Response
     {
         // トーストへの登録
         if(in_array($design, ['info', 'error', 'success', 'warning'], true)){
             $this->toastrs[] = [$design, $msg];
         }
+		return $this;
     }
 
     /**

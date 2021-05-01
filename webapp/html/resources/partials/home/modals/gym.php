@@ -52,7 +52,7 @@
                     </ul>
                 </div><!-- Modal body -->
                 <div class="modal-footer">
-                    <input type="hidden" name="action" value="battle_gym">
+                    <input type="hidden" name="action" value="battle_leader">
                     <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">戻る</button>
                     <input class="btn btn-sm btn-php-dark" type="submit" value="ジム戦に挑む" disabled>
                     <?php input_token(); ?>

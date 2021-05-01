@@ -16,13 +16,13 @@ abstract class GymFuchsia extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Kyou';
+    public const LEADER = 'kyou';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Soul';
+    public const BADGE = 'soul';
 
     /**
     * 挑戦条件

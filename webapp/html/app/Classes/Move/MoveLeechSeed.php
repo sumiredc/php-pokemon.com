@@ -56,7 +56,6 @@ class MoveLeechSeed extends Move
 
     /**
     * 追加効果
-    *
     * @param args:array
     * @return void
     */

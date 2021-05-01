@@ -19,8 +19,8 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 対象トレーナーと戦ったかどうかの確認
-    * @param category:string
-    * @param id:string
+    * @param string $category
+    * @param string $id
     * @return boolean
     */
     public function isTrainer(string $category, string $id): bool
@@ -30,7 +30,7 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 対象トレーナーと戦えるかの確認
-    * @param category:string
+    * @param string $category
     * @return boolean
     */
     public function isFightTrainer(string $category): bool
@@ -40,7 +40,7 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 戦ったトレーナー名一覧を取得
-    * @param category:string
+    * @param string $category
     * @return array
     */
     public function getTrainers(string $category): array
@@ -50,7 +50,7 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 戦った全トレーナー名一覧を取得
-    * @param category:string
+    * @param string $category
     * @return array
     */
     public function getTrainersAll(): array
@@ -60,7 +60,7 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 戦ったトレーナー数を取得
-    * @param category:string
+    * @param string $category
     * @return integer
     */
     public function getTrainerCount(string $category): int
@@ -70,7 +70,7 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 対象トレーナーと戦える残り回数を取得
-    * @param category:string
+    * @param string $category
     * @return integer
     */
     public function getRemainingTrainerCount(string $category): int
@@ -80,7 +80,7 @@ trait ClassPlayerTrainerTrait
 
     /**
     * 戦ったトレーナー情報の格納
-    * @param trainer:object::Trainer
+    * @param App\Classes\Trainer $trainer
     * @return void
     */
     public function setTrainer(Trainer $trainer): void

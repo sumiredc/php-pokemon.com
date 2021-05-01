@@ -8,7 +8,7 @@ window.battleLib = {};
 /**
 * バトル開始
 * @param target:string
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateStart = function (target){
     return new Promise ( async (resolve, reject) => {
@@ -114,7 +114,7 @@ window.battleLib.doAnimateHpBar = function(target, param){
 /**
 * 状態異常をセット
 * @param json
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateSa = function (target, param){
     return new Promise ((resolve, reject) => {
@@ -129,7 +129,7 @@ window.battleLib.doAnimateSa = function (target, param){
 /**
 * 状態異常の解除
 * @param
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateSaRelease = function (target){
     return new Promise ((resolve, reject) => {
@@ -141,7 +141,7 @@ window.battleLib.doAnimateSaRelease = function (target){
 /**
 * へんしん処理
 * @param json
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateTransform = function (target, param){
     return new Promise ((resolve, reject) => {
@@ -154,7 +154,7 @@ window.battleLib.doAnimateTransform = function (target, param){
 /**
 * 交代処理（戻す）
 * @param json
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateChangeIn = function (target){
     return new Promise ((resolve, reject) => {
@@ -168,7 +168,7 @@ window.battleLib.doAnimateChangeIn = function (target){
 /**
 * 交代処理（登場）
 * @param json
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateChangeOut = function (target, param){
     return new Promise ( async (resolve, reject) => {
@@ -229,7 +229,7 @@ window.battleLib.doAnimateChangeOut = function (target, param){
 /**
 * 経験値バーのアニメーション
 * @param mixed param
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateExpBar = function(param){
     return new Promise ((resolve, reject) => {
@@ -267,7 +267,7 @@ window.battleLib.doAnimateExpBar = function(param){
 /**
 * レベルアップ処理
 * @param json
-* @return Promise
+* @return {Promise}
 */
 window.battleLib.doAnimateLevelUp = function(param){
     return new Promise ((resolve, reject) => {

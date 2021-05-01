@@ -16,13 +16,13 @@ abstract class GymSaffron extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Natsume';
+    public const LEADER = 'natsume';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Marsh';
+    public const BADGE = 'marsh';
 
     /**
     * 挑戦条件

@@ -16,13 +16,13 @@ abstract class GymViridian extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Sakaki';
+    public const LEADER = 'sakaki';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Earth';
+    public const BADGE = 'earth';
 
     /**
     * 挑戦条件

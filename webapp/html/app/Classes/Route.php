@@ -51,9 +51,9 @@ abstract class Route
     {
         // 404ページへのリダイレクト
         if(http_response_code() === 404){
-            self::$template = '/Resources/Pages/404.php';
+            self::$template = '/resources/pages/404.php';
             self::$controller = [
-                'dir' => '/App/Controllers/NotFound',
+                'dir' => '/app/Controllers/NotFound',
                 'class' => 'NotFoundController',
             ];
             return;
@@ -62,41 +62,41 @@ abstract class Route
         switch (self::$name) {
             // ホーム画面
             case 'home':
-            self::$template = '/Resources/Pages/Home.php';
+            self::$template = '/resources/pages/home.php';
             self::$controller = [
-                'dir' => '/App/Controllers/Home',
+                'dir' => '/app/Controllers/Home',
                 'class' => 'HomeController',
             ];
             break;
             // バトル画面
             case 'battle':
-            self::$template = '/Resources/Pages/Battle.php';
+            self::$template = '/resources/pages/battle.php';
             self::$controller = [
-                'dir' => '/App/Controllers/Battle',
+                'dir' => '/app/Controllers/Battle',
                 'class' => 'BattleController',
             ];
             break;
             // 進化画面
             case 'evolve':
-            self::$template = '/Resources/Pages/Evolve.php';
+            self::$template = '/resources/pages/evolve.php';
             self::$controller = [
-                'dir' => '/App/Controllers/Evolve',
+                'dir' => '/app/Controllers/Evolve',
                 'class' => 'EvolveController',
             ];
             break;
             // ポケモンボックス画面
             case 'pokebox':
-            self::$template = '/Resources/Pages/Pokebox.php';
+            self::$template = '/resources/pages/pokebox.php';
             self::$controller = [
-                'dir' => '/App/Controllers/Pokebox',
+                'dir' => '/app/Controllers/Pokebox',
                 'class' => 'PokeboxController',
             ];
             break;
             // デフォルト（初期設定）
             default:
-            self::$template = '/Resources/Pages/Initial.php';
+            self::$template = '/resources/pages/initial.php';
             self::$controller = [
-                'dir' => '/App/Controllers/Initial',
+                'dir' => '/app/Controllers/Initial',
                 'class' => 'InitialController',
             ];
             $_SESSION['__pokemon_ids'] = [];

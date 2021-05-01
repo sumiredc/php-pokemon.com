@@ -50,7 +50,7 @@ class LoadService extends Service
     {
         try {
             // プレイヤーの一覧を取得
-            $players = file(storage_path('database').'players.csv');
+            $players = file(storage_path('database/players.csv'));
             $players = array_map(function($id){
                 return preg_replace('/\n/', '', $id) === request('player_id');
             }, $players);
@@ -59,7 +59,7 @@ class LoadService extends Service
                 throw new Exception;
             }
             // レポートファイルのパスを取得
-            $report = storage_path('Reports').request('player_id');
+            $report = storage_path('database/reports/'.request('player_id'));
             // レポートの存在確認
             if(!file_exists($report)){
                 throw new Exception;

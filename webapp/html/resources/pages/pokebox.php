@@ -7,7 +7,7 @@
     # cssの読み込み
     include resources_path('partials/layouts/head/css.php');
     ?>
-    <link rel="stylesheet" href="/assets/css/Page/pokebox.css">
+    <link rel="stylesheet" href="/assets/css/page/pokebox.css">
 </head>
 <body>
     <?php
@@ -48,12 +48,12 @@
     # footerの読み込み
     include resources_path('partials/layouts/foot/footer.php');
     # モーダルの読み込み
-    include resources_path('partials/Pokebox/modals/deposit.php');
-    include resources_path('partials/Pokebox/modals/receive.php');
-    include resources_path('partials/Pokebox/modals/switch.php');
+    include resources_path('partials/pokebox/modals/deposit.php');
+    include resources_path('partials/pokebox/modals/receive.php');
+    include resources_path('partials/pokebox/modals/switch.php');
     # JSの読み込み
     include resources_path('partials/layouts/foot/js.php');
     ?>
-    <script src="/assets/js/Pokebox/pokebox.js" type="text/javascript" defer></script>
+    <script src="/assets/js/pokebox/pokebox.js" type="text/javascript" defer></script>
 </body>
 </html>

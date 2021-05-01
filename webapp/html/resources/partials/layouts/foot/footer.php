@@ -18,7 +18,7 @@ if(response()->isForceModal()){
     $force_modal = response()->getForceModal();
     // 既存モーダルを使用しない場合は読み込み
     if(isset($force_modal['modal'])){
-        include resources_path('partials/'.getPageName(true).'/modals'.$force_modal['modal'].'.php');
+        include resources_path('partials/'.getPageName().'/modals/'.$force_modal['modal'].'.php');
     }
     echo '<input type="hidden" id="force-modal" value="'.($force_modal['existing_modal'] ?? '#'.$force_modal['id'].'-modal').'">';
 }

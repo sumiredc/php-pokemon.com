@@ -1,4 +1,6 @@
 <?php
+require_once app_path('Classes/BattleState.php');
+
 /**==================================================================
 * ターンダメージ
 ==================================================================**/
@@ -13,9 +15,9 @@ trait ClassBattleStateTurnDamageTrait
 
     /**
     * ターンダメージの初期値
-    * @return void
+    * @return App\Classes\BattleState
     */
-    protected function initTurnDamages() :void
+    protected function initTurnDamages(): BattleState
     {
         $this->turn_damages = [
             'friend' => [
@@ -27,6 +29,7 @@ trait ClassBattleStateTurnDamageTrait
                 'special' => 0,
             ],
         ];
+		return $this;
     }
 
     /**

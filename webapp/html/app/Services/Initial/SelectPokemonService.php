@@ -109,13 +109,13 @@ class SelectPokemonService extends Service
     {
         initPlayer('レッド');
         // ミュウの作成
-        $mew = new Mew(5);
+        $mew = new Mew(10);
         $mew->setNickname('デバッガー');
         $mew->setPosition();
         player()->setParty($mew);
         // 全てのポケモンをパーティーにセット
         foreach(config('const.first_pokemon') as $class){
-            $pokemon = new $class(5);
+            $pokemon = new $class(10);
             $pokemon->setPosition();
             player()->setParty($pokemon);
         }

@@ -16,13 +16,13 @@ abstract class GymVermilion extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Machisu';
+    public const LEADER = 'machisu';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Thunder';
+    public const BADGE = 'thunder';
 
     /**
     * 挑戦条件

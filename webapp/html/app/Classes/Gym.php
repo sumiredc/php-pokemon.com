@@ -13,7 +13,7 @@ abstract class Gym
     {
         // 配列を返却
         return include(
-            storage_path('database/leaders').static::LEADER.'.php'
+            storage_path('database/leaders/'.static::LEADER.'.php')
         );
     }
 

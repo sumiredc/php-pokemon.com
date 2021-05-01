@@ -54,7 +54,10 @@ $before_enemy = battle_state()->getBefore('enemy');
                 data-target="#enemy-battle-state-modal" />
                 <?php # トレーナー戦（トレーナー画像） ?>
                 <?php if(battle_state()->isMode('trainer')): ?>
+					<?php /* ?>
                     <img src="/assets/img/npc/front/<?=trainer()->getCategory()?>.gif"
+					<?php */ ?>
+					<img src="<?=trainer()->getImagePath()?>"
                     id="enemy-trainer-image"
                     class="<?php if(!response()->getResponse('battle-start')) echo 'd-soft-none' ?>"
                     alt="<?=trainer()->getCategoryName()?>" />

@@ -10,7 +10,7 @@ trait ServiceBattleExTrait
     * @param move:string
     * @return mixed::string|false
     */
-    protected function exMirrorMove(object $atk, object $def, string $move)
+    protected function exMirrorMove(Pokemon $atk, Pokemon $def, string $move)
     {
         // チャージ・あばれる技の確認
         $wait_move = $this->exGetWaitingMove($atk);
@@ -30,7 +30,7 @@ trait ServiceBattleExTrait
     * @param move:string
     * @return string
     */
-    protected function exMetronome(object $atk, string $move): string
+    protected function exMetronome(Pokemon $atk, string $move): string
     {
         // チャージ・あばれる技の確認
         $wait_move = $this->exGetWaitingMove($atk);
@@ -50,7 +50,7 @@ trait ServiceBattleExTrait
     * @param move:string
     * @return void
     */
-    protected function exPayDay(object $atk, string $move): void
+    protected function exPayDay(Pokemon $atk, string $move): void
     {
         battle_state()->setMoney($move::exPayDay($atk));
         response()->setMessage('辺りにお金が散らばった');
@@ -64,7 +64,7 @@ trait ServiceBattleExTrait
     * @param move:string
     * @return void
     */
-    protected function exTransform(object $atk, object $def, string $move): void
+    protected function exTransform(Pokemon $atk, Pokemon $def, string $move): void
     {
         // へんしんの特別処理を呼び出し
         if($move::exTransform($atk, $def)){
@@ -87,7 +87,7 @@ trait ServiceBattleExTrait
     * @param atk:object::Pokemon
     * @return mixed::string|false
     */
-    protected function exGetWaitingMove(object $atk)
+    protected function exGetWaitingMove(Pokemon $atk)
     {
         //「チャージ状態」になっているかどうかを確認
         $charge = $atk->getChargeMove();

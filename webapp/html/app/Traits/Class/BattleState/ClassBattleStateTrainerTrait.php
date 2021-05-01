@@ -41,7 +41,7 @@ trait ClassBattleStateTrainerTrait
     }
 
     /**
-    * トレーナー情報の取得
+    * トレーナーが選択中のポケモン番号
     * @return integer
     */
     public function getTrainerOrder(): int

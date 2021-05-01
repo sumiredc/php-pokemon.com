@@ -132,6 +132,19 @@ class HomeController extends Controller
                     $this->redirect();
                 }
                 break;
+				/******************************************
+                * ジム戦
+                */
+                case 'battle_leader':
+                // バトル開始可能な状態かを確認
+                if($this->validationBattleLeader()){
+                    $_SESSION['__route'] = 'battle';
+                    // バトルコントローラーへaction値をpostするためにトークンをセット
+                    $_SESSION['__token'] = $_POST['__token'];
+                    // 画面移管
+                    $this->redirect();
+                }
+                break;
                 /******************************************
                 * 技の習得
                 */

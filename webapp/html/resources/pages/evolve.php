@@ -54,13 +54,13 @@ $pokemon = $controller->getPokemon();
     include resources_path('partials/layouts/foot/footer.php');
     # モーダルの読み込み
     foreach(response()->modals() as $modal){
-        include resources_path('partials/Evolve/modals/'.$modal['modal'].'.php');
+        include resources_path('partials/evolve/modals/'.$modal['modal'].'.php');
     }
     # JSの読み込み
     include resources_path('partials/layouts/foot/js.php');
     ?>
-    <script src="/assets/js/Common/forget-move.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Common/action-message.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Evolve/library-evolve.js" type="text/javascript" defer></script>
+    <script src="/assets/js/common/forget-move.js" type="text/javascript" defer></script>
+    <script src="/assets/js/common/action-message.js" type="text/javascript" defer></script>
+    <script src="/assets/js/evolve/library-evolve.js" type="text/javascript" defer></script>
 </body>
 </html>

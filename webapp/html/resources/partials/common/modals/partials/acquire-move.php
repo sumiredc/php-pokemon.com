@@ -53,7 +53,7 @@
                         </div>
                     <?php endforeach; ?>
                     <?php # 覚えようとしている技 ?>
-                    <div class="move-detail-content active" id="<?=$modal['id']?>_<?=get_class($modal['new_move'])?>-content">
+                    <div class="move-detail-content active" id="<?=$modal['id']?>_<?=$modal['new_move']?>-content">
                         <h6><?=$modal['new_move']::NAME?></h6>
                         <hr>
                         <p><?=$modal['new_move']::DESCRIPTION?></p>

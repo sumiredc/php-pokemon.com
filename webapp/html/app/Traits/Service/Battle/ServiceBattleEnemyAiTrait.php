@@ -17,7 +17,10 @@ trait ServiceBattleEnemyAiTrait
         }elseif(enemy()->isSc('ScThrash')){
             // あばれる状態
             $class = enemy()->getThrashMove();
-        }
+        }elseif(enemy()->isSc('ScBide')){
+			// がまん状態
+			$class = 'MoveBide';
+		}
         // 技番号の抽出
         if(isset($class)){
             // 選択された技の添番を取得

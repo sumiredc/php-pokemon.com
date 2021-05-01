@@ -2,6 +2,7 @@
 return [
     'id' => basename(__FILE__, '.php'),
     'name' => 'タケシ',
+	'gym' => 'GymPewter',
     'money' => 2000,
     'lines' => [
         'lose' => [

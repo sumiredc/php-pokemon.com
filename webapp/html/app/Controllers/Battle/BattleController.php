@@ -73,13 +73,21 @@ class BattleController extends Controller
                 $service->execute();
                 response()->setResponse(true, 'battle-start');
                 break;
+				/******************************************
+                * トレーナー戦 開始
+                */
+                case 'battle_leader':
+                // サービス実行
+				StartTrainerService::$mode = 'leader';
+                (new StartTrainerService)->execute();
+                response()->setResponse(true, 'battle-start');
+                break;
                 /******************************************
                 * たたかう
                 */
                 case 'fight':
                 // サービス実行
-                $service = new FightService;
-                $service->execute();
+                (new FightService)->execute();
                 break;
                 /******************************************
                 * どうぐ

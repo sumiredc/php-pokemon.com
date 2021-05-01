@@ -48,7 +48,11 @@ class FightService extends Service
         if($fight){
             // 行動後の状態異常・変化をチェック
             $this->afterCheck();
-        }
+        }else{
+			// 瀕死状態あり（バインド状態を解除）
+			friend()->initSc('ScBind');
+			enemy()->initSc('ScBind');
+		}
         // フィールドのカウントを進める
         battle_state()->goTurnFields();
     }
@@ -93,6 +97,13 @@ class FightService extends Service
             $atk->initSc('ScRage');
             // 攻撃(返り値に使用した技を受け取る)
             $attack_move = $this->attack($atk, $def, $move);
+			// がまん終了
+			if(
+				$atk->isSc('ScBide') &&
+				$atk->getScTurn('ScBide') <= 0
+			){
+				$atk->initSc('ScBide');
+			}
             // 最後に使用した技を格納
             battle_state()->setLastMove($atk_position, $attack_move);
             // バトル終了のレスポンスチェック（交代技など）

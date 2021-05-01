@@ -20,7 +20,8 @@ trait ServiceBattleAttackAfterTrait
             $def = $def_position();
             // ひんしチェック(開始時に行動側がひんし状態になっていないか確認)
             if($atk->isFainting()){
-                // ひんし状態になった
+                // ひんし状態になった（バインド状態を解除）
+				$def->initSc('ScBind');
                 continue;
             }
             // 状態異常チェック
@@ -31,6 +32,8 @@ trait ServiceBattleAttackAfterTrait
                 $def->isFainting()
             ){
                 // どちらかがひんし状態になった
+				$atk->initSc('ScBind');
+				$def->initSc('ScBind');
                 continue;
             }
             // 状態変化チェック

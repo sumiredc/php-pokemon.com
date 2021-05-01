@@ -71,7 +71,7 @@ class Player
     private function issueId()
     {
         // プレイヤーの一覧を取得
-        $players = file(storage_path('database').'players.csv');
+        $players = file(storage_path('database/players.csv'));
         // 改行コード（\n）を削除
         $players = array_map(function($id){
             return preg_replace('/\n/', '', $id);
@@ -88,7 +88,7 @@ class Player
             ), 0, $length);
         }
         // プレイヤー情報をデータベースに登録
-        $file = fopen(storage_path('database').'players.csv', 'a');
+        $file = fopen(storage_path('database/players.csv'), 'a');
         // csvに書き込む
         fputcsv($file, [$this->id]);
         // ファイルを閉じる

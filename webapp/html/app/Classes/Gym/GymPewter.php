@@ -16,13 +16,13 @@ abstract class GymPewter extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Takeshi';
+    public const LEADER = 'takeshi';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Boulder';
+    public const BADGE = 'boulder';
 
     /**
     * 挑戦条件
@@ -35,13 +35,15 @@ abstract class GymPewter extends Gym
 
     /**
     * 挑戦条件が満たされているかの確認
-    * @param player:object::Player
+    * @param App\Classes\Player $player
     * @return boolean
     */
     public static function isRequiredChallenge(Player $player): bool
     {
+		return true;
+		
         return $player->getLevel() >= 8 &&
-        $player->getCounter()['wild']['win'] ?? 0 >= 3;
+        $player->getCounter()['trainer']['win'] ?? 0 >= 3;
     }
 
 }

@@ -39,7 +39,7 @@ class ReportService extends Service
             return false;
         }
         // レポートファイルのパスを取得
-        $report = storage_path('Reports').player()->getId();
+        $report = storage_path('database/reports/'.player()->getId());
         try {
             // ファイルの存在確認(なければ作成)
             if(!file_exists($report)){

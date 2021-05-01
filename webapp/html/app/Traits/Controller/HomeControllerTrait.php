@@ -80,4 +80,26 @@ trait HomeControllerTrait
         return true;
     }
 
+	/**
+    * バトル開始(ジム)の検証
+    * @return boolean
+    */
+	protected function validationBattleLeader(): bool
+	{
+		// バトル開始可能な状態かを確認
+		if(!player()->isFightParty()){
+			response()->setMessage('バトルに参加できるポケモンがいないので、戦えません');
+			return false;
+		}
+		$gym = config('gym.'.request('gym'));
+		if(
+			is_string($gym) &&
+			class_exists($gym) &&
+			$gym::isRequiredChallenge(player())
+		){
+			return true;
+		}
+		return false;
+	}
+
 }

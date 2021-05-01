@@ -60,8 +60,10 @@ trait BattleControllerTrait
         if(
             $this->chargeNow() ||
             friend()->isSc('ScRecoil') ||
-            friend()->isSc('ScThrash')
+            friend()->isSc('ScThrash') ||
+			friend()->isSc('ScBide')
         ){
+			response()->setEmptyMessage();
             $this->branch();
             return true;
         }else{
@@ -133,7 +135,6 @@ trait BattleControllerTrait
     */
     private function judgmentLose()
     {
-
         if(battle_state()->isMode('trainer')){
             // トレーナー戦
             response()->setMessage(trainer()->getLine('win'));
@@ -145,9 +146,9 @@ trait BattleControllerTrait
         // お小遣いの半額を失う
         player()->loseMoney();
         // 全滅
-        response()->setMessage(player()->getName().'は、目の前が真っ暗になった...');
-        // バトル終了判定用メッセージの格納
-        response()->setEmptyMessage('battle-end');
+        response()->setMessage(player()->getName().'は、目の前が真っ暗になった...')
+		->setEmptyMessage('battle-end'); // バトル終了判定用メッセージの格納
+
     }
 
     /**
@@ -198,13 +199,12 @@ trait BattleControllerTrait
             }else{
                 // 勝利演出
                 player()->countTrainer('win');
-                response()->setMessage(trainer()->getPrefixName().'との勝負に勝った', $msg_id);
-                response()->setResponse([
+                response()->setMessage(trainer()->getPrefixName().'との勝負に勝った', $msg_id)
+                ->setResponse([
                     'action' => 'show-trainer',
                     'target' => 'enemy',
-                ], $msg_id);
-                // 勝利メッセージ
-                response()->setMessage(trainer()->getLine('lose'));
+                ], $msg_id)
+				->setMessage(trainer()->getLine('lose'));
                 // 賞金
                 $money = trainer()->getMoney();
                 response()->setMessage(player()->getName().'は、賞金として'.$money.'円を受け取った！');
@@ -231,6 +231,11 @@ trait BattleControllerTrait
             response()->setMessage(player()->getName().'は、'.$money.'円拾った！');
             player()->addMoney($money);
         }
+		// ジムリーダーの場合はバッチ取得
+		if(battle_state()->isGym()){
+			$gym = trainer()->getGym();
+			player()->setBadge($gym::BADGE);
+		}
         // バトル終了判定用メッセージの格納
         response()->setEmptyMessage('battle-end');
     }

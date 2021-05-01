@@ -7,7 +7,7 @@
     # cssの読み込み
     include resources_path('partials/layouts/head/css.php');
     ?>
-    <link rel="stylesheet" href="/assets/css/Page/home.css">
+    <link rel="stylesheet" href="/assets/css/page/home.css">
 </head>
 <body>
     <?php
@@ -53,31 +53,31 @@
     # footerの読み込み
     include resources_path('partials/layouts/foot/footer.php');
     # モーダルの読み込み
-    include resources_path('partials/Common/modals/report.php');
-    include resources_path('partials/Common/modals/Party/party.php');
-    include resources_path('partials/Common/modals/Item/item.php');
-    include resources_path('partials/Common/modals/Item/item-trash.php');
-    include resources_path('partials/Common/modals/Item/item-use-friend.php');
-    include resources_path('partials/Home/modals/pokedex.php');
-    include resources_path('partials/Home/modals/player.php');
-    include resources_path('partials/Home/modals/shop.php');
-    include resources_path('partials/Home/modals/reset.php');
-    include resources_path('partials/Home/modals/pokemon-center.php');
-    include resources_path('partials/Home/modals/field.php');
-    include resources_path('partials/Home/modals/trainer.php');
-    include resources_path('partials/Home/modals/gym.php');
+    include resources_path('partials/common/modals/report.php');
+    include resources_path('partials/common/modals/party/party.php');
+    include resources_path('partials/common/modals/item/item.php');
+    include resources_path('partials/common/modals/item/item-trash.php');
+    include resources_path('partials/common/modals/item/item-use-friend.php');
+    include resources_path('partials/home/modals/pokedex.php');
+    include resources_path('partials/home/modals/player.php');
+    include resources_path('partials/home/modals/shop.php');
+    include resources_path('partials/home/modals/reset.php');
+    include resources_path('partials/home/modals/pokemon-center.php');
+    include resources_path('partials/home/modals/field.php');
+    include resources_path('partials/home/modals/trainer.php');
+    include resources_path('partials/home/modals/gym.php');
     foreach(response()->modals() as $modal){
-        include resources_path('partials/Home/modals'.$modal['modal'].'.php');
+        include resources_path('partials/home/modals/'.$modal['modal'].'.php');
     }
     # JSの読み込み
     include resources_path('partials/layouts/foot/js.php');
     ?>
-    <script src="/assets/js/Common/action-message.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Common/forget-move.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Common/item.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Home/home.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Home/pokedex.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Home/shop.js" type="text/javascript" defer></script>
-    <script src="/assets/js/Home/party.js" type="text/javascript" defer></script>
+    <script src="/assets/js/common/action-message.js" type="text/javascript" defer></script>
+    <script src="/assets/js/common/forget-move.js" type="text/javascript" defer></script>
+    <script src="/assets/js/common/item.js" type="text/javascript" defer></script>
+    <script src="/assets/js/home/home.js" type="text/javascript" defer></script>
+    <script src="/assets/js/home/pokedex.js" type="text/javascript" defer></script>
+    <script src="/assets/js/home/shop.js" type="text/javascript" defer></script>
+    <script src="/assets/js/home/party.js" type="text/javascript" defer></script>
 </body>
 </html>

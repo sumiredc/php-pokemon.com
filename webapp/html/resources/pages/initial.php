@@ -73,11 +73,11 @@
     # footerの読み込み
     include resources_path('partials/layouts/foot/footer.php');
     # モーダルの読み込み
-    include resources_path('partials/Initial/modals/pokemon.php');
-    include resources_path('partials/Initial/modals/load.php');
+    include resources_path('partials/initial/modals/pokemon.php');
+    include resources_path('partials/initial/modals/load.php');
     # JSの読み込み
     include resources_path('partials/layouts/foot/js.php');
     ?>
-    <script src="/assets/js/Initial/initial.js" type="text/javascript" defer></script>
+    <script src="/assets/js/initial/initial.js" type="text/javascript" defer></script>
 </body>
 </html>

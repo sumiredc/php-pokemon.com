@@ -16,13 +16,13 @@ abstract class GymCinnabar extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Katsura';
+    public const LEADER = 'katsura';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Volcano';
+    public const BADGE = 'volcano';
 
     /**
     * 挑戦条件

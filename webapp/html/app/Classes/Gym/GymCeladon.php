@@ -16,13 +16,13 @@ abstract class GymCeladon extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Erika';
+    public const LEADER = 'erika';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Rainbow';
+    public const BADGE = 'rainbow';
 
     /**
     * 挑戦条件

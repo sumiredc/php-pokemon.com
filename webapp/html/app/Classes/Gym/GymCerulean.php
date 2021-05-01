@@ -16,13 +16,13 @@ abstract class GymCerulean extends Gym
     * ジムリーダー
     * @var string
     */
-    public const LEADER = 'Kasumi';
+    public const LEADER = 'kasumi';
 
     /**
     * ジムバッジ
     * @var string
     */
-    public const BADGE = 'Cascade';
+    public const BADGE = 'cascade';
 
     /**
     * 挑戦条件

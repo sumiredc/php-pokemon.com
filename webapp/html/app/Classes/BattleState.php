@@ -14,22 +14,25 @@ require_once app_path('Traits/Class/BattleState/ClassBattleStateTrainerTrait.php
 class BattleState
 {
 
-    use ClassBattleStateFieldTrait;
-    use ClassBattleStateMoveTrait;
-    use ClassBattleStateMoneyTrait;
-    use ClassBattleStatePokemonTrait;
-    // use ClassBattleStateTransformTrait;
-    use ClassBattleStateTurnDamageTrait;
-    use ClassBattleStateTrainerTrait;
+	/** @var boolean */
+	protected $gym_flg = false;
+
+    use ClassBattleStateFieldTrait, ClassBattleStateMoveTrait, ClassBattleStateMoneyTrait, ClassBattleStatePokemonTrait, ClassBattleStateTurnDamageTrait, ClassBattleStateTrainerTrait;
 
     /**
-    * @param mode:string
+    * @param string $mode
     * @return void
     */
     public function __construct(string $mode)
     {
         $this->init();
-        $this->mode($mode);
+		if(in_array($mode, ['trainer', 'leader'], true)){
+			$this->mode('trainer');
+		}else{
+			$this->mode('wild');
+		}
+		// フラグ
+		$this->gym_flg = ($mode === 'leader');
     }
 
     /**==================================================================
@@ -40,11 +43,11 @@ class BattleState
     * 初期化
     * @return void
     */
-    public function init() :void
+    public function init(): void
     {
         $this->run = 0;
         $this->initFields();
-        $this->initTurnDamages();
+        $this->initTurnDamages()->initTempParams();
         // $this->initTransforms();
         $this->initSelectedMoves();
         $this->initLastMoves();
@@ -54,10 +57,10 @@ class BattleState
     * ターン始めの状態へ初期化
     * @return void
     */
-    public function turnInit() :void
+    public function turnInit(): void
     {
-        $this->initTurnDamages();
-        $this->judgeTrue();
+		$this->initTurnDamages()
+		->judgeTrue();
     }
 
     /**
@@ -65,13 +68,69 @@ class BattleState
     * @param position:string::friend|enemy
     * @return void
     */
-    public function changeInit(string $position) :void
+    public function changeInit(string $position): void
     {
         // ターンダメージ、最後に使った技をリセット
         if(in_array($position, config('pokemon.position'), true)){
             $this->resetTurnDamege($position);
             $this->resetLastMove($position);
         }
+    }
+
+	/**==================================================================
+    * 一時保存用
+    ==================================================================**/
+
+	/**
+	* 一時保存用
+	* @var array
+	*/
+	private $temp_params = [];
+
+	/**
+	* 一時保存用のパラメーターの初期化
+	* @return App\Classes\BattleState
+	*/
+	private function initTempParams(): BattleState
+	{
+		$this->temp_params = [];
+		return $this;
+	}
+
+	/**
+    * 一時保存用のパラメーターを保存
+	* @access public
+    * @param string $key
+	* @param mixed $value
+    * @return App\Classes\BattleState
+    */
+    public function setTempParam(string $key, $value): BattleState
+    {
+        $this->temp_params[$key] = $value;
+		return $this;
+    }
+
+	/**
+    * 一時保存用のパラメーターを保存
+	* @access public
+    * @param string $key
+    * @return mixed
+    */
+    public function getTempParam(string $key)
+    {
+        return $this->temp_params[$key] ?? null;
+    }
+
+	/**
+    * 一時保存用のパラメーターを削除
+	* @access public
+    * @param string $key
+    * @return App\Classes\BattleState
+    */
+    public function unsetTempParam(string $key): BattleState
+    {
+		unset($this->temp_params[$key]);
+        return $this;
     }
 
     /**==================================================================
@@ -91,7 +150,7 @@ class BattleState
     */
     private function mode(string $mode): void
     {
-        if(in_array($mode, ['wild', 'trainer'], true)){
+        if(in_array($mode, ['wild', 'trainer', 'leader'], true)){
             $this->mode = $mode;
         }
     }
@@ -104,6 +163,15 @@ class BattleState
     public function isMode(string $mode): bool
     {
         return $this->mode === $mode;
+    }
+
+	/**
+    * ジム戦かどうかの判定
+    * @return boolean
+    */
+    public function isGym(): bool
+    {
+        return $this->gym_flg;
     }
 
     /**==================================================================
@@ -155,11 +223,12 @@ class BattleState
 
     /**
     * 要判定にする処理
-    * @return void
+    * @return App\Classes\BattleState
     */
-    public function judgeTrue(): void
+    public function judgeTrue(): BattleState
     {
         $this->judgement = true;
+		return $this;
     }
 
     /**

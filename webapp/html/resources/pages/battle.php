@@ -30,7 +30,7 @@
     # モーダルの読み込み
     foreach(response()->modals() as $modal){
         if(isset($modal['modal'])){
-            include resources_path('partials/battle/modals'.$modal['modal'].'.php');
+            include resources_path('partials/battle/modals/'.$modal['modal'].'.php');
         }
     }
     include resources_path('partials/battle/modals/battle-states.php');

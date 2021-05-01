@@ -58,3 +58,25 @@ function assets_path(string $path=''): string
 {
     return root_path('public/assets/'.$path);
 }
+
+// URI
+
+/**
+* ルートURIの取得
+* @param string $path
+* @return string
+*/
+function root_uri(string $path=''): string
+{
+    return (empty($_SERVER['HTTPS']) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].'/'.$path;
+}
+
+/**
+* ルートURIの取得
+* @param string $path
+* @return string
+*/
+function assets_uri(string $path=''): string
+{
+    return root_uri('assets/'.$path);
+}
