@@ -3,3 +3,4 @@ storage/database/players.csv
 storage/database/reports/*
 storage/sessions
 node_modules
+.htaccess
