@@ -1,1 +1,1 @@
-<?php include resources_path('partials/Common/modals/partials/regist-pokedex.php'); 
+<?php include resources_path('partials/common/modals/partials/regist-pokedex.php'); 

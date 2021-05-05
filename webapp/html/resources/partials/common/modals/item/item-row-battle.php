@@ -11,5 +11,5 @@
     </tr>
 <?php else: ?>
     <?php # 利用可能 ?>
-    <?php include resources_path('partials/Common/modals/Item/item-row.php'); ?>
+    <?php include resources_path('partials/common/modals/item/item-row.php'); ?>
 <?php endif; ?>

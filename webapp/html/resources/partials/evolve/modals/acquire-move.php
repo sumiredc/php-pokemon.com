@@ -1,1 +1,1 @@
-<?php include resources_path('partials/Common/modals/partials/acquire-move.php'); 
+<?php include resources_path('partials/common/modals/partials/acquire-move.php'); 

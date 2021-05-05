@@ -22,7 +22,7 @@ $collapses = [
                 <div class="accordion" id="help-accordion">
                     <div class="card">
                         <?php foreach($collapses as $num => $collapse): ?>
-                            <?php include resources_path('partials/Common/modals/Help/partials'.$collapse.'.php'); ?>
+                            <?php include resources_path('partials/common/modals/help/partials/'.$collapse.'.php'); ?>
                         <?php endforeach; ?>
                     </div>
                 </div><?php # アコーディオン終了 ?>

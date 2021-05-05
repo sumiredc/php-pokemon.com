@@ -72,9 +72,9 @@
                                         <tbody>
                                             <?php foreach($items as $item): ?>
                                                 <?php if(getPageName() === 'battle'): ?>
-                                                    <?php include resources_path('partials/Common/modals/Item/item-row-battle.php'); ?>
+                                                    <?php include resources_path('partials/common/modals/item/item-row-battle.php'); ?>
                                                 <?php else: ?>
-                                                    <?php include resources_path('partials/Common/modals/Item/item-row.php'); ?>
+                                                    <?php include resources_path('partials/common/modals/item/item-row.php'); ?>
                                                 <?php endif; ?>
                                             <?php endforeach; ?>
                                         </tbody>
