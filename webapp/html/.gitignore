@@ -3,3 +3,4 @@ storage/database/reports/*
 storage/sessions
 node_modules
 /.htaccess
+/env.php
