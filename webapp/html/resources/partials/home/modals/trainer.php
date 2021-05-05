@@ -34,7 +34,7 @@
                         <select class="form-control form-control-sm" name="trainer">
                             <option value="">-- 選択してください --</option>
                             <?php foreach(config('trainer') as $key => $trainer): ?>
-                                <option value="<?=$key?>" data-img="<?=base64_storage('Trainers/'.$key.'.gif')?>"
+                                <option value="<?=$key?>" data-img="<?=base64_storage('trainers/'.$key.'.gif')?>"
                                     <?php if($trainer['level'] > player()->getLevel()): ?>
                                         data-fight="false" disabled
                                     <?php else: ?>
