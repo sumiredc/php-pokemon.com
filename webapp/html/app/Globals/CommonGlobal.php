@@ -7,7 +7,7 @@
 */
 function env($key)
 {
-	$env = include roote_path('env.php');
+	$env = include root_path('env.php');
 	return $env[$key];
 }
 
