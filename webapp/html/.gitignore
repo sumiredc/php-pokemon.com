@@ -1,4 +1,3 @@
-public/assets/modules
 storage/database/players.csv
 storage/database/reports/*
 storage/sessions
