@@ -2,9 +2,9 @@ name: Develop Deploy
 
 on:
   push:
-    branches: [ dev ]
+    branches: [dev]
   pull_request:
-    branches: [ dev ]
+    branches: [dev]
 
 jobs:
   deploy:
@@ -17,4 +17,4 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key jihatsu@sv12347.xserver.jp -p 10022 'cd /home/jihatsu/jihatsu.xsrv.jp/development/jihatsu.net/ && git pull origin dev'
+          ssh -o StrictHostKeyChecking=no -i private_key yqual@sv3157.xserver.jp -p 10022 'cd /home/yqual/s-yqual.com/git/php-pokemon.com/development/php-pokemon.com/ && git pull origin dev'
