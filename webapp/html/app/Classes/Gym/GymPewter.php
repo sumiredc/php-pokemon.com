@@ -39,9 +39,7 @@ abstract class GymPewter extends Gym
     * @return boolean
     */
     public static function isRequiredChallenge(Player $player): bool
-    {
-		return true;
-		
+    {	
         return $player->getLevel() >= 8 &&
         $player->getCounter()['trainer']['win'] ?? 0 >= 3;
     }
