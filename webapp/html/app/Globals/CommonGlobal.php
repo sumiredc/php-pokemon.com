@@ -1,4 +1,16 @@
 <?php
+
+/**
+* 環境変数
+* @param integer|string $key
+* @return mixed
+*/
+function env($key)
+{
+	$env = include __DIR__.'/env.php';
+	return $env[$key];
+}
+
 /**
 * 名称翻訳
 * @param str:string

@@ -12,17 +12,18 @@ class SelectPokemonService extends Service
     */
     protected $auth = false;
 
-    /**
-    * @var 管理者モード
+	/**
+	* 管理者名
+    * @var string
     */
-    protected $admin = 'ポケモンマスター';
+    protected $admin_name = 'ポケモンマスター';
 
     /**
     * @return void
     */
     public function __construct()
     {
-        //
+		//
     }
 
     /**
@@ -37,7 +38,8 @@ class SelectPokemonService extends Service
         }
         // 管理者用の分岐
         if(
-            request('name') === $this->admin &&
+			env('admin') &&
+            request('name') === $this->admin_name &&
             (int)request('pokemon') === 3
         ){
             // 管理者モード（ポケモンマスター）
@@ -76,7 +78,8 @@ class SelectPokemonService extends Service
     {
         // 管理者権限
         if(
-            request('name') === $this->admin &&
+			env('admin') &&
+            request('name') === $this->admin_name &&
             (int)request('pokemon') === 3
         ){
             return true;

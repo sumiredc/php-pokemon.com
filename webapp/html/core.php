@@ -44,9 +44,9 @@ if(getPageName() === 'battle'){
 /**
 * 環境変数
 */
-$env = include __DIR__.'/env.php';
+
 // メンテナンスモード
-if($env[503]){
+if(env(503)){
     include __DIR__.'/public/503.php';
     exit;
 }
