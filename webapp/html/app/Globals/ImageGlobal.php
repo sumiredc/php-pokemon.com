@@ -9,7 +9,7 @@ function base64_pokemon(string $pokemon, string $pause='front'): string
 {
     // 画像の取得処理
     $base64 = base64_encode(
-        @file_get_contents(storage_path('images/pokemon/'.$pokemon.'/'.$pause.'.gif'))
+        @file_get_contents(storage_path('images/pokemon/'.mb_strtolower($pokemon).'/'.$pause.'.gif'))
     );
     if($base64){
         $info = getimagesize('data:application/octet-stream;base64,' . $base64);
